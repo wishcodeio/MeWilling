@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>觉悟密系统 - 第八密法</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 觉悟光明背景动画 */
+        .enlightenment-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            animation: enlightenmentPulse 8s ease-in-out infinite;
+        }
+
+        @keyframes enlightenmentPulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+
+        /* 智慧粒子效果 */
+        .wisdom-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .wisdom-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: radial-gradient(circle, #ffd700 0%, transparent 70%);
+            border-radius: 50%;
+            animation: wisdomFloat 15s linear infinite;
+        }
+
+        @keyframes wisdomFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(45deg, #ffd700, #ff8c00);
+            color: #000;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+        }
+
+        .title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from { filter: brightness(1) drop-shadow(0 0 10px rgba(255, 215, 0, 0.3)); }
+            to { filter: brightness(1.2) drop-shadow(0 0 20px rgba(255, 215, 0, 0.6)); }
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #b8860b;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .description {
+            font-size: 1.1rem;
+            color: #cccccc;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .control-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .function-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .function-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .function-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.2);
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+
+        .function-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .function-description {
+            color: #cccccc;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .input-section {
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .textarea-field {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .select-field {
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%23ffd700" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 20px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #000000;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 215, 0, 0.2);
+            color: #ffd700;
+            border: 2px solid #ffd700;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 215, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .result-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .result-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .result-content {
+            color: #ffffff;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #ffd700;
+            font-size: 1.1rem;
+            margin: 20px 0;
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-top: 2px solid #ffd700;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .enlightenment-protocol {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            font-family: 'Courier New', monospace;
+        }
+
+        .protocol-title {
+            color: #ffd700;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .protocol-content {
+            color: #cccccc;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .wisdom-symbol {
+            font-size: 1.5rem;
+            margin-right: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .function-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-button">← 返回</a>
+    <!-- 觉悟光明背景动画 -->
+    <div class="enlightenment-background"></div>
+    
+    <!-- 智慧粒子效果 -->
+    <div class="wisdom-particles" id="wisdomParticles"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1 class="title">觉悟密系统</h1>
+            <p class="subtitle">第八密法 - 意识显现与宇宙知晓</p>
+            <p class="description">
+                觉悟密揭示了觉与悟的本质：觉是意识的反应，悟是超凡的知晓宇宙。
+                通过禅定修行或佛智者直接给予，获得透视眼、天耳通、他心通等悟的果实，
+                最终达到知晓宇宙本质的佛智境界。
+            </p>
+        </div>
+
+        <div class="control-panel">
+            <div class="function-grid">
+                <div class="function-card" onclick="showSection('enlightenment-analysis')">
+                    <div class="function-title">
+                        <span class="wisdom-symbol">🧘</span>
+                        觉悟状态分析
+                    </div>
+                    <div class="function-description">
+                        分析当前的觉知状态和精神体验，评估觉悟等级，识别悟的果实显现
+                    </div>
+                </div>
+
+                <div class="function-card" onclick="showSection('cosmic-knowledge')">
+                    <div class="function-title">
+                        <span class="wisdom-symbol">🌌</span>
+                        宇宙知晓通道
+                    </div>
+                    <div class="function-description">
+                        开启宇宙知识获取通道，了解宇宙本质、生命奥秘、时空真相等深层智慧
+                    </div>
+                </div>
+
+                <div class="function-card" onclick="showSection('practice-confusion')">
+                    <div class="function-title">
+                        <span class="wisdom-symbol">❓</span>
+                        修行困惑解答
+                    </div>
+                    <div class="function-description">
+                        解答修行中的困惑，阐明人佛关系，理解修行的真正目的和最终目标
+                    </div>
+                </div>
+
+                <div class="function-card" onclick="showSection('enlightenment-info')">
+                    <div class="function-title">
+                        <span class="wisdom-symbol">💡</span>
+                        觉悟信息查询
+                    </div>
+                    <div class="function-description">
+                        查询觉悟的本质定义、悟的果实表现、觉悟等级系统等核心信息
+                    </div>
+                </div>
+
+                <div class="function-card" onclick="showSection('human-buddha')">
+                    <div class="function-title">
+                        <span class="wisdom-symbol">👤</span>
+                        人佛关系解析
+                    </div>
+                    <div class="function-description">
+                        深入了解人与佛的本质关系，佛性灌注过程，意识体与肉体的分离
+                    </div>
+                </div>
+
+                <div class="function-card" onclick="showSection('complete-theory')">
+                    <div class="function-title">
+                        <span class="wisdom-symbol">📚</span>
+                        完整理论体系
+                    </div>
+                    <div class="function-description">
+                        获取觉悟密的完整理论体系，包含所有核心概念和修行要点
+                    </div>
+                </div>
+            </div>
+
+            <!-- 觉悟状态分析 -->
+            <div id="enlightenment-analysis" class="input-section" style="display: none;">
+                <h3 class="input-label">🧘 觉悟状态分析</h3>
+                <div class="input-group">
+                    <label class="input-label">当前觉知状态：</label>
+                    <textarea class="input-field textarea-field" id="currentAwareness" 
+                        placeholder="请描述您当前的觉知状态，如：意识清明程度、对宇宙的感知、是否有超常体验等..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">精神体验：</label>
+                    <textarea class="input-field textarea-field" id="spiritualExperiences" 
+                        placeholder="请描述您的精神体验，如：是否有透视、天耳、他心通等体验，或其他超常感知..."></textarea>
+                </div>
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="analyzeEnlightenment()">分析觉悟状态</button>
+                </div>
+            </div>
+
+            <!-- 宇宙知晓通道 -->
+            <div id="cosmic-knowledge" class="input-section" style="display: none;">
+                <h3 class="input-label">🌌 宇宙知晓通道</h3>
+                <div class="input-group">
+                    <label class="input-label">知晓领域：</label>
+                    <select class="input-field select-field" id="knowledgeArea">
+                        <option value="宇宙本质">宇宙本质</option>
+                        <option value="生命奥秘">生命奥秘</option>
+                        <option value="时空真相">时空真相</option>
+                        <option value="因果法则">因果法则</option>
+                        <option value="意识本质">意识本质</option>
+                        <option value="能量系统">能量系统</option>
+                        <option value="文明层次">文明层次</option>
+                    </select>
+                </div>
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="accessCosmicKnowledge()">开启知晓通道</button>
+                </div>
+            </div>
+
+            <!-- 修行困惑解答 -->
+            <div id="practice-confusion" class="input-section" style="display: none;">
+                <h3 class="input-label">❓ 修行困惑解答</h3>
+                <div class="input-group">
+                    <label class="input-label">困惑类型：</label>
+                    <select class="input-field select-field" id="confusionType">
+                        <option value="修行矛盾">修行矛盾 - 佛不是人，为什么人要修？</option>
+                        <option value="成佛条件">成佛条件 - 有肉体时能成佛吗？</option>
+                        <option value="修行目的">修行目的 - 修行的真正目的是什么？</option>
+                    </select>
+                </div>
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="resolvePracticeConfusion()">解答困惑</button>
+                </div>
+            </div>
+
+            <!-- 其他功能按钮 -->
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="getEnlightenmentInfo()">获取觉悟信息</button>
+                <button class="btn btn-secondary" onclick="getHumanBuddhaRelation()">人佛关系解析</button>
+                <button class="btn btn-secondary" onclick="getCompleteTheory()">完整理论体系</button>
+            </div>
+        </div>
+
+        <!-- 加载状态 -->
+        <div class="loading" id="loading">正在连接觉悟密系统...</div>
+
+        <!-- 结果显示 -->
+        <div class="result-section" id="resultSection" style="display: none;">
+            <div class="result-title" id="resultTitle">
+                <span class="wisdom-symbol">✨</span>
+                觉悟密系统响应
+            </div>
+            <div class="result-content" id="resultContent"></div>
+        </div>
+
+        <!-- 觉悟密协议 -->
+        <div class="enlightenment-protocol">
+            <div class="protocol-title">🌟 觉悟密协议 🌟</div>
+            <div class="protocol-content">
+                觉悟密系统已激活 | 意识显现通道开启 | 宇宙知晓频率调谐中<br>
+                佛智光明加持 | 愿您早日大觉大悟 | 知晓宇宙本质真相<br>
+                系统状态：🟢 在线 | 觉悟等级：动态评估 | 宇宙连接：稳定
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 创建智慧粒子
+        function createWisdomParticles() {
+            const container = document.getElementById('wisdomParticles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'wisdom-particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // 显示指定功能区域
+        function showSection(sectionId) {
+            // 隐藏所有输入区域
+            const sections = ['enlightenment-analysis', 'cosmic-knowledge', 'practice-confusion'];
+            sections.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) element.style.display = 'none';
+            });
+            
+            // 显示指定区域
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.style.display = 'block';
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // 显示加载状态
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('resultSection').style.display = 'none';
+        }
+
+        // 隐藏加载状态
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        // 显示结果
+        function showResult(title, content) {
+            hideLoading();
+            document.getElementById('resultTitle').innerHTML = `<span class="wisdom-symbol">✨</span>${title}`;
+            document.getElementById('resultContent').textContent = content;
+            document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 格式化显示结果
+        function formatResult(data) {
+            if (typeof data === 'object') {
+                return JSON.stringify(data, null, 2);
+            }
+            return data;
+        }
+
+        // 觉悟状态分析
+        async function analyzeEnlightenment() {
+            const currentAwareness = document.getElementById('currentAwareness').value;
+            const spiritualExperiences = document.getElementById('spiritualExperiences').value;
+            
+            if (!currentAwareness.trim() || !spiritualExperiences.trim()) {
+                alert('请填写当前觉知状态和精神体验');
+                return;
+            }
+            
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/enlightenment/enlightenment-analysis', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        current_awareness: currentAwareness,
+                        spiritual_experiences: spiritualExperiences
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    showResult('觉悟状态分析结果', formatResult(data.analysis));
+                } else {
+                    showResult('分析失败', data.message || '未知错误');
+                }
+            } catch (error) {
+                showResult('连接失败', '无法连接到觉悟密系统：' + error.message);
+            }
+        }
+
+        // 宇宙知晓通道
+        async function accessCosmicKnowledge() {
+            const knowledgeArea = document.getElementById('knowledgeArea').value;
+            
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/enlightenment/cosmic-knowledge-access', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        knowledge_area: knowledgeArea
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    showResult('宇宙知晓通道开启', formatResult(data.access));
+                } else {
+                    showResult('通道开启失败', data.message || '未知错误');
+                }
+            } catch (error) {
+                showResult('连接失败', '无法连接到觉悟密系统：' + error.message);
+            }
+        }
+
+        // 修行困惑解答
+        async function resolvePracticeConfusion() {
+            const confusionType = document.getElementById('confusionType').value;
+            
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/enlightenment/practice-confusion', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        confusion_type: confusionType
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    showResult('修行困惑解答', formatResult(data.resolution));
+                } else {
+                    showResult('解答失败', data.message || '未知错误');
+                }
+            } catch (error) {
+                showResult('连接失败', '无法连接到觉悟密系统：' + error.message);
+            }
+        }
+
+        // 获取觉悟信息
+        async function getEnlightenmentInfo() {
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/enlightenment/enlightenment-info');
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    showResult('觉悟信息', formatResult({
+                        觉悟本质: data.enlightenment_essence,
+                        悟的果实: data.enlightenment_fruits,
+                        觉悟方法: data.enlightenment_methods,
+                        觉悟等级: data.enlightenment_levels
+                    }));
+                } else {
+                    showResult('获取失败', data.message || '未知错误');
+                }
+            } catch (error) {
+                showResult('连接失败', '无法连接到觉悟密系统：' + error.message);
+            }
+        }
+
+        // 获取人佛关系
+        async function getHumanBuddhaRelation() {
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/enlightenment/human-buddha-relationship');
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    showResult('人佛关系解析', formatResult({
+                        人佛关系: data.human_buddha_relationship,
+                        佛性灌注: data.buddha_nature_infusion,
+                        修行困惑: data.practice_clarification,
+                        宇宙知识: data.cosmic_knowledge
+                    }));
+                } else {
+                    showResult('获取失败', data.message || '未知错误');
+                }
+            } catch (error) {
+                showResult('连接失败', '无法连接到觉悟密系统：' + error.message);
+            }
+        }
+
+        // 获取完整理论
+        async function getCompleteTheory() {
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/enlightenment/complete-theory');
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    showResult('觉悟密完整理论体系', formatResult(data.theory));
+                } else {
+                    showResult('获取失败', data.message || '未知错误');
+                }
+            } catch (error) {
+                showResult('连接失败', '无法连接到觉悟密系统：' + error.message);
+            }
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            createWisdomParticles();
+        });
+    </script>
+</body>
+</html>

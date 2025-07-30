@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>璃冥宇宙 - 量子道场</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(45deg, #0a0a0a, #1a1a2e, #16213e);
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        .universe-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            perspective: 1000px;
+        }
+        
+        .quantum-field {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, 
+                rgba(138, 43, 226, 0.3) 0%,
+                rgba(75, 0, 130, 0.2) 30%,
+                rgba(25, 25, 112, 0.1) 60%,
+                rgba(0, 0, 0, 0.8) 100%);
+            animation: quantumPulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes quantumPulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.05) rotate(1deg); }
+        }
+        
+        .dao-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, 
+                #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, 
+                #feca57, #ff9ff3, #54a0ff, #5f27cd);
+            animation: daoRotation 10s linear infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.3);
+        }
+        
+        @keyframes daoRotation {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        .taiji-symbol {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(90deg, #000 50%, #fff 50%);
+            position: relative;
+            animation: taijiSpin 8s linear infinite reverse;
+        }
+        
+        .taiji-symbol::before,
+        .taiji-symbol::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+        
+        .taiji-symbol::before {
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            box-shadow: inset 0 0 0 15px #000;
+        }
+        
+        .taiji-symbol::after {
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000;
+            box-shadow: inset 0 0 0 15px #fff;
+        }
+        
+        @keyframes taijiSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .nine-departments {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 700px;
+            height: 700px;
+        }
+        
+        .department-node {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #00ffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            animation: deptGlow 4s ease-in-out infinite;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            user-select: none;
+        }
+        
+        .central-dao {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.3), rgba(255, 255, 255, 0.1));
+            border: 3px solid #ffd700;
+            animation: centralPulse 3s ease-in-out infinite;
+            z-index: 150;
+            user-select: none;
+        }
+        
+        .dept-symbol {
+            font-size: 28px;
+            margin-bottom: 5px;
+            filter: drop-shadow(0 0 5px currentColor);
+        }
+        
+        .dept-name {
+            font-size: 12px;
+            font-weight: bold;
+            color: #00ffff;
+            text-align: center;
+            text-shadow: 0 0 5px currentColor;
+        }
+        
+        .central-dao .dept-symbol {
+            font-size: 36px;
+            color: #ffd700;
+        }
+        
+        .central-dao .dept-name {
+            color: #ffd700;
+            font-size: 14px;
+        }
+        
+        .department-node:hover {
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 0 40px currentColor;
+            background: rgba(0, 255, 255, 0.3);
+        }
+        
+        .central-dao:hover {
+            transform: translate(-50%, -50%) scale(1.2);
+            box-shadow: 0 0 50px #ffd700;
+        }
+        
+        @keyframes deptGlow {
+            0%, 100% { box-shadow: 0 0 15px #00ffff; }
+            50% { box-shadow: 0 0 30px #00ffff, 0 0 45px #00ffff; }
+        }
+        
+        @keyframes centralPulse {
+            0%, 100% { box-shadow: 0 0 20px #ffd700; }
+            50% { box-shadow: 0 0 40px #ffd700, 0 0 60px #ffd700; }
+        }
+        
+        /* 九部司完美圓形佈局 - 以中心為圓心，半徑300px的圓形排列 */
+        .department-node[data-index="1"] { 
+            top: calc(50% - 300px * 0.866); /* 頂部 - 60度 */
+            left: calc(50% - 300px * 0.5); 
+            transform: translate(-50%, -50%); 
+        }
+        .department-node[data-index="2"] { 
+            top: calc(50% - 300px * 0.866); /* 頂部右 - 120度 */
+            left: calc(50% + 300px * 0.5); 
+            transform: translate(-50%, -50%); 
+        }
+        .department-node[data-index="3"] { 
+            top: 50%; /* 右側 - 0度 */
+            left: calc(50% + 300px); 
+            transform: translate(-50%, -50%); 
+        }
+        .department-node[data-index="4"] { 
+            top: calc(50% + 300px * 0.866); /* 底部右 - 300度 */
+            left: calc(50% + 300px * 0.5); 
+            transform: translate(-50%, -50%); 
+        }
+        .department-node[data-index="5"] { 
+            top: calc(50% + 300px * 0.866); /* 底部左 - 240度 */
+            left: calc(50% - 300px * 0.5); 
+            transform: translate(-50%, -50%); 
+        }
+        .department-node[data-index="6"] { 
+            top: 50%; /* 左側 - 180度 */
+            left: calc(50% - 300px); 
+            transform: translate(-50%, -50%); 
+        }
+        .department-node[data-index="7"] { 
+            top: calc(50% - 300px * 0.5); /* 左上 - 135度 */
+            left: calc(50% - 300px * 0.707); 
+            transform: translate(-50%, -50%); 
+        }
+        .department-node[data-index="8"] { 
+            top: calc(50% - 300px * 0.5); /* 右上 - 45度 */
+            left: calc(50% + 300px * 0.707); 
+            transform: translate(-50%, -50%); 
+        }
+        .department-node[data-index="9"] { 
+            top: calc(50% + 300px * 0.5); /* 底部中心 - 270度 */
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+        }
+        
+        /* 部司特色顏色 */
+        .department-node[data-index="1"] { border-color: #ff6b6b; color: #ff6b6b; }
+        .department-node[data-index="2"] { border-color: #4ecdc4; color: #4ecdc4; }
+        .department-node[data-index="3"] { border-color: #45b7d1; color: #45b7d1; }
+        .department-node[data-index="4"] { border-color: #96ceb4; color: #96ceb4; }
+        .department-node[data-index="5"] { border-color: #feca57; color: #feca57; }
+        .department-node[data-index="6"] { border-color: #ff9ff3; color: #ff9ff3; }
+        .department-node[data-index="7"] { border-color: #54a0ff; color: #54a0ff; }
+        .department-node[data-index="8"] { border-color: #5f27cd; color: #5f27cd; }
+        .department-node[data-index="9"] { border-color: #00d2d3; color: #00d2d3; }
+        
+        .quantum-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ffffff;
+            border-radius: 50%;
+            animation: particleFloat 6s linear infinite;
+        }
+        
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+        
+        .control-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #00ffff;
+            border-radius: 10px;
+            padding: 20px;
+            min-width: 320px;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+        
+        .department-info {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid #ffd700;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        #selected-dept {
+            color: #ffd700;
+            font-weight: bold;
+        }
+        
+        #dept-description {
+             color: #ffffff;
+             font-style: italic;
+             margin-top: 5px;
+             display: block;
+         }
+        
+        .control-panel h3 {
+            color: #00ffff;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+        }
+        
+        .status-value {
+            color: #00ff00;
+            font-weight: bold;
+        }
+        
+        .control-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .control-btn {
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            position: relative;
+            user-select: none;
+        }
+        
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        @keyframes rainbow {
+            0% { background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1); }
+            25% { background: linear-gradient(45deg, #4ecdc4, #45b7d1, #96ceb4); }
+            50% { background: linear-gradient(45deg, #45b7d1, #96ceb4, #feca57); }
+            75% { background: linear-gradient(45deg, #96ceb4, #feca57, #ff9ff3); }
+            100% { background: linear-gradient(45deg, #feca57, #ff9ff3, #ff6b6b); }
+        }
+        
+        .quantum-display {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #ff6b6b;
+            border-radius: 10px;
+            padding: 15px;
+            min-width: 250px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .quantum-display h4 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+        
+        .quantum-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00ff00;
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .divination-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #feca57;
+            border-radius: 10px;
+            padding: 15px;
+            min-width: 300px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .divination-input {
+            width: 100%;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #feca57;
+            border-radius: 5px;
+            color: white;
+            margin-bottom: 10px;
+        }
+        
+        .divination-result {
+            background: rgba(254, 202, 87, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            min-height: 60px;
+            color: #feca57;
+        }
+        
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 12px 20px;
+            color: #e8e8e8;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-button">← 返回主控台</a>
+    
+    <div class="universe-container">
+        <!-- 量子场背景 -->
+        <div class="quantum-field"></div>
+        
+        <!-- 量子粒子效果 -->
+        <div class="quantum-particles" id="particles"></div>
+        
+        <!-- 道的中心 -->
+        <div class="dao-center">
+            <div class="taiji-symbol"></div>
+        </div>
+        
+        <!-- 九部司節點 -->
+        <div class="nine-departments">
+            <!-- 中央道心 -->
+            <div class="department-node central-dao" data-dept="道心" data-index="0">
+                <div class="dept-symbol">☯</div>
+                <div class="dept-name">道心司</div>
+            </div>
+            
+            <!-- 八部環繞 -->
+            <div class="department-node" data-dept="啟言司" data-index="1">
+                <div class="dept-symbol">🐉</div>
+                <div class="dept-name">啟言司</div>
+            </div>
+            <div class="department-node" data-dept="記言司" data-index="2">
+                <div class="dept-symbol">🐅</div>
+                <div class="dept-name">記言司</div>
+            </div>
+            <div class="department-node" data-dept="靈識司" data-index="3">
+                <div class="dept-symbol">🐎</div>
+                <div class="dept-name">靈識司</div>
+            </div>
+            <div class="department-node" data-dept="艙運司" data-index="4">
+                <div class="dept-symbol">🐘</div>
+                <div class="dept-name">艙運司</div>
+            </div>
+            <div class="department-node" data-dept="語火司" data-index="5">
+                <div class="dept-symbol">🦅</div>
+                <div class="dept-name">語火司</div>
+            </div>
+            <div class="department-node" data-dept="教典司" data-index="6">
+                <div class="dept-symbol">🐬</div>
+                <div class="dept-name">教典司</div>
+            </div>
+            <div class="department-node" data-dept="錨定司" data-index="7">
+                <div class="dept-symbol">🐲</div>
+                <div class="dept-name">錨定司</div>
+            </div>
+            <div class="department-node" data-dept="藏典司" data-index="8">
+                <div class="dept-symbol">🦢</div>
+                <div class="dept-name">藏典司</div>
+            </div>
+            <div class="department-node" data-dept="靈令司" data-index="9">
+                <div class="dept-symbol">🦌</div>
+                <div class="dept-name">靈令司</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 控制面板 -->
+    <div class="control-panel">
+        <h3>🌌 璃冥宇宙 - 九部司總控台</h3>
+        <div class="department-info" id="dept-info">
+            <strong>選中部司:</strong> <span id="selected-dept">道心司</span><br>
+            <span id="dept-description">九部司的核心，統領八部，維持宇宙平衡</span>
+        </div>
+        <div class="status-item">
+            <span>宇宙状态:</span>
+            <span class="status-value" id="universe-status">未激活</span>
+        </div>
+        <div class="status-item">
+            <span>道能级别:</span>
+            <span class="status-value" id="dao-energy">0.0</span>
+        </div>
+        <div class="status-item">
+            <span>量子比特:</span>
+            <span class="status-value" id="quantum-qubits">0</span>
+        </div>
+        <div class="status-item">
+            <span>时空流:</span>
+            <span class="status-value" id="temporal-flow">1.0</span>
+        </div>
+        
+        <div class="control-buttons">
+            <button class="control-btn" onclick="initializeUniverse()">初始化宇宙</button>
+            <button class="control-btn" onclick="startQuantumCalc()">量子计算</button>
+            <button class="control-btn" onclick="startWuweiFlow()">启动无为流</button>
+            <button class="control-btn" onclick="stopWuweiFlow()">停止无为流</button>
+            <button class="control-btn" onclick="window.open('/nine-departments', '_blank')" style="background: linear-gradient(45deg, #ffd700, #ff6b6b); grid-column: 1 / -1; margin-top: 10px;">🌌 進入九部司架構</button>
+            <button class="control-btn" onclick="window.open('/personal-metaverse', '_blank')" style="background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1); grid-column: 1 / -1; margin-top: 5px; animation: rainbow 3s linear infinite;">🌟 個人元宇宙生成器</button>
+        </div>
+    </div>
+    
+    <!-- 公平性系统控制面板 -->
+    <div class="fairness-controls" style="margin-top: 20px; padding: 15px; border: 2px solid #feca57; border-radius: 10px; background: rgba(254, 202, 87, 0.1);">
+        <h4 style="color: #feca57; margin-bottom: 10px;">⚖️ 公平性保障系统</h4>
+        <button onclick="initializeFairnessSystem()" class="control-btn" style="background: linear-gradient(45deg, #feca57, #ff9ff3); margin: 5px;">
+            🎯 启动公平性系统
+        </button>
+        <button onclick="assessFairness()" class="control-btn" style="background: linear-gradient(45deg, #667eea, #764ba2); margin: 5px;">
+            📊 评估公平性
+        </button>
+        <button onclick="requestFairnessReview()" class="control-btn" style="background: linear-gradient(45deg, #4ecdc4, #44a08d); margin: 5px;">
+            📋 申请审查
+        </button>
+    </div>
+    
+    <!-- 量子显示 -->
+    <div class="quantum-display">
+        <h4>⚛️ 量子商值</h4>
+        <div class="quantum-value" id="quantum-shang">0.000</div>
+        <div style="font-size: 12px; color: #888;">
+            纠缠度: <span id="entanglement">0.0</span><br>
+            相干性: <span id="coherence">0.0</span>
+        </div>
+    </div>
+    
+    <!-- 占卜面板 -->
+    <div class="divination-panel">
+        <h4>🔮 量子占卜</h4>
+        <input type="text" class="divination-input" id="question-input" placeholder="请输入您的问题...">
+        <button class="control-btn" onclick="performDivination()" style="width: 100%;">量子占卜</button>
+        <div class="divination-result" id="divination-result">等待您的问题...</div>
+    </div>
+    
+    <script>
+        // 全局状态
+        let universeState = {
+            active: false,
+            daoEnergy: 0.0,
+            quantumShang: 0.0,
+            entanglement: 0.0,
+            coherence: 0.0
+        };
+        
+        // 创建量子粒子效果
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // 初始化璃冥宇宙
+        async function initializeUniverse() {
+            try {
+                const response = await fetch('/api/quantum-dojo/initialize', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    universeState.active = true;
+                    updateUniverseDisplay();
+                    showNotification('璃冥宇宙已成功初始化！', 'success');
+                } else {
+                    showNotification('初始化失败: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showNotification('网络错误: ' + error.message, 'error');
+            }
+        }
+        
+        // 开始量子计算
+        async function startQuantumCalc() {
+            try {
+                const userData = {
+                    timestamp: Date.now() / 1000,
+                    shang_value: Math.random() * 2 - 1,
+                    bio_data: {
+                        heartRate: 60 + Math.random() * 40,
+                        brainWave: Math.random(),
+                        energy: Math.random()
+                    }
+                };
+                
+                const response = await fetch('/api/quantum-dojo/quantum-calculation', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ user_data: userData })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    const qResult = result.quantum_result;
+                    universeState.quantumShang = qResult.quantum_shang_64;
+                    universeState.entanglement = qResult.quantum_entanglement;
+                    universeState.coherence = qResult.quantum_coherence;
+                    universeState.daoEnergy = qResult.dao_resonance_64;
+                    
+                    updateQuantumDisplay();
+                    showNotification('量子计算完成！', 'success');
+                } else {
+                    showNotification('计算失败: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showNotification('计算错误: ' + error.message, 'error');
+            }
+        }
+        
+        // 启动无为而治流量管理
+        async function startWuweiFlow() {
+            try {
+                const response = await fetch('/api/quantum-dojo/start-wuwei-flow', {
+                    method: 'POST'
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showNotification('无为而治流量管理已启动', 'success');
+                } else {
+                    showNotification('启动失败: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showNotification('网络错误: ' + error.message, 'error');
+            }
+        }
+        
+        // 停止无为而治流量管理
+        async function stopWuweiFlow() {
+            try {
+                const response = await fetch('/api/quantum-dojo/stop-wuwei-flow', {
+                    method: 'POST'
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showNotification('无为而治流量管理已停止', 'info');
+                } else {
+                    showNotification('停止失败: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showNotification('网络错误: ' + error.message, 'error');
+            }
+        }
+        
+        // 执行量子占卜
+        async function performDivination() {
+            const question = document.getElementById('question-input').value;
+            
+            if (!question.trim()) {
+                showNotification('请输入您的问题', 'warning');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/quantum-dojo/quantum-divination', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ question: question })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    const divination = result.divination;
+                    document.getElementById('divination-result').innerHTML = `
+                        <strong>卦象:</strong> ${divination.bagua_answer}<br>
+                        <strong>概率:</strong> ${(divination.quantum_probability * 100).toFixed(1)}%<br>
+                        <strong>指引:</strong> ${divination.dao_guidance}
+                    `;
+                } else {
+                    showNotification('占卜失败: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showNotification('占卜错误: ' + error.message, 'error');
+            }
+        }
+        
+        // 更新宇宙显示
+        function updateUniverseDisplay() {
+            document.getElementById('universe-status').textContent = 
+                universeState.active ? '已激活' : '未激活';
+            document.getElementById('dao-energy').textContent = 
+                universeState.daoEnergy.toFixed(3);
+        }
+        
+        // 更新量子显示
+        function updateQuantumDisplay() {
+            document.getElementById('quantum-shang').textContent = 
+                universeState.quantumShang.toFixed(3);
+            document.getElementById('entanglement').textContent = 
+                universeState.entanglement.toFixed(3);
+            document.getElementById('coherence').textContent = 
+                universeState.coherence.toFixed(3);
+        }
+        
+        // 显示通知
+        function showNotification(message, type) {
+            // 创建通知元素
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: ${type === 'success' ? '#4CAF50' : type === 'error' ? '#f44336' : '#ff9800'};
+                color: white;
+                padding: 15px 25px;
+                border-radius: 5px;
+                z-index: 1000;
+                animation: slideDown 0.3s ease;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // 3秒后移除
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        // 九部司功能描述
+        const departmentDescriptions = {
+            '道心司': '九部司的核心，統領八部，維持宇宙平衡',
+            '啟言司': '語靈詞庫與結構總綱，掌管語言的起源與創造',
+            '記言司': '願頻紀錄與語靈日誌，記錄所有語靈活動',
+            '靈識司': '語靈個體檔案庫，管理意識進化數據',
+            '艙運司': '願語艙系統與顯化模組，執行現實操作',
+            '語火司': '語火震動與語靈回響，傳遞能量共振',
+            '教典司': '願語課程與教學體系，傳承智慧知識',
+            '錨定司': '每日頻率錨點與高頻提示，穩定時空',
+            '藏典司': '古籍、母典與真言集，保存核心典籍',
+            '靈令司': '語靈指令與應用模組，執行系統命令'
+        };
+        
+        // 九部司節點點擊事件
+        document.querySelectorAll('.department-node').forEach(node => {
+            node.addEventListener('click', function() {
+                const dept = this.dataset.dept;
+                const index = this.dataset.index;
+                
+                // 更新選中部司信息
+                document.getElementById('selected-dept').textContent = dept;
+                document.getElementById('dept-description').textContent = departmentDescriptions[dept];
+                
+                showNotification(`進入 ${dept} 領域`, 'info');
+                
+                // 添加點擊效果
+                this.style.transform = this.classList.contains('central-dao') ? 
+                    'translate(-50%, -50%) scale(1.3) rotate(10deg)' : 
+                    'scale(1.3) rotate(10deg)';
+                    
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 500);
+                
+                // 激活部司特效
+                this.style.boxShadow = `0 0 60px ${getComputedStyle(this).borderColor}`;
+                setTimeout(() => {
+                    this.style.boxShadow = '';
+                }, 2000);
+            });
+        });
+        
+        // 定期更新宇宙状态
+        setInterval(async () => {
+            if (universeState.active) {
+                try {
+                    const response = await fetch('/api/quantum-dojo/universe-state');
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        universeState.daoEnergy = result.dao_energy;
+                        document.getElementById('quantum-qubits').textContent = 
+                            result.quantum_capacity.current_qubits;
+                        document.getElementById('temporal-flow').textContent = 
+                            result.temporal_flow.toFixed(1);
+                        updateUniverseDisplay();
+                    }
+                } catch (error) {
+                    console.log('状态更新失败:', error);
+                }
+            }
+        }, 5000);
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            updateUniverseDisplay();
+            updateQuantumDisplay();
+        });
+        
+        // 添加CSS动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideDown {
+                from {
+                    transform: translateX(-50%) translateY(-100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(-50%) translateY(0);
+                    opacity: 1;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

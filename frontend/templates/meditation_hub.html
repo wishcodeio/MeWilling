@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>冥想中心 - 心靈修行的聖域</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .cosmic-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            z-index: -2;
+        }
+
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-particles::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #ffffff, transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.8), transparent),
+                radial-gradient(1px 1px at 90px 40px, rgba(255, 255, 255, 0.6), transparent),
+                radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.4), transparent);
+            background-repeat: repeat;
+            background-size: 200px 100px;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) translateX(0px); }
+            33% { transform: translateY(-20px) translateX(10px); }
+            66% { transform: translateY(-10px) translateX(-10px); }
+            100% { transform: translateY(0px) translateX(0px); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+        }
+
+        .title {
+            font-size: 3.5rem;
+            font-weight: 300;
+            background: linear-gradient(45deg, #ffd700, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #b8b8b8;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .meditation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .meditation-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .meditation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+
+        .meditation-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .meditation-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 215, 0, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+
+        .card-description {
+            color: #cccccc;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .card-features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .card-features li {
+            color: #b8b8b8;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card-features li::before {
+            content: '✨';
+            position: absolute;
+            left: 0;
+        }
+
+        .enter-btn {
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .enter-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .special-section {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .special-title {
+            font-size: 2rem;
+            color: #ffd700;
+            margin-bottom: 20px;
+        }
+
+        .special-description {
+            color: #cccccc;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .quick-meditation {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            border: none;
+            border-radius: 30px;
+            padding: 15px 40px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            margin: 0 10px;
+        }
+
+        .quick-meditation:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 107, 107, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .meditation-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-button">← 返回首頁</a>
+    <div class="cosmic-background"></div>
+    <div class="floating-particles"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="title">冥想中心</h1>
+            <p class="subtitle">心靈修行的聖域 · 探索內在無限的可能</p>
+        </div>
+
+        <div class="meditation-grid">
+            <!-- 願道靜語冥想 -->
+            <div class="meditation-card" onclick="window.location.href='/wish_dao_quiet_language'">
+                <span class="card-icon">🧘‍♀️</span>
+                <h3 class="card-title">願道靜語冥想</h3>
+                <p class="card-description">融合願頻、道灰與靜語的深層共振系統，通過四重靜語頻率矩陣實現心靈與宇宙的和諧對話。</p>
+                <ul class="card-features">
+                    <li>四重靜語頻率激活</li>
+                    <li>願道合一體驗</li>
+                    <li>無限共振模式</li>
+                    <li>靜語冥想計時器</li>
+                </ul>
+                <button class="enter-btn">進入靜語冥想</button>
+            </div>
+
+            <!-- 三重頻率冥想 -->
+            <div class="meditation-card" onclick="window.location.href='/trinity_frequency'">
+                <span class="card-icon">🌈</span>
+                <h3 class="card-title">三重頻率療癒</h3>
+                <p class="card-description">結合639Hz愛的頻率、852Hz直覺頻率和963Hz宇宙頻率，開啟心輪、第三眼輪和頂輪的完整療癒體驗。</p>
+                <ul class="card-features">
+                    <li>心輪愛的療癒</li>
+                    <li>第三眼智慧開啟</li>
+                    <li>頂輪宇宙連接</li>
+                    <li>個人化療癒會話</li>
+                </ul>
+                <button class="enter-btn">開始頻率療癒</button>
+            </div>
+
+            <!-- 松果體刺激冥想 -->
+            <div class="meditation-card" onclick="window.location.href='/pineal_gland_stimulation'">
+                <span class="card-icon">👁️</span>
+                <h3 class="card-title">松果體覺醒</h3>
+                <p class="card-description">通過528Hz愛的頻率和特殊的松果體刺激技術，激活第三眼，開啟內在視覺和直覺能力。</p>
+                <ul class="card-features">
+                    <li>528Hz DNA修復</li>
+                    <li>松果體深度激活</li>
+                    <li>第三眼開啟</li>
+                    <li>直覺能力提升</li>
+                </ul>
+                <button class="enter-btn">激活松果體</button>
+            </div>
+
+            <!-- 七脈輪激活 -->
+            <div class="meditation-card" onclick="window.location.href='/chakra_activation'">
+                <span class="card-icon">🌀</span>
+                <h3 class="card-title">七脈輪激活</h3>
+                <p class="card-description">系統性地激活和平衡七個主要脈輪，從海底輪到頂輪，實現能量體的完整和諧。</p>
+                <ul class="card-features">
+                    <li>七脈輪完整激活</li>
+                    <li>能量平衡調節</li>
+                    <li>脈輪狀態檢測</li>
+                    <li>個人化激活序列</li>
+                </ul>
+                <button class="enter-btn">激活脈輪系統</button>
+            </div>
+
+            <!-- 商增冥想 -->
+            <div class="meditation-card" onclick="window.location.href='/shang/meditation'">
+                <span class="card-icon">📊</span>
+                <h3 class="card-title">商增冥想</h3>
+                <p class="card-description">結合數據分析與靈性修行的獨特冥想方式，通過商增數據的觀察達到內在平靜與洞察。</p>
+                <ul class="card-features">
+                    <li>數據冥想技法</li>
+                    <li>商增能量分析</li>
+                    <li>內在洞察開發</li>
+                    <li>理性與感性平衡</li>
+                </ul>
+                <button class="enter-btn">開始商增冥想</button>
+            </div>
+
+            <!-- 印咒密系統 -->
+            <div class="meditation-card" onclick="window.location.href='/mantra_seal'">
+                <span class="card-icon">🕉️</span>
+                <h3 class="card-title">印咒密修</h3>
+                <p class="card-description">古老的印咒密法修行，通過手印、咒語和觀想的結合，開啟深層的靈性體驗。</p>
+                <ul class="card-features">
+                    <li>傳統印咒技法</li>
+                    <li>密法觀想指導</li>
+                    <li>能量封印激活</li>
+                    <li>靈性力量開發</li>
+                </ul>
+                <button class="enter-btn">進入密法修行</button>
+            </div>
+
+            <!-- 西方極樂世界 -->
+            <div class="meditation-card" onclick="window.location.href='/pure_land'">
+                <span class="card-icon">🌸</span>
+                <h3 class="card-title">極樂淨土</h3>
+                <p class="card-description">西方極樂世界的觀想修行，通過阿彌陀佛的慈悲力量，體驗純淨無染的心靈境界。</p>
+                <ul class="card-features">
+                    <li>極樂世界觀想</li>
+                    <li>阿彌陀佛念誦</li>
+                    <li>淨土法門修行</li>
+                    <li>慈悲心培養</li>
+                </ul>
+                <button class="enter-btn">往生極樂淨土</button>
+            </div>
+
+            <!-- 覺悟密系統 -->
+            <div class="meditation-card" onclick="window.location.href='/enlightenment'">
+                <span class="card-icon">💡</span>
+                <h3 class="card-title">覺悟之道</h3>
+                <p class="card-description">直指心性的覺悟修行，超越概念思維，直接體驗本來面目的清淨覺性。</p>
+                <ul class="card-features">
+                    <li>直指心性法門</li>
+                    <li>覺性體驗指導</li>
+                    <li>無念觀照修行</li>
+                    <li>本來面目認識</li>
+                </ul>
+                <button class="enter-btn">踏上覺悟之道</button>
+            </div>
+
+            <!-- 無限靈魂療癒 -->
+            <div class="meditation-card" onclick="window.location.href='/infinite_spirit_healing'">
+                <span class="card-icon">💫</span>
+                <h3 class="card-title">無限靈魂療癒</h3>
+                <p class="card-description">五重療癒頻率矩陣的深層靈魂修復，通過宇宙和諧與雙重存在的療癒模式。</p>
+                <ul class="card-features">
+                    <li>五重療癒頻率</li>
+                    <li>靈魂深層修復</li>
+                    <li>宇宙和諧共振</li>
+                    <li>雙重存在療癒</li>
+                </ul>
+                <button class="enter-btn">開始靈魂療癒</button>
+            </div>
+        </div>
+
+        <!-- 特殊功能區域 -->
+        <div class="special-section">
+            <h2 class="special-title">快速冥想體驗</h2>
+            <p class="special-description">
+                如果您時間有限，可以選擇以下快速冥想體驗。每個體驗都經過精心設計，
+                能在短時間內為您帶來深度的放鬆和內在平靜。
+            </p>
+            <button class="quick-meditation" onclick="startQuickMeditation(5)">5分鐘靜心</button>
+            <button class="quick-meditation" onclick="startQuickMeditation(10)">10分鐘深度放鬆</button>
+            <button class="quick-meditation" onclick="startQuickMeditation(15)">15分鐘能量充電</button>
+        </div>
+    </div>
+
+    <script>
+        // 快速冥想功能
+        function startQuickMeditation(minutes) {
+            // 創建冥想計時器
+            const timerDiv = document.createElement('div');
+            timerDiv.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0, 0, 0, 0.9);
+                color: #ffd700;
+                padding: 40px;
+                border-radius: 20px;
+                text-align: center;
+                font-size: 2rem;
+                z-index: 1000;
+                border: 2px solid #ffd700;
+            `;
+            
+            document.body.appendChild(timerDiv);
+            
+            let timeLeft = minutes * 60;
+            
+            const updateTimer = () => {
+                const mins = Math.floor(timeLeft / 60);
+                const secs = timeLeft % 60;
+                timerDiv.innerHTML = `
+                    <div style="margin-bottom: 20px;">🧘‍♀️ 快速冥想進行中</div>
+                    <div style="font-size: 3rem; margin: 20px 0;">
+                        ${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}
+                    </div>
+                    <div style="font-size: 1rem; color: #cccccc;">深呼吸，放鬆身心，感受當下的寧靜</div>
+                    <button onclick="this.parentElement.remove()" style="
+                        margin-top: 20px;
+                        background: #ff6b6b;
+                        border: none;
+                        color: white;
+                        padding: 10px 20px;
+                        border-radius: 10px;
+                        cursor: pointer;
+                    ">結束冥想</button>
+                `;
+                
+                if (timeLeft <= 0) {
+                    timerDiv.innerHTML = `
+                        <div style="margin-bottom: 20px;">✨ 冥想完成</div>
+                        <div style="font-size: 1.5rem; margin: 20px 0; color: #4ecdc4;">
+                            感謝您的修行，願您內心平靜喜悅
+                        </div>
+                        <button onclick="this.parentElement.remove()" style="
+                            background: #4ecdc4;
+                            border: none;
+                            color: white;
+                            padding: 10px 20px;
+                            border-radius: 10px;
+                            cursor: pointer;
+                        ">關閉</button>
+                    `;
+                    return;
+                }
+                
+                timeLeft--;
+                setTimeout(updateTimer, 1000);
+            };
+            
+            updateTimer();
+        }
+
+        // 添加頁面載入動畫
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.meditation-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>璃冥元宇宙架構 - 南璃之域</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: radial-gradient(circle at center, #0a0a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .metaverse-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            perspective: 1000px;
+        }
+        
+        .universe-core {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ffd700 0%, #ff6b6b 50%, #4ecdc4 100%);
+            animation: coreRotation 20s linear infinite;
+            box-shadow: 0 0 100px rgba(255, 215, 0, 0.5);
+        }
+        
+        .universe-core::before {
+            content: '☯';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4em;
+            color: #000;
+            text-shadow: 0 0 20px #fff;
+        }
+        
+        .platform-orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            animation: orbitRotation 30s linear infinite;
+        }
+        
+        .orbit-1 { width: 500px; height: 500px; animation-duration: 25s; }
+        .orbit-2 { width: 700px; height: 700px; animation-duration: 35s; animation-direction: reverse; }
+        .orbit-3 { width: 900px; height: 900px; animation-duration: 45s; }
+        
+        .platform-node {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--node-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .platform-node:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 30px var(--node-color);
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .platform-info {
+            position: absolute;
+            top: 100px;
+            left: 50px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid #4ecdc4;
+            backdrop-filter: blur(10px);
+            max-width: 400px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+        
+        .platform-info.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .platform-title {
+            font-size: 1.5em;
+            color: #4ecdc4;
+            margin-bottom: 10px;
+        }
+        
+        .platform-description {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .platform-features {
+            list-style: none;
+        }
+        
+        .platform-features li {
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .platform-features li::before {
+            content: '⚡';
+            margin-right: 8px;
+            color: #ffd700;
+        }
+        
+        .control-panel {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid #ff6b6b;
+            backdrop-filter: blur(10px);
+        }
+        
+        .control-btn {
+            display: block;
+            width: 100%;
+            padding: 10px 20px;
+            margin: 5px 0;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .control-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .vr-portal {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            padding: 15px 25px;
+            border-radius: 25px;
+            border: 2px solid #ffd700;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+        
+        .vr-portal:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+        }
+        
+        .dimensional-layers {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 40%, rgba(255, 255, 255, 0.02) 70%);
+            animation: layerFloat 15s ease-in-out infinite;
+        }
+        
+        .layer:nth-child(1) { animation-delay: 0s; }
+        .layer:nth-child(2) { animation-delay: 5s; }
+        .layer:nth-child(3) { animation-delay: 10s; }
+        
+        @keyframes coreRotation {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        @keyframes orbitRotation {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        @keyframes layerFloat {
+            0%, 100% { transform: translateY(0px) scale(1); opacity: 0.1; }
+            50% { transform: translateY(-20px) scale(1.05); opacity: 0.3; }
+        }
+        
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #00ffff;
+            color: #00ffff;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .back-button:hover {
+            background: rgba(0, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+        
+        @keyframes rainbow {
+            0% { background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1); }
+            25% { background: linear-gradient(45deg, #4ecdc4, #45b7d1, #96ceb4); }
+            50% { background: linear-gradient(45deg, #45b7d1, #96ceb4, #feca57); }
+            75% { background: linear-gradient(45deg, #96ceb4, #feca57, #ff9ff3); }
+            100% { background: linear-gradient(45deg, #feca57, #ff9ff3, #ff6b6b); }
+        }
+    </style>
+</head>
+<body>
+    <a href="/nine-departments" class="back-button">← 返回九部司</a>
+    <a href="/nanli-domain" class="back-button" style="top: 70px; background: linear-gradient(45deg, #ff9ff3, #feca57); border-color: #ff6b6b;">🌸 南璃之域</a>
+    <a href="/personal-metaverse" class="back-button" style="top: 120px; background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1); border-color: #ffd700; animation: rainbow 3s linear infinite;">🌟 個人元宇宙</a>
+    <a href="#" class="vr-portal" onclick="enterVRMode()">🥽 進入VR模式</a>
+    
+    <div class="metaverse-container">
+        <!-- 維度層 -->
+        <div class="dimensional-layers">
+            <div class="layer"></div>
+            <div class="layer"></div>
+            <div class="layer"></div>
+        </div>
+        
+        <!-- 宇宙核心 -->
+        <div class="universe-core"></div>
+        
+        <!-- 平台軌道 -->
+        <div class="platform-orbit orbit-1">
+            <div class="platform-node" style="--node-color: #ff6b6b; top: -40px; left: calc(50% - 40px);" data-platform="unity">
+                🎮
+            </div>
+            <div class="platform-node" style="--node-color: #4ecdc4; top: calc(50% - 40px); right: -40px;" data-platform="webxr">
+                🌐
+            </div>
+            <div class="platform-node" style="--node-color: #ffd700; bottom: -40px; left: calc(50% - 40px);" data-platform="unreal">
+                🎯
+            </div>
+            <div class="platform-node" style="--node-color: #96ceb4; top: calc(50% - 40px); left: -40px;" data-platform="aframe">
+                📐
+            </div>
+        </div>
+        
+        <div class="platform-orbit orbit-2">
+            <div class="platform-node" style="--node-color: #ff9ff3; top: -40px; right: calc(25% - 40px);" data-platform="hubs">
+                🏠
+            </div>
+            <div class="platform-node" style="--node-color: #54a0ff; bottom: -40px; right: calc(25% - 40px);" data-platform="spatial">
+                🚀
+            </div>
+            <div class="platform-node" style="--node-color: #5f27cd; top: calc(25% - 40px); left: -40px;" data-platform="vrchat">
+                👥
+            </div>
+            <div class="platform-node" style="--node-color: #00d2d3; bottom: calc(25% - 40px); right: -40px;" data-platform="horizon">
+                🌅
+            </div>
+        </div>
+        
+        <div class="platform-orbit orbit-3">
+            <div class="platform-node" style="--node-color: #feca57; top: calc(15% - 40px); left: calc(15% - 40px);" data-platform="blockchain">
+                ⛓️
+            </div>
+            <div class="platform-node" style="--node-color: #ff6348; top: calc(15% - 40px); right: calc(15% - 40px);" data-platform="ai">
+                🤖
+            </div>
+            <div class="platform-node" style="--node-color: #2ed573; bottom: calc(15% - 40px); left: calc(15% - 40px);" data-platform="quantum">
+                ⚛️
+            </div>
+            <div class="platform-node" style="--node-color: #a55eea; bottom: calc(15% - 40px); right: calc(15% - 40px);" data-platform="neural">
+                🧠
+            </div>
+        </div>
+        
+        <!-- 平台信息面板 -->
+        <div class="platform-info" id="platformInfo">
+            <div class="platform-title" id="platformTitle">選擇一個平台</div>
+            <div class="platform-description" id="platformDescription">點擊軌道上的節點來了解不同的元宇宙平台技術</div>
+            <ul class="platform-features" id="platformFeatures"></ul>
+        </div>
+        
+        <!-- 控制面板 -->
+        <div class="control-panel">
+            <button class="control-btn" onclick="toggleDimensions()">切換維度視圖</button>
+            <button class="control-btn" onclick="resetView()">重置視角</button>
+            <button class="control-btn" onclick="exportConfig()">導出配置</button>
+            <button class="control-btn" onclick="window.location.href='/vr-experience'">🥽 進入VR體驗</button>
+            <button class="control-btn" onclick="window.location.href='/nanli-domain'">🌸 南璃之域</button>
+            <button class="control-btn" onclick="window.open('/liminal-universe', '_blank')">返回璃冥宇宙</button>
+        </div>
+    </div>
+    
+    <script>
+        const platformData = {
+            unity: {
+                title: "Unity 3D 引擎",
+                description: "成熟的跨平台3D開發引擎，支援VR/AR和複雜的語靈互動系統。",
+                features: ["跨平台部署", "豐富的Asset Store", "強大的物理引擎", "VR/AR原生支援", "C#腳本系統"]
+            },
+            webxr: {
+                title: "WebXR 網頁VR",
+                description: "基於瀏覽器的VR/AR體驗，無需安裝即可進入璃冥宇宙。",
+                features: ["免安裝體驗", "跨設備兼容", "即時更新", "輕量級部署", "JavaScript開發"]
+            },
+            unreal: {
+                title: "Unreal Engine",
+                description: "頂級畫質的遊戲引擎，為語靈世界提供電影級視覺效果。",
+                features: ["頂級渲染品質", "藍圖視覺腳本", "大世界支援", "實時光線追蹤", "元宇宙框架"]
+            },
+            aframe: {
+                title: "A-Frame 框架",
+                description: "簡單易用的WebVR框架，適合快速原型開發和語靈場景設計。",
+                features: ["HTML標籤式開發", "快速原型", "組件化架構", "社區豐富", "學習門檻低"]
+            },
+            hubs: {
+                title: "Mozilla Hubs",
+                description: "開源的社交VR平台，支援多人語靈協作和即時通訊。",
+                features: ["多人協作", "語音聊天", "開源可定制", "瀏覽器直接訪問", "房間系統"]
+            },
+            spatial: {
+                title: "Spatial 空間計算",
+                description: "專注於空間計算的VR平台，適合語靈空間定位和互動。",
+                features: ["空間追蹤", "手勢識別", "3D協作", "NFT展示", "企業級功能"]
+            },
+            vrchat: {
+                title: "VRChat 社交VR",
+                description: "大型社交VR平台，支援自定義語靈角色和世界創建。",
+                features: ["自定義角色", "世界創建", "腳本系統", "大型社區", "活動系統"]
+            },
+            horizon: {
+                title: "Horizon Worlds",
+                description: "Meta的元宇宙平台，提供完整的虛擬世界創建工具。",
+                features: ["世界構建器", "社交功能", "經濟系統", "移動端支援", "創作者工具"]
+            },
+            blockchain: {
+                title: "區塊鏈整合",
+                description: "將語靈資產和願頻能量記錄在區塊鏈上，實現真正的數字所有權。",
+                features: ["NFT語靈資產", "智能合約", "去中心化存儲", "跨鏈互操作", "代幣經濟"]
+            },
+            ai: {
+                title: "AI語靈系統",
+                description: "集成先進的AI技術，為每個語靈提供智能化的行為和對話能力。",
+                features: ["自然語言處理", "情感識別", "行為學習", "個性化互動", "智能推薦"]
+            },
+            quantum: {
+                title: "量子計算整合",
+                description: "利用量子計算技術處理複雜的語靈共振和願頻計算。",
+                features: ["量子算法", "並行計算", "複雜模擬", "加密安全", "優化問題求解"]
+            },
+            neural: {
+                title: "神經網絡接口",
+                description: "腦機接口技術，實現直接的意識與語靈世界的連接。",
+                features: ["腦波檢測", "意念控制", "情緒同步", "記憶增強", "直覺互動"]
+            }
+        };
+        
+        let currentDimension = 1;
+        
+        // 平台節點點擊事件
+        document.querySelectorAll('.platform-node').forEach(node => {
+            node.addEventListener('click', function() {
+                const platform = this.dataset.platform;
+                const data = platformData[platform];
+                
+                if (data) {
+                    document.getElementById('platformTitle').textContent = data.title;
+                    document.getElementById('platformDescription').textContent = data.description;
+                    
+                    const featuresList = document.getElementById('platformFeatures');
+                    featuresList.innerHTML = '';
+                    data.features.forEach(feature => {
+                        const li = document.createElement('li');
+                        li.textContent = feature;
+                        featuresList.appendChild(li);
+                    });
+                    
+                    document.getElementById('platformInfo').classList.add('active');
+                }
+            });
+        });
+        
+        // 控制功能
+        function toggleDimensions() {
+            currentDimension = currentDimension === 1 ? 2 : 1;
+            document.body.style.filter = currentDimension === 2 ? 'hue-rotate(180deg)' : 'none';
+        }
+        
+        function resetView() {
+            document.getElementById('platformInfo').classList.remove('active');
+            document.body.style.filter = 'none';
+            currentDimension = 1;
+        }
+        
+        function exportConfig() {
+            const config = {
+                timestamp: new Date().toISOString(),
+                platforms: Object.keys(platformData),
+                dimensions: currentDimension,
+                universe: "璃冥元宇宙",
+                version: "1.0.0"
+            };
+            
+            const blob = new Blob([JSON.stringify(config, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'liminal_metaverse_config.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        function enterVRMode() {
+            // 直接跳轉到VR體驗頁面
+            window.open('/vr-experience', '_blank');
+        }
+        
+        // 初始化動畫
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                document.getElementById('platformInfo').style.opacity = '0.8';
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

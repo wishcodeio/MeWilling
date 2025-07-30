@@ -1,0 +1,71 @@
+{
+  "name": "願同步卡",
+  "description": "記錄願望同步和顯化過程",
+  "fields": [
+    {
+      "name": "wish_content",
+      "label": "願望內容",
+      "type": "textarea",
+      "required": true,
+      "placeholder": "清晰描述你的願望..."
+    },
+    {
+      "name": "sync_level",
+      "label": "同步程度",
+      "type": "range",
+      "min": 0,
+      "max": 100,
+      "default": 50,
+      "unit": "%"
+    },
+    {
+      "name": "manifestation_signs",
+      "label": "顯化徵象",
+      "type": "textarea",
+      "placeholder": "記錄觀察到的顯化跡象..."
+    },
+    {
+      "name": "resistance_points",
+      "label": "阻力點",
+      "type": "textarea",
+      "placeholder": "識別可能的阻礙因素..."
+    },
+    {
+      "name": "energy_investment",
+      "label": "能量投入",
+      "type": "range",
+      "min": 1,
+      "max": 10,
+      "default": 5
+    },
+    {
+      "name": "timeline_expectation",
+      "label": "預期時間線",
+      "type": "select",
+      "options": [
+        "即時",
+        "1週內",
+        "1月內",
+        "3月內",
+        "1年內",
+        "長期"
+      ]
+    },
+    {
+      "name": "alignment_feeling",
+      "label": "對齊感受",
+      "type": "range",
+      "min": 1,
+      "max": 10,
+      "default": 5
+    },
+    {
+      "name": "next_action",
+      "label": "下一步行動",
+      "type": "text",
+      "placeholder": "具體的下一步計劃..."
+    }
+  ],
+  "color": "#48bb78",
+  "icon": "🌟"
+}

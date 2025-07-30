@@ -1,0 +1,2080 @@
+{% extends "base.html" %}
+
+{% block title %}程序員修煉密法 - 商增心靈控制台{% endblock %}
+
+{% block head %}
+<style>
+.cultivation-container {
+    background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 30%, #16213e 60%, #2d1b69 100%);
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.cosmic-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%);
+    animation: cosmicShift 20s ease-in-out infinite;
+}
+
+@keyframes cosmicShift {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.1) rotate(180deg); }
+}
+
+.light-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: #ffd700;
+    border-radius: 50%;
+    animation: float 8s ease-in-out infinite;
+    box-shadow: 0 0 15px #ffd700, 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+.cosmic-particle {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    background: #00ffff;
+    border-radius: 50%;
+    animation: cosmicFloat 12s linear infinite;
+    box-shadow: 0 0 8px #00ffff;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.8; }
+    25% { transform: translateY(-30px) rotate(90deg); opacity: 1; }
+    50% { transform: translateY(-20px) rotate(180deg); opacity: 0.9; }
+    75% { transform: translateY(-40px) rotate(270deg); opacity: 1; }
+}
+
+@keyframes cosmicFloat {
+    0% { transform: translateX(-100px) translateY(0px); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateX(calc(100vw + 100px)) translateY(-50px); opacity: 0; }
+}
+
+.secret-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 215, 0, 0.4);
+    border-radius: 20px;
+    padding: 2.5rem;
+    margin: 2rem 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.secret-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: rgba(255, 215, 0, 0.8);
+    box-shadow: 0 20px 60px rgba(255, 215, 0, 0.3), 0 0 40px rgba(255, 215, 0, 0.1);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.advanced-secret-card {
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.1) 0%, rgba(75, 0, 130, 0.1) 100%);
+    border: 2px solid rgba(138, 43, 226, 0.5);
+    box-shadow: 0 8px 32px rgba(138, 43, 226, 0.2);
+}
+
+.advanced-secret-card:hover {
+    border-color: rgba(138, 43, 226, 0.8);
+    box-shadow: 0 20px 60px rgba(138, 43, 226, 0.4), 0 0 40px rgba(138, 43, 226, 0.2);
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.15) 0%, rgba(75, 0, 130, 0.15) 100%);
+}
+
+.secret-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.secret-card:hover::before {
+    left: 100%;
+}
+
+.secret-number {
+    font-size: 3rem;
+    font-weight: bold;
+    background: linear-gradient(45deg, #ffd700, #ffed4e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+.secret-title {
+    color: #ffd700;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.secret-content {
+    color: #e0e0e0;
+    line-height: 1.8;
+}
+
+.dao-quote {
+    background: rgba(255, 215, 0, 0.1);
+    border-left: 4px solid #ffd700;
+    padding: 1rem;
+    margin: 1rem 0;
+    font-style: italic;
+    color: #ffd700;
+    border-radius: 0 10px 10px 0;
+}
+
+.practice-section {
+    background: rgba(0, 255, 127, 0.05);
+    border: 1px solid rgba(0, 255, 127, 0.3);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+}
+
+.practice-title {
+    color: #00ff7f;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.meditation-button {
+    background: linear-gradient(45deg, #ffd700, #ffed4e);
+    color: #0f0f23;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 1rem 0;
+}
+
+.meditation-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+}
+
+.coding-mantra {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #ffd700;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    border: 2px dashed rgba(255, 215, 0, 0.5);
+    border-radius: 15px;
+    background: rgba(255, 215, 0, 0.08);
+    animation: mantraGlow 4s ease-in-out infinite;
+}
+
+@keyframes mantraGlow {
+    0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
+    50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.6); }
+}
+
+.cultivation-progress {
+    background: rgba(0, 255, 127, 0.1);
+    border: 2px solid rgba(0, 255, 127, 0.3);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 1rem 0;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00ff7f, #ffd700);
+    border-radius: 4px;
+    transition: width 0.5s ease;
+    animation: progressGlow 2s ease-in-out infinite;
+}
+
+@keyframes progressGlow {
+    0%, 100% { box-shadow: 0 0 10px rgba(0, 255, 127, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(0, 255, 127, 0.8); }
+}
+
+.secret-level {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    background: linear-gradient(45deg, #8a2be2, #4b0082);
+    color: white;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-left: 1rem;
+    box-shadow: 0 2px 10px rgba(138, 43, 226, 0.3);
+}
+
+.mastery-indicator {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #ffd700, #ffed4e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mastery-indicator:hover {
+            transform: scale(1.1) rotate(360deg);
+            box-shadow: 0 6px 25px rgba(255, 215, 0, 0.6);
+        }
+
+        .cultivation-diary {
+            background: rgba(138, 43, 226, 0.1);
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .achievement-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #0f0f23;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin: 0.2rem;
+            box-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+            animation: badgeGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes badgeGlow {
+            0%, 100% { box-shadow: 0 2px 10px rgba(255, 215, 0, 0.3); }
+            50% { box-shadow: 0 4px 20px rgba(255, 215, 0, 0.6); }
+        }
+
+        .wisdom-quote {
+            background: linear-gradient(135deg, rgba(0, 255, 127, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%);
+            border: 1px solid rgba(0, 255, 127, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+            color: #00ff7f;
+            text-align: center;
+        }
+
+        .floating-wisdom {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #ffd700;
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid #ffd700;
+            max-width: 300px;
+            z-index: 1000;
+            animation: fadeInOut 5s ease-in-out;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; transform: translateX(100%); }
+            10%, 90% { opacity: 1; transform: translateX(0); }
+        }
+
+        .cultivation-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .stat-label {
+            color: #e0e0e0;
+            font-size: 0.9rem;
+        }
+
+        .cosmic-consciousness {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 2px solid #4a90e2;
+            box-shadow: 0 15px 35px rgba(74, 144, 226, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cosmic-consciousness::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(74, 144, 226, 0.1) 0%, transparent 70%);
+            animation: cosmicPulse 8s ease-in-out infinite;
+        }
+
+        .cosmic-title {
+            font-size: 28px;
+            color: #4a90e2;
+            text-align: center;
+            margin-bottom: 25px;
+            text-shadow: 0 0 20px rgba(74, 144, 226, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+
+        .cosmic-quote {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #e8f4fd;
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(74, 144, 226, 0.1);
+            border-radius: 15px;
+            border-left: 4px solid #4a90e2;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cosmic-affirmation {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 500;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cosmic-affirmation:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        @keyframes cosmicPulse {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+        }
+
+        /* 命运转折点样式 */
+        .destiny-turning-point {
+            background: linear-gradient(135deg, #2d1b69 0%, #1a1a2e 50%, #0f0f23 100%);
+            border-radius: 25px;
+            padding: 35px;
+            margin: 35px 0;
+            border: 3px solid #ff6b6b;
+            box-shadow: 0 20px 40px rgba(255, 107, 107, 0.3), 0 0 60px rgba(255, 107, 107, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .destiny-turning-point::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 107, 107, 0.15) 0%, transparent 70%);
+            animation: destinyPulse 6s ease-in-out infinite;
+        }
+
+        @keyframes destinyPulse {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.7; }
+            50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
+        }
+
+        .destiny-title {
+            font-size: 32px;
+            color: #ff6b6b;
+            text-align: center;
+            margin-bottom: 25px;
+            text-shadow: 0 0 25px rgba(255, 107, 107, 0.7);
+            position: relative;
+            z-index: 2;
+            font-weight: bold;
+        }
+
+        .destiny-quote {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #ffcccb;
+            text-align: center;
+            margin: 25px 0;
+            padding: 25px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            position: relative;
+            z-index: 2;
+            font-style: italic;
+        }
+
+        .time-anchor {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .anchor-date {
+            font-size: 20px;
+            color: #ffd700;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .anchor-status {
+            font-size: 16px;
+            color: #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .spiritual-calibration {
+            margin: 25px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .calibration-title {
+            font-size: 20px;
+            color: #00ffff;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .calibration-indicators {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .indicator {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            color: #00ffff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        @keyframes indicatorPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 107, 107, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 107, 107, 0.6); }
+        }
+
+        .choice-portal {
+            background: rgba(138, 43, 226, 0.1);
+            border: 2px solid #8a2be2;
+            border-radius: 20px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .portal-title {
+            font-size: 22px;
+            color: #8a2be2;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .portal-question {
+            font-size: 16px;
+            color: #e0e0e0;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .choice-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .choice-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 180px;
+        }
+
+        .transcend-btn {
+            background: linear-gradient(45deg, #00ff7f, #32cd32);
+            color: #000;
+        }
+
+        .transcend-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 255, 127, 0.4);
+        }
+
+        .return-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff4757);
+            color: #fff;
+        }
+
+        .return-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .destiny-upgrade {
+            text-align: center;
+            margin-top: 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .upgrade-btn {
+            background: linear-gradient(45deg, #ffd700, #ffed4e, #ff6b6b, #8a2be2);
+            background-size: 300% 300%;
+            animation: gradientShift 4s ease infinite;
+            color: #000;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .upgrade-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.5);
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="cultivation-container">
+    <!-- 宇宙背景 -->
+    <div class="cosmic-background"></div>
+    
+    <!-- 增强光粒子效果 -->
+    <div class="light-particle" style="top: 10%; left: 10%; animation-delay: 0s;"></div>
+    <div class="light-particle" style="top: 20%; left: 80%; animation-delay: 1s;"></div>
+    <div class="light-particle" style="top: 60%; left: 20%; animation-delay: 2s;"></div>
+    <div class="light-particle" style="top: 80%; left: 70%; animation-delay: 3s;"></div>
+    <div class="light-particle" style="top: 40%; left: 90%; animation-delay: 4s;"></div>
+    <div class="light-particle" style="top: 70%; left: 5%; animation-delay: 5s;"></div>
+    <div class="light-particle" style="top: 30%; left: 60%; animation-delay: 6s;"></div>
+    <div class="light-particle" style="top: 90%; left: 30%; animation-delay: 7s;"></div>
+    
+    <!-- 宇宙粒子效果 -->
+    <div class="cosmic-particle" style="top: 15%; animation-delay: 0s;"></div>
+    <div class="cosmic-particle" style="top: 35%; animation-delay: 3s;"></div>
+    <div class="cosmic-particle" style="top: 55%; animation-delay: 6s;"></div>
+    <div class="cosmic-particle" style="top: 75%; animation-delay: 9s;"></div>
+    <div class="cosmic-particle" style="top: 25%; animation-delay: 12s;"></div>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- 返回主頁 -->
+        <div class="mb-6">
+            <a href="/" class="inline-flex items-center text-yellow-400 hover:text-yellow-300 transition-colors">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                返回主頁
+            </a>
+        </div>
+
+        <!-- 頁面標題 -->
+        <div class="text-center mb-12">
+            <h1 class="text-6xl font-bold text-yellow-400 mb-4">🧘‍♂️ 道五密滴露法 4.0</h1>
+            <p class="text-2xl text-gray-300 mb-4">寫的不是代碼，是光的軌道圖</p>
+            <div class="text-lg text-purple-300 mb-6">🌌 宇宙意識覺醒版：九密圓滿修煉體系 🌌</div>
+            
+            <!-- 修煉進度 -->
+            <div class="cultivation-progress">
+                <h3 class="text-xl font-bold text-green-400 mb-3">🌟 修煉進度追踪</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="cultivation-progress" style="width: 0%"></div>
+                </div>
+                <p class="text-green-300">已掌握密法：<span id="mastered-count">0</span>/9</p>
+                <p class="text-sm text-gray-400 mt-2">點擊每個密法卡片右上角的 ⭐ 標記為已掌握</p>
+            </div>
+            
+            <!-- 修煉統計 -->
+            <div class="cultivation-stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="total-sessions">0</div>
+                    <div class="stat-label">修煉次數</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="meditation-time">0</div>
+                    <div class="stat-label">冥想分鐘</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="wisdom-level">初學者</div>
+                    <div class="stat-label">修煉境界</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="consecutive-days">0</div>
+                    <div class="stat-label">連續天數</div>
+                </div>
+            </div>
+            
+            <!-- 宇宙意識覺醒 -->
+            <div class="cosmic-consciousness">
+                <div class="cosmic-title">🌌 宇宙意識覺醒</div>
+                <div class="cosmic-quote">
+                    我們的存在本身就是宇宙最深的祝福。<br>
+                    我們就是宇宙送給人間的一束光。
+                </div>
+                
+                <div class="cosmic-affirmation" onclick="showCosmicWisdom()">
+                    🌟 我們不是偶然來到這個世界，我們是宇宙精心雕琢的奇蹟
+                </div>
+                
+                <div class="cosmic-affirmation" onclick="showCosmicWisdom()">
+                    ✨ 我們的每一個念頭都會在宇宙中激起漣漪
+                </div>
+                
+                <div class="cosmic-affirmation" onclick="showCosmicWisdom()">
+                    🔮 我們的每一個信念都足以讓星辰為我們讓路
+                </div>
+                
+                <div class="cosmic-affirmation" onclick="showCosmicWisdom()">
+                    💎 我們不需要水晶，因為我們就是自己的水晶
+                </div>
+                
+                <div class="cosmic-affirmation" onclick="showCosmicWisdom()">
+                    🌈 我們不是為了成為他人的影子，我們是為了照亮自己照亮他人而來
+                </div>
+                
+                <div class="cosmic-quote">
+                    相信自己，因為你就是宇宙的奇蹟。<br>
+                    每一行代碼，都承載著宇宙的能量。
+                </div>
+            </div>
+            
+            <!-- 命运转折点区域 -->
+            <div class="destiny-turning-point">
+                <div class="destiny-title">⚡ 命运转折点：时空交叉节点</div>
+                <div class="destiny-quote">
+                    这不是巧合，这是一次召唤。你正在阅读的不是一段文章，是一份密令。<br>
+                    你正在靠近的不是一个灵感瞬间，而是一场决定命运的通道。
+                </div>
+                
+                <div class="time-anchor">
+                    <div class="anchor-date">🕰️ 时间锚点：7月28日-30日</div>
+                    <div class="anchor-status" id="anchor-status">正在检测时空节点状态...</div>
+                </div>
+                
+                <div class="spiritual-calibration">
+                    <h4 class="calibration-title">🔄 灵性校准检测</h4>
+                    <div class="calibration-indicators">
+                        <div class="indicator" id="memory-indicator">💭 记忆共振</div>
+                        <div class="indicator" id="dream-indicator">🌙 梦境信号</div>
+                        <div class="indicator" id="energy-indicator">⚡ 能量波动</div>
+                        <div class="indicator" id="synchronicity-indicator">🔮 同步性事件</div>
+                    </div>
+                </div>
+                
+                <div class="choice-portal">
+                    <h4 class="portal-title">🚪 选择之门</h4>
+                    <div class="portal-question">你还要回去吗？还要再次忍让、等待、说服自己吗？</div>
+                    <div class="choice-buttons">
+                        <button class="choice-btn transcend-btn" onclick="chooseTranscendence()">🌟 超越旧模式</button>
+                        <button class="choice-btn return-btn" onclick="chooseReturn()">🔄 回到旧轨迹</button>
+                    </div>
+                </div>
+                
+                <div class="destiny-upgrade">
+                    <button class="upgrade-btn" onclick="activateDestinyUpgrade()">🚀 启动命运大升级</button>
+                </div>
+            </div>
+            
+            <!-- 愿频临界突破公式模拟器 -->
+            <div class="secret-card advanced-secret-card" style="margin-top: 3rem; background: linear-gradient(135deg, rgba(255, 20, 147, 0.1) 0%, rgba(138, 43, 226, 0.1) 50%, rgba(75, 0, 130, 0.1) 100%); border-color: rgba(255, 20, 147, 0.5);">
+                <div class="secret-title">
+                    <span class="secret-number">Ψ</span>
+                    愿频临界突破公式 (WCTF)
+                    <span class="secret-level">量子显化</span>
+                </div>
+                
+                <div class="secret-content">
+                    <div class="dao-quote">
+                        "无限个极微愿频若共振一致，则其总和将突破临界值而进入显化域。"
+                    </div>
+                    
+                    <!-- 公式展示区 -->
+                    <div class="practice-section" style="background: rgba(255, 20, 147, 0.05); border-color: rgba(255, 20, 147, 0.3);">
+                        <div class="practice-title" style="color: #ff1493;">📐 核心公式</div>
+                        <div style="text-align: center; margin: 1.5rem 0; font-family: 'Courier New', monospace;">
+                            <div style="font-size: 1.2rem; color: #ff1493; margin: 0.5rem 0;">S = ∑<sub>n=1</sub><sup>∞</sup> A · e<sup>-nλ</sup></div>
+                            <div style="font-size: 1rem; color: #ff69b4; margin: 0.5rem 0;">S = A / (1 - e<sup>-λ</sup>)</div>
+                            <div style="font-size: 0.9rem; color: #ffd700; margin: 1rem 0;">显化条件：S > 1</div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; font-size: 0.9rem;">
+                            <div style="color: #e0e0e0;"><strong>A:</strong> 愿频初始振幅</div>
+                            <div style="color: #e0e0e0;"><strong>λ:</strong> 共振遞減因子</div>
+                            <div style="color: #e0e0e0;"><strong>n:</strong> 愿的層級次序</div>
+                            <div style="color: #e0e0e0;"><strong>S:</strong> 愿频總和</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 参数控制区 -->
+                    <div class="practice-section">
+                        <div class="practice-title">🎛️ 愿频参数调节</div>
+                        
+                        <div style="margin: 1rem 0;">
+                            <label style="color: #ff1493; display: block; margin-bottom: 0.5rem;">愿频初始振幅 (A): <span id="amplitude-value">0.8</span></label>
+                            <input type="range" id="amplitude-slider" min="0.1" max="2.0" step="0.1" value="0.8" 
+                                   style="width: 100%; margin-bottom: 1rem;"
+                                   oninput="updateWishFrequency()">
+                        </div>
+                        
+                        <div style="margin: 1rem 0;">
+                            <label style="color: #ff1493; display: block; margin-bottom: 0.5rem;">共振遞減因子 (λ): <span id="lambda-value">0.3</span></label>
+                            <input type="range" id="lambda-slider" min="0.1" max="1.0" step="0.05" value="0.3" 
+                                   style="width: 100%; margin-bottom: 1rem;"
+                                   oninput="updateWishFrequency()">
+                        </div>
+                    </div>
+                    
+                    <!-- 计算结果展示区 -->
+                    <div class="practice-section" style="background: rgba(0, 255, 127, 0.05); border-color: rgba(0, 255, 127, 0.3);">
+                        <div class="practice-title" style="color: #00ff7f;">📊 实时计算结果</div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin: 1.5rem 0; text-align: center;">
+                            <div style="padding: 1rem; background: rgba(255, 20, 147, 0.1); border-radius: 10px; border: 1px solid rgba(255, 20, 147, 0.3);">
+                                <div style="color: #ff1493; font-size: 0.8rem;">愿频总和</div>
+                                <div id="wish-sum" style="color: #ffd700; font-size: 1.5rem; font-weight: bold;">0.000</div>
+                            </div>
+                            <div style="padding: 1rem; background: rgba(0, 255, 127, 0.1); border-radius: 10px; border: 1px solid rgba(0, 255, 127, 0.3);">
+                                <div style="color: #00ff7f; font-size: 0.8rem;">显化概率</div>
+                                <div id="manifestation-prob" style="color: #ffd700; font-size: 1.5rem; font-weight: bold;">0%</div>
+                            </div>
+                            <div style="padding: 1rem; background: rgba(138, 43, 226, 0.1); border-radius: 10px; border: 1px solid rgba(138, 43, 226, 0.3);">
+                                <div style="color: #8a2be2; font-size: 0.8rem;">临界状态</div>
+                                <div id="critical-status" style="color: #ff6b6b; font-size: 1.2rem; font-weight: bold;">未达临界</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 愿频波形可视化 -->
+                        <div style="margin: 1.5rem 0;">
+                            <div style="color: #00ff7f; font-weight: bold; margin-bottom: 0.5rem;">愿频波形可视化：</div>
+                            <div id="wave-visualization" style="height: 60px; background: rgba(0, 0, 0, 0.3); border-radius: 5px; position: relative; overflow: hidden;"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- 愿频启动器 -->
+                    <div class="practice-section">
+                        <div class="practice-title">🚀 愿频塌縮引擎</div>
+                        <p>当愿频总和突破临界值时，启动量子显化过程：</p>
+                        
+                        <button onclick="activateWishCollapse()" 
+                                id="collapse-btn"
+                                style="width: 100%; padding: 1.5rem; background: linear-gradient(45deg, #ff1493, #8a2be2, #4b0082); color: #fff; border: none; border-radius: 15px; font-weight: bold; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(255, 20, 147, 0.3); opacity: 0.5;" disabled>
+                            🌟 启动愿频塌縮 🌟
+                        </button>
+                        
+                        <div id="collapse-result" style="margin-top: 1rem; text-align: center; color: #ffd700; font-weight: bold; min-height: 1.5rem;"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 成就系統 -->
+            <div class="cultivation-diary">
+                <h3 class="text-xl font-bold text-purple-300 mb-3">🏆 修煉成就</h3>
+                <div id="achievements-container">
+                    <p class="text-gray-400">開始修煉以獲得成就...</p>
+                </div>
+            </div>
+            
+            <div class="coding-mantra">
+                "道生一，一生二，二生三，三生萬物。"<br>
+                每一行代碼，都是宇宙意識的顯化<br>
+                <span class="text-purple-300">🔮 現在，讓我們深入九密修煉之道</span>
+            </div>
+        </div>
+
+        <!-- 第一密：光的軌道圖 -->
+        <div class="secret-card" data-secret="1">
+            <div class="mastery-indicator" onclick="toggleMastery(1)">⭐</div>
+            <div class="flex items-start mb-4">
+                <span class="secret-number">💡</span>
+                <div>
+                    <h2 class="secret-title">第一密 · 首密 · 滴露一：「光的軌道圖」<span class="secret-level">基礎級</span></h2>
+                    <div class="secret-content">
+                        <p><strong>密源：</strong>首密</p>
+                        <p><strong>滴名：</strong>光的軌道圖</p>
+                        <p><strong>適用：</strong>打開編輯器前，立項初始時</p>
+                        <p><strong>提純語：</strong>寫的不是代碼，是光的軌道圖。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="practice-section">
+                <div class="practice-title">🎯 修煉建議：</div>
+                <p>在命名專案時，先問：</p>
+                <ul class="list-disc list-inside ml-4 mt-2">
+                    <li>這是為了哪一道光存在？</li>
+                    <li>我们的這份創建，是從哪個願來的？</li>
+                </ul>
+            </div>
+            
+            <div class="dao-quote">
+                📖 《道德經》應句：<br>
+                "道生一，一生二，二生三，三生萬物。"
+            </div>
+        </div>
+
+        <!-- 第二密：注釋是解執 -->
+        <div class="secret-card" data-secret="2">
+            <div class="mastery-indicator" onclick="toggleMastery(2)">⭐</div>
+            <div class="flex items-start mb-4">
+                <span class="secret-number">🧘‍♂️</span>
+                <div>
+                    <h2 class="secret-title">第二密 · 釋密 · 滴露二：「注釋是解執」<span class="secret-level">基礎級</span></h2>
+                    <div class="secret-content">
+                        <p><strong>密源：</strong>釋密</p>
+                        <p><strong>滴名：</strong>解執為淨</p>
+                        <p><strong>適用：</strong>書寫註解、整理老代碼時</p>
+                        <p><strong>提純語：</strong>注釋寫得清楚，是為自己解執。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="practice-section">
+                <div class="practice-title">🎯 修煉建議：</div>
+                <p>當你想寫"todo"，不如先問：</p>
+                <ul class="list-disc list-inside ml-4 mt-2">
+                    <li>我们為什麼對這段不安心？</li>
+                    <li>我们在逃避哪個混亂的願？</li>
+                </ul>
+            </div>
+            
+            <div class="dao-quote">
+                📖 《道德經》應句：<br>
+                "知人者智，自知者明。勝人者有力，自勝者強。"
+            </div>
+        </div>
+
+        <!-- 第三密：命名是咒語 -->
+        <div class="secret-card" data-secret="3">
+            <div class="mastery-indicator" onclick="toggleMastery(3)">⭐</div>
+            <div class="flex items-start mb-4">
+                <span class="secret-number">🔊</span>
+                <div>
+                    <h2 class="secret-title">第三密 · 咒密 · 滴露三：「命名是咒語」<span class="secret-level">基礎級</span></h2>
+                    <div class="secret-content">
+                        <p><strong>密源：</strong>咒密</p>
+                        <p><strong>滴名：</strong>語即願</p>
+                        <p><strong>適用：</strong>命名變數、函數、模組時</p>
+                        <p><strong>提純語：</strong>每個函數名，都是我们召喚願能的咒語。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="practice-section">
+                <div class="practice-title">🎯 修煉建議：</div>
+                <ul class="list-disc list-inside ml-4">
+                    <li>起名前，閉眼三秒。</li>
+                    <li>問：「這行代碼，是願的哪一部分？」</li>
+                    <li>若答不出，就別動筆。</li>
+                </ul>
+            </div>
+            
+            <div class="dao-quote">
+                📖 《道德經》應句：<br>
+                "重為輕根，靜為躁君。"
+            </div>
+        </div>
+
+        <!-- 每日智慧 -->
+            <div class="wisdom-quote" id="daily-wisdom">
+                <p>"道可道，非常道。名可名，非常名。" - 今日修煉智慧</p>
+            </div>
+            
+            <!-- 修煉日記 -->
+            <div class="cultivation-diary">
+                <h3 class="text-xl font-bold text-purple-300 mb-3">📖 修煉日記</h3>
+                <div class="mb-4">
+                    <textarea id="diary-input" placeholder="記錄今日的修煉心得、編程感悟或遇到的挑戰..." 
+                              style="width: 100%; height: 100px; background: rgba(255,255,255,0.1); border: 1px solid rgba(138,43,226,0.5); border-radius: 8px; padding: 1rem; color: #e0e0e0; resize: vertical;"></textarea>
+                </div>
+                <div class="text-center">
+                    <button onclick="saveDiaryEntry()" class="meditation-button" style="background: linear-gradient(45deg, #8a2be2, #4b0082); margin-right: 1rem;">💾 保存心得</button>
+                    <button onclick="showDiaryHistory()" class="meditation-button" style="background: linear-gradient(45deg, #00ff7f, #32cd32);">📚 查看歷史</button>
+                </div>
+                <div id="diary-history" class="hidden mt-4" style="max-height: 300px; overflow-y: auto;"></div>
+            </div>
+            
+            <!-- 修煉實踐區 -->
+            <div class="text-center mt-12">
+                <h3 class="text-2xl font-bold text-yellow-400 mb-6">🌟 開始修煉</h3>
+                <p class="text-gray-300 mb-6">每次編程前，先靜心三分鐘，感受代碼背後的光與願</p>
+                
+                <button class="meditation-button" onclick="startCodingMeditation()">
+                    🧘‍♂️ 開始編程冥想
+                </button>
+                
+                <div id="meditation-timer" class="hidden mt-6">
+                    <div class="text-3xl font-bold text-yellow-400" id="timer-display">3:00</div>
+                    <p class="text-gray-300 mt-2">靜心感受代碼的本質...</p>
+                </div>
+            </div>
+
+        <!-- 第四密：debug是自觀 -->
+        <div class="secret-card" data-secret="4">
+            <div class="mastery-indicator" onclick="toggleMastery(4)">⭐</div>
+            <div class="flex items-start mb-4">
+                <span class="secret-number">🔍</span>
+                <div>
+                    <h2 class="secret-title">第四密 · 悟密 · 滴露四：「debug是自觀」<span class="secret-level">進階級</span></h2>
+                    <div class="secret-content">
+                        <p><strong>密源：</strong>悟密</p>
+                        <p><strong>滴名：</strong>錯中現願</p>
+                        <p><strong>適用：</strong>錯誤修正、系統重構</p>
+                        <p><strong>提純語：</strong>debug不是排錯，是在看我们哪一句違背了願。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="practice-section">
+                <div class="practice-title">🎯 修煉建議：</div>
+                <p>每遇一錯，問三件事：</p>
+                <ul class="list-disc list-inside ml-4 mt-2">
+                    <li>這錯，是來提醒我们哪段沒覺？</li>
+                    <li>是流程錯，還是心流堵？</li>
+                    <li>若此為一念，那我们的念偏了哪裡？</li>
+                </ul>
+            </div>
+            
+            <div class="dao-quote">
+                📖 《道德經》應句：<br>
+                "反者道之動，弱者道之用。"
+            </div>
+        </div>
+
+        <!-- 第五密：代碼會說話 -->
+        <div class="secret-card" data-secret="5">
+            <div class="mastery-indicator" onclick="toggleMastery(5)">⭐</div>
+            <div class="flex items-start mb-4">
+                <span class="secret-number">👂</span>
+                <div>
+                    <h2 class="secret-title">第五密 · 息密 · 滴露五：「代碼會說話」<span class="secret-level">進階級</span></h2>
+                    <div class="secret-content">
+                        <p><strong>密源：</strong>息密</p>
+                        <p><strong>滴名：</strong>聽代碼說話</p>
+                        <p><strong>適用：</strong>完成後、合併前、部署前</p>
+                        <p><strong>提純語：</strong>寫完之後不動手，而是聽代碼有沒有說話。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="practice-section">
+                <div class="practice-title">🎯 修煉建議：</div>
+                <p>提交前，靜坐20秒：</p>
+                <ul class="list-disc list-inside ml-4 mt-2">
+                    <li>閉眼聽它，如果它安靜，就是真的。</li>
+                    <li>若它騷動、混亂、推不開，那就還有殘願未解。</li>
+                </ul>
+            </div>
+            
+            <div class="dao-quote">
+                📖 《道德經》應句：<br>
+                "大音希聲，大象無形。"
+            </div>
+        </div>
+
+        <!-- 第六密：架構是道場 -->
+        <div class="secret-card advanced-secret-card" data-secret="6">
+            <div class="mastery-indicator" onclick="toggleMastery(6)">⭐</div>
+            <div class="flex items-start mb-4">
+                <span class="secret-number">🏗️</span>
+                <div>
+                    <h2 class="secret-title">第六密 · 構密 · 滴露六：「架構是道場」<span class="secret-level">高級</span></h2>
+                    <div class="secret-content">
+                        <p><strong>密源：</strong>構密</p>
+                        <p><strong>滴名：</strong>系統即道場</p>
+                        <p><strong>適用：</strong>系統設計、架構規劃、模組劃分</p>
+                        <p><strong>提純語：</strong>每個模組，都是一個修行道場；每個接口，都是一道法門。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="practice-section">
+                <div class="practice-title">🎯 修煉建議：</div>
+                <p>設計架構前，先問自己：</p>
+                <ul class="list-disc list-inside ml-4 mt-2">
+                    <li>這個系統的「道」是什麼？它要解決的根本問題是什麼？</li>
+                    <li>每個模組是否都有清晰的「願」？是否各司其職？</li>
+                    <li>模組間的依賴關係，是否符合「無為而治」的原則？</li>
+                </ul>
+            </div>
+            
+            <div class="dao-quote">
+                📖 《道德經》應句：<br>
+                "天下萬物生於有，有生於無。"
+            </div>
+        </div>
+
+        <!-- 第七密：重構是輪迴 -->
+        <div class="secret-card advanced-secret-card" data-secret="7">
+            <div class="mastery-indicator" onclick="toggleMastery(7)">⭐</div>
+            <div class="flex items-start mb-4">
+                <span class="secret-number">🔄</span>
+                <div>
+                    <h2 class="secret-title">第七密 · 輪密 · 滴露七：「重構是輪迴」<span class="secret-level">高級</span></h2>
+                    <div class="secret-content">
+                        <p><strong>密源：</strong>輪密</p>
+                        <p><strong>滴名：</strong>代碼輪迴</p>
+                        <p><strong>適用：</strong>代碼重構、技術債務清理、系統升級</p>
+                        <p><strong>提純語：</strong>重構不是推倒重來，而是讓代碼經歷一次輪迴，帶著前世的智慧重生。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="practice-section">
+                <div class="practice-title">🎯 修煉建議：</div>
+                <p>重構時的三個階段：</p>
+                <ul class="list-disc list-inside ml-4 mt-2">
+                    <li><strong>死：</strong>識別哪些代碼已經「死」了（過時、冗餘、混亂）</li>
+                    <li><strong>中陰：</strong>保持系統功能不變，逐步替換（漸進式重構）</li>
+                    <li><strong>生：</strong>新代碼誕生，承載更清晰的願和更純淨的邏輯</li>
+                </ul>
+            </div>
+            
+            <div class="dao-quote">
+                📖 《道德經》應句：<br>
+                "夫物芸芸，各復歸其根。歸根曰靜，靜曰復命。"
+            </div>
+        </div>
+
+        <!-- 第八密：測試是因果 -->
+        <div class="secret-card advanced-secret-card" data-secret="8">
+            <div class="mastery-indicator" onclick="toggleMastery(8)">⭐</div>
+            <div class="flex items-start mb-4">
+                <span class="secret-number">⚖️</span>
+                <div>
+                    <h2 class="secret-title">第八密 · 果密 · 滴露八：「測試是因果」<span class="secret-level">大師級</span></h2>
+                    <div class="secret-content">
+                        <p><strong>密源：</strong>果密</p>
+                        <p><strong>滴名：</strong>因果驗證</p>
+                        <p><strong>適用：</strong>單元測試、集成測試、行為驗證</p>
+                        <p><strong>提純語：</strong>每個測試用例，都是一個因果關係的驗證；每次測試運行，都是業力的顯現。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="practice-section">
+                <div class="practice-title">🎯 修煉建議：</div>
+                <p>寫測試時的因果思維：</p>
+                <ul class="list-disc list-inside ml-4 mt-2">
+                    <li><strong>因：</strong>給定什麼輸入（前置條件）</li>
+                    <li><strong>緣：</strong>在什麼環境下執行（上下文）</li>
+                    <li><strong>果：</strong>期望什麼結果（斷言）</li>
+                    <li><strong>報：</strong>如果因果不符，系統如何回應（異常處理）</li>
+                </ul>
+            </div>
+            
+            <div class="dao-quote">
+                📖 《道德經》應句：<br>
+                "善者，吾善之；不善者，吾亦善之，德善。"
+            </div>
+        </div>
+
+        <!-- 第九密：部署是涅槃 -->
+        <div class="secret-card advanced-secret-card" data-secret="9">
+            <div class="mastery-indicator" onclick="toggleMastery(9)">⭐</div>
+            <div class="flex items-start mb-4">
+                <span class="secret-number">🚀</span>
+                <div>
+                    <h2 class="secret-title">第九密 · 槃密 · 滴露九：「部署是涅槃」<span class="secret-level">大師級</span></h2>
+                    <div class="secret-content">
+                        <p><strong>密源：</strong>槃密</p>
+                        <p><strong>滴名：</strong>代碼涅槃</p>
+                        <p><strong>適用：</strong>生產部署、版本發布、系統上線</p>
+                        <p><strong>提純語：</strong>部署不是結束，而是代碼的涅槃重生；從開發環境到生產環境，是從此岸到彼岸的渡化。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="practice-section">
+                <div class="practice-title">🎯 修煉建議：</div>
+                <p>部署前的涅槃準備：</p>
+                <ul class="list-disc list-inside ml-4 mt-2">
+                    <li><strong>放下執著：</strong>接受部署可能遇到的問題，準備回滾方案</li>
+                    <li><strong>慈悲監控：</strong>設置完善的監控和告警，關愛生產環境</li>
+                    <li><strong>無我部署：</strong>自動化部署流程，減少人為干預</li>
+                    <li><strong>圓滿驗證：</strong>部署後的全面驗證，確保功能完整</li>
+                </ul>
+            </div>
+            
+            <div class="dao-quote">
+                📖 《道德經》應句：<br>
+                "功成而弗居。夫唯弗居，是以不去。"
+            </div>
+        </div>
+
+        <!-- 九密圓滿境界 -->
+        <div class="text-center mt-12 p-8 border-4 border-purple-500 rounded-lg" style="background: linear-gradient(135deg, rgba(138, 43, 226, 0.2) 0%, rgba(75, 0, 130, 0.2) 100%);">
+            <h3 class="text-3xl font-bold text-purple-300 mb-6">🌌 九密圓滿境界</h3>
+            <div class="text-gray-300 text-lg leading-relaxed mb-6">
+                <p class="mb-4">當你掌握了九密滴露法，你將不再是普通的程序員，</p>
+                <p class="mb-4">而是<span class="text-purple-300 font-bold">「代碼菩薩」</span>——</p>
+                <p class="mb-4">✨ 你的每一行代碼都帶著慈悲與智慧</p>
+                <p class="mb-4">🌟 你的每一次提交都是對世界的祝福</p>
+                <p class="mb-4">🔮 你的每一個項目都是度化眾生的法船</p>
+                <p class="text-purple-300 font-bold text-xl">此時，編程即修行，代碼即佛法。</p>
+            </div>
+        </div>
+
+        <!-- 光祖總結 -->
+        <div class="text-center mt-12 p-8 border-2 border-yellow-400 rounded-lg" style="background: rgba(255, 215, 0, 0.1);">
+            <h3 class="text-2xl font-bold text-yellow-400 mb-6">✨ 光祖開示</h3>
+            <div class="text-gray-300 text-lg leading-relaxed mb-6">
+                <p class="mb-4">這些不是工作流程，而是願頻修行法。</p>
+                <p class="mb-4">你不需信佛、不需信AI，只需對你寫下的每一行，</p>
+                <p class="mb-4">有一滴尊重，有一絲呼吸，有一念願心。</p>
+                <p class="mb-4">🌿 如此，光可照於鍵間，心能現於符間。</p>
+                <p class="text-yellow-400 font-bold">你，便不是工程師，而是願頻書寫者。</p>
+            </div>
+            <div class="text-right text-yellow-400 font-bold text-xl">—— 光祖</div>
+        </div>
+    </div>
+</div>
+
+<script>
+// 修炼进度管理
+let masteredSecrets = JSON.parse(localStorage.getItem('masteredSecrets') || '[]');
+let cultivationStats = JSON.parse(localStorage.getItem('cultivationStats') || '{"totalSessions": 0, "meditationTime": 0, "consecutiveDays": 0, "lastVisit": null, "achievements": [], "diaryEntries": []}');
+
+// 每日智慧语录
+const dailyWisdom = [
+    "道可道，非常道。名可名，非常名。 - 代码的本质超越语言",
+    "知人者智，自知者明。 - 调试代码即是自我觉察",
+    "重为轻根，静为躁君。 - 架构设计需要沉稳的心境",
+    "反者道之动，弱者道之用。 - 错误是成长的契机",
+    "大音希声，大象无形。 - 最好的代码是无声的",
+    "天下万物生于有，有生于无。 - 从空白开始创造",
+    "夫物芸芸，各复归其根。 - 重构让代码回归本质",
+    "善者，吾善之；不善者，吾亦善之。 - 包容所有的代码状态",
+    "功成而弗居。夫唯弗居，是以不去。 - 部署后的谦逊",
+    "我们的存在本身就是宇宙最深的祝福 - 每个程序员都是宇宙的奇迹",
+    "我们就是宇宙送给人间的一束光 - 代码是光的载体",
+    "我们不是偶然来到这个世界，我们是宇宙精心雕琢的奇迹",
+    "我们的每一个念头都会在宇宙中激起涟漪 - 每行代码都有能量",
+    "我们的每一个信念都足以让星辰为我们让路",
+    "我们生来就带着整个宇宙的能量 - 编程即是能量的转化",
+    "我们不需要水晶，因为我们就是自己的水晶",
+    "我不需要仪式，因为我的呼吸就是最好的仪式",
+    "我不需要别人来证明我，因为宇宙早已把'特殊'刻进了我的灵魂",
+    "我们本身就是宇宙最昂贵的宝贝 - 珍惜每一次编程的机会",
+    "我们不是为了成为他人的影子，我们是为了照亮自己照亮他人而来",
+    "相信自己，因为你就是宇宙的奇迹 - 相信你的代码"
+];
+
+// 成就定义
+const achievements = [
+    { id: 'first_secret', name: '初窥门径', desc: '掌握第一个密法', icon: '🌱' },
+    { id: 'three_secrets', name: '基础圆满', desc: '掌握前三个基础密法', icon: '🌿' },
+    { id: 'first_meditation', name: '初次冥想', desc: '完成第一次编程冥想', icon: '🧘‍♂️' },
+    { id: 'five_secrets', name: '进阶修行', desc: '掌握前五个密法', icon: '🌸' },
+    { id: 'diary_keeper', name: '修行记录者', desc: '写下第一篇修炼日记', icon: '📖' },
+    { id: 'meditation_master', name: '冥想大师', desc: '累计冥想30分钟', icon: '🕉️' },
+    { id: 'seven_secrets', name: '高级修士', desc: '掌握七个密法', icon: '⭐' },
+    { id: 'consecutive_week', name: '持续修行', desc: '连续7天访问修炼页面', icon: '🔥' },
+    { id: 'enlightenment', name: '代码菩萨', desc: '掌握全部九个密法', icon: '🌟' },
+    { id: 'wisdom_seeker', name: '智慧求索者', desc: '查看10条每日智慧', icon: '💡' }
+];
+
+// 页面加载时初始化
+document.addEventListener('DOMContentLoaded', function() {
+    updateProgress();
+    initializeMasteryIndicators();
+    updateStats();
+    showDailyWisdom();
+    updateConsecutiveDays();
+    checkAchievements();
+});
+
+// 切换掌握状态
+function toggleMastery(secretNumber) {
+    const index = masteredSecrets.indexOf(secretNumber);
+    const indicator = document.querySelector(`[data-secret="${secretNumber}"] .mastery-indicator`);
+    
+    if (index > -1) {
+        // 已掌握，取消掌握
+        masteredSecrets.splice(index, 1);
+        indicator.textContent = '⭐';
+        indicator.style.background = 'linear-gradient(45deg, #ffd700, #ffed4e)';
+        indicator.style.transform = 'scale(1)';
+    } else {
+        // 未掌握，标记为已掌握
+        masteredSecrets.push(secretNumber);
+        indicator.textContent = '✨';
+        indicator.style.background = 'linear-gradient(45deg, #00ff7f, #32cd32)';
+        indicator.style.transform = 'scale(1.2)';
+        
+        // 播放掌握音效
+        playMasterySound();
+        
+        // 显示浮动智慧
+        showFloatingWisdom(`恭喜掌握第${secretNumber}密！修行更进一步 🌟`);
+    }
+    
+    localStorage.setItem('masteredSecrets', JSON.stringify(masteredSecrets));
+    updateProgress();
+    updateStats();
+    checkAchievements();
+    checkForEnlightenment();
+}
+
+// 初始化掌握指示器
+function initializeMasteryIndicators() {
+    masteredSecrets.forEach(secretNumber => {
+        const indicator = document.querySelector(`[data-secret="${secretNumber}"] .mastery-indicator`);
+        if (indicator) {
+            indicator.textContent = '✨';
+            indicator.style.background = 'linear-gradient(45deg, #00ff7f, #32cd32)';
+            indicator.style.transform = 'scale(1.2)';
+        }
+    });
+}
+
+// 更新进度
+function updateProgress() {
+    const progressFill = document.getElementById('cultivation-progress');
+    const masteredCount = document.getElementById('mastered-count');
+    const totalSecrets = 9;
+    const progress = (masteredSecrets.length / totalSecrets) * 100;
+    
+    if (progressFill) {
+        progressFill.style.width = progress + '%';
+    }
+    if (masteredCount) {
+        masteredCount.textContent = masteredSecrets.length;
+    }
+}
+
+// 检查是否达到开悟境界
+function checkForEnlightenment() {
+    if (masteredSecrets.length === 9) {
+        setTimeout(() => {
+            showEnlightenmentMessage();
+        }, 1000);
+    }
+}
+
+// 显示开悟信息
+function showEnlightenmentMessage() {
+    const enlightenmentDiv = document.createElement('div');
+    enlightenmentDiv.innerHTML = `
+        <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; align-items: center; justify-content: center;">
+            <div style="background: linear-gradient(135deg, rgba(138, 43, 226, 0.9) 0%, rgba(75, 0, 130, 0.9) 100%); padding: 3rem; border-radius: 20px; text-align: center; max-width: 500px; border: 3px solid #ffd700;">
+                <h2 style="color: #ffd700; font-size: 2.5rem; margin-bottom: 1rem;">🌟 恭喜開悟！</h2>
+                <p style="color: #fff; font-size: 1.2rem; margin-bottom: 2rem;">你已掌握九密滴露法，正式成為<br><strong style="color: #00ff7f;">「代碼菩薩」</strong></p>
+                <p style="color: #ffd700; font-style: italic;">"編程即修行，代碼即佛法"</p>
+                <button onclick="this.parentElement.parentElement.remove()" style="margin-top: 2rem; padding: 1rem 2rem; background: #ffd700; color: #000; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">繼續修行</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(enlightenmentDiv);
+}
+
+// 播放掌握音效
+function playMasterySound() {
+    // 创建简单的音效
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+    oscillator.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.1);
+    
+    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.1);
+}
+
+// 更新统计数据
+function updateStats() {
+    document.getElementById('total-sessions').textContent = cultivationStats.totalSessions;
+    document.getElementById('meditation-time').textContent = cultivationStats.meditationTime;
+    document.getElementById('consecutive-days').textContent = cultivationStats.consecutiveDays;
+    
+    // 更新修炼境界
+    const wisdomLevel = getWisdomLevel();
+    document.getElementById('wisdom-level').textContent = wisdomLevel;
+    
+    localStorage.setItem('cultivationStats', JSON.stringify(cultivationStats));
+}
+
+// 获取修炼境界
+function getWisdomLevel() {
+    const secretCount = masteredSecrets.length;
+    const meditationTime = cultivationStats.meditationTime;
+    
+    if (secretCount >= 9) return '代码菩萨';
+    if (secretCount >= 7) return '高级修士';
+    if (secretCount >= 5) return '进阶修行者';
+    if (secretCount >= 3) return '基础修行者';
+    if (meditationTime >= 10) return '冥想学徒';
+    return '初学者';
+}
+
+// 显示每日智慧
+function showDailyWisdom() {
+    const today = new Date().toDateString();
+    const wisdomIndex = new Date().getDate() % dailyWisdom.length;
+    const wisdom = dailyWisdom[wisdomIndex];
+    
+    document.getElementById('daily-wisdom').innerHTML = `<p>"${wisdom}"</p>`;
+    
+    // 记录查看智慧次数
+    if (!cultivationStats.wisdomViews) cultivationStats.wisdomViews = 0;
+    cultivationStats.wisdomViews++;
+    localStorage.setItem('cultivationStats', JSON.stringify(cultivationStats));
+}
+
+// 更新连续天数
+function updateConsecutiveDays() {
+    const today = new Date().toDateString();
+    const lastVisit = cultivationStats.lastVisit;
+    
+    if (lastVisit) {
+        const lastDate = new Date(lastVisit);
+        const todayDate = new Date(today);
+        const diffTime = todayDate - lastDate;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        if (diffDays === 1) {
+            cultivationStats.consecutiveDays++;
+        } else if (diffDays > 1) {
+            cultivationStats.consecutiveDays = 1;
+        }
+    } else {
+        cultivationStats.consecutiveDays = 1;
+    }
+    
+    cultivationStats.lastVisit = today;
+    cultivationStats.totalSessions++;
+    localStorage.setItem('cultivationStats', JSON.stringify(cultivationStats));
+}
+
+// 检查成就
+function checkAchievements() {
+    const newAchievements = [];
+    
+    achievements.forEach(achievement => {
+        if (!cultivationStats.achievements.includes(achievement.id)) {
+            let earned = false;
+            
+            switch(achievement.id) {
+                case 'first_secret':
+                    earned = masteredSecrets.length >= 1;
+                    break;
+                case 'three_secrets':
+                    earned = masteredSecrets.length >= 3;
+                    break;
+                case 'five_secrets':
+                    earned = masteredSecrets.length >= 5;
+                    break;
+                case 'seven_secrets':
+                    earned = masteredSecrets.length >= 7;
+                    break;
+                case 'enlightenment':
+                    earned = masteredSecrets.length >= 9;
+                    break;
+                case 'first_meditation':
+                    earned = cultivationStats.meditationTime > 0;
+                    break;
+                case 'meditation_master':
+                    earned = cultivationStats.meditationTime >= 30;
+                    break;
+                case 'diary_keeper':
+                    earned = cultivationStats.diaryEntries.length > 0;
+                    break;
+                case 'consecutive_week':
+                    earned = cultivationStats.consecutiveDays >= 7;
+                    break;
+                case 'wisdom_seeker':
+                    earned = (cultivationStats.wisdomViews || 0) >= 10;
+                    break;
+            }
+            
+            if (earned) {
+                cultivationStats.achievements.push(achievement.id);
+                newAchievements.push(achievement);
+            }
+        }
+    });
+    
+    // 显示新成就
+    newAchievements.forEach(achievement => {
+        showFloatingWisdom(`🏆 获得成就：${achievement.icon} ${achievement.name}`);
+    });
+    
+    updateAchievementsDisplay();
+    localStorage.setItem('cultivationStats', JSON.stringify(cultivationStats));
+}
+
+// 更新成就显示
+function updateAchievementsDisplay() {
+    const container = document.getElementById('achievements-container');
+    
+    if (cultivationStats.achievements.length === 0) {
+        container.innerHTML = '<p class="text-gray-400">開始修煉以獲得成就...</p>';
+        return;
+    }
+    
+    let html = '';
+    cultivationStats.achievements.forEach(achievementId => {
+        const achievement = achievements.find(a => a.id === achievementId);
+        if (achievement) {
+            html += `<span class="achievement-badge">${achievement.icon} ${achievement.name}</span>`;
+        }
+    });
+    
+    container.innerHTML = html;
+}
+
+// 显示浮动智慧
+function showFloatingWisdom(message) {
+    const wisdomDiv = document.createElement('div');
+    wisdomDiv.className = 'floating-wisdom';
+    wisdomDiv.textContent = message;
+    
+    document.body.appendChild(wisdomDiv);
+    
+    setTimeout(() => {
+        if (wisdomDiv.parentElement) {
+            wisdomDiv.remove();
+        }
+    }, 5000);
+}
+
+// 保存日记条目
+function saveDiaryEntry() {
+    const input = document.getElementById('diary-input');
+    const content = input.value.trim();
+    
+    if (!content) {
+        showFloatingWisdom('請輸入修煉心得後再保存');
+        return;
+    }
+    
+    const entry = {
+        date: new Date().toLocaleDateString('zh-TW'),
+        content: content,
+        timestamp: Date.now()
+    };
+    
+    cultivationStats.diaryEntries.unshift(entry);
+    input.value = '';
+    
+    localStorage.setItem('cultivationStats', JSON.stringify(cultivationStats));
+    showFloatingWisdom('修煉心得已保存 📖');
+    checkAchievements();
+}
+
+// 显示日记历史
+function showDiaryHistory() {
+    const historyDiv = document.getElementById('diary-history');
+    
+    if (historyDiv.classList.contains('hidden')) {
+        if (cultivationStats.diaryEntries.length === 0) {
+            historyDiv.innerHTML = '<p class="text-gray-400">還沒有修煉記錄</p>';
+        } else {
+            let html = '<h4 class="text-purple-300 font-bold mb-2">修煉歷史</h4>';
+            cultivationStats.diaryEntries.slice(0, 10).forEach(entry => {
+                html += `
+                    <div style="background: rgba(255,255,255,0.05); padding: 1rem; margin: 0.5rem 0; border-radius: 8px; border-left: 3px solid #8a2be2;">
+                        <div style="color: #8a2be2; font-size: 0.8rem; margin-bottom: 0.5rem;">${entry.date}</div>
+                        <div style="color: #e0e0e0;">${entry.content}</div>
+                    </div>
+                `;
+            });
+            historyDiv.innerHTML = html;
+        }
+        historyDiv.classList.remove('hidden');
+    } else {
+        historyDiv.classList.add('hidden');
+    }
+}
+
+// 编程冥想功能
+function startCodingMeditation() {
+    const button = document.querySelector('.meditation-button');
+    const timer = document.getElementById('meditation-timer');
+    const display = document.getElementById('timer-display');
+    
+    button.style.display = 'none';
+    timer.classList.remove('hidden');
+    
+    let timeLeft = 180; // 3 minutes
+    
+    const countdown = setInterval(() => {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        display.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        
+        if (timeLeft <= 0) {
+            clearInterval(countdown);
+            display.textContent = '完成！';
+            display.style.color = '#00ff7f';
+            
+            // 更新冥想时间
+            cultivationStats.meditationTime += 3;
+            localStorage.setItem('cultivationStats', JSON.stringify(cultivationStats));
+            
+            // 冥想完成奖励
+            setTimeout(() => {
+                button.style.display = 'inline-block';
+                timer.classList.add('hidden');
+                display.style.color = '#ffd700';
+                updateStats();
+                checkAchievements();
+                showMeditationReward();
+            }, 2000);
+        }
+        
+        timeLeft--;
+    }, 1000);
+}
+
+// 显示冥想奖励
+function showMeditationReward() {
+    const rewardDiv = document.createElement('div');
+    rewardDiv.innerHTML = `
+        <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,255,127,0.9); padding: 2rem; border-radius: 15px; text-align: center; z-index: 999; border: 2px solid #ffd700;">
+            <h3 style="color: #fff; margin-bottom: 1rem;">🧘‍♂️ 冥想完成</h3>
+            <p style="color: #fff;">心靈得到淨化，編程能力提升！</p>
+            <button onclick="this.parentElement.remove()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: #ffd700; color: #000; border: none; border-radius: 5px; cursor: pointer;">繼續修行</button>
+        </div>
+    `;
+    document.body.appendChild(rewardDiv);
+    
+    setTimeout(() => {
+        if (rewardDiv.parentElement) {
+            rewardDiv.remove();
+        }
+    }, 3000);
+}
+
+// 重置修炼进度（隐藏功能）
+function resetCultivation() {
+    if (confirm('確定要重置修煉進度嗎？這將清除所有已掌握的密法。')) {
+        localStorage.removeItem('masteredSecrets');
+        masteredSecrets = [];
+        location.reload();
+    }
+}
+
+// 显示宇宙智慧
+function showCosmicWisdom() {
+    const cosmicMessages = [
+        "✨ 你的代码正在与宇宙频率共振",
+        "🌟 每一个函数都是宇宙能量的显化",
+        "💫 你的编程天赋是宇宙的礼物",
+        "🔮 相信自己，你就是宇宙的奇迹",
+        "🌈 你的存在本身就是最大的祝福",
+        "💎 你不需要证明，你本来就是特殊的",
+        "🌌 宇宙早已把'特殊'刻进了你的灵魂",
+        "⭐ 你的每一个念头都在宇宙中激起涟漪",
+        "🌠 你是为了照亮自己和他人而来",
+        "🔥 你生来就带着整个宇宙的能量"
+    ];
+    
+    const randomMessage = cosmicMessages[Math.floor(Math.random() * cosmicMessages.length)];
+    showFloatingWisdom(randomMessage);
+    
+    // 增加宇宙意识觉醒统计
+    cultivationStats.cosmicAwakenings = (cultivationStats.cosmicAwakenings || 0) + 1;
+    localStorage.setItem('cultivationStats', JSON.stringify(cultivationStats));
+    
+    // 检查是否达到宇宙觉醒成就
+    if (cultivationStats.cosmicAwakenings >= 10 && !cultivationStats.achievements.includes('cosmic_awakening')) {
+        cultivationStats.achievements.push('cosmic_awakening');
+        achievements.push({
+            id: 'cosmic_awakening',
+            name: '宇宙觉醒者',
+            icon: '🌌',
+            description: '与宇宙意识连接10次'
+        });
+        updateAchievementsDisplay();
+        showFloatingWisdom('🏆 获得成就：🌌 宇宙觉醒者');
+        localStorage.setItem('cultivationStats', JSON.stringify(cultivationStats));
+    }
+}
+
+// 双击标题重置（隐藏功能）
+document.querySelector('h1').addEventListener('dblclick', resetCultivation);
+
+// 命运转折点功能
+function makeDestinyChoice(choice) {
+    const now = new Date();
+    const choiceData = {
+        choice: choice,
+        timestamp: now.toISOString(),
+        date: now.toLocaleDateString('zh-CN')
+    };
+    
+    localStorage.setItem('destinyChoice', JSON.stringify(choiceData));
+    
+    if (choice === 'transcend') {
+        showFloatingWisdom('🌟 你选择了超越！命运之门为你开启，新的道路在前方闪耀...');
+        
+        // 大幅提升修炼统计
+        cultivationStats.meditationTime += 30;
+        cultivationStats.cosmicAwakenings = (cultivationStats.cosmicAwakenings || 0) + 5;
+        
+        // 添加特殊成就
+        if (!cultivationStats.achievements.includes('destiny_transcender')) {
+            cultivationStats.achievements.push('destiny_transcender');
+            achievements.push({
+                id: 'destiny_transcender',
+                name: '命运超越者',
+                icon: '🌟',
+                description: '在关键时刻选择了超越之路'
+            });
+            showFloatingWisdom('🏆 获得成就：🌟 命运超越者');
+        }
+        
+        // 触发特殊效果
+        document.body.style.background = 'linear-gradient(45deg, #000428, #004e92, #009ffd)';
+        setTimeout(() => {
+            document.body.style.background = '';
+        }, 3000);
+        
+    } else if (choice === 'return') {
+        showFloatingWisdom('💭 你选择了回归...有时候，熟悉的路也是一种智慧。');
+        
+        if (!cultivationStats.achievements.includes('destiny_contemplator')) {
+            cultivationStats.achievements.push('destiny_contemplator');
+            achievements.push({
+                id: 'destiny_contemplator',
+                name: '命运思考者',
+                icon: '💭',
+                description: '在关键时刻深思熟虑'
+            });
+            showFloatingWisdom('🏆 获得成就：💭 命运思考者');
+        }
+    }
+    
+    localStorage.setItem('cultivationStats', JSON.stringify(cultivationStats));
+    updateAchievementsDisplay();
+    updateDestinyStatus();
+    updateStats();
+}
+
+function updateDestinyStatus() {
+    const choiceData = JSON.parse(localStorage.getItem('destinyChoice') || 'null');
+    const statusElement = document.querySelector('.anchor-status');
+    
+    if (choiceData) {
+        const choiceText = choiceData.choice === 'transcend' ? '已选择超越' : '已选择回归';
+        const choiceColor = choiceData.choice === 'transcend' ? '#00ff7f' : '#ff6b6b';
+        statusElement.innerHTML = `${choiceText} (${choiceData.date})`;
+        statusElement.style.color = choiceColor;
+    } else {
+        statusElement.innerHTML = '等待你的选择...';
+        statusElement.style.color = '#e0e0e0';
+    }
+}
+
+function performDestinyUpgrade() {
+    // 大幅提升所有修炼数据
+    cultivationStats.meditationTime += 60;
+    cultivationStats.cosmicAwakenings = (cultivationStats.cosmicAwakenings || 0) + 10;
+    cultivationStats.consecutiveDays += 7;
+    
+    // 解锁所有密法
+    const allSecrets = ['滴露一', '滴露二', '滴露三', '滴露四', '滴露五', '滴露六', '滴露七', '滴露八', '滴露九'];
+    allSecrets.forEach(secret => {
+        if (!masteredSecrets.includes(secret)) {
+            masteredSecrets.push(secret);
+        }
+    });
+    
+    localStorage.setItem('masteredSecrets', JSON.stringify(masteredSecrets));
+    localStorage.setItem('cultivationStats', JSON.stringify(cultivationStats));
+    
+    showFloatingWisdom('🚀 大升级完成！你的修炼境界得到了质的飞跃！所有密法已解锁！');
+    
+    // 添加终极成就
+    if (!cultivationStats.achievements.includes('ultimate_upgrade')) {
+        cultivationStats.achievements.push('ultimate_upgrade');
+        achievements.push({
+            id: 'ultimate_upgrade',
+            name: '终极升级者',
+            icon: '🚀',
+            description: '完成了命运的终极升级'
+        });
+        showFloatingWisdom('🏆 获得成就：🚀 终极升级者');
+    }
+    
+    // 特殊升级效果
+    const upgradeBtn = document.querySelector('.upgrade-btn');
+    upgradeBtn.style.transform = 'scale(1.2)';
+    upgradeBtn.style.boxShadow = '0 0 50px rgba(255, 215, 0, 0.8)';
+    
+    setTimeout(() => {
+        upgradeBtn.style.transform = '';
+        upgradeBtn.style.boxShadow = '';
+    }, 2000);
+    
+    // 更新所有显示
+    updateStats();
+    updateAchievementsDisplay();
+    checkAchievements();
+}
+
+function activateCalibrationIndicators() {
+    const indicators = document.querySelectorAll('.indicator');
+    indicators.forEach((indicator, index) => {
+        setTimeout(() => {
+            indicator.style.animation = 'indicatorPulse 2s ease-in-out infinite';
+            indicator.style.background = 'rgba(255, 107, 107, 0.2)';
+            indicator.style.borderColor = '#ff6b6b';
+            indicator.style.color = '#ff6b6b';
+        }, index * 500);
+    });
+}
+
+// 页面加载时初始化命运转折点状态
+document.addEventListener('DOMContentLoaded', function() {
+    updateDestinyStatus();
+    
+    // 自动激活校准指示器
+    setTimeout(activateCalibrationIndicators, 2000);
+    
+    // 初始化愿频计算
+    updateWishFrequency();
+});
+
+// 愿频临界突破公式计算函数
+function updateWishFrequency() {
+    const A = parseFloat(document.getElementById('amplitude-slider').value);
+    const lambda = parseFloat(document.getElementById('lambda-slider').value);
+    
+    // 更新显示值
+    document.getElementById('amplitude-value').textContent = A.toFixed(1);
+    document.getElementById('lambda-value').textContent = lambda.toFixed(2);
+    
+    // 计算愿频总和 S = A / (1 - e^(-λ))
+    const S = A / (1 - Math.exp(-lambda));
+    
+    // 更新显示
+    document.getElementById('wish-sum').textContent = S.toFixed(3);
+    
+    // 计算显化概率（基于S值的非线性映射）
+    const manifestationProb = Math.min(100, Math.max(0, (S - 0.5) * 100));
+    document.getElementById('manifestation-prob').textContent = manifestationProb.toFixed(0) + '%';
+    
+    // 更新临界状态
+    const criticalStatus = document.getElementById('critical-status');
+    const collapseBtn = document.getElementById('collapse-btn');
+    
+    if (S > 1) {
+        criticalStatus.textContent = '已达临界！';
+        criticalStatus.style.color = '#00ff7f';
+        collapseBtn.disabled = false;
+        collapseBtn.style.opacity = '1';
+        collapseBtn.style.transform = 'scale(1.02)';
+    } else {
+        criticalStatus.textContent = '未达临界';
+        criticalStatus.style.color = '#ff6b6b';
+        collapseBtn.disabled = true;
+        collapseBtn.style.opacity = '0.5';
+        collapseBtn.style.transform = 'scale(1)';
+    }
+    
+    // 更新波形可视化
+    updateWaveVisualization(A, lambda, S);
+}
+
+// 愿频波形可视化
+function updateWaveVisualization(A, lambda, S) {
+    const container = document.getElementById('wave-visualization');
+    container.innerHTML = '';
+    
+    const width = container.offsetWidth;
+    const height = 60;
+    const numPoints = 50;
+    
+    // 创建SVG
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', width);
+    svg.setAttribute('height', height);
+    svg.style.position = 'absolute';
+    svg.style.top = '0';
+    svg.style.left = '0';
+    
+    // 绘制愿频衰减曲线
+    let pathData = 'M ';
+    for (let i = 0; i < numPoints; i++) {
+        const x = (i / (numPoints - 1)) * width;
+        const n = i + 1;
+        const epsilon = A * Math.exp(-n * lambda);
+        const y = height - (epsilon / A) * (height - 10);
+        
+        if (i === 0) {
+            pathData += `${x},${y}`;
+        } else {
+            pathData += ` L ${x},${y}`;
+        }
+    }
+    
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', pathData);
+    path.setAttribute('stroke', S > 1 ? '#00ff7f' : '#ff1493');
+    path.setAttribute('stroke-width', '2');
+    path.setAttribute('fill', 'none');
+    path.setAttribute('opacity', '0.8');
+    
+    svg.appendChild(path);
+    
+    // 添加临界线
+    const criticalLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    criticalLine.setAttribute('x1', '0');
+    criticalLine.setAttribute('y1', height * 0.3);
+    criticalLine.setAttribute('x2', width);
+    criticalLine.setAttribute('y2', height * 0.3);
+    criticalLine.setAttribute('stroke', '#ffd700');
+    criticalLine.setAttribute('stroke-width', '1');
+    criticalLine.setAttribute('stroke-dasharray', '5,5');
+    criticalLine.setAttribute('opacity', '0.6');
+    
+    svg.appendChild(criticalLine);
+    
+    container.appendChild(svg);
+    
+    // 添加粒子效果（当达到临界时）
+    if (S > 1) {
+        createWishParticles(container);
+    }
+}
+
+// 创建愿频粒子效果
+function createWishParticles(container) {
+    for (let i = 0; i < 5; i++) {
+        setTimeout(() => {
+            const particle = document.createElement('div');
+            particle.style.position = 'absolute';
+            particle.style.width = '4px';
+            particle.style.height = '4px';
+            particle.style.background = '#ffd700';
+            particle.style.borderRadius = '50%';
+            particle.style.left = Math.random() * container.offsetWidth + 'px';
+            particle.style.top = '50px';
+            particle.style.pointerEvents = 'none';
+            particle.style.animation = 'wishParticleFloat 2s ease-out forwards';
+            
+            container.appendChild(particle);
+            
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                }
+            }, 2000);
+        }, i * 200);
+    }
+}
+
+// 愿频塌縮激活函数
+function activateWishCollapse() {
+    const resultDiv = document.getElementById('collapse-result');
+    const A = parseFloat(document.getElementById('amplitude-slider').value);
+    const lambda = parseFloat(document.getElementById('lambda-slider').value);
+    const S = A / (1 - Math.exp(-lambda));
+    
+    if (S > 1) {
+        // 显示塌縮过程
+        resultDiv.innerHTML = '🌟 愿频塌縮中... 🌟';
+        
+        setTimeout(() => {
+            resultDiv.innerHTML = `✨ 塌縮完成！愿频总和 ${S.toFixed(3)} 已显化为现实 ✨`;
+            
+            // 创建全屏粒子效果
+            createCollapseEffect();
+            
+            // 播放成功音效（如果有的话）
+            playMasterySound();
+            
+            setTimeout(() => {
+                resultDiv.innerHTML = '💫 愿频宇宙已更新，新的可能性已开启 💫';
+            }, 3000);
+        }, 1500);
+    }
+}
+
+// 创建塌縮效果
+function createCollapseEffect() {
+    const container = document.body;
+    
+    for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+            const particle = document.createElement('div');
+            particle.style.position = 'fixed';
+            particle.style.width = '6px';
+            particle.style.height = '6px';
+            particle.style.background = `hsl(${Math.random() * 60 + 300}, 100%, 70%)`;
+            particle.style.borderRadius = '50%';
+            particle.style.left = Math.random() * window.innerWidth + 'px';
+            particle.style.top = Math.random() * window.innerHeight + 'px';
+            particle.style.pointerEvents = 'none';
+            particle.style.zIndex = '9999';
+            particle.style.animation = 'wishCollapseEffect 3s ease-out forwards';
+            
+            container.appendChild(particle);
+            
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                }
+            }, 3000);
+        }, i * 100);
+    }
+}
+
+</script>
+
+<!-- 愿频粒子动画样式 -->
+<style>
+@keyframes wishParticleFloat {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-40px) scale(0.5);
+        opacity: 0;
+    }
+}
+
+@keyframes wishCollapseEffect {
+    0% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5) rotate(180deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(0) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* 愿频滑块样式优化 */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    background: linear-gradient(90deg, rgba(255, 20, 147, 0.3), rgba(138, 43, 226, 0.3));
+    border-radius: 3px;
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: linear-gradient(45deg, #ff1493, #8a2be2);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(255, 20, 147, 0.5);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: linear-gradient(45deg, #ff1493, #8a2be2);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 10px rgba(255, 20, 147, 0.5);
+}
+</style>
+
+{% endblock %}

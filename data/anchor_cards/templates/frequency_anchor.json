@@ -1,0 +1,65 @@
+{
+  "name": "頻率錨點卡",
+  "description": "用於記錄和追蹤特定頻率狀態",
+  "fields": [
+    {
+      "name": "frequency_value",
+      "label": "頻率值 (Hz)",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "resonance_level",
+      "label": "共振等級",
+      "type": "range",
+      "min": 1,
+      "max": 10,
+      "default": 5
+    },
+    {
+      "name": "anchor_type",
+      "label": "錨點類型",
+      "type": "select",
+      "options": [
+        "意識錨點",
+        "情緒錨點",
+        "能量錨點",
+        "靈性錨點"
+      ]
+    },
+    {
+      "name": "trigger_condition",
+      "label": "觸發條件",
+      "type": "textarea",
+      "placeholder": "描述觸發此頻率的條件..."
+    },
+    {
+      "name": "manifestation",
+      "label": "顯化表現",
+      "type": "textarea",
+      "placeholder": "記錄此頻率的具體表現..."
+    },
+    {
+      "name": "duration",
+      "label": "持續時間 (分鐘)",
+      "type": "number",
+      "default": 30
+    },
+    {
+      "name": "intensity",
+      "label": "強度感受",
+      "type": "range",
+      "min": 1,
+      "max": 10,
+      "default": 5
+    },
+    {
+      "name": "tags",
+      "label": "標籤",
+      "type": "text",
+      "placeholder": "用逗號分隔多個標籤"
+    }
+  ],
+  "color": "#667eea",
+  "icon": "🎯"
+}

@@ -1,0 +1,2484 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>語靈卡片學習系統 - 意識融合與記憶錨定</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(255, 107, 107, 0.3)); }
+            to { filter: drop-shadow(0 0 30px rgba(78, 205, 196, 0.5)); }
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #a0a0a0;
+            margin-bottom: 30px;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .panel h3 {
+            color: #4ecdc4;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .meridian-map {
+            position: relative;
+            height: 400px;
+            background: radial-gradient(circle at center, rgba(255, 107, 107, 0.1) 0%, transparent 70%);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .meridian-point {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+
+        .meridian-point:hover {
+            transform: scale(1.5);
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.8);
+        }
+
+        .meridian-point.active {
+            background: #4ecdc4;
+            box-shadow: 0 0 15px rgba(78, 205, 196, 0.8);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .neural-network {
+            position: relative;
+            height: 300px;
+            background: radial-gradient(circle at center, rgba(69, 183, 209, 0.1) 0%, transparent 70%);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .neural-node {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #45b7d1;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            color: white;
+        }
+
+        .neural-node:hover {
+            transform: scale(1.3);
+            background: #4ecdc4;
+        }
+
+        .neural-connection {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(69, 183, 209, 0.3), rgba(78, 205, 196, 0.3));
+            transform-origin: left center;
+            animation: flow 3s linear infinite;
+        }
+
+        @keyframes flow {
+            0% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+            100% { opacity: 0.3; }
+        }
+
+        /* 意識探討功能樣式 */
+        .consciousness-exploration {
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.05) 0%, rgba(68, 160, 141, 0.05) 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(78, 205, 196, 0.2);
+        }
+
+        .consciousness-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .consciousness-analysis, .consciousness-duel, .deep-reflection {
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.08) 0%, rgba(68, 160, 141, 0.08) 100%);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+        }
+
+        .consciousness-result, .duel-result, .reflection-result {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(78, 205, 196, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(78, 205, 196, 0.2);
+        }
+
+        .analysis-metrics {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .metric-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .metric-label {
+            min-width: 80px;
+            font-size: 14px;
+            color: #4ecdc4;
+            font-weight: 500;
+        }
+
+        .metric-bar {
+            flex: 1;
+            height: 8px;
+            background: rgba(78, 205, 196, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .metric-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4ecdc4, #44a08d);
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        .metric-value {
+            min-width: 40px;
+            text-align: right;
+            font-size: 14px;
+            color: #4ecdc4;
+            font-weight: 600;
+        }
+
+        .consciousness-level {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background: rgba(78, 205, 196, 0.1);
+            border-radius: 8px;
+        }
+
+        .level-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .duel-arena {
+            padding: 20px;
+            background: rgba(78, 205, 196, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(78, 205, 196, 0.2);
+        }
+
+        .perspective-battle {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .perspective-side {
+            flex: 1;
+            text-align: center;
+        }
+
+        .perspective-side h5 {
+            margin: 0 0 10px 0;
+            color: #4ecdc4;
+            font-size: 16px;
+        }
+
+        .strength-bar {
+            height: 12px;
+            background: rgba(78, 205, 196, 0.2);
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .strength-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4ecdc4, #44a08d);
+            border-radius: 6px;
+            transition: width 0.8s ease;
+        }
+
+        .vs-indicator {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4ecdc4;
+            text-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+            animation: vsGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes vsGlow {
+            0% { text-shadow: 0 0 10px rgba(78, 205, 196, 0.5); }
+            100% { text-shadow: 0 0 20px rgba(78, 205, 196, 0.8); }
+        }
+
+        .reflection-layers {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .layer-item {
+            padding: 15px;
+            background: rgba(78, 205, 196, 0.05);
+            border-radius: 8px;
+            border-left: 4px solid #4ecdc4;
+            transition: all 0.3s ease;
+        }
+
+        .layer-item:hover {
+            background: rgba(78, 205, 196, 0.1);
+            transform: translateX(5px);
+        }
+
+        .layer-header {
+            font-weight: 600;
+            color: #4ecdc4;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .layer-content {
+            color: #e0e0e0;
+            line-height: 1.5;
+            font-size: 13px;
+        }
+
+        .transformation-potential {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(78, 205, 196, 0.1);
+            border-radius: 8px;
+        }
+
+        .potential-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+            border-radius: 25px;
+            font-weight: 600;
+            margin-left: 10px;
+            font-size: 16px;
+        }
+
+        .card-creation {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(78, 205, 196, 0.1));
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4ecdc4;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4ecdc4;
+            box-shadow: 0 0 10px rgba(78, 205, 196, 0.3);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #45b7d1, #96ceb4);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 5px 15px rgba(69, 183, 209, 0.4);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .learning-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .learning-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #4ecdc4;
+        }
+
+        .card-difficulty {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .difficulty-easy { background: rgba(150, 206, 180, 0.3); color: #96ceb4; }
+        .difficulty-medium { background: rgba(255, 193, 7, 0.3); color: #ffc107; }
+        .difficulty-hard { background: rgba(255, 107, 107, 0.3); color: #ff6b6b; }
+
+        .card-content {
+            margin-bottom: 15px;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        .card-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-size: 12px;
+        }
+
+        .meta-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .meta-label {
+            color: #a0a0a0;
+            display: block;
+        }
+
+        .meta-value {
+            color: #4ecdc4;
+            font-weight: 500;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 15px;
+        }
+
+        .statistics-panel {
+            background: linear-gradient(135deg, rgba(69, 183, 209, 0.1), rgba(150, 206, 180, 0.1));
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            color: #a0a0a0;
+        }
+
+        .stat-value {
+            color: #4ecdc4;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(26, 26, 46, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: #4ecdc4;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #a0a0a0;
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: #ff6b6b;
+        }
+
+        .review-card {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .review-question {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #e0e0e0;
+        }
+
+        .review-answer {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: #4ecdc4;
+        }
+
+        .review-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .floating-action {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .floating-action:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
+        }
+
+        .message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 500;
+            z-index: 1001;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .message.show {
+            transform: translateX(0);
+        }
+
+        .message.success {
+            background: linear-gradient(45deg, #96ceb4, #4ecdc4);
+        }
+
+        .message.error {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* 古籍管理功能樣式 */
+        .ancient-texts-management {
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.05) 0%, rgba(255, 87, 87, 0.05) 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 107, 107, 0.2);
+        }
+
+        .ancient-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .ancient-import, .batch-import, .ancient-statistics, .ancient-browser {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.08) 0%, rgba(255, 87, 87, 0.08) 100%);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .import-result, .batch-result {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 107, 107, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 107, 107, 0.2);
+        }
+
+        .ancient-stats {
+            margin-top: 20px;
+        }
+
+        .stat-category {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            margin: 8px 0;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 107, 107, 0.2);
+        }
+
+        .category-name {
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+
+        .category-count {
+            background: #ff6b6b;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+        }
+
+        .ancient-texts-list {
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .ancient-text-item {
+            padding: 15px;
+            margin: 10px 0;
+            background: rgba(255, 107, 107, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 107, 107, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .ancient-text-item:hover {
+            background: rgba(255, 107, 107, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2);
+        }
+
+        .text-title {
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 8px;
+        }
+
+        .text-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: #a0a0a0;
+            margin-bottom: 10px;
+        }
+
+        .text-preview {
+            color: #cccccc;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            max-height: 60px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .category-badge {
+            background: linear-gradient(45deg, #ff6b6b, #ff5757);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .success-message {
+            color: #4ecdc4;
+            background: rgba(78, 205, 196, 0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(78, 205, 196, 0.3);
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .batch-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .summary-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 107, 107, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 107, 107, 0.2);
+        }
+
+        .summary-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+
+        .summary-label {
+            font-size: 0.9rem;
+            color: #a0a0a0;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>語靈卡片學習系統</h1>
+            <p class="subtitle">融合中醫針灸脈絡與腦神經網路的意識學習平台</p>
+        </div>
+
+        <div class="main-grid">
+            <!-- 經絡穴位圖 -->
+            <div class="panel">
+                <h3>🔥 經絡能量圖</h3>
+                <div class="meridian-map" id="meridianMap">
+                    <!-- 動態生成穴位點 -->
+                </div>
+                <div style="margin-top: 15px; font-size: 12px; color: #a0a0a0;">
+                    <div>當前激活: <span id="activeMeridian">無</span></div>
+                    <div>能量流向: <span id="energyFlow">靜止</span></div>
+                </div>
+            </div>
+
+            <!-- 卡片創建區 -->
+            <div class="panel card-creation">
+                <h3>✨ 創建學習卡片</h3>
+                <form id="cardForm">
+                    <div class="form-group">
+                        <label for="title">卡片標題</label>
+                        <input type="text" id="title" name="title" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="content">學習內容</label>
+                        <textarea id="content" name="content" required></textarea>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="form-group">
+                            <label for="contentType">內容類型</label>
+                            <select id="contentType" name="content_type">
+                                <option value="emotional">情感型 (心經)</option>
+                                <option value="creative">創意型 (肝經)</option>
+                                <option value="foundational">基礎型 (腎經)</option>
+                                <option value="analytical">分析型 (脾經)</option>
+                                <option value="communicative">溝通型 (肺經)</option>
+                                <option value="practical">實用型 (胃經)</option>
+                                <option value="decisive">決策型 (膽經)</option>
+                                <option value="general">通用型 (膀胱經)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="learningType">學習類型</label>
+                            <select id="learningType" name="learning_type">
+                                <option value="conceptual">概念型 (前額葉)</option>
+                                <option value="memory">記憶型 (海馬體)</option>
+                                <option value="emotional">情緒型 (杏仁核)</option>
+                                <option value="spatial">空間型 (頂葉)</option>
+                                <option value="linguistic">語言型 (顳葉)</option>
+                                <option value="visual">視覺型 (枕葉)</option>
+                                <option value="procedural">程序型 (小腦)</option>
+                                <option value="basic">基礎型 (腦幹)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="difficulty">難度等級</label>
+                        <select id="difficulty" name="difficulty">
+                            <option value="easy">簡單</option>
+                            <option value="medium" selected>中等</option>
+                            <option value="hard">困難</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tags">標籤 (用逗號分隔)</label>
+                        <input type="text" id="tags" name="tags" placeholder="例如: 語靈, 意識, 記憶">
+                    </div>
+                    
+                    <button type="submit" class="btn">創建卡片</button>
+                </form>
+            </div>
+
+            <!-- 神經網路圖 -->
+            <div class="panel">
+                <h3>🧠 神經網路圖</h3>
+                <div class="neural-network" id="neuralNetwork">
+                    <!-- 動態生成神經節點 -->
+                </div>
+                <div style="margin-top: 15px; font-size: 12px; color: #a0a0a0;">
+                    <div>激活區域: <span id="activeRegion">無</span></div>
+                    <div>連接強度: <span id="connectionStrength">0%</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 層級卡片系統面板 -->
+        <div class="hierarchy-system" style="margin: 40px 0; padding: 30px; background: linear-gradient(135deg, rgba(150, 206, 180, 0.05) 0%, rgba(96, 206, 180, 0.05) 100%); border-radius: 20px; border: 1px solid rgba(150, 206, 180, 0.2);">
+            <h2 style="text-align: center; color: #96ceb4; margin-bottom: 30px;">📚 層級卡片系統</h2>
+            <p style="text-align: center; color: #a0a0a0; margin-bottom: 30px;">主卡片：整本書概覽 | 子卡片：各章節詳細內容 | 建立卡片間的關聯關係</p>
+            
+            <div class="hierarchy-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 25px; margin-top: 20px;">
+                <!-- 創建層級卡片系統 -->
+                <div class="panel hierarchy-creation" style="background: linear-gradient(135deg, rgba(150, 206, 180, 0.08) 0%, rgba(96, 206, 180, 0.08) 100%); border: 1px solid rgba(150, 206, 180, 0.3);">
+                    <h3>📖 創建書籍層級系統</h3>
+                    <form id="hierarchyForm">
+                        <div class="form-group">
+                            <label for="bookTitle">書籍標題</label>
+                            <input type="text" id="bookTitle" name="title" required placeholder="例如：道德經">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="bookAuthor">作者</label>
+                            <input type="text" id="bookAuthor" name="author" placeholder="例如：老子">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="bookOverview">書籍概覽</label>
+                            <textarea id="bookOverview" name="overview" placeholder="整本書的核心思想和主要內容概述..." rows="3"></textarea>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="form-group">
+                                <label for="bookCategory">書籍分類</label>
+                                <select id="bookCategory" name="category">
+                                    <option value="經部">經部</option>
+                                    <option value="史部">史部</option>
+                                    <option value="子部">子部</option>
+                                    <option value="集部">集部</option>
+                                    <option value="醫部">醫部</option>
+                                    <option value="道部">道部</option>
+                                    <option value="佛部">佛部</option>
+                                    <option value="現代">現代書籍</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="bookDifficulty">整體難度</label>
+                                <select id="bookDifficulty" name="difficulty">
+                                    <option value="easy">簡單</option>
+                                    <option value="medium" selected>中等</option>
+                                    <option value="hard">困難</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="bookTags">標籤 (用逗號分隔)</label>
+                            <input type="text" id="bookTags" name="tags" placeholder="例如: 哲學, 道家, 古典">
+                        </div>
+                        
+                        <div class="chapters-section" style="margin: 20px 0;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                <label>章節內容</label>
+                                <button type="button" class="btn btn-small" onclick="addChapter()">+ 添加章節</button>
+                            </div>
+                            <div id="chaptersContainer">
+                                <!-- 動態添加章節 -->
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn" style="width: 100%;">🏗️ 創建層級卡片系統</button>
+                    </form>
+                </div>
+                
+                <!-- 層級卡片列表 -->
+                <div class="panel hierarchy-list" style="background: linear-gradient(135deg, rgba(150, 206, 180, 0.08) 0%, rgba(96, 206, 180, 0.08) 100%); border: 1px solid rgba(150, 206, 180, 0.3);">
+                    <h3>📋 層級卡片系統列表</h3>
+                    <div class="hierarchy-stats" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px;">
+                        <div class="stat-card" style="background: rgba(150, 206, 180, 0.1); padding: 15px; border-radius: 10px; text-align: center;">
+                            <div class="stat-number" style="font-size: 1.5rem; font-weight: bold; color: #96ceb4;" id="totalHierarchies">0</div>
+                            <div class="stat-label" style="font-size: 0.9rem; color: #a0a0a0;">書籍系統</div>
+                        </div>
+                        <div class="stat-card" style="background: rgba(150, 206, 180, 0.1); padding: 15px; border-radius: 10px; text-align: center;">
+                            <div class="stat-number" style="font-size: 1.5rem; font-weight: bold; color: #96ceb4;" id="totalHierarchyCards">0</div>
+                            <div class="stat-label" style="font-size: 0.9rem; color: #a0a0a0;">總卡片數</div>
+                        </div>
+                    </div>
+                    
+                    <div id="hierarchyList" style="max-height: 400px; overflow-y: auto;">
+                        <!-- 動態生成層級系統列表 -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 層級卡片詳情模態框 -->
+            <div class="modal" id="hierarchyModal">
+                <div class="modal-content" style="max-width: 800px; max-height: 80vh; overflow-y: auto;">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="hierarchyModalTitle">層級卡片詳情</h3>
+                        <button class="close-btn" onclick="closeHierarchyModal()">&times;</button>
+                    </div>
+                    <div id="hierarchyModalContent">
+                        <!-- 動態生成層級卡片詳情 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 意識探討功能面板 -->
+        <div class="consciousness-exploration">
+            <h2 style="text-align: center; color: #4ecdc4; margin-bottom: 30px;">🧘 意識探討與自我對決</h2>
+            
+            <div class="consciousness-grid">
+                <div class="panel consciousness-analysis">
+                    <h3>🔍 意識狀態分析</h3>
+                    <div class="form-group">
+                        <label for="analysisCardSelect">選擇卡片進行分析</label>
+                        <select id="analysisCardSelect">
+                            <option value="">請選擇卡片...</option>
+                        </select>
+                    </div>
+                    <button class="btn" onclick="analyzeConsciousness()">🧠 分析意識狀態</button>
+                    
+                    <div id="consciousnessResult" class="consciousness-result" style="display: none;">
+                        <h4>分析結果</h4>
+                        <div class="analysis-metrics">
+                            <div class="metric-item">
+                                <span class="metric-label">覺知深度</span>
+                                <div class="metric-bar">
+                                    <div class="metric-fill" id="awarenessDepth"></div>
+                                </div>
+                                <span class="metric-value" id="awarenessValue">0%</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">認知複雜度</span>
+                                <div class="metric-bar">
+                                    <div class="metric-fill" id="cognitiveComplexity"></div>
+                                </div>
+                                <span class="metric-value" id="cognitiveValue">0%</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">情緒共鳴</span>
+                                <div class="metric-bar">
+                                    <div class="metric-fill" id="emotionalResonance"></div>
+                                </div>
+                                <span class="metric-value" id="emotionalValue">0%</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">記憶整合</span>
+                                <div class="metric-bar">
+                                    <div class="metric-fill" id="memoryIntegration"></div>
+                                </div>
+                                <span class="metric-value" id="memoryValue">0%</span>
+                            </div>
+                        </div>
+                        <div class="consciousness-level">
+                            <span>意識層次: </span>
+                            <span id="consciousnessLevel" class="level-badge">未知</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="panel consciousness-duel">
+                    <h3>⚔️ 意識對決</h3>
+                    <div class="form-group">
+                        <label for="duelCardSelect">選擇卡片</label>
+                        <select id="duelCardSelect">
+                            <option value="">請選擇卡片...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="perspectiveA">觀點A</label>
+                        <textarea id="perspectiveA" placeholder="輸入第一個觀點或立場..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="perspectiveB">觀點B</label>
+                        <textarea id="perspectiveB" placeholder="輸入對立的觀點或立場..."></textarea>
+                    </div>
+                    <button class="btn" onclick="createConsciousnessDuel()">🥊 啟動對決</button>
+                    
+                    <div id="duelResult" class="duel-result" style="display: none;">
+                        <h4>對決進行中</h4>
+                        <div class="duel-arena">
+                            <div class="perspective-battle">
+                                <div class="perspective-side">
+                                    <h5>觀點A</h5>
+                                    <div class="strength-bar">
+                                        <div class="strength-fill" id="strengthA" style="width: 50%;"></div>
+                                    </div>
+                                    <span id="strengthValueA">50%</span>
+                                </div>
+                                <div class="vs-indicator">VS</div>
+                                <div class="perspective-side">
+                                    <h5>觀點B</h5>
+                                    <div class="strength-bar">
+                                        <div class="strength-fill" id="strengthB" style="width: 50%;"></div>
+                                    </div>
+                                    <span id="strengthValueB">50%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="panel deep-reflection">
+                    <h3>🌟 深度反思</h3>
+                    <div class="form-group">
+                        <label for="reflectionCardSelect">選擇卡片</label>
+                        <select id="reflectionCardSelect">
+                            <option value="">請選擇卡片...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reflectionPrompt">反思提示</label>
+                        <textarea id="reflectionPrompt" placeholder="輸入想要深度探索的問題或主題..."></textarea>
+                    </div>
+                    <button class="btn" onclick="startDeepReflection()">🧘 開始反思</button>
+                    
+                    <div id="reflectionResult" class="reflection-result" style="display: none;">
+                        <h4>反思層次</h4>
+                        <div class="reflection-layers">
+                            <div class="layer-item" data-layer="surface">
+                                <div class="layer-header">表層反思</div>
+                                <div class="layer-content" id="surfaceReflection"></div>
+                            </div>
+                            <div class="layer-item" data-layer="analytical">
+                                <div class="layer-header">分析反思</div>
+                                <div class="layer-content" id="analyticalReflection"></div>
+                            </div>
+                            <div class="layer-item" data-layer="intuitive">
+                                <div class="layer-header">直覺反思</div>
+                                <div class="layer-content" id="intuitiveReflection"></div>
+                            </div>
+                            <div class="layer-item" data-layer="transcendent">
+                                <div class="layer-header">超越反思</div>
+                                <div class="layer-content" id="transcendentReflection"></div>
+                            </div>
+                        </div>
+                        <div class="transformation-potential">
+                            <span>轉化潛能: </span>
+                            <span id="transformationPotential" class="potential-badge">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 古籍收藏管理系統 -->
+        <div class="ancient-texts-management">
+            <h2 style="text-align: center; color: #ff6b6b; margin-bottom: 30px;">📜 古籍收藏管理系統</h2>
+            
+            <div class="ancient-grid">
+                <!-- 單個古籍導入 -->
+                <div class="panel ancient-import">
+                    <h3>📚 古籍導入</h3>
+                    <div class="form-group">
+                        <label for="ancientTitle">古籍標題</label>
+                        <input type="text" id="ancientTitle" placeholder="如：道德經第一章">
+                    </div>
+                    <div class="form-group">
+                        <label for="ancientCategory">分類</label>
+                        <select id="ancientCategory">
+                            <option value="經部">經部</option>
+                            <option value="史部">史部</option>
+                            <option value="子部">子部</option>
+                            <option value="集部">集部</option>
+                            <option value="醫部">醫部</option>
+                            <option value="道部">道部</option>
+                            <option value="佛部">佛部</option>
+                            <option value="法本">法本</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="ancientDynasty">朝代</label>
+                        <input type="text" id="ancientDynasty" placeholder="如：春秋戰國">
+                    </div>
+                    <div class="form-group">
+                        <label for="ancientAuthor">作者</label>
+                        <input type="text" id="ancientAuthor" placeholder="如：老子">
+                    </div>
+                    <div class="form-group">
+                        <label for="sourceLibrary">來源藏書館</label>
+                        <input type="text" id="sourceLibrary" placeholder="如：國家圖書館">
+                    </div>
+                    <div class="form-group">
+                        <label for="ancientContent">古籍內容</label>
+                        <textarea id="ancientContent" rows="6" placeholder="輸入古籍原文內容"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="ancientDifficulty">難度</label>
+                        <select id="ancientDifficulty">
+                            <option value="easy">初級</option>
+                            <option value="medium" selected>中級</option>
+                            <option value="hard">高級</option>
+                        </select>
+                    </div>
+                    <button class="btn" onclick="importAncientText()">📥 導入古籍</button>
+                    <div id="importResult" class="import-result" style="display: none;"></div>
+                </div>
+
+                <!-- 批量導入 -->
+                <div class="panel batch-import">
+                    <h3>📦 批量導入</h3>
+                    <div class="form-group">
+                        <label for="batchData">批量數據（JSON格式）</label>
+                        <textarea id="batchData" rows="10" placeholder='[{"title":"道德經第一章","category":"道部","dynasty":"春秋戰國","author":"老子","content":"道可道，非常道...","source_library":"國家圖書館"}]'></textarea>
+                    </div>
+                    <button class="btn" onclick="batchImportTexts()">📦 批量導入</button>
+                    <div id="batchResult" class="batch-result" style="display: none;"></div>
+                </div>
+
+                <!-- 古籍統計 -->
+                <div class="panel ancient-statistics">
+                    <h3>📊 收藏統計</h3>
+                    <button class="btn btn-secondary" onclick="loadAncientStatistics()">🔄 刷新統計</button>
+                    <div id="ancientStats" class="ancient-stats"></div>
+                </div>
+
+                <!-- 古籍瀏覽 -->
+                <div class="panel ancient-browser">
+                    <h3>🔍 古籍瀏覽</h3>
+                    <div class="form-group">
+                        <label for="categoryFilter">按分類篩選</label>
+                        <select id="categoryFilter" onchange="filterAncientTexts()">
+                            <option value="">全部分類</option>
+                            <option value="經部">經部</option>
+                            <option value="史部">史部</option>
+                            <option value="子部">子部</option>
+                            <option value="集部">集部</option>
+                            <option value="醫部">醫部</option>
+                            <option value="道部">道部</option>
+                            <option value="佛部">佛部</option>
+                            <option value="法本">法本</option>
+                        </select>
+                    </div>
+                    <div id="ancientTextsList" class="ancient-texts-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 統計面板 -->
+        <div class="panel statistics-panel">
+            <h3>📊 學習統計</h3>
+            <div id="statisticsContent">
+                <div class="stat-item">
+                    <span class="stat-label">總卡片數</span>
+                    <span class="stat-value" id="totalCards">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">今日待復習</span>
+                    <span class="stat-value" id="cardsDueToday">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">平均記憶強度</span>
+                    <span class="stat-value" id="averageRetention">0%</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">記憶進度</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="retentionProgress" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 20px; display: flex; gap: 10px;">
+                <button class="btn btn-secondary btn-small" onclick="startReview()">開始復習</button>
+                <button class="btn btn-secondary btn-small" onclick="loadCards()">刷新卡片</button>
+            </div>
+        </div>
+
+        <!-- 卡片列表 -->
+        <div class="cards-grid" id="cardsGrid">
+            <!-- 動態生成卡片 -->
+        </div>
+    </div>
+
+    <!-- 復習模態框 -->
+    <div class="modal" id="reviewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">卡片復習</h3>
+                <button class="close-btn" onclick="closeReviewModal()">&times;</button>
+            </div>
+            <div class="review-card" id="reviewContent">
+                <!-- 動態生成復習內容 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 浮動操作按鈕 -->
+    <button class="floating-action" onclick="scrollToTop()" title="回到頂部">
+        ↑
+    </button>
+
+    <!-- 消息提示 -->
+    <div class="message" id="message"></div>
+
+    <script>
+        // 全局變量
+        let currentCards = [];
+        let reviewCards = [];
+        let currentReviewIndex = 0;
+        let meridianPoints = {};
+        let neuralRegions = {};
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadMeridianInfo();
+            loadCards();
+            loadStatistics();
+            initializeMeridianMap();
+            initializeNeuralNetwork();
+            
+            // 初始化古籍管理功能
+            loadAncientStatistics();
+            filterAncientTexts();
+            
+            // 綁定表單提交
+            document.getElementById('cardForm').addEventListener('submit', createCard);
+        });
+
+        // 加載經絡和神經信息
+        async function loadMeridianInfo() {
+            try {
+                const response = await fetch('/api/card_learning/meridians');
+                const data = await response.json();
+                
+                if (data.success) {
+                    meridianPoints = data.meridians;
+                    neuralRegions = data.neural_regions;
+                }
+            } catch (error) {
+                console.error('加載經絡信息失敗:', error);
+            }
+        }
+
+        // 初始化經絡圖
+        function initializeMeridianMap() {
+            const map = document.getElementById('meridianMap');
+            const meridians = ['心經', '肝經', '腎經', '脾經', '肺經', '胃經', '膽經', '膀胱經'];
+            
+            meridians.forEach((meridian, index) => {
+                const point = document.createElement('div');
+                point.className = 'meridian-point';
+                point.style.left = `${20 + (index % 4) * 25}%`;
+                point.style.top = `${20 + Math.floor(index / 4) * 30}%`;
+                point.title = meridian;
+                point.onclick = () => activateMeridian(meridian);
+                map.appendChild(point);
+            });
+        }
+
+        // 初始化神經網路圖
+        function initializeNeuralNetwork() {
+            const network = document.getElementById('neuralNetwork');
+            const regions = ['前額葉', '海馬體', '杏仁核', '頂葉', '顳葉', '枕葉', '小腦', '腦幹'];
+            
+            regions.forEach((region, index) => {
+                const node = document.createElement('div');
+                node.className = 'neural-node';
+                node.style.left = `${15 + (index % 4) * 22}%`;
+                node.style.top = `${15 + Math.floor(index / 4) * 35}%`;
+                node.title = region;
+                node.textContent = region.charAt(0);
+                node.onclick = () => activateNeuralRegion(region);
+                network.appendChild(node);
+                
+                // 添加連接線
+                if (index > 0) {
+                    const connection = document.createElement('div');
+                    connection.className = 'neural-connection';
+                    const prevIndex = index - 1;
+                    const x1 = 15 + (prevIndex % 4) * 22;
+                    const y1 = 15 + Math.floor(prevIndex / 4) * 35;
+                    const x2 = 15 + (index % 4) * 22;
+                    const y2 = 15 + Math.floor(index / 4) * 35;
+                    
+                    const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+                    const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+                    
+                    connection.style.left = `${x1}%`;
+                    connection.style.top = `${y1 + 1}%`;
+                    connection.style.width = `${length}%`;
+                    connection.style.transform = `rotate(${angle}deg)`;
+                    
+                    network.appendChild(connection);
+                }
+            });
+        }
+
+        // 激活經絡
+        function activateMeridian(meridian) {
+            // 移除之前的激活狀態
+            document.querySelectorAll('.meridian-point').forEach(point => {
+                point.classList.remove('active');
+            });
+            
+            // 激活當前經絡
+            event.target.classList.add('active');
+            document.getElementById('activeMeridian').textContent = meridian;
+            document.getElementById('energyFlow').textContent = '上升流動';
+            
+            // 3秒後恢復
+            setTimeout(() => {
+                event.target.classList.remove('active');
+                document.getElementById('activeMeridian').textContent = '無';
+                document.getElementById('energyFlow').textContent = '靜止';
+            }, 3000);
+        }
+
+        // 激活神經區域
+        function activateNeuralRegion(region) {
+            document.getElementById('activeRegion').textContent = region;
+            document.getElementById('connectionStrength').textContent = '85%';
+            
+            // 3秒後恢復
+            setTimeout(() => {
+                document.getElementById('activeRegion').textContent = '無';
+                document.getElementById('connectionStrength').textContent = '0%';
+            }, 3000);
+        }
+
+        // 創建卡片
+        async function createCard(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const cardData = {
+                title: formData.get('title'),
+                content: formData.get('content'),
+                content_type: formData.get('content_type'),
+                learning_type: formData.get('learning_type'),
+                difficulty: formData.get('difficulty'),
+                tags: formData.get('tags') ? formData.get('tags').split(',').map(tag => tag.trim()) : []
+            };
+            
+            try {
+                const response = await fetch('/api/card_learning/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(cardData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showMessage('卡片創建成功！', 'success');
+                    event.target.reset();
+                    loadCards();
+                    loadStatistics();
+                } else {
+                    showMessage('創建失敗: ' + data.error, 'error');
+                }
+            } catch (error) {
+                showMessage('網路錯誤: ' + error.message, 'error');
+            }
+        }
+
+        // 加載卡片
+        async function loadCards() {
+            try {
+                const response = await fetch('/api/card_learning/cards');
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentCards = data.cards;
+                    renderCards(currentCards);
+                    updateCardSelectors();
+                }
+            } catch (error) {
+                console.error('加載卡片失敗:', error);
+            }
+        }
+
+        // 渲染卡片
+        function renderCards(cards) {
+            const grid = document.getElementById('cardsGrid');
+            grid.innerHTML = '';
+            
+            cards.forEach(card => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'learning-card';
+                cardElement.innerHTML = `
+                    <div class="card-header">
+                        <div class="card-title">${card.title}</div>
+                        <div class="card-difficulty difficulty-${card.difficulty}">${getDifficultyText(card.difficulty)}</div>
+                    </div>
+                    <div class="card-content">${card.content}</div>
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">經絡</span>
+                            <span class="meta-value">${card.meridian.channel}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">穴位</span>
+                            <span class="meta-value">${card.meridian.acupoint}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">神經區域</span>
+                            <span class="meta-value">${card.neural_mapping.primary_region}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">記憶強度</span>
+                            <span class="meta-value">${card.learning_metrics.retention_strength}%</span>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn btn-small" onclick="reviewCard('${card.id}')">復習</button>
+                        <button class="btn btn-secondary btn-small" onclick="viewCardDetails('${card.id}')">詳情</button>
+                    </div>
+                `;
+                grid.appendChild(cardElement);
+            });
+        }
+
+        // 獲取難度文本
+        function getDifficultyText(difficulty) {
+            const texts = {
+                'easy': '簡單',
+                'medium': '中等',
+                'hard': '困難'
+            };
+            return texts[difficulty] || difficulty;
+        }
+
+        // 加載統計
+        async function loadStatistics() {
+            try {
+                const response = await fetch('/api/card_learning/statistics');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const stats = data.statistics;
+                    document.getElementById('totalCards').textContent = stats.total_cards;
+                    document.getElementById('cardsDueToday').textContent = stats.cards_due_today;
+                    document.getElementById('averageRetention').textContent = Math.round(stats.average_retention) + '%';
+                    document.getElementById('retentionProgress').style.width = stats.average_retention + '%';
+                }
+            } catch (error) {
+                console.error('加載統計失敗:', error);
+            }
+        }
+
+        // 開始復習
+        async function startReview() {
+            try {
+                const response = await fetch('/api/card_learning/review');
+                const data = await response.json();
+                
+                if (data.success) {
+                    reviewCards = data.cards;
+                    if (reviewCards.length > 0) {
+                        currentReviewIndex = 0;
+                        showReviewModal();
+                    } else {
+                        showMessage('暫無需要復習的卡片', 'success');
+                    }
+                }
+            } catch (error) {
+                showMessage('加載復習卡片失敗', 'error');
+            }
+        }
+
+        // 顯示復習模態框
+        function showReviewModal() {
+            if (currentReviewIndex >= reviewCards.length) {
+                closeReviewModal();
+                showMessage('復習完成！', 'success');
+                loadStatistics();
+                return;
+            }
+            
+            const card = reviewCards[currentReviewIndex];
+            const modal = document.getElementById('reviewModal');
+            const content = document.getElementById('reviewContent');
+            
+            content.innerHTML = `
+                <div class="review-question">
+                    <h4>${card.title}</h4>
+                    <p>${card.content}</p>
+                </div>
+                <div class="review-answer" id="reviewAnswer">
+                    <p><strong>經絡:</strong> ${card.meridian.channel} - ${card.meridian.acupoint}</p>
+                    <p><strong>神經區域:</strong> ${card.neural_mapping.primary_region}</p>
+                    <p><strong>記憶強度:</strong> ${card.learning_metrics.retention_strength}%</p>
+                </div>
+                <div class="review-actions">
+                    <button class="btn btn-secondary" onclick="showAnswer()">顯示答案</button>
+                    <button class="btn" onclick="markCorrect()">記住了</button>
+                    <button class="btn" style="background: linear-gradient(45deg, #ff6b6b, #ff8e8e);" onclick="markIncorrect()">忘記了</button>
+                </div>
+            `;
+            
+            modal.style.display = 'block';
+        }
+
+        // 顯示答案
+        function showAnswer() {
+            document.getElementById('reviewAnswer').style.display = 'block';
+        }
+
+        // 標記正確
+        async function markCorrect() {
+            await updateProgress(true);
+            nextReviewCard();
+        }
+
+        // 標記錯誤
+        async function markIncorrect() {
+            await updateProgress(false);
+            nextReviewCard();
+        }
+
+        // 更新進度
+        async function updateProgress(success) {
+            const card = reviewCards[currentReviewIndex];
+            
+            try {
+                await fetch('/api/card_learning/progress', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        card_id: card.id,
+                        success: success
+                    })
+                });
+            } catch (error) {
+                console.error('更新進度失敗:', error);
+            }
+        }
+
+        // 下一張復習卡片
+        function nextReviewCard() {
+            currentReviewIndex++;
+            showReviewModal();
+        }
+
+        // 關閉復習模態框
+        function closeReviewModal() {
+            document.getElementById('reviewModal').style.display = 'none';
+        }
+
+        // 復習單張卡片
+        function reviewCard(cardId) {
+            const card = currentCards.find(c => c.id === cardId);
+            if (card) {
+                reviewCards = [card];
+                currentReviewIndex = 0;
+                showReviewModal();
+            }
+        }
+
+        // 查看卡片詳情
+        function viewCardDetails(cardId) {
+            const card = currentCards.find(c => c.id === cardId);
+            if (card) {
+                alert(`卡片詳情:\n\n標題: ${card.title}\n內容: ${card.content}\n經絡: ${card.meridian.channel}\n穴位: ${card.meridian.acupoint}\n神經區域: ${card.neural_mapping.primary_region}\n記憶強度: ${card.learning_metrics.retention_strength}%`);
+            }
+        }
+
+        // 顯示消息
+        function showMessage(text, type) {
+            const message = document.getElementById('message');
+            message.textContent = text;
+            message.className = `message ${type} show`;
+            
+            setTimeout(() => {
+                message.classList.remove('show');
+            }, 3000);
+        }
+
+        // 意識探討功能
+        function analyzeConsciousness() {
+            const cardSelect = document.getElementById('analysisCardSelect');
+            const selectedCardId = cardSelect.value;
+            
+            if (!selectedCardId) {
+                showMessage('請先選擇一張卡片', 'error');
+                return;
+            }
+            
+            const card = currentCards.find(c => c.id === selectedCardId);
+            if (!card) {
+                showMessage('找不到選中的卡片', 'error');
+                return;
+            }
+            
+            // 模擬意識分析
+            const awarenessDepth = Math.random() * 100;
+            const cognitiveComplexity = Math.random() * 100;
+            const emotionalResonance = Math.random() * 100;
+            const memoryIntegration = Math.random() * 100;
+            
+            const averageScore = (awarenessDepth + cognitiveComplexity + emotionalResonance + memoryIntegration) / 4;
+            
+            let consciousnessLevel = '初級意識';
+            if (averageScore > 80) consciousnessLevel = '超越意識';
+            else if (averageScore > 60) consciousnessLevel = '高級意識';
+            else if (averageScore > 40) consciousnessLevel = '中級意識';
+            
+            // 更新UI
+            document.getElementById('consciousnessResult').style.display = 'block';
+            
+            setTimeout(() => {
+                updateMetric('awarenessDepth', 'awarenessValue', awarenessDepth);
+            }, 200);
+            setTimeout(() => {
+                updateMetric('cognitiveComplexity', 'cognitiveValue', cognitiveComplexity);
+            }, 400);
+            setTimeout(() => {
+                updateMetric('emotionalResonance', 'emotionalValue', emotionalResonance);
+            }, 600);
+            setTimeout(() => {
+                updateMetric('memoryIntegration', 'memoryValue', memoryIntegration);
+            }, 800);
+            
+            setTimeout(() => {
+                document.getElementById('consciousnessLevel').textContent = consciousnessLevel;
+            }, 1000);
+        }
+        
+        function updateMetric(barId, valueId, percentage) {
+            document.getElementById(barId).style.width = percentage + '%';
+            document.getElementById(valueId).textContent = Math.round(percentage) + '%';
+        }
+        
+        function createConsciousnessDuel() {
+            const cardSelect = document.getElementById('duelCardSelect');
+            const perspectiveA = document.getElementById('perspectiveA').value;
+            const perspectiveB = document.getElementById('perspectiveB').value;
+            
+            if (!cardSelect.value || !perspectiveA || !perspectiveB) {
+                showMessage('請填寫所有必要信息', 'error');
+                return;
+            }
+            
+            document.getElementById('duelResult').style.display = 'block';
+            
+            // 模擬對決過程
+            let strengthA = 50;
+            let strengthB = 50;
+            
+            const duelInterval = setInterval(() => {
+                const change = (Math.random() - 0.5) * 10;
+                strengthA = Math.max(0, Math.min(100, strengthA + change));
+                strengthB = 100 - strengthA;
+                
+                document.getElementById('strengthA').style.width = strengthA + '%';
+                document.getElementById('strengthB').style.width = strengthB + '%';
+                document.getElementById('strengthValueA').textContent = Math.round(strengthA) + '%';
+                document.getElementById('strengthValueB').textContent = Math.round(strengthB) + '%';
+            }, 500);
+            
+            // 5秒後停止對決
+            setTimeout(() => {
+                clearInterval(duelInterval);
+                const winner = strengthA > strengthB ? 'A' : 'B';
+                showMessage(`對決結束！觀點${winner}獲勝`, 'success');
+            }, 5000);
+        }
+        
+        function startDeepReflection() {
+            const cardSelect = document.getElementById('reflectionCardSelect');
+            const prompt = document.getElementById('reflectionPrompt').value;
+            
+            if (!cardSelect.value || !prompt) {
+                showMessage('請選擇卡片並輸入反思提示', 'error');
+                return;
+            }
+            
+            document.getElementById('reflectionResult').style.display = 'block';
+            
+            // 模擬反思層次
+            const reflections = {
+                surface: '這是一個基本的觀察和理解層面...',
+                analytical: '從邏輯和結構角度分析，我們可以看到...',
+                intuitive: '直覺告訴我們，這背後可能隱藏著...',
+                transcendent: '超越表面現象，我們觸及到了更深層的真理...'
+            };
+            
+            const layers = ['surface', 'analytical', 'intuitive', 'transcendent'];
+            
+            layers.forEach((layer, index) => {
+                setTimeout(() => {
+                    document.getElementById(layer + 'Reflection').textContent = reflections[layer];
+                    document.querySelector(`[data-layer="${layer}"]`).style.opacity = '1';
+                }, (index + 1) * 1000);
+            });
+            
+            setTimeout(() => {
+                const potential = Math.random() * 100;
+                document.getElementById('transformationPotential').textContent = Math.round(potential) + '%';
+            }, 5000);
+        }
+        
+        // 更新卡片選擇器
+        function updateCardSelectors() {
+            const selectors = ['analysisCardSelect', 'duelCardSelect', 'reflectionCardSelect'];
+            
+            selectors.forEach(selectorId => {
+                const selector = document.getElementById(selectorId);
+                selector.innerHTML = '<option value="">請選擇卡片...</option>';
+                
+                currentCards.forEach(card => {
+                    const option = document.createElement('option');
+                    option.value = card.id;
+                    option.textContent = card.title;
+                    selector.appendChild(option);
+                });
+            });
+        }
+
+        // 回到頂部
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // 古籍管理功能
+        async function importAncientText() {
+            const title = document.getElementById('ancientTitle').value;
+            const category = document.getElementById('ancientCategory').value;
+            const dynasty = document.getElementById('ancientDynasty').value;
+            const author = document.getElementById('ancientAuthor').value;
+            const sourceLibrary = document.getElementById('sourceLibrary').value;
+            const content = document.getElementById('ancientContent').value;
+            const difficulty = document.getElementById('ancientDifficulty').value;
+            
+            if (!title || !content) {
+                showMessage('請填寫古籍標題和內容', 'error');
+                return;
+            }
+            
+            const textData = {
+                title,
+                category,
+                dynasty,
+                author,
+                source_library: sourceLibrary,
+                content,
+                difficulty,
+                tags: [category, dynasty, author].filter(Boolean)
+            };
+            
+            try {
+                const response = await fetch('/api/card_learning/ancient_text', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(textData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    document.getElementById('importResult').innerHTML = `
+                        <div class="success-message">
+                            <strong>導入成功！</strong><br>
+                            古籍「${title}」已成功轉化為學習卡片<br>
+                            經絡映射：${result.card.meridian.channel} - ${result.card.meridian.acupoint}<br>
+                            神經區域：${result.card.neural_mapping.primary_region}
+                        </div>
+                    `;
+                    document.getElementById('importResult').style.display = 'block';
+                    
+                    // 清空表單
+                    document.getElementById('ancientTitle').value = '';
+                    document.getElementById('ancientContent').value = '';
+                    document.getElementById('ancientDynasty').value = '';
+                    document.getElementById('ancientAuthor').value = '';
+                    document.getElementById('sourceLibrary').value = '';
+                    
+                    // 刷新卡片列表和統計
+                    loadCards();
+                    loadAncientStatistics();
+                    updateCardSelectors();
+                    
+                    showMessage('古籍導入成功！', 'success');
+                } else {
+                    document.getElementById('importResult').innerHTML = `
+                        <div class="error-message">
+                            <strong>導入失敗：</strong>${result.error}
+                        </div>
+                    `;
+                    document.getElementById('importResult').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('導入古籍失敗:', error);
+                showMessage('導入古籍失敗', 'error');
+            }
+        }
+        
+        async function batchImportTexts() {
+            const batchData = document.getElementById('batchData').value;
+            
+            if (!batchData.trim()) {
+                showMessage('請輸入批量數據', 'error');
+                return;
+            }
+            
+            try {
+                const texts = JSON.parse(batchData);
+                
+                const response = await fetch('/api/card_learning/batch_import', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ texts })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    const batchResult = result.result;
+                    document.getElementById('batchResult').innerHTML = `
+                        <div class="success-message">
+                            <strong>批量導入完成！</strong>
+                            <div class="batch-summary">
+                                <div class="summary-item">
+                                    <div class="summary-number">${batchResult.success_count}</div>
+                                    <div class="summary-label">成功導入</div>
+                                </div>
+                                <div class="summary-item">
+                                    <div class="summary-number">${batchResult.failed_count}</div>
+                                    <div class="summary-label">導入失敗</div>
+                                </div>
+                                <div class="summary-item">
+                                    <div class="summary-number">${batchResult.created_cards.length}</div>
+                                    <div class="summary-label">新增卡片</div>
+                                </div>
+                            </div>
+                            ${batchResult.errors.length > 0 ? `
+                                <div style="margin-top: 15px;">
+                                    <strong>錯誤詳情：</strong>
+                                    ${batchResult.errors.map(err => `<br>• ${err.title}: ${err.error}`).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                    document.getElementById('batchResult').style.display = 'block';
+                    
+                    // 清空輸入框
+                    document.getElementById('batchData').value = '';
+                    
+                    // 刷新相關數據
+                    loadCards();
+                    loadAncientStatistics();
+                    updateCardSelectors();
+                    
+                    showMessage(`批量導入完成！成功 ${batchResult.success_count} 個`, 'success');
+                } else {
+                    document.getElementById('batchResult').innerHTML = `
+                        <div class="error-message">
+                            <strong>批量導入失敗：</strong>${result.error}
+                        </div>
+                    `;
+                    document.getElementById('batchResult').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('批量導入失敗:', error);
+                if (error instanceof SyntaxError) {
+                    showMessage('JSON格式錯誤，請檢查數據格式', 'error');
+                } else {
+                    showMessage('批量導入失敗', 'error');
+                }
+            }
+        }
+        
+        async function loadAncientStatistics() {
+            try {
+                const response = await fetch('/api/card_learning/ancient_statistics');
+                const result = await response.json();
+                
+                if (result.success) {
+                    const stats = result.statistics;
+                    const statsContainer = document.getElementById('ancientStats');
+                    
+                    let statsHtml = `
+                        <div class="stat-category">
+                            <span class="category-name">總計古籍</span>
+                            <span class="category-count">${stats.total_count}</span>
+                        </div>
+                    `;
+                    
+                    // 按分類統計
+                    if (stats.by_category) {
+                        Object.entries(stats.by_category).forEach(([category, count]) => {
+                            statsHtml += `
+                                <div class="stat-category">
+                                    <span class="category-name">${category}</span>
+                                    <span class="category-count">${count}</span>
+                                </div>
+                            `;
+                        });
+                    }
+                    
+                    // 按朝代統計（如果有數據）
+                    if (stats.by_dynasty && Object.keys(stats.by_dynasty).length > 0) {
+                        statsHtml += '<div style="margin-top: 20px; font-weight: bold; color: #ff6b6b;">按朝代分布：</div>';
+                        Object.entries(stats.by_dynasty).forEach(([dynasty, count]) => {
+                            if (dynasty !== 'Unknown') {
+                                statsHtml += `
+                                    <div class="stat-category">
+                                        <span class="category-name">${dynasty}</span>
+                                        <span class="category-count">${count}</span>
+                                    </div>
+                                `;
+                            }
+                        });
+                    }
+                    
+                    statsContainer.innerHTML = statsHtml;
+                } else {
+                    document.getElementById('ancientStats').innerHTML = `
+                        <div class="error-message">載入統計失敗：${result.error}</div>
+                    `;
+                }
+            } catch (error) {
+                console.error('載入古籍統計失敗:', error);
+                document.getElementById('ancientStats').innerHTML = `
+                    <div class="error-message">載入統計失敗</div>
+                `;
+            }
+        }
+        
+        async function filterAncientTexts() {
+            const category = document.getElementById('categoryFilter').value;
+            
+            try {
+                const url = category ? `/api/card_learning/ancient_texts?category=${encodeURIComponent(category)}` : '/api/card_learning/ancient_texts';
+                const response = await fetch(url);
+                const result = await response.json();
+                
+                if (result.success) {
+                    const texts = result.cards;
+                    const listContainer = document.getElementById('ancientTextsList');
+                    
+                    if (texts.length === 0) {
+                        listContainer.innerHTML = `
+                            <div style="text-align: center; color: #a0a0a0; padding: 20px;">
+                                ${category ? `沒有找到「${category}」分類的古籍` : '暫無古籍收藏'}
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    let listHtml = '';
+                    texts.forEach(text => {
+                        const metadata = text.ancient_metadata || {};
+                        const preview = text.content.length > 100 ? text.content.substring(0, 100) + '...' : text.content;
+                        
+                        listHtml += `
+                            <div class="ancient-text-item" onclick="viewAncientTextDetails('${text.id}')">
+                                <div class="text-title">${text.title}</div>
+                                <div class="text-meta">
+                                    <span class="category-badge">${metadata.category || '未分類'}</span>
+                                    ${metadata.dynasty ? `<span>📅 ${metadata.dynasty}</span>` : ''}
+                                    ${metadata.author ? `<span>✍️ ${metadata.author}</span>` : ''}
+                                    ${metadata.source_library ? `<span>📚 ${metadata.source_library}</span>` : ''}
+                                </div>
+                                <div class="text-preview">${preview}</div>
+                            </div>
+                        `;
+                    });
+                    
+                    listContainer.innerHTML = listHtml;
+                } else {
+                    document.getElementById('ancientTextsList').innerHTML = `
+                        <div class="error-message">載入古籍列表失敗：${result.error}</div>
+                    `;
+                }
+            } catch (error) {
+                console.error('載入古籍列表失敗:', error);
+                document.getElementById('ancientTextsList').innerHTML = `
+                    <div class="error-message">載入古籍列表失敗</div>
+                `;
+            }
+        }
+        
+        function viewAncientTextDetails(cardId) {
+            const card = currentCards.find(c => c.id === cardId);
+            if (card && card.ancient_metadata) {
+                const metadata = card.ancient_metadata;
+                alert(`古籍詳情:\n\n標題: ${card.title}\n分類: ${metadata.category}\n朝代: ${metadata.dynasty || '未知'}\n作者: ${metadata.author || '未知'}\n來源: ${metadata.source_library || '未知'}\n\n內容預覽:\n${card.content.substring(0, 200)}${card.content.length > 200 ? '...' : ''}\n\n經絡映射: ${card.meridian.channel} - ${card.meridian.acupoint}\n神經區域: ${card.neural_mapping.primary_region}`);
+            }
+        }
+        
+        // ===== 層級卡片系統功能 =====
+        let chapterCount = 0;
+        let currentHierarchies = [];
+        
+        // 添加章節
+        function addChapter() {
+            chapterCount++;
+            const container = document.getElementById('chaptersContainer');
+            const chapterDiv = document.createElement('div');
+            chapterDiv.className = 'chapter-item';
+            chapterDiv.style.cssText = 'margin-bottom: 15px; padding: 15px; background: rgba(150, 206, 180, 0.05); border-radius: 10px; border: 1px solid rgba(150, 206, 180, 0.2);';
+            
+            chapterDiv.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <label style="font-weight: bold; color: #96ceb4;">第 ${chapterCount} 章</label>
+                    <button type="button" class="btn btn-small" style="background: #ff6b6b; color: white;" onclick="removeChapter(this)">刪除</button>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="chapterTitle" placeholder="章節標題" required style="margin-bottom: 10px;">
+                </div>
+                <div class="form-group">
+                    <textarea name="chapterContent" placeholder="章節內容" rows="3" required></textarea>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <select name="chapterDifficulty">
+                        <option value="easy">簡單</option>
+                        <option value="medium" selected>中等</option>
+                        <option value="hard">困難</option>
+                    </select>
+                    <input type="text" name="chapterTags" placeholder="章節標籤 (逗號分隔)">
+                </div>
+            `;
+            
+            container.appendChild(chapterDiv);
+        }
+        
+        // 刪除章節
+        function removeChapter(button) {
+            button.closest('.chapter-item').remove();
+        }
+        
+        // 創建層級卡片系統
+        async function createHierarchySystem(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const chapters = [];
+            
+            // 收集章節數據
+            const chapterItems = document.querySelectorAll('.chapter-item');
+            chapterItems.forEach((item, index) => {
+                const title = item.querySelector('input[name="chapterTitle"]').value;
+                const content = item.querySelector('textarea[name="chapterContent"]').value;
+                const difficulty = item.querySelector('select[name="chapterDifficulty"]').value;
+                const tags = item.querySelector('input[name="chapterTags"]').value;
+                
+                if (title && content) {
+                    chapters.push({
+                        title,
+                        content,
+                        difficulty,
+                        tags: tags ? tags.split(',').map(tag => tag.trim()) : [],
+                        order: index + 1
+                    });
+                }
+            });
+            
+            if (chapters.length === 0) {
+                showMessage('請至少添加一個章節', 'error');
+                return;
+            }
+            
+            const hierarchyData = {
+                title: formData.get('title'),
+                author: formData.get('author'),
+                overview: formData.get('overview'),
+                category: formData.get('category'),
+                difficulty: formData.get('difficulty'),
+                tags: formData.get('tags') ? formData.get('tags').split(',').map(tag => tag.trim()) : [],
+                chapters: chapters
+            };
+            
+            try {
+                const response = await fetch('/api/card_learning/hierarchy/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(hierarchyData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showMessage(`層級卡片系統「${hierarchyData.title}」創建成功！`, 'success');
+                    
+                    // 清空表單
+                    event.target.reset();
+                    document.getElementById('chaptersContainer').innerHTML = '';
+                    chapterCount = 0;
+                    
+                    // 刷新層級列表
+                    loadHierarchyList();
+                    loadHierarchyStatistics();
+                } else {
+                    showMessage(`創建失敗：${result.error}`, 'error');
+                }
+            } catch (error) {
+                console.error('創建層級卡片系統失敗:', error);
+                showMessage('創建層級卡片系統失敗', 'error');
+            }
+        }
+        
+        // 加載層級卡片系統列表
+        async function loadHierarchyList() {
+            try {
+                const response = await fetch('/api/card_learning/hierarchy/list');
+                const result = await response.json();
+                
+                if (result.success) {
+                    currentHierarchies = result.hierarchies;
+                    renderHierarchyList(currentHierarchies);
+                } else {
+                    document.getElementById('hierarchyList').innerHTML = `
+                        <div class="error-message">載入層級系統失敗：${result.error}</div>
+                    `;
+                }
+            } catch (error) {
+                console.error('載入層級系統列表失敗:', error);
+                document.getElementById('hierarchyList').innerHTML = `
+                    <div class="error-message">載入層級系統列表失敗</div>
+                `;
+            }
+        }
+        
+        // 渲染層級卡片系統列表
+        function renderHierarchyList(hierarchies) {
+            const container = document.getElementById('hierarchyList');
+            
+            if (hierarchies.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; color: #a0a0a0; padding: 20px;">
+                        暫無層級卡片系統
+                    </div>
+                `;
+                return;
+            }
+            
+            let listHtml = '';
+            hierarchies.forEach(hierarchy => {
+                const progress = hierarchy.progress || { completed_chapters: 0, total_chapters: hierarchy.total_cards - 1 };
+                const progressPercent = progress.total_chapters > 0 ? Math.round((progress.completed_chapters / progress.total_chapters) * 100) : 0;
+                
+                listHtml += `
+                    <div class="hierarchy-item" style="margin-bottom: 15px; padding: 15px; background: rgba(150, 206, 180, 0.05); border-radius: 10px; border: 1px solid rgba(150, 206, 180, 0.2); cursor: pointer;" onclick="viewHierarchyDetails('${hierarchy.hierarchy_id}')">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                            <div>
+                                <h4 style="margin: 0; color: #96ceb4;">${hierarchy.title}</h4>
+                                <p style="margin: 5px 0; color: #a0a0a0; font-size: 0.9rem;">${hierarchy.author || '未知作者'} | ${hierarchy.category}</p>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 0.8rem; color: #a0a0a0;">進度</div>
+                                <div style="font-weight: bold; color: #96ceb4;">${progressPercent}%</div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <div style="background: rgba(150, 206, 180, 0.1); height: 6px; border-radius: 3px; overflow: hidden;">
+                                <div style="background: #96ceb4; height: 100%; width: ${progressPercent}%; transition: width 0.3s ease;"></div>
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="font-size: 0.8rem; color: #a0a0a0;">
+                                ${hierarchy.total_cards} 張卡片 | ${progress.completed_chapters}/${progress.total_chapters} 章節完成
+                            </div>
+                            <div style="display: flex; gap: 5px;">
+                                ${hierarchy.tags ? hierarchy.tags.slice(0, 3).map(tag => `<span style="background: rgba(150, 206, 180, 0.2); color: #96ceb4; padding: 2px 6px; border-radius: 10px; font-size: 0.7rem;">${tag}</span>`).join('') : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = listHtml;
+        }
+        
+        // 查看層級卡片詳情
+        async function viewHierarchyDetails(hierarchyId) {
+            try {
+                const response = await fetch(`/api/card_learning/hierarchy/${hierarchyId}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    const hierarchy = result.hierarchy;
+                    showHierarchyModal(hierarchy);
+                } else {
+                    showMessage(`載入層級詳情失敗：${result.error}`, 'error');
+                }
+            } catch (error) {
+                console.error('載入層級詳情失敗:', error);
+                showMessage('載入層級詳情失敗', 'error');
+            }
+        }
+        
+        // 顯示層級卡片詳情模態框
+        function showHierarchyModal(hierarchy) {
+            const modal = document.getElementById('hierarchyModal');
+            const title = document.getElementById('hierarchyModalTitle');
+            const content = document.getElementById('hierarchyModalContent');
+            
+            title.textContent = hierarchy.title;
+            
+            let modalHtml = `
+                <div style="margin-bottom: 20px;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                        <div style="background: rgba(150, 206, 180, 0.1); padding: 15px; border-radius: 10px;">
+                            <div style="font-size: 0.9rem; color: #a0a0a0;">作者</div>
+                            <div style="font-weight: bold; color: #96ceb4;">${hierarchy.author || '未知'}</div>
+                        </div>
+                        <div style="background: rgba(150, 206, 180, 0.1); padding: 15px; border-radius: 10px;">
+                            <div style="font-size: 0.9rem; color: #a0a0a0;">分類</div>
+                            <div style="font-weight: bold; color: #96ceb4;">${hierarchy.category}</div>
+                        </div>
+                        <div style="background: rgba(150, 206, 180, 0.1); padding: 15px; border-radius: 10px;">
+                            <div style="font-size: 0.9rem; color: #a0a0a0;">總卡片數</div>
+                            <div style="font-weight: bold; color: #96ceb4;">${hierarchy.total_cards}</div>
+                        </div>
+                        <div style="background: rgba(150, 206, 180, 0.1); padding: 15px; border-radius: 10px;">
+                            <div style="font-size: 0.9rem; color: #a0a0a0;">學習進度</div>
+                            <div style="font-weight: bold; color: #96ceb4;">${Math.round((hierarchy.progress?.completed_chapters || 0) / (hierarchy.progress?.total_chapters || 1) * 100)}%</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: #96ceb4; margin-bottom: 10px;">📖 書籍概覽</h4>
+                        <div style="background: rgba(150, 206, 180, 0.05); padding: 15px; border-radius: 10px; border-left: 4px solid #96ceb4;">
+                            ${hierarchy.overview || '暫無概覽'}
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 style="color: #96ceb4; margin-bottom: 15px;">📑 章節列表</h4>
+                        <div style="max-height: 300px; overflow-y: auto;">
+            `;
+            
+            if (hierarchy.child_cards && hierarchy.child_cards.length > 0) {
+                hierarchy.child_cards.forEach((card, index) => {
+                    const isCompleted = hierarchy.progress?.completed_cards?.includes(card.id) || false;
+                    modalHtml += `
+                        <div style="margin-bottom: 10px; padding: 15px; background: ${isCompleted ? 'rgba(150, 206, 180, 0.1)' : 'rgba(150, 206, 180, 0.05)'}; border-radius: 10px; border: 1px solid rgba(150, 206, 180, 0.2);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <h5 style="margin: 0; color: #96ceb4;">${card.title}</h5>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span style="background: ${card.difficulty === 'easy' ? '#4ecdc4' : card.difficulty === 'medium' ? '#ffe66d' : '#ff6b6b'}; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem;">${card.difficulty === 'easy' ? '簡單' : card.difficulty === 'medium' ? '中等' : '困難'}</span>
+                                    <span style="color: ${isCompleted ? '#4ecdc4' : '#a0a0a0'}; font-size: 0.8rem;">${isCompleted ? '✅ 已完成' : '⏳ 未完成'}</span>
+                                </div>
+                            </div>
+                            <div style="color: #a0a0a0; font-size: 0.9rem; line-height: 1.4;">
+                                ${card.content.length > 150 ? card.content.substring(0, 150) + '...' : card.content}
+                            </div>
+                            <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                                <div style="font-size: 0.8rem; color: #a0a0a0;">
+                                    經絡: ${card.meridian?.channel || '未知'} - ${card.meridian?.acupoint || '未知'}
+                                </div>
+                                <button class="btn btn-small" onclick="startChapterLearning('${card.id}', '${hierarchy.hierarchy_id}')" style="background: #96ceb4; color: white;">
+                                    ${isCompleted ? '複習' : '開始學習'}
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                modalHtml += `
+                    <div style="text-align: center; color: #a0a0a0; padding: 20px;">
+                        暫無章節內容
+                    </div>
+                `;
+            }
+            
+            modalHtml += `
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            content.innerHTML = modalHtml;
+            modal.style.display = 'flex';
+        }
+        
+        // 關閉層級卡片詳情模態框
+        function closeHierarchyModal() {
+            document.getElementById('hierarchyModal').style.display = 'none';
+        }
+        
+        // 開始章節學習
+        async function startChapterLearning(cardId, hierarchyId) {
+            // 這裡可以實現章節學習邏輯，比如打開學習模式、記錄學習進度等
+            showMessage('開始學習章節...', 'info');
+            
+            // 可以調用現有的卡片學習功能
+            const card = currentCards.find(c => c.id === cardId);
+            if (card) {
+                // 這裡可以打開卡片詳情或學習模式
+                alert(`開始學習：${card.title}\n\n${card.content.substring(0, 200)}${card.content.length > 200 ? '...' : ''}`);
+                
+                // 更新學習進度
+                try {
+                    await fetch('/api/card_learning/hierarchy/progress', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            hierarchy_id: hierarchyId,
+                            card_id: cardId,
+                            action: 'complete'
+                        })
+                    });
+                    
+                    // 刷新層級列表和統計
+                    loadHierarchyList();
+                    loadHierarchyStatistics();
+                } catch (error) {
+                    console.error('更新學習進度失敗:', error);
+                }
+            }
+        }
+        
+        // 加載層級卡片統計
+        async function loadHierarchyStatistics() {
+            try {
+                const response = await fetch('/api/card_learning/hierarchy/statistics');
+                const result = await response.json();
+                
+                if (result.success) {
+                    const stats = result.statistics;
+                    document.getElementById('totalHierarchies').textContent = stats.total_hierarchies || 0;
+                    document.getElementById('totalHierarchyCards').textContent = stats.total_cards || 0;
+                } else {
+                    console.error('載入層級統計失敗:', result.error);
+                }
+            } catch (error) {
+                console.error('載入層級統計失敗:', error);
+            }
+        }
+        
+        // 初始化層級卡片系統
+        function initializeHierarchySystem() {
+            // 綁定表單提交事件
+            const hierarchyForm = document.getElementById('hierarchyForm');
+            if (hierarchyForm) {
+                hierarchyForm.addEventListener('submit', createHierarchySystem);
+            }
+            
+            // 加載層級列表和統計
+            loadHierarchyList();
+            loadHierarchyStatistics();
+        }
+        
+        // 在頁面加載完成後初始化層級系統
+        document.addEventListener('DOMContentLoaded', function() {
+            // 原有的初始化代碼...
+            
+            // 初始化層級卡片系統
+            setTimeout(() => {
+                initializeHierarchySystem();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

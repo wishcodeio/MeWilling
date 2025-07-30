@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👽 小灰人與飛碟量子艙系統 | 代號：找回</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .cosmic-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+                radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+                radial-gradient(2px 2px at 160px 30px, #ddd, transparent);
+            background-repeat: repeat;
+            background-size: 200px 100px;
+            animation: twinkle 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes twinkle {
+            from { transform: translateY(0); }
+            to { transform: translateY(-100px); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #00ff88, #00ccff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 25px;
+            font-size: 0.9rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #00ff88;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(0, 255, 136, 0.3);
+        }
+
+        .panel h2 {
+            color: #00ff88;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ccc;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #00ff88;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #00ff88, #00ccff);
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .mermaid-container {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-x: auto;
+        }
+
+        .mermaid {
+            background: transparent !important;
+        }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .analysis-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .analysis-card h3 {
+            color: #00ccff;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .spec-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .spec-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .spec-list li:last-child {
+            border-bottom: none;
+        }
+
+        .spec-label {
+            color: #aaa;
+        }
+
+        .spec-value {
+            color: #00ff88;
+            font-weight: 500;
+        }
+
+        .contact-log {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            margin-bottom: 10px;
+            padding: 5px;
+            border-left: 3px solid #00ff88;
+            padding-left: 10px;
+        }
+
+        .log-timestamp {
+            color: #666;
+            font-size: 11px;
+        }
+
+        .protocol-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .protocol-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .protocol-card:hover {
+            border-color: #00ff88;
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        .protocol-card.selected {
+            border-color: #00ff88;
+            background: rgba(0, 255, 136, 0.2);
+        }
+
+        .protocol-name {
+            font-weight: 600;
+            color: #00ff88;
+            margin-bottom: 10px;
+        }
+
+        .protocol-features {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 500;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: linear-gradient(45deg, #00ff88, #00cc66);
+        }
+
+        .notification.error {
+            background: linear-gradient(45deg, #ff4444, #cc0000);
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cosmic-background"></div>
+    <div class="stars"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>👽 小灰人與飛碟量子艙系統</h1>
+            <div class="subtitle">外星接觸檔案管理與量子航船控制系統</div>
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span>代號：找回 | 系統運行中</span>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <!-- 小灰人創建面板 -->
+            <div class="panel">
+                <h2>🛸 創建小灰人檔案</h2>
+                <form id="greyAlienForm">
+                    <div class="form-group">
+                        <label for="alienName">小灰人代號</label>
+                        <input type="text" id="alienName" placeholder="例如：Zeta-Alpha-001">
+                    </div>
+                    <div class="form-group">
+                        <label for="alienOrigin">來源星系</label>
+                        <select id="alienOrigin">
+                            <option value="Zeta_Reticuli">澤塔網罟座</option>
+                            <option value="Rigel">參宿七</option>
+                            <option value="Vega">織女星</option>
+                            <option value="Unknown">未知星系</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">創建小灰人檔案</button>
+                </form>
+            </div>
+
+            <!-- 量子飛船創建面板 -->
+            <div class="panel">
+                <h2>🚀 創建量子飛船</h2>
+                <form id="quantumShipForm">
+                    <div class="form-group">
+                        <label for="shipName">飛船代號</label>
+                        <input type="text" id="shipName" placeholder="例如：QuantumScout-X1">
+                    </div>
+                    <div class="form-group">
+                        <label for="shipClass">飛船類型</label>
+                        <select id="shipClass">
+                            <option value="Scout_Vessel">偵察艦</option>
+                            <option value="Research_Ship">研究船</option>
+                            <option value="Mothership">母艦</option>
+                            <option value="Probe">探測器</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">創建量子飛船</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- 量子航船結構圖 -->
+        <div class="panel full-width">
+            <h2>🌌 小灰人量子航船結構圖</h2>
+            <div class="mermaid-container">
+                <div class="mermaid">
+                    flowchart LR
+                        subgraph 小灰人量子航船
+                            style 小灰人量子航船 fill:#f0f0f0,stroke:#888,stroke-width:2px
+                            Hull((外殼護盾))
+                            Cockpit[駕駛艙 · Psi 控制台]
+                            Engine[(量子驅動)]
+                            Sensor[多頻感應器]
+                            Beacon[Ψ 信標天線]
+                            Hull --> Cockpit
+                            Cockpit --> Engine
+                            Cockpit --> Sensor
+                            Cockpit --> Beacon
+                            Engine --> Thrusters[(推進器組)]
+                            Sensor --> Receiver[光/紅外/腦波接收]
+                            Beacon --> Transmitter[多頻發射陣列]
+                        end
+                </div>
+            </div>
+        </div>
+
+        <!-- 切爾波頓回應圖分析 -->
+        <div class="panel full-width">
+            <h2>📡 切爾波頓回應圖分析</h2>
+            <button id="loadChilboltonAnalysis" class="btn">載入分析數據</button>
+            <div id="chilboltonAnalysis" class="analysis-grid" style="display: none;"></div>
+        </div>
+
+        <!-- 外星人回應圖模型 -->
+        <div class="panel full-width">
+            <h2>🧬 外星人回應圖模型</h2>
+            <div class="mermaid-container">
+                <div class="mermaid">
+                    graph TD
+                        A[🌌 外星人回應信息（切爾波頓圖）]
+                        
+                        A --> B1[🧬 DNA結構]
+                        A --> B2[🪐 星系信息]
+                        A --> B3[🛰️ 通信技術]
+                        A --> B4[👽 生理特徵]
+                        
+                        B1 --> C11[三螺旋 DNA]
+                        B1 --> C12[核苷酸數量 ≈ 人類]
+                        B1 --> C13[元素組成：H, C, N, O, P, Si（硅）]
+                        
+                        B2 --> C21[母恆星：小於太陽]
+                        B2 --> C22[行星：第3、4、5顆]
+                        C22 --> D221[🌍 類地行星居住]
+                        B2 --> C23[人口總數：213億]
+                        
+                        B3 --> C31[二進制通信格式]
+                        B3 --> C32[望遠鏡結構：螃蟹形]
+                        C32 --> D321[直徑：850米]
+                        C32 --> D322[精度遠高於阿雷西博]
+                        
+                        B4 --> C41[👁️ 大眼小嘴、腦袋大]
+                        B4 --> C42[身高約1.2m]
+                        B4 --> C43[硅基生物？非碳基]
+                </div>
+            </div>
+        </div>
+
+        <!-- 接觸協議選擇 -->
+        <div class="panel full-width">
+            <h2>🔗 多維接觸協議</h2>
+            <div id="protocolSelector" class="protocol-selector"></div>
+            <button id="loadProtocols" class="btn">載入接觸協議</button>
+        </div>
+
+        <!-- 接觸序列啟動 -->
+        <div class="panel full-width">
+            <h2>🌟 啟動接觸序列</h2>
+            <form id="contactForm">
+                <div class="main-grid">
+                    <div class="form-group">
+                        <label for="selectedAlien">選擇小灰人</label>
+                        <select id="selectedAlien">
+                            <option value="">請先創建小灰人檔案</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="selectedShip">選擇量子飛船</label>
+                        <select id="selectedShip">
+                            <option value="">請先創建量子飛船</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn">啟動接觸序列</button>
+            </form>
+            <div id="contactLog" class="contact-log" style="display: none;"></div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script>
+        // 初始化 Mermaid
+        mermaid.initialize({ 
+            theme: 'dark',
+            themeVariables: {
+                primaryColor: '#00ff88',
+                primaryTextColor: '#ffffff',
+                primaryBorderColor: '#00ccff',
+                lineColor: '#00ff88',
+                secondaryColor: '#1a1a2e',
+                tertiaryColor: '#16213e'
+            }
+        });
+
+        // 全局變量
+        let createdAliens = [];
+        let createdShips = [];
+        let selectedProtocol = 'AX-3';
+        let contactProtocols = {};
+
+        // 通知系統
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // 創建小灰人
+        document.getElementById('greyAlienForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('alienName').value || `Grey-${Date.now()}`;
+            const origin = document.getElementById('alienOrigin').value;
+            
+            try {
+                const response = await fetch('/api/alien_contact/create_grey_alien', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, origin })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    createdAliens.push(result.alien);
+                    updateAlienSelector();
+                    showNotification(`小灰人檔案 "${result.alien.name}" 創建成功！`);
+                    document.getElementById('greyAlienForm').reset();
+                } else {
+                    showNotification(result.error || '創建失敗', 'error');
+                }
+            } catch (error) {
+                showNotification('網絡錯誤：' + error.message, 'error');
+            }
+        });
+
+        // 創建量子飛船
+        document.getElementById('quantumShipForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('shipName').value || `QuantumShip-${Date.now()}`;
+            const shipClass = document.getElementById('shipClass').value;
+            
+            try {
+                const response = await fetch('/api/alien_contact/create_quantum_ship', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, class: shipClass })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    createdShips.push(result.ship);
+                    updateShipSelector();
+                    showNotification(`量子飛船 "${result.ship.name}" 創建成功！`);
+                    document.getElementById('quantumShipForm').reset();
+                } else {
+                    showNotification(result.error || '創建失敗', 'error');
+                }
+            } catch (error) {
+                showNotification('網絡錯誤：' + error.message, 'error');
+            }
+        });
+
+        // 載入切爾波頓分析
+        document.getElementById('loadChilboltonAnalysis').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/alien_contact/chilbolton_analysis');
+                const result = await response.json();
+                
+                if (result.success) {
+                    displayChilboltonAnalysis(result.analysis);
+                    showNotification('切爾波頓回應圖分析載入成功！');
+                } else {
+                    showNotification(result.error || '載入失敗', 'error');
+                }
+            } catch (error) {
+                showNotification('網絡錯誤：' + error.message, 'error');
+            }
+        });
+
+        // 載入接觸協議
+        document.getElementById('loadProtocols').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/alien_contact/contact_protocols');
+                const result = await response.json();
+                
+                if (result.success) {
+                    contactProtocols = result.protocols;
+                    displayProtocols(result.protocols);
+                    showNotification('接觸協議載入成功！');
+                } else {
+                    showNotification(result.error || '載入失敗', 'error');
+                }
+            } catch (error) {
+                showNotification('網絡錯誤：' + error.message, 'error');
+            }
+        });
+
+        // 啟動接觸序列
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const alienId = document.getElementById('selectedAlien').value;
+            const shipId = document.getElementById('selectedShip').value;
+            
+            if (!alienId || !shipId) {
+                showNotification('請先選擇小灰人和量子飛船', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/alien_contact/initiate_contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        alien_id: alienId, 
+                        ship_id: shipId, 
+                        protocol_id: selectedProtocol 
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    displayContactSequence(result.contact_sequence);
+                    showNotification('接觸序列已成功啟動！');
+                } else {
+                    showNotification(result.error || '啟動失敗', 'error');
+                }
+            } catch (error) {
+                showNotification('網絡錯誤：' + error.message, 'error');
+            }
+        });
+
+        // 更新小灰人選擇器
+        function updateAlienSelector() {
+            const selector = document.getElementById('selectedAlien');
+            selector.innerHTML = '<option value="">選擇小灰人</option>';
+            
+            createdAliens.forEach(alien => {
+                const option = document.createElement('option');
+                option.value = alien.id;
+                option.textContent = `${alien.name} (${alien.classification})`;
+                selector.appendChild(option);
+            });
+        }
+
+        // 更新飛船選擇器
+        function updateShipSelector() {
+            const selector = document.getElementById('selectedShip');
+            selector.innerHTML = '<option value="">選擇量子飛船</option>';
+            
+            createdShips.forEach(ship => {
+                const option = document.createElement('option');
+                option.value = ship.id;
+                option.textContent = `${ship.name} (${ship.class})`;
+                selector.appendChild(option);
+            });
+        }
+
+        // 顯示切爾波頓分析
+        function displayChilboltonAnalysis(analysis) {
+            const container = document.getElementById('chilboltonAnalysis');
+            container.style.display = 'grid';
+            
+            container.innerHTML = `
+                <div class="analysis-card">
+                    <h3>🧬 DNA結構對比</h3>
+                    <ul class="spec-list">
+                        <li><span class="spec-label">人類DNA</span><span class="spec-value">${analysis.comparison_with_arecibo.human_message.dna}</span></li>
+                        <li><span class="spec-label">外星DNA</span><span class="spec-value">${analysis.comparison_with_arecibo.alien_response.dna}</span></li>
+                        <li><span class="spec-label">信息密度</span><span class="spec-value">增強50%</span></li>
+                    </ul>
+                </div>
+                <div class="analysis-card">
+                    <h3>🌍 人口對比</h3>
+                    <ul class="spec-list">
+                        <li><span class="spec-label">人類人口</span><span class="spec-value">${(analysis.comparison_with_arecibo.human_message.population / 1000000000).toFixed(1)}億</span></li>
+                        <li><span class="spec-label">外星人口</span><span class="spec-value">${(analysis.comparison_with_arecibo.alien_response.population / 1000000000).toFixed(0)}億</span></li>
+                        <li><span class="spec-label">文明等級</span><span class="spec-value">${analysis.decoded_message.technology_level}</span></li>
+                    </ul>
+                </div>
+                <div class="analysis-card">
+                    <h3>📡 通信技術</h3>
+                    <ul class="spec-list">
+                        <li><span class="spec-label">阿雷西博</span><span class="spec-value">${analysis.comparison_with_arecibo.human_message.telescope}米</span></li>
+                        <li><span class="spec-label">外星望遠鏡</span><span class="spec-value">${analysis.comparison_with_arecibo.alien_response.telescope}米</span></li>
+                        <li><span class="spec-label">技術優勢</span><span class="spec-value">2.8倍精度</span></li>
+                    </ul>
+                </div>
+                <div class="analysis-card">
+                    <h3>🔬 元素組成</h3>
+                    <ul class="spec-list">
+                        <li><span class="spec-label">共同元素</span><span class="spec-value">H, C, N, O, P</span></li>
+                        <li><span class="spec-label">特殊元素</span><span class="spec-value">Si (硅)</span></li>
+                        <li><span class="spec-label">生命基礎</span><span class="spec-value">${analysis.decoded_message.sender_species}</span></li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        // 顯示接觸協議
+        function displayProtocols(protocols) {
+            const container = document.getElementById('protocolSelector');
+            container.innerHTML = '';
+            
+            Object.entries(protocols).forEach(([id, protocol]) => {
+                const card = document.createElement('div');
+                card.className = `protocol-card ${id === selectedProtocol ? 'selected' : ''}`;
+                card.innerHTML = `
+                    <div class="protocol-name">${protocol.name}</div>
+                    <div class="protocol-features">${protocol.features.join(' • ')}</div>
+                `;
+                
+                card.addEventListener('click', () => {
+                    document.querySelectorAll('.protocol-card').forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                    selectedProtocol = id;
+                });
+                
+                container.appendChild(card);
+            });
+        }
+
+        // 顯示接觸序列
+        function displayContactSequence(sequence) {
+            const container = document.getElementById('contactLog');
+            container.style.display = 'block';
+            
+            let logHtml = `
+                <div class="log-entry">
+                    <div class="log-timestamp">${new Date(sequence.initiated_at).toLocaleString()}</div>
+                    <div>🌟 接觸序列 ${sequence.contact_id} 已啟動</div>
+                </div>
+                <div class="log-entry">
+                    <div>👽 小灰人: ${sequence.participants.alien.name}</div>
+                    <div>🚀 量子飛船: ${sequence.participants.ship.name}</div>
+                    <div>🔗 協議: ${sequence.participants.protocol.name}</div>
+                </div>
+            `;
+            
+            sequence.sequence_steps.forEach(step => {
+                const statusIcon = step.status === 'initiated' ? '🟢' : '⏳';
+                logHtml += `
+                    <div class="log-entry">
+                        <div>${statusIcon} 步驟 ${step.step}: ${step.action}</div>
+                        <div class="log-timestamp">狀態: ${step.status}</div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = logHtml;
+        }
+
+        // 頁面載入時初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            showNotification('小灰人與飛碟量子艙系統已啟動 | 代號：找回');
+        });
+    </script>
+</body>
+</html>

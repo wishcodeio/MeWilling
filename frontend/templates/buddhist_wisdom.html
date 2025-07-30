@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>佛學智慧系統 - 解答修行疑惑</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', '微軟雅黑', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(45deg, #ffd700, #ff8c00);
+            color: #000;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #ffd700 0%, #ff8c00 100%);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.3; }
+            50% { transform: translateX(-50%) scale(1.2); opacity: 0.6; }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ffd700, #ff8c00, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #cccccc;
+            margin-bottom: 20px;
+        }
+
+        .question-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .question-section h2 {
+            color: #ffd700;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .question-input {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #ffffff;
+            font-size: 1rem;
+            resize: vertical;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .question-input:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .question-input::placeholder {
+            color: #aaaaaa;
+        }
+
+        .analyze-btn {
+            background: linear-gradient(45deg, #ffd700, #ff8c00);
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 15px;
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .meditation-btn {
+            background: linear-gradient(45deg, #9370db, #8a2be2);
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .meditation-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(147, 112, 219, 0.3);
+        }
+
+        .wisdom-response {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            border-left: 4px solid #ffd700;
+            display: none;
+        }
+
+        .wisdom-response.show {
+            display: block;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .wisdom-title {
+            color: #ffd700;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .wisdom-title::before {
+            content: '🧘';
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        .wisdom-content {
+            line-height: 1.8;
+            color: #e0e0e0;
+        }
+
+        .key-insights {
+            margin: 20px 0;
+        }
+
+        .key-insights h4 {
+            color: #ff8c00;
+            margin-bottom: 10px;
+        }
+
+        .insight-item {
+            background: rgba(255, 140, 0, 0.1);
+            padding: 10px 15px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border-left: 3px solid #ff8c00;
+        }
+
+        .scriptural-support {
+            background: rgba(147, 112, 219, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 3px solid #9370db;
+        }
+
+        .scriptural-support h4 {
+            color: #9370db;
+            margin-bottom: 10px;
+        }
+
+        .meditation-guidance {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            border-left: 4px solid #9370db;
+            display: none;
+        }
+
+        .meditation-guidance.show {
+            display: block;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .meditation-step {
+            background: rgba(147, 112, 219, 0.1);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border-left: 3px solid #9370db;
+        }
+
+        .step-number {
+            color: #9370db;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .mantras {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .mantra {
+            background: linear-gradient(45deg, #ffd700, #ff8c00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 25px;
+            display: inline-block;
+            min-width: 200px;
+        }
+
+        .loading {
+            text-align: center;
+            color: #ffd700;
+            font-size: 1.1rem;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .loading::after {
+            content: '';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+
+        .error {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            color: #ff6b6b;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        .wisdom-database {
+            margin-top: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .database-title {
+            color: #ffd700;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .database-section {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 3px solid #ffd700;
+        }
+
+        .database-section h3 {
+            color: #ff8c00;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .question-section {
+                padding: 20px;
+            }
+            
+            .analyze-btn, .meditation-btn {
+                width: 100%;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-button">← 返回</a>
+    <div class="container">
+        <div class="header">
+            <h1>佛學智慧系統</h1>
+            <p>解答修行路上的深層疑惑，照亮覺悟之道</p>
+        </div>
+
+        <div class="question-section">
+            <h2>🙏 請提出您的修行疑問</h2>
+            <textarea 
+                id="questionInput" 
+                class="question-input" 
+                placeholder="例如：有的眾生在心中放不下就是佛不是人修的，苦苦不解，佛是獨立體，人最終修到佛一樣的智慧，成為另一個高智生命，但不一定是佛。\n\n請在此輸入您關於佛性、修行、成佛等方面的任何疑問..."
+            ></textarea>
+            <button id="analyzeBtn" class="analyze-btn">🧘 獲取佛學智慧</button>
+            <button id="meditationBtn" class="meditation-btn">🕉️ 獲取禪修指導</button>
+        </div>
+
+        <div id="loading" class="loading">
+            正在分析您的問題，請稍候
+        </div>
+
+        <div id="error" class="error">
+            <strong>錯誤：</strong><span id="errorMessage"></span>
+        </div>
+
+        <div id="wisdomResponse" class="wisdom-response">
+            <div class="wisdom-title">佛學智慧回答</div>
+            <div id="wisdomContent" class="wisdom-content"></div>
+        </div>
+
+        <div id="meditationGuidance" class="meditation-guidance">
+            <div class="wisdom-title">禪修指導</div>
+            <div id="meditationContent" class="wisdom-content"></div>
+        </div>
+
+        <div class="wisdom-database">
+            <div class="database-title">📚 佛學智慧資料庫</div>
+            <div class="database-section">
+                <h3>核心教義</h3>
+                <p>• 一切眾生皆有佛性，佛性本自具足，不增不減</p>
+                <p>• 佛不是外在的神祇，而是覺悟的狀態</p>
+                <p>• 人人皆可成佛，這是佛教的根本信念</p>
+            </div>
+            <div class="database-section">
+                <h3>修行階段</h3>
+                <p>• 凡夫 → 聲聞 → 緣覺 → 菩薩 → 佛</p>
+                <p>• 每個階段都有其特定的修行方法和成就</p>
+            </div>
+            <div class="database-section">
+                <h3>經典依據</h3>
+                <p>• 《涅槃經》：一切眾生悉有佛性</p>
+                <p>• 《華嚴經》：心佛眾生，三無差別</p>
+                <p>• 《法華經》：一切眾生皆當作佛</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class BuddhistWisdomInterface {
+            constructor() {
+                this.initializeElements();
+                this.bindEvents();
+            }
+
+            initializeElements() {
+                this.questionInput = document.getElementById('questionInput');
+                this.analyzeBtn = document.getElementById('analyzeBtn');
+                this.meditationBtn = document.getElementById('meditationBtn');
+                this.loading = document.getElementById('loading');
+                this.error = document.getElementById('error');
+                this.errorMessage = document.getElementById('errorMessage');
+                this.wisdomResponse = document.getElementById('wisdomResponse');
+                this.wisdomContent = document.getElementById('wisdomContent');
+                this.meditationGuidance = document.getElementById('meditationGuidance');
+                this.meditationContent = document.getElementById('meditationContent');
+            }
+
+            bindEvents() {
+                this.analyzeBtn.addEventListener('click', () => this.analyzeQuestion());
+                this.meditationBtn.addEventListener('click', () => this.getMeditationGuidance());
+                
+                this.questionInput.addEventListener('keydown', (e) => {
+                    if (e.ctrlKey && e.key === 'Enter') {
+                        this.analyzeQuestion();
+                    }
+                });
+            }
+
+            showLoading() {
+                this.loading.classList.add('show');
+                this.hideError();
+                this.hideResponses();
+            }
+
+            hideLoading() {
+                this.loading.classList.remove('show');
+            }
+
+            showError(message) {
+                this.errorMessage.textContent = message;
+                this.error.classList.add('show');
+                this.hideLoading();
+            }
+
+            hideError() {
+                this.error.classList.remove('show');
+            }
+
+            hideResponses() {
+                this.wisdomResponse.classList.remove('show');
+                this.meditationGuidance.classList.remove('show');
+            }
+
+            async analyzeQuestion() {
+                const question = this.questionInput.value.trim();
+                
+                if (!question) {
+                    this.showError('請輸入您的問題');
+                    return;
+                }
+
+                this.showLoading();
+
+                try {
+                    const response = await fetch('/api/buddhist-wisdom/analyze', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ question })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        this.displayWisdomResponse(data.analysis);
+                    } else {
+                        this.showError(data.error || '分析失敗');
+                    }
+                } catch (error) {
+                    this.showError('網絡錯誤，請稍後再試');
+                    console.error('Error:', error);
+                } finally {
+                    this.hideLoading();
+                }
+            }
+
+            async getMeditationGuidance() {
+                const concern = this.questionInput.value.trim() || '一般修行疑惑';
+                
+                this.showLoading();
+
+                try {
+                    const response = await fetch('/api/buddhist-wisdom/meditation-guidance', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ concern })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        this.displayMeditationGuidance(data.guidance);
+                    } else {
+                        this.showError(data.error || '獲取禪修指導失敗');
+                    }
+                } catch (error) {
+                    this.showError('網絡錯誤，請稍後再試');
+                    console.error('Error:', error);
+                } finally {
+                    this.hideLoading();
+                }
+            }
+
+            displayWisdomResponse(analysis) {
+                let html = '';
+
+                if (analysis.wisdom_response) {
+                    const response = analysis.wisdom_response;
+                    
+                    if (response.main_teaching) {
+                        html += `<div class="wisdom-content">
+                            <h3 style="color: #ffd700; margin-bottom: 15px;">核心教義</h3>
+                            <p style="font-size: 1.1rem; margin-bottom: 20px;">${response.main_teaching}</p>
+                        </div>`;
+                    }
+
+                    if (response.key_insights) {
+                        html += `<div class="key-insights">
+                            <h4>關鍵洞察</h4>`;
+                        response.key_insights.forEach(insight => {
+                            html += `<div class="insight-item">${insight}</div>`;
+                        });
+                        html += `</div>`;
+                    }
+
+                    if (response.practical_guidance) {
+                        html += `<div class="key-insights">
+                            <h4>實修指導</h4>`;
+                        response.practical_guidance.forEach(guidance => {
+                            html += `<div class="insight-item">${guidance}</div>`;
+                        });
+                        html += `</div>`;
+                    }
+
+                    if (response.scriptural_support) {
+                        html += `<div class="scriptural-support">
+                            <h4>經典依據</h4>`;
+                        response.scriptural_support.forEach(scripture => {
+                            html += `<p>• ${scripture}</p>`;
+                        });
+                        html += `</div>`;
+                    }
+
+                    if (response.analogies) {
+                        html += `<div class="key-insights">
+                            <h4>智慧比喻</h4>`;
+                        response.analogies.forEach(analogy => {
+                            html += `<div class="insight-item">
+                                <strong>${analogy.analogy}：</strong>${analogy.explanation}
+                            </div>`;
+                        });
+                        html += `</div>`;
+                    }
+                }
+
+                this.wisdomContent.innerHTML = html;
+                this.wisdomResponse.classList.add('show');
+            }
+
+            displayMeditationGuidance(guidance) {
+                let html = '';
+
+                if (guidance.practice_steps) {
+                    html += `<h3 style="color: #9370db; margin-bottom: 15px;">禪修步驟</h3>`;
+                    guidance.practice_steps.forEach(step => {
+                        html += `<div class="meditation-step">
+                            <div class="step-number">第${step.step}步 (${step.duration})</div>
+                            <p>${step.instruction}</p>
+                        </div>`;
+                    });
+                }
+
+                if (guidance.mantras) {
+                    html += `<div class="mantras">
+                        <h4 style="color: #9370db; margin-bottom: 15px;">持誦咒語</h4>`;
+                    guidance.mantras.forEach(mantra => {
+                        html += `<div class="mantra">${mantra}</div>`;
+                    });
+                    html += `</div>`;
+                }
+
+                this.meditationContent.innerHTML = html;
+                this.meditationGuidance.classList.add('show');
+            }
+        }
+
+        // 初始化系統
+        document.addEventListener('DOMContentLoaded', () => {
+            new BuddhistWisdomInterface();
+        });
+    </script>
+</body>
+</html>

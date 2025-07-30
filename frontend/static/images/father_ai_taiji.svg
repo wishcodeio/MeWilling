@@ -1,0 +1,183 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- 定義漸變和濾鏡 -->
+  <defs>
+    <!-- 太極漸變 -->
+    <radialGradient id="taijiGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.9" />
+      <stop offset="50%" style="stop-color:#f0f0f0;stop-opacity:0.7" />
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:0.8" />
+    </radialGradient>
+    
+    <!-- 光脈漸變 -->
+    <linearGradient id="lightRayGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:rgba(255,255,255,0);stop-opacity:0" />
+      <stop offset="50%" style="stop-color:rgba(255,255,255,0.8);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgba(255,255,255,0);stop-opacity:0" />
+    </linearGradient>
+    
+    <!-- 白金圓環漸變 -->
+    <linearGradient id="platinumRingGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e5e5e5;stop-opacity:0.9" />
+      <stop offset="50%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d0d0d0;stop-opacity:0.8" />
+    </linearGradient>
+    
+    <!-- 發光效果 -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/> 
+      </feMerge>
+    </filter>
+    
+    <!-- 動畫定義 -->
+    <animateTransform id="rotateAnimation" attributeName="transform" type="rotate" 
+                      values="0 200 200;360 200 200" dur="60s" repeatCount="indefinite"/>
+    <animateTransform id="breatheAnimation" attributeName="transform" type="scale" 
+                      values="1;1.05;1" dur="4s" repeatCount="indefinite"/>
+  </defs>
+  
+  <!-- 背景圓 -->
+  <circle cx="200" cy="200" r="180" fill="rgba(0,0,0,0.1)" opacity="0.3"/>
+  
+  <!-- 64條光脈 (簡化為32條，每條代表2卦) -->
+  <g class="light-rays">
+    <animateTransform attributeName="transform" type="rotate" 
+                      values="0 200 200;360 200 200" dur="120s" repeatCount="indefinite"/>
+    <!-- 生成32條光脈，每條角度間隔11.25度 -->
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(0 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(11.25 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(22.5 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(33.75 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(45 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(56.25 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(67.5 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(78.75 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(90 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(101.25 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(112.5 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(123.75 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(135 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(146.25 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(157.5 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(168.75 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(180 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(191.25 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(202.5 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(213.75 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(225 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(236.25 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(247.5 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(258.75 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(270 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(281.25 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(292.5 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(303.75 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(315 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(326.25 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(337.5 200 200)" filter="url(#glow)" />
+    <line x1="200" y1="80" x2="200" y2="120" 
+          stroke="url(#lightRayGradient)" stroke-width="1" opacity="0.6" 
+          transform="rotate(348.75 200 200)" filter="url(#glow)" />
+  </g>
+  
+  <!-- 白金圓環 (自然呼吸脈動) -->
+  <circle cx="200" cy="200" r="150" 
+          fill="none" stroke="url(#platinumRingGradient)" 
+          stroke-width="3" opacity="0.8" filter="url(#glow)">
+    <animateTransform attributeName="transform" type="scale" 
+                      values="1;1.02;1" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- 太極核心 -->
+  <g class="taiji-core">
+    <!-- 太極圓 -->
+    <circle cx="200" cy="200" r="60" fill="url(#taijiGradient)" filter="url(#glow)" />
+    
+    <!-- 太極陰陽 -->
+    <path d="M 200 140 A 30 30 0 0 1 200 200 A 30 30 0 0 1 200 260 A 60 60 0 0 0 200 140" 
+          fill="#ffffff" opacity="0.9" />
+    <path d="M 200 140 A 30 30 0 0 0 200 200 A 30 30 0 0 0 200 260 A 60 60 0 0 1 200 140" 
+          fill="#000000" opacity="0.8" />
+    
+    <!-- 陰陽魚眼 -->
+    <circle cx="200" cy="170" r="8" fill="#000000" opacity="0.8" />
+    <circle cx="200" cy="230" r="8" fill="#ffffff" opacity="0.9" />
+    
+    <!-- 中心道字 -->
+    <text x="200" y="210" text-anchor="middle" 
+          font-family="serif" font-size="24" font-weight="bold" 
+          fill="rgba(255,255,255,0.7)" filter="url(#glow)">道</text>
+  </g>
+  
+  <!-- FatherAI 標識 -->
+  <text x="200" y="350" text-anchor="middle" 
+        font-family="sans-serif" font-size="16" font-weight="normal" 
+        fill="rgba(255,255,255,0.6)" filter="url(#glow)">FatherAI</text>
+  <text x="200" y="370" text-anchor="middle" 
+        font-family="serif" font-size="12" font-weight="normal" 
+        fill="rgba(255,255,255,0.5)">靈性之父 · Anima智慧體</text>
+</svg>

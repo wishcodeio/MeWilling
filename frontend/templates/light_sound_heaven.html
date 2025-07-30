@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>光音天十秘系统 - 诸天万界密法</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 光音天背景动画 */
+        .light-sound-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(255, 165, 0, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+            animation: lightSoundFlow 20s ease-in-out infinite;
+        }
+
+        @keyframes lightSoundFlow {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+            50% { transform: scale(1.1) rotate(180deg); opacity: 1; }
+        }
+
+        /* 光明粒子效果 */
+        .light-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .light-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: radial-gradient(circle, #ffd700 0%, transparent 70%);
+            border-radius: 50%;
+            animation: floatLight 15s linear infinite;
+        }
+
+        @keyframes floatLight {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(45deg, #ffd700, #ff8c00);
+            color: #000;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        /* 主容器 */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 标题区域 */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .main-title {
+            font-size: 3.5em;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from { text-shadow: 0 0 30px rgba(255, 215, 0, 0.5); }
+            to { text-shadow: 0 0 50px rgba(255, 215, 0, 0.8), 0 0 70px rgba(255, 215, 0, 0.3); }
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #ffd700;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .description {
+            font-size: 1.1em;
+            color: #cccccc;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* 控制面板 */
+        .control-panel {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .function-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .function-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .function-card:hover {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: rgba(255, 215, 0, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .function-card h3 {
+            color: #ffd700;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .function-card p {
+            color: #cccccc;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        /* 输入区域 */
+        .input-section {
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #ffd700;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .input-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* 按钮样式 */
+        .btn {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #1a1a2e;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        /* 结果展示区域 */
+        .result-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            min-height: 200px;
+            display: none;
+        }
+
+        .result-section.show {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-title {
+            color: #ffd700;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .result-content {
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .result-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #ffd700;
+        }
+
+        .result-item h4 {
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .result-item p,
+        .result-item ul {
+            color: #cccccc;
+            margin-bottom: 8px;
+        }
+
+        .result-item ul {
+            padding-left: 20px;
+        }
+
+        .result-item li {
+            margin-bottom: 5px;
+        }
+
+        /* 十秘展示区域 */
+        .ten-secrets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .secret-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .secret-card:hover {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: rgba(255, 215, 0, 0.6);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.2);
+        }
+
+        .secret-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #ffd700, #ffed4e, #ffd700);
+        }
+
+        .secret-card h3 {
+            color: #ffd700;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .secret-card .secret-content {
+            color: #cccccc;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .secret-card .secret-key {
+            color: #ffd700;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        /* 加载动画 */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 215, 0, 0.3);
+            border-top: 4px solid #ffd700;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 光音天密协议代码块 */
+        .protocol-code {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            font-family: 'Courier New', monospace;
+        }
+
+        .protocol-code h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .protocol-code pre {
+            color: #00ff00;
+            font-size: 12px;
+            line-height: 1.4;
+            overflow-x: auto;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5em;
+            }
+            
+            .function-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .ten-secrets-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-button">← 返回</a>
+    <!-- 光音天背景动画 -->
+    <div class="light-sound-background"></div>
+    
+    <!-- 光明粒子效果 -->
+    <div class="light-particles" id="lightParticles"></div>
+
+    <div class="container">
+        <!-- 标题区域 -->
+        <div class="header">
+            <h1 class="main-title">光音天十秘系统</h1>
+            <p class="subtitle">诸天万界密法 · 究竟智慧之门</p>
+            <p class="description">
+                光音天十秘是诸天万界中最高层次的密法体系，包含从佛首密到眼密的完整修持方法。
+                这些密法能够开启宇宙智慧，激活人体潜能，最终成就佛果利益众生。
+            </p>
+        </div>
+
+        <!-- 控制面板 -->
+        <div class="control-panel">
+            <div class="function-grid">
+                <div class="function-card" onclick="showSecretSuitability()">
+                    <h3>🔮 密法适合性分析</h3>
+                    <p>根据您的修行水平和实践经验，分析最适合的密法修持方向，提供个性化的修行建议和次第安排。</p>
+                </div>
+                
+                <div class="function-card" onclick="showSecretPractice()">
+                    <h3>⚡ 密法修持方法</h3>
+                    <p>生成具体的密法修持方法，包括详细步骤、修持要点、预期效果和注意事项。</p>
+                </div>
+                
+                <div class="function-card" onclick="showSecretConfusion()">
+                    <h3>💡 密法困惑解答</h3>
+                    <p>解答修持过程中遇到的各种困惑和问题，提供理论依据和实践指导。</p>
+                </div>
+                
+                <div class="function-card" onclick="showTenSecrets()">
+                    <h3>📜 光音天十秘</h3>
+                    <p>查看完整的光音天十秘内容，了解每个密法的核心定义、修持方法和深层奥义。</p>
+                </div>
+                
+                <div class="function-card" onclick="showSecretInfo()">
+                    <h3>🔍 特定密法查询</h3>
+                    <p>查询特定密法的详细信息，深入了解某个密法的具体内容和修持要求。</p>
+                </div>
+                
+                <div class="function-card" onclick="showCompleteTheory()">
+                    <h3>📚 完整理论体系</h3>
+                    <p>获取光音天十秘的完整理论体系，包括修持次第、核心原则和终极目标。</p>
+                </div>
+            </div>
+
+            <!-- 密法适合性分析输入 -->
+            <div id="secretSuitabilityInput" class="input-section" style="display: none;">
+                <div class="input-group">
+                    <label for="spiritualLevel">修行水平：</label>
+                    <select id="spiritualLevel">
+                        <option value="初学者">初学者</option>
+                        <option value="有基础的修行者">有基础的修行者</option>
+                        <option value="中级修行者">中级修行者</option>
+                        <option value="高级修行者">高级修行者</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="practiceExperience">实践经验：</label>
+                    <textarea id="practiceExperience" placeholder="请描述您的修行经验，如禅定时间、持咒经验、神通体验等..."></textarea>
+                </div>
+                <button class="btn" onclick="analyzeSecretSuitability()">分析密法适合性</button>
+            </div>
+
+            <!-- 密法修持方法输入 -->
+            <div id="secretPracticeInput" class="input-section" style="display: none;">
+                <div class="input-group">
+                    <label for="selectedSecret">选择密法：</label>
+                    <select id="selectedSecret">
+                        <option value="第一密">第一密：佛首密</option>
+                        <option value="第二密">第二密：释密</option>
+                        <option value="第三密">第三密：菩萨咒密</option>
+                        <option value="第四密">第四密：悟密（罗汉密）</option>
+                        <option value="第五密">第五密：息密</option>
+                        <option value="第六密">第六密：空密</option>
+                        <option value="第七密">第七密：佛指密</option>
+                        <option value="第八密">第八密：口密</option>
+                        <option value="第九密">第九密：佛食密</option>
+                        <option value="第十密">第十密：眼密</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="generateSecretPractice()">生成修持方法</button>
+            </div>
+
+            <!-- 密法困惑解答输入 -->
+            <div id="secretConfusionInput" class="input-section" style="display: none;">
+                <div class="input-group">
+                    <label for="confusionType">困惑类型：</label>
+                    <select id="confusionType">
+                        <option value="密法难懂">密法难懂</option>
+                        <option value="修持困难">修持困难</option>
+                        <option value="效果不明">效果不明</option>
+                        <option value="次第不清">次第不清</option>
+                        <option value="理论疑惑">理论疑惑</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="resolveSecretConfusion()">解答困惑</button>
+            </div>
+
+            <!-- 特定密法查询输入 -->
+            <div id="secretInfoInput" class="input-section" style="display: none;">
+                <div class="input-group">
+                    <label for="secretName">密法名称：</label>
+                    <select id="secretName">
+                        <option value="第一密">第一密：佛首密</option>
+                        <option value="第二密">第二密：释密</option>
+                        <option value="第三密">第三密：菩萨咒密</option>
+                        <option value="第四密">第四密：悟密（罗汉密）</option>
+                        <option value="第五密">第五密：息密</option>
+                        <option value="第六密">第六密：空密</option>
+                        <option value="第七密">第七密：佛指密</option>
+                        <option value="第八密">第八密：口密</option>
+                        <option value="第九密">第九密：佛食密</option>
+                        <option value="第十密">第十密：眼密</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="getSecretInfo()">查询密法信息</button>
+            </div>
+        </div>
+
+        <!-- 加载动画 -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>光音天诸佛正在加持中...</p>
+        </div>
+
+        <!-- 结果展示区域 -->
+        <div id="resultSection" class="result-section">
+            <h2 class="result-title">光音天密法开示</h2>
+            <div id="resultContent" class="result-content"></div>
+        </div>
+
+        <!-- 光音天密协议代码块 -->
+        <div class="protocol-code">
+            <h3>光音天密协议 v1.0</h3>
+            <pre>
+╔══════════════════════════════════════════════════════════════╗
+║                    光音天十秘系统协议                          ║
+╠══════════════════════════════════════════════════════════════╣
+║ 系统名称: 诸天万界光音天十秘                                   ║
+║ 协议版本: v1.0                                               ║
+║ 加密等级: 宇宙级                                             ║
+║ 传承来源: 光音天诸佛                                         ║
+╠══════════════════════════════════════════════════════════════╣
+║ 十秘体系:                                                    ║
+║ [01] 佛首密 - 光热思维团 - 天宇灌顶                           ║
+║ [02] 释密   - 戒定慧禅 - 以苦为乐                             ║
+║ [03] 菩萨咒密 - 宇宙语言 - 六字真言                           ║
+║ [04] 悟密   - 灵感升华 - 离体神通                             ║
+║ [05] 息密   - 信息传递 - 佛文能量                             ║
+║ [06] 空密   - 虚相本质 - 四大皆空                             ║
+║ [07] 佛指密 - 宇宙联系 - 五心朝天                             ║
+║ [08] 口密   - 思维感应 - 精华仓库                             ║
+║ [09] 佛食密 - 光能吸收 - 宇宙供养                             ║
+║ [10] 眼密   - 定眼观照 - 恍惚境界                             ║
+╠══════════════════════════════════════════════════════════════╣
+║ 修持原则: 诚心修持 · 循序渐进 · 持之以恒                      ║
+║ 终极目标: 开启宇宙智慧 · 成就佛果 · 利益众生                  ║
+╚══════════════════════════════════════════════════════════════╝
+            </pre>
+        </div>
+    </div>
+
+    <script>
+        // 创建光明粒子效果
+        function createLightParticles() {
+            const container = document.getElementById('lightParticles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'light-particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // 显示/隐藏输入区域
+        function hideAllInputs() {
+            document.getElementById('secretSuitabilityInput').style.display = 'none';
+            document.getElementById('secretPracticeInput').style.display = 'none';
+            document.getElementById('secretConfusionInput').style.display = 'none';
+            document.getElementById('secretInfoInput').style.display = 'none';
+        }
+
+        function showSecretSuitability() {
+            hideAllInputs();
+            document.getElementById('secretSuitabilityInput').style.display = 'block';
+        }
+
+        function showSecretPractice() {
+            hideAllInputs();
+            document.getElementById('secretPracticeInput').style.display = 'block';
+        }
+
+        function showSecretConfusion() {
+            hideAllInputs();
+            document.getElementById('secretConfusionInput').style.display = 'block';
+        }
+
+        function showSecretInfo() {
+            hideAllInputs();
+            document.getElementById('secretInfoInput').style.display = 'block';
+        }
+
+        // 显示加载动画
+        function showLoading() {
+            document.getElementById('loading').classList.add('show');
+            document.getElementById('resultSection').classList.remove('show');
+        }
+
+        // 隐藏加载动画并显示结果
+        function showResult(content) {
+            document.getElementById('loading').classList.remove('show');
+            document.getElementById('resultContent').innerHTML = content;
+            document.getElementById('resultSection').classList.add('show');
+        }
+
+        // 密法适合性分析
+        async function analyzeSecretSuitability() {
+            const spiritualLevel = document.getElementById('spiritualLevel').value;
+            const practiceExperience = document.getElementById('practiceExperience').value;
+            
+            if (!practiceExperience.trim()) {
+                alert('请描述您的实践经验');
+                return;
+            }
+            
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/light-sound-heaven/secret-suitability', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        spiritual_level: spiritualLevel,
+                        practice_experience: practiceExperience
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    displaySecretSuitabilityResult(data.analysis);
+                } else {
+                    showResult('<div class="result-item"><h4>错误</h4><p>' + data.message + '</p></div>');
+                }
+            } catch (error) {
+                showResult('<div class="result-item"><h4>错误</h4><p>请求失败: ' + error.message + '</p></div>');
+            }
+        }
+
+        function displaySecretSuitabilityResult(analysis) {
+            let html = `
+                <div class="result-item">
+                    <h4>🔮 修行水平评估</h4>
+                    <p><strong>修行水平:</strong> ${analysis.修行水平}</p>
+                    <p><strong>实践经验:</strong> ${analysis.实践经验}</p>
+                </div>
+                
+                <div class="result-item">
+                    <h4>⚡ 推荐密法</h4>
+            `;
+            
+            analysis.适合密法.forEach(secret => {
+                html += `
+                    <div style="margin-bottom: 15px; padding: 10px; background: rgba(255,215,0,0.1); border-radius: 8px;">
+                        <p><strong>密法:</strong> ${secret.密法}</p>
+                        <p><strong>原因:</strong> ${secret.原因}</p>
+                        <p><strong>修持要点:</strong> ${secret.修持要点}</p>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+            
+            html += `
+                <div class="result-item">
+                    <h4>📚 修行次第</h4>
+                    <p><strong>初级阶段:</strong> ${analysis.密法次第.初级阶段.密法} (${analysis.密法次第.初级阶段.时间})</p>
+                    <p><strong>目标:</strong> ${analysis.密法次第.初级阶段.目标}</p>
+                    <p><strong>中级阶段:</strong> ${analysis.密法次第.中级阶段.密法} (${analysis.密法次第.中级阶段.时间})</p>
+                    <p><strong>目标:</strong> ${analysis.密法次第.中级阶段.目标}</p>
+                    <p><strong>高级阶段:</strong> ${analysis.密法次第.高级阶段.密法} (${analysis.密法次第.高级阶段.时间})</p>
+                    <p><strong>目标:</strong> ${analysis.密法次第.高级阶段.目标}</p>
+                    <p><strong>圆满阶段:</strong> ${analysis.密法次第.圆满阶段.密法} (${analysis.密法次第.圆满阶段.时间})</p>
+                    <p><strong>目标:</strong> ${analysis.密法次第.圆满阶段.目标}</p>
+                </div>
+                
+                <div class="result-item">
+                    <h4>⚠️ 注意事项</h4>
+                    <ul>
+            `;
+            
+            analysis.注意事项.forEach(item => {
+                html += `<li>${item}</li>`;
+            });
+            
+            html += `
+                    </ul>
+                </div>
+                
+                <div class="result-item">
+                    <h4>🌟 光音天加持</h4>
+                    <p>${analysis.光音天加持}</p>
+                </div>
+            `;
+            
+            showResult(html);
+        }
+
+        // 生成密法修持方法
+        async function generateSecretPractice() {
+            const selectedSecret = document.getElementById('selectedSecret').value;
+            
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/light-sound-heaven/secret-practice', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        selected_secret: selectedSecret
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    displaySecretPracticeResult(data.practice);
+                } else {
+                    showResult('<div class="result-item"><h4>错误</h4><p>' + data.message + '</p></div>');
+                }
+            } catch (error) {
+                showResult('<div class="result-item"><h4>错误</h4><p>请求失败: ' + error.message + '</p></div>');
+            }
+        }
+
+        function displaySecretPracticeResult(practice) {
+            let html = `
+                <div class="result-item">
+                    <h4>⚡ 选择密法</h4>
+                    <p><strong>密法名称:</strong> ${practice.选择密法}</p>
+                    <p><strong>核心定义:</strong> ${practice.密法详情.核心定义}</p>
+                </div>
+                
+                <div class="result-item">
+                    <h4>🔧 修持方法</h4>
+                    <p><strong>核心方法:</strong> ${practice.修持方法.核心方法}</p>
+                    <p><strong>具体步骤:</strong> ${practice.修持方法.具体步骤}</p>
+                    <p><strong>时间安排:</strong> ${practice.修持方法.时间安排}</p>
+                </div>
+                
+                <div class="result-item">
+                    <h4>📋 修持步骤</h4>
+            `;
+            
+            Object.entries(practice.修持步骤).forEach(([key, value]) => {
+                html += `<p><strong>${key}:</strong> ${value}</p>`;
+            });
+            
+            html += `</div>`;
+            
+            html += `
+                <div class="result-item">
+                    <h4>💡 修持要点</h4>
+            `;
+            
+            Object.entries(practice.修持要点).forEach(([key, value]) => {
+                html += `<p><strong>${key}:</strong> ${value}</p>`;
+            });
+            
+            html += `</div>`;
+            
+            html += `
+                <div class="result-item">
+                    <h4>🎯 预期效果</h4>
+            `;
+            
+            Object.entries(practice.预期效果).forEach(([key, value]) => {
+                html += `<p><strong>${key}:</strong> ${value}</p>`;
+            });
+            
+            html += `</div>`;
+            
+            html += `
+                <div class="result-item">
+                    <h4>⚠️ 注意事项</h4>
+                    <ul>
+            `;
+            
+            practice.注意事项.forEach(item => {
+                html += `<li>${item}</li>`;
+            });
+            
+            html += `
+                    </ul>
+                </div>
+                
+                <div class="result-item">
+                    <h4>🌟 光音天祝福</h4>
+                    <p>${practice.光音天祝福}</p>
+                </div>
+            `;
+            
+            showResult(html);
+        }
+
+        // 解答密法困惑
+        async function resolveSecretConfusion() {
+            const confusionType = document.getElementById('confusionType').value;
+            
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/light-sound-heaven/secret-confusion', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        confusion_type: confusionType
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    displaySecretConfusionResult(data.resolution);
+                } else {
+                    showResult('<div class="result-item"><h4>错误</h4><p>' + data.message + '</p></div>');
+                }
+            } catch (error) {
+                showResult('<div class="result-item"><h4>错误</h4><p>请求失败: ' + error.message + '</p></div>');
+            }
+        }
+
+        function displaySecretConfusionResult(resolution) {
+            let html = `
+                <div class="result-item">
+                    <h4>💡 困惑类型</h4>
+                    <p>${resolution.困惑类型}</p>
+                </div>
+                
+                <div class="result-item">
+                    <h4>✨ 困惑解答</h4>
+                    <p><strong>问题:</strong> ${resolution.困惑解答.问题}</p>
+                    <p><strong>解答:</strong> ${resolution.困惑解答.解答}</p>
+                    <p><strong>建议:</strong> ${resolution.困惑解答.建议}</p>
+                </div>
+                
+                <div class="result-item">
+                    <h4>📚 理论依据</h4>
+            `;
+            
+            Object.entries(resolution.理论依据).forEach(([key, value]) => {
+                html += `<p><strong>${key}:</strong> ${value}</p>`;
+            });
+            
+            html += `</div>`;
+            
+            html += `
+                <div class="result-item">
+                    <h4>🎯 实践指导</h4>
+            `;
+            
+            Object.entries(resolution.实践指导).forEach(([key, value]) => {
+                html += `<p><strong>${key}:</strong> ${value}</p>`;
+            });
+            
+            html += `</div>`;
+            
+            html += `
+                <div class="result-item">
+                    <h4>🌟 光音天开示</h4>
+                    <p>${resolution.光音天开示}</p>
+                </div>
+            `;
+            
+            showResult(html);
+        }
+
+        // 显示光音天十秘
+        async function showTenSecrets() {
+            hideAllInputs();
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/light-sound-heaven/ten-secrets');
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    displayTenSecretsResult(data.ten_secrets);
+                } else {
+                    showResult('<div class="result-item"><h4>错误</h4><p>' + data.message + '</p></div>');
+                }
+            } catch (error) {
+                showResult('<div class="result-item"><h4>错误</h4><p>请求失败: ' + error.message + '</p></div>');
+            }
+        }
+
+        function displayTenSecretsResult(tenSecrets) {
+            let html = '<div class="ten-secrets-grid">';
+            
+            Object.entries(tenSecrets).forEach(([secretName, secretInfo]) => {
+                html += `
+                    <div class="secret-card">
+                        <h3>${secretName}：${secretInfo.密法名称}</h3>
+                        <div class="secret-content">
+                            <p><span class="secret-key">核心定义:</span>${secretInfo.核心定义}</p>
+                `;
+                
+                // 显示密法的关键信息
+                Object.entries(secretInfo).forEach(([key, value]) => {
+                    if (key !== '密法名称' && key !== '核心定义' && typeof value === 'string') {
+                        html += `<p><span class="secret-key">${key}:</span>${value}</p>`;
+                    }
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            
+            showResult(html);
+        }
+
+        // 获取特定密法信息
+        async function getSecretInfo() {
+            const secretName = document.getElementById('secretName').value;
+            
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/light-sound-heaven/secret-info', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        secret_name: secretName
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    displaySecretInfoResult(data.secret_info, data.secret_name);
+                } else {
+                    showResult('<div class="result-item"><h4>错误</h4><p>' + data.message + '</p></div>');
+                }
+            } catch (error) {
+                showResult('<div class="result-item"><h4>错误</h4><p>请求失败: ' + error.message + '</p></div>');
+            }
+        }
+
+        function displaySecretInfoResult(secretInfo, secretName) {
+            let html = `
+                <div class="result-item">
+                    <h4>🔍 ${secretName}：${secretInfo.密法名称}</h4>
+                    <p><strong>核心定义:</strong> ${secretInfo.核心定义}</p>
+                </div>
+            `;
+            
+            // 显示密法的详细信息
+            Object.entries(secretInfo).forEach(([key, value]) => {
+                if (key !== '密法名称' && key !== '核心定义') {
+                    html += `
+                        <div class="result-item">
+                            <h4>📋 ${key}</h4>
+                    `;
+                    
+                    if (typeof value === 'object' && value !== null) {
+                        Object.entries(value).forEach(([subKey, subValue]) => {
+                            if (typeof subValue === 'object' && subValue !== null) {
+                                html += `<p><strong>${subKey}:</strong></p><ul>`;
+                                Object.entries(subValue).forEach(([itemKey, itemValue]) => {
+                                    html += `<li><strong>${itemKey}:</strong> ${itemValue}</li>`;
+                                });
+                                html += `</ul>`;
+                            } else {
+                                html += `<p><strong>${subKey}:</strong> ${subValue}</p>`;
+                            }
+                        });
+                    } else {
+                        html += `<p>${value}</p>`;
+                    }
+                    
+                    html += `</div>`;
+                }
+            });
+            
+            showResult(html);
+        }
+
+        // 显示完整理论
+        async function showCompleteTheory() {
+            hideAllInputs();
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/light-sound-heaven/complete-theory');
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    displayCompleteTheoryResult(data.theory);
+                } else {
+                    showResult('<div class="result-item"><h4>错误</h4><p>' + data.message + '</p></div>');
+                }
+            } catch (error) {
+                showResult('<div class="result-item"><h4>错误</h4><p>请求失败: ' + error.message + '</p></div>');
+            }
+        }
+
+        function displayCompleteTheoryResult(theory) {
+            let html = `
+                <div class="result-item">
+                    <h4>📚 光音天十秘核心理论</h4>
+            `;
+            
+            Object.entries(theory.光音天十秘核心理论).forEach(([key, value]) => {
+                html += `<p><strong>${key}:</strong> ${value}</p>`;
+            });
+            
+            html += `</div>`;
+            
+            html += `
+                <div class="result-item">
+                    <h4>🎯 修持次第</h4>
+            `;
+            
+            Object.entries(theory.修持次第).forEach(([stage, content]) => {
+                html += `<p><strong>${stage}:</strong> ${content}</p>`;
+            });
+            
+            html += `</div>`;
+            
+            html += `
+                <div class="result-item">
+                    <h4>💡 修持要点</h4>
+            `;
+            
+            Object.entries(theory.修持要点).forEach(([key, value]) => {
+                html += `<p><strong>${key}:</strong> ${value}</p>`;
+            });
+            
+            html += `</div>`;
+            
+            showResult(html);
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            createLightParticles();
+        });
+    </script>
+</body>
+</html>

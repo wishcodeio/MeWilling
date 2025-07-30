@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>量子彩票與神性選擇 | Quantum Lottery & Divine Choice</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 30%, #16213e 60%, #0f3460 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .cosmic-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 15% 85%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 85% 15%, rgba(138, 43, 226, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(0, 191, 255, 0.08) 0%, transparent 50%);
+            z-index: -2;
+        }
+
+        .quantum-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: quantumFloat 8s infinite linear;
+        }
+
+        @keyframes quantumFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(360deg) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #FFD700, #FF6B6B, #4ECDC4, #45B7D1, #9B59B6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% { filter: brightness(1); }
+            100% { filter: brightness(1.2); }
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #b8b8b8;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+        }
+
+        .core-question {
+            font-size: 1.5rem;
+            color: #FFD700;
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        .theory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .theory-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theory-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #FF6B6B, #4ECDC4, #45B7D1);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .theory-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .theory-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .deterministic-card .card-title {
+            color: #FF6B6B;
+        }
+
+        .random-card .card-title {
+            color: #4ECDC4;
+        }
+
+        .card-content {
+            line-height: 1.8;
+            color: #e0e0e0;
+            font-size: 1.1rem;
+        }
+
+        .mathematical-formula {
+            background: rgba(0, 0, 0, 0.4);
+            border-left: 4px solid #FFD700;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            color: #FFD700;
+        }
+
+        .interactive-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #4ECDC4;
+        }
+
+        .detector-interface {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .input-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            color: #4ECDC4;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            color: #ffffff;
+            font-size: 1rem;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #4ECDC4;
+            box-shadow: 0 0 15px rgba(78, 205, 196, 0.3);
+        }
+
+        .number-input {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.5rem;
+        }
+
+        .number-input input {
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .action-button {
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .action-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+        }
+
+        .consciousness-button {
+            background: linear-gradient(45deg, #9B59B6, #3498DB);
+        }
+
+        .consciousness-button:hover {
+            box-shadow: 0 10px 30px rgba(155, 89, 182, 0.4);
+        }
+
+        .result-display {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 2rem;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .divine-score {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .score-high { color: #FF6B6B; }
+        .score-medium { color: #FFD700; }
+        .score-low { color: #4ECDC4; }
+
+        .analysis-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+            width: 100%;
+        }
+
+        .analysis-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .analysis-label {
+            font-size: 0.9rem;
+            color: #b8b8b8;
+            margin-bottom: 0.5rem;
+        }
+
+        .analysis-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #4ECDC4;
+        }
+
+        .consciousness-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .consciousness-option {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #e0e0e0;
+        }
+
+        .consciousness-option:hover {
+            border-color: #4ECDC4;
+            background: rgba(78, 205, 196, 0.1);
+        }
+
+        .consciousness-option.selected {
+            border-color: #4ECDC4;
+            background: rgba(78, 205, 196, 0.2);
+            color: #4ECDC4;
+        }
+
+        .generated-numbers {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .number-ball {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin: 0 auto;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .philosophical-insights {
+            background: linear-gradient(135deg, rgba(155, 89, 182, 0.1), rgba(52, 152, 219, 0.1));
+            border: 2px solid rgba(155, 89, 182, 0.3);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .insight-quote {
+            font-size: 1.4rem;
+            font-style: italic;
+            color: #FFD700;
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            border-left: 4px solid #9B59B6;
+        }
+
+        @media (max-width: 768px) {
+            .detector-interface {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .theory-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cosmic-background"></div>
+    <div class="quantum-particles" id="particles"></div>
+    
+    <div class="container">
+        <header class="header">
+            <h1 class="main-title">🎲 量子彩票與神性選擇</h1>
+            <p class="subtitle">Quantum Lottery & Divine Choice Theory</p>
+            <p class="core-question">「量子彩票中蘊含著上帝創造宇宙是否做選擇的秘密」</p>
+        </header>
+
+        <div class="theory-grid">
+            <div class="theory-card deterministic-card">
+                <h2 class="card-title">🎯 上帝做選擇模型</h2>
+                <div class="card-content">
+                    <p>在這個宇宙模型中，上帝在創造時做出選擇，所有看似隨機的事件都有隱藏的神性意圖。</p>
+                    
+                    <div class="mathematical-formula">
+                        P(outcome) = Divine_Will(t, context, cosmic_purpose)
+                    </div>
+                    
+                    <h4 style="color: #FF6B6B; margin: 1rem 0;">核心含義：</h4>
+                    <ul style="margin-left: 1.5rem; line-height: 1.8;">
+                        <li>所有隨機事件都有隱藏的神性意圖</li>
+                        <li>量子彩票的結果反映神的意志</li>
+                        <li>概率只是人類認知的局限性</li>
+                        <li>真正的隨機性不存在</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="theory-card random-card">
+                <h2 class="card-title">🌌 上帝不做選擇模型</h2>
+                <div class="card-content">
+                    <p>在這個宇宙模型中，上帝創造了規則但不干預結果，真正的隨機性是宇宙的基本特性。</p>
+                    
+                    <div class="mathematical-formula">
+                        P(outcome) = Pure_Randomness × Universal_Constants
+                    </div>
+                    
+                    <h4 style="color: #4ECDC4; margin: 1rem 0;">核心含義：</h4>
+                    <ul style="margin-left: 1.5rem; line-height: 1.8;">
+                        <li>真正的隨機性是宇宙的基本特性</li>
+                        <li>上帝創造了規則，但不干預結果</li>
+                        <li>量子彩票體現純粹的概率本質</li>
+                        <li>自由意志與隨機性共存</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-section">
+            <h2 class="section-title">🔍 神性干預檢測器</h2>
+            <div class="detector-interface">
+                <div class="input-section">
+                    <div class="input-group">
+                        <label>輸入彩票號碼（6個數字）：</label>
+                        <div class="number-input">
+                            <input type="number" id="num1" min="1" max="49" placeholder="01">
+                            <input type="number" id="num2" min="1" max="49" placeholder="07">
+                            <input type="number" id="num3" min="1" max="49" placeholder="13">
+                            <input type="number" id="num4" min="1" max="49" placeholder="21">
+                            <input type="number" id="num5" min="1" max="49" placeholder="33">
+                            <input type="number" id="num6" min="1" max="49" placeholder="42">
+                        </div>
+                    </div>
+                    <button class="action-button" onclick="detectDivineIntervention()">檢測神性干預</button>
+                </div>
+                
+                <div class="result-display" id="divine-result">
+                    <p style="color: #b8b8b8; text-align: center;">輸入彩票號碼，檢測其中的神性選擇痕跡...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-section">
+            <h2 class="section-title">🧠 意識影響彩票生成器</h2>
+            <div class="input-group">
+                <label>選擇你的意識狀態：</label>
+                <div class="consciousness-selector">
+                    <div class="consciousness-option" data-state="meditative">🧘 冥想</div>
+                    <div class="consciousness-option" data-state="grateful">🙏 感恩</div>
+                    <div class="consciousness-option" data-state="loving">❤️ 愛</div>
+                    <div class="consciousness-option" data-state="neutral">⚖️ 中性</div>
+                    <div class="consciousness-option" data-state="anxious">😰 焦慮</div>
+                    <div class="consciousness-option" data-state="angry">😠 憤怒</div>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label for="intention-input">輸入你的意圖：</label>
+                <input type="text" id="intention-input" placeholder="例：為了家人的幸福">
+            </div>
+            
+            <button class="action-button consciousness-button" onclick="generateConsciousnessNumbers()">生成意識影響號碼</button>
+            
+            <div class="result-display" id="consciousness-result" style="display: none;">
+                <div class="generated-numbers" id="generated-numbers"></div>
+                <div id="consciousness-analysis"></div>
+            </div>
+        </div>
+
+        <div class="philosophical-insights">
+            <h2 class="section-title">💭 哲學洞察</h2>
+            <div class="insight-quote">
+                「無論上帝是否做選擇，人類的選擇都具有深刻意義。<br>
+                量子彩票可能是探索神性本質的窗口，<br>
+                也可能是宇宙隨機性的純粹體現。<br>
+                真正的智慧在於保持對兩種可能性的開放。」
+            </div>
+            
+            <div style="text-align: center; color: #e0e0e0; line-height: 1.8;">
+                <p>這個系統不是為了預測彩票結果，而是為了探索意識、隨機性和神性之間的深層關係。</p>
+                <p>每一次檢測和生成，都是對宇宙本質的一次哲學思辨。</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedConsciousnessState = 'neutral';
+
+        // 創建量子粒子效果
+        function createQuantumParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 60;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                
+                // 隨機顏色
+                const colors = ['rgba(255, 215, 0, 0.8)', 'rgba(255, 107, 107, 0.8)', 'rgba(78, 205, 196, 0.8)', 'rgba(155, 89, 182, 0.8)'];
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // 意識狀態選擇
+        document.querySelectorAll('.consciousness-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.consciousness-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedConsciousnessState = this.dataset.state;
+            });
+        });
+
+        // 檢測神性干預
+        async function detectDivineIntervention() {
+            const numbers = [];
+            for (let i = 1; i <= 6; i++) {
+                const value = parseInt(document.getElementById(`num${i}`).value);
+                if (!value || value < 1 || value > 49) {
+                    alert('請輸入1-49之間的有效數字');
+                    return;
+                }
+                numbers.push(value);
+            }
+            
+            if (new Set(numbers).size !== numbers.length) {
+                alert('請確保所有數字都不重複');
+                return;
+            }
+            
+            const resultDiv = document.getElementById('divine-result');
+            resultDiv.innerHTML = '<p style="color: #4ECDC4;">正在分析神性干預痕跡...</p>';
+            
+            try {
+                const response = await fetch('/api/quantum-lottery-divine-choice/divine-choice-detector', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ numbers: numbers.sort((a, b) => a - b) })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayDivineAnalysis(data.data);
+                } else {
+                    resultDiv.innerHTML = '<p style="color: #FF6B6B;">檢測失敗，請稍後重試</p>';
+                }
+            } catch (error) {
+                console.error('Divine detection error:', error);
+                resultDiv.innerHTML = '<p style="color: #FF6B6B;">檢測過程中發生錯誤</p>';
+            }
+        }
+
+        function displayDivineAnalysis(data) {
+            const score = data.divine_intervention_score;
+            const analysis = data.analysis;
+            const interpretation = data.interpretation;
+            
+            let scoreClass = 'score-low';
+            if (score >= 0.6) scoreClass = 'score-high';
+            else if (score >= 0.3) scoreClass = 'score-medium';
+            
+            const resultDiv = document.getElementById('divine-result');
+            resultDiv.innerHTML = `
+                <div class="divine-score ${scoreClass}">${(score * 100).toFixed(1)}%</div>
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    <h4 style="color: #4ECDC4;">${interpretation.level}</h4>
+                    <p style="color: #e0e0e0; margin: 0.5rem 0;">${interpretation.description}</p>
+                </div>
+                <div class="analysis-details">
+                    <div class="analysis-item">
+                        <div class="analysis-label">模式複雜度</div>
+                        <div class="analysis-value">${(analysis.pattern_complexity * 100).toFixed(1)}%</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">神聖幾何</div>
+                        <div class="analysis-value">${(analysis.sacred_geometry_score * 100).toFixed(1)}%</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">同步性強度</div>
+                        <div class="analysis-value">${(analysis.synchronicity_strength * 100).toFixed(1)}%</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">原型意義</div>
+                        <div class="analysis-value">${(analysis.archetypal_significance * 100).toFixed(1)}%</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">斐波那契共鳴</div>
+                        <div class="analysis-value">${(analysis.fibonacci_resonance * 100).toFixed(1)}%</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">黃金比例</div>
+                        <div class="analysis-value">${(analysis.golden_ratio_alignment * 100).toFixed(1)}%</div>
+                    </div>
+                </div>
+                <div style="margin-top: 1rem; padding: 1rem; background: rgba(0,0,0,0.3); border-radius: 8px; color: #b8b8b8; font-style: italic;">
+                    ${interpretation.recommendation}
+                </div>
+            `;
+        }
+
+        // 生成意識影響號碼
+        async function generateConsciousnessNumbers() {
+            const intention = document.getElementById('intention-input').value.trim();
+            
+            const resultDiv = document.getElementById('consciousness-result');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<p style="color: #4ECDC4; text-align: center;">正在基於意識狀態生成號碼...</p>';
+            
+            try {
+                const response = await fetch('/api/quantum-lottery-divine-choice/consciousness-lottery', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        consciousness_state: selectedConsciousnessState,
+                        intention: intention
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayGeneratedNumbers(data.data);
+                } else {
+                    resultDiv.innerHTML = '<p style="color: #FF6B6B;">生成失敗，請稍後重試</p>';
+                }
+            } catch (error) {
+                console.error('Consciousness generation error:', error);
+                resultDiv.innerHTML = '<p style="color: #FF6B6B;">生成過程中發生錯誤</p>';
+            }
+        }
+
+        function displayGeneratedNumbers(data) {
+            const numbersDiv = document.getElementById('generated-numbers');
+            const analysisDiv = document.getElementById('consciousness-analysis');
+            
+            // 顯示生成的號碼
+            numbersDiv.innerHTML = data.numbers.map(num => 
+                `<div class="number-ball">${num.toString().padStart(2, '0')}</div>`
+            ).join('');
+            
+            // 顯示分析
+            const resonance = data.divine_resonance;
+            let resonanceColor = '#4ECDC4';
+            if (resonance >= 0.7) resonanceColor = '#FF6B6B';
+            else if (resonance >= 0.5) resonanceColor = '#FFD700';
+            
+            analysisDiv.innerHTML = `
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <h4 style="color: #9B59B6;">意識狀態：${getConsciousnessLabel(data.consciousness_state)}</h4>
+                    <p style="color: #e0e0e0; margin: 0.5rem 0;">意圖：${data.intention || '無特定意圖'}</p>
+                    <div style="margin: 1rem 0;">
+                        <span style="color: #b8b8b8;">意識共鳴度：</span>
+                        <span style="color: ${resonanceColor}; font-weight: 600; font-size: 1.2rem;">${(resonance * 100).toFixed(1)}%</span>
+                    </div>
+                    <p style="color: #b8b8b8; font-style: italic; font-size: 0.9rem;">
+                        這些號碼是基於你的意識狀態和意圖生成的，體現了意識與量子隨機性的微妙互動。
+                    </p>
+                </div>
+            `;
+        }
+
+        function getConsciousnessLabel(state) {
+            const labels = {
+                'meditative': '🧘 冥想狀態',
+                'grateful': '🙏 感恩狀態',
+                'loving': '❤️ 愛的狀態',
+                'neutral': '⚖️ 中性狀態',
+                'anxious': '😰 焦慮狀態',
+                'angry': '😠 憤怒狀態'
+            };
+            return labels[state] || state;
+        }
+
+        // 頁面載入時初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            createQuantumParticles();
+            
+            // 默認選中中性狀態
+            document.querySelector('[data-state="neutral"]').classList.add('selected');
+            
+            // 回車鍵觸發檢測
+            document.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    if (document.activeElement.id.startsWith('num')) {
+                        detectDivineIntervention();
+                    } else if (document.activeElement.id === 'intention-input') {
+                        generateConsciousnessNumbers();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

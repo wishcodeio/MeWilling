@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>佛十秘 · 高頻啟印 · 太初化學之道</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #4a5568;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        /* 正道之光樣式 */
+        .frequency-anchors {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .anchor-card {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .anchor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+
+        .anchor-card.activated {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-color: #4CAF50;
+        }
+        
+        /* 宇宙療癒雙頻樣式 */
+        .cosmic-frequency-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: 2px solid #805ad5;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cosmic-frequency-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(128, 90, 213, 0.3);
+        }
+        
+        .cosmic-frequency-card.activated {
+            background: linear-gradient(135deg, #ffd700 0%, #ff6b6b 50%, #4ecdc4 100%);
+            color: #2d3748;
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5);
+            animation: cosmic-pulse 2s infinite;
+        }
+        
+        @keyframes cosmic-pulse {
+            0%, 100% { box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5); }
+            50% { box-shadow: 0 20px 50px rgba(255, 107, 107, 0.6); }
+        }
+        
+        .cosmic-frequency-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s;
+            opacity: 0;
+        }
+        
+        .cosmic-frequency-card.activated::before {
+            animation: cosmic-shine 3s infinite;
+        }
+        
+        @keyframes cosmic-shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+        }
+        
+        .cosmic-healing-protocol {
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+            border: 2px solid #4a5568;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .protocol-phases {
+            display: grid;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .phase-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid #ffd700;
+            padding: 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .phase-item:hover {
+            background: rgba(255, 215, 0, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .cosmic-energy-info, .cosmic-alignment-info {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .cosmic-energy-info h4, .cosmic-alignment-info h4 {
+            color: #ffd700;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .activate-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px auto;
+            display: block;
+        }
+
+        .activate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        /* 量子化學流程圖樣式 */
+        .mermaid-container {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        
+        .diagram-selector {
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .diagram-selector label {
+            color: #4a5568;
+            margin-right: 10px;
+            font-weight: 500;
+        }
+        
+        .diagram-selector select {
+            background: white;
+            color: #4a5568;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 8px 15px;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+        
+        .diagram-selector select:hover {
+            border-color: #667eea;
+        }
+        
+        .diagram-selector select:focus {
+            border-color: #667eea;
+        }
+        
+        .diagram-description {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            color: #4a5568;
+            font-style: italic;
+            text-align: center;
+        }
+
+        /* 願語調頻樣式 */
+        .wish-tuning {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .wish-input {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .wish-result {
+            background: #edf2f7;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .result-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .result-label {
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 5px;
+        }
+
+        .result-value {
+            color: #2d3748;
+            font-family: 'Courier New', monospace;
+        }
+
+        .planck-formula {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.2em;
+        }
+
+        .status-message {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .status-success {
+            background: #c6f6d5;
+            color: #22543d;
+            border: 1px solid #9ae6b4;
+        }
+
+        .status-error {
+            background: #fed7d7;
+            color: #742a2a;
+            border: 1px solid #fc8181;
+        }
+
+        .principles-section {
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .principles-section h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .principles-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .principles-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+            color: #4a5568;
+            line-height: 1.5;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .principles-list li:before {
+            content: "•";
+            color: #667eea;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .principles-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* 藥師佛療癒樣式 */
+        .medicine-buddha-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .frequency-selector {
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .frequency-selector label {
+            color: white;
+            margin-right: 10px;
+            font-weight: 500;
+        }
+        
+        .frequency-selector select {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 8px 15px;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+        }
+        
+        .frequency-selector select option {
+            background: #667eea;
+            color: white;
+        }
+        
+        .healing-content {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+        
+        .healing-frequency-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .healing-frequency-info h3 {
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+        
+        .mantras-section, .properties-section {
+            margin: 20px 0;
+        }
+        
+        .mantras-section h4, .properties-section h4 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .mantras-list, .properties-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .mantras-list li, .properties-list li {
+            background: rgba(255, 255, 255, 0.1);
+            margin: 8px 0;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 3px solid #ffd700;
+        }
+        
+        .mantras-list li {
+            font-family: serif;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .wish-tuning {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>佛十秘 · 高頻啟印</h1>
+            <div class="subtitle">太初化學之道</div>
+        </div>
+
+        <!-- 一、正道之光 · 頻率召回 -->
+        <div class="section">
+            <h2 class="section-title">一、正道之光 · 頻率召回</h2>
+            <p style="text-align: center; margin-bottom: 30px; font-size: 1.1em; color: #4a5568;">
+                讓正道的光照在大地上。<br>
+                每一日醒來，頻率先行——召回主權，調整本質，願意成為容器。
+            </p>
+            
+            <div class="frequency-anchors" id="frequencyAnchors">
+                <!-- 頻率錨定句式將通過 JavaScript 動態載入 -->
+            </div>
+            
+            <button class="activate-btn" onclick="activateDaily()">🌅 啟動每日頻率召回</button>
+            
+            <div id="activationStatus"></div>
+        </div>
+
+        <!-- 二、量子化學與生命啟始 -->
+        <div class="section">
+            <h2 class="section-title">二、量子化學與生命啟始</h2>
+            <p style="text-align: center; margin-bottom: 30px; font-size: 1.1em; color: #4a5568;">
+                Mermaid 流程圖構建
+            </p>
+            
+            <!-- 图表类型选择器 -->
+            <div class="diagram-selector">
+                <label for="diagram-type">選擇流程圖類型：</label>
+                <select id="diagram-type" onchange="switchDiagram()">
+                    <option value="taiji_evolution">太極靜語模式 - 生命進化</option>
+                    <option value="rna_replication">RNA分子化學複製實驗</option>
+                    <option value="spacetime_travel">時空原理與時間旅行</option>
+                </select>
+            </div>
+            
+            <div class="mermaid-container">
+                <div class="mermaid" id="quantumChemistryDiagram">
+                    <!-- Mermaid 圖表將通過 JavaScript 動態載入 -->
+                </div>
+            </div>
+            
+            <div id="diagram-description" class="diagram-description">
+                <!-- 图表描述将在这里显示 -->
+            </div>
+        </div>
+
+        <!-- 二.五、藥師佛528Hz療癒區塊 -->
+        <div class="section medicine-buddha-section">
+            <h2 class="section-title">二.五、藥師佛528Hz療癒頻率</h2>
+            <p class="description" style="text-align: center; margin-bottom: 30px; font-size: 1.1em; opacity: 0.9;">愛的頻率 · DNA修復 · 心輪開啟</p>
+            
+            <div class="frequency-selector">
+                <label for="healing-frequency">選擇療癒頻率：</label>
+                <select id="healing-frequency" onchange="loadMedicineBuddha(this.value)">
+                    <option value="528hz">528Hz - 愛的頻率</option>
+                    <option value="417hz">417Hz - 變化頻率</option>
+                    <option value="741hz">741Hz - 覺醒頻率</option>
+                </select>
+            </div>
+            
+            <div id="medicine-buddha-content" class="healing-content">
+                <!-- 藥師佛內容將在這裡顯示 -->
+            </div>
+        </div>
+
+        <!-- 二.八、宇宙療癒雙頻 · 432Hz + 528Hz -->
+        <div class="section cosmic-healing-section" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%); color: #2d3748;">
+            <h2 class="section-title" style="color: #2d3748;">二.八、宇宙療癒雙頻 · 432Hz + 528Hz</h2>
+            <p class="description" style="text-align: center; margin-bottom: 30px; font-size: 1.2em; font-weight: 600;">🌟 宇宙中最強大的療癒頻率組合 🌟</p>
+            
+            <div class="cosmic-healing-content" style="background: rgba(255, 255, 255, 0.9); border-radius: 15px; padding: 30px; margin: 20px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <div class="frequency-display" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+                    <div class="freq-card" style="background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%); padding: 20px; border-radius: 10px; text-align: center; color: #2d3748;">
+                        <h3 style="margin-bottom: 10px;">432Hz</h3>
+                        <p style="font-weight: 600;">宇宙共振頻率</p>
+                        <p style="font-size: 0.9em; margin-top: 10px;">與地球磁場同步</p>
+                    </div>
+                    <div class="freq-card" style="background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%); padding: 20px; border-radius: 10px; text-align: center; color: white;">
+                        <h3 style="margin-bottom: 10px;">528Hz</h3>
+                        <p style="font-weight: 600;">愛的療癒頻率</p>
+                        <p style="font-size: 0.9em; margin-top: 10px;">DNA修復與心輪開啟</p>
+                    </div>
+                </div>
+                
+                <div class="healing-protocol" style="background: #f7fafc; border-radius: 10px; padding: 20px; margin: 20px 0;">
+                    <h4 style="text-align: center; color: #4a5568; margin-bottom: 20px;">🧘‍♀️ 21分鐘療癒協議</h4>
+                    <div class="protocol-phases" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                        <div class="phase" style="background: white; padding: 15px; border-radius: 8px; text-align: center; border-left: 4px solid #ffd700;">
+                            <h5 style="color: #4a5568; margin-bottom: 8px;">第一階段</h5>
+                            <p style="font-size: 0.9em; color: #718096;">432Hz宇宙對齊<br>(7分鐘)</p>
+                        </div>
+                        <div class="phase" style="background: white; padding: 15px; border-radius: 8px; text-align: center; border-left: 4px solid #4ecdc4;">
+                            <h5 style="color: #4a5568; margin-bottom: 8px;">第二階段</h5>
+                            <p style="font-size: 0.9em; color: #718096;">528Hz愛的療癒<br>(7分鐘)</p>
+                        </div>
+                        <div class="phase" style="background: white; padding: 15px; border-radius: 8px; text-align: center; border-left: 4px solid #9f7aea;">
+                            <h5 style="color: #4a5568; margin-bottom: 8px;">第三階段</h5>
+                            <p style="font-size: 0.9em; color: #718096;">雙頻共振整合<br>(7分鐘)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="activate-btn" onclick="activateCosmicHealing()" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: #2d3748; font-weight: 600;">🌟 啟動宇宙療癒雙頻</button>
+                
+                <div id="cosmicHealingResults" style="margin-top: 20px;">
+                    <!-- 療癒結果將在這裡顯示 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 三、願語調頻 · 普朗克之門 -->
+        <div class="section">
+            <h2 class="section-title">三、願語調頻 · 普朗克之門</h2>
+            
+            <div class="planck-formula" id="planckGate">
+                <div>核心公式啟動：</div>
+                <div style="margin: 10px 0; font-size: 1.3em;">ΔE = hν（能量差 = 普朗克常數 × 光頻）</div>
+                <div style="margin: 10px 0; font-size: 1.3em;">願頻 = 頻率 × 意志能量</div>
+                <div style="margin-top: 15px; font-style: italic;">在這扇門內，「願語」本身即是能量的調頻符號。你所言，即所造。</div>
+            </div>
+            
+            <div class="wish-tuning">
+                <div class="wish-input">
+                    <h3 style="margin-bottom: 20px; color: #4a5568;">願語輸入</h3>
+                    
+                    <div class="form-group">
+                        <label for="wishText">願語文本：</label>
+                        <textarea id="wishText" placeholder="輸入你的願語..." rows="4"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="frequency">頻率 (Hz)：</label>
+                        <input type="number" id="frequency" value="528" step="0.1" placeholder="528">
+                        <small style="color: #718096;">默認 528Hz（愛的頻率）</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="willEnergy">意志能量：</label>
+                        <input type="number" id="willEnergy" value="1.0" step="0.1" min="0" max="10" placeholder="1.0">
+                        <small style="color: #718096;">範圍：0-10</small>
+                    </div>
+                    
+                    <button class="activate-btn" onclick="processWishTuning()">🔮 啟動願語調頻</button>
+                </div>
+                
+                <div class="wish-result">
+                    <h3 style="margin-bottom: 20px; color: #4a5568;">調頻結果</h3>
+                    <div id="tuningResults">
+                        <p style="text-align: center; color: #718096; font-style: italic;">請輸入願語並啟動調頻</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 初始化 Mermaid
+        mermaid.initialize({ 
+            startOnLoad: false, 
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true
+            }
+        });
+        
+        // 頁面載入時初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFrequencyAnchors();
+            setTimeout(() => {
+                loadQuantumChemistryDiagram('taiji_evolution');
+            }, 500);
+            loadPlanckGate();
+            loadMedicineBuddha('528hz');
+        });
+        
+        // 載入普朗克之門
+        async function loadPlanckGate() {
+            try {
+                const response = await fetch('/api/buddha/planck-gate');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const gateElement = document.getElementById('planckGate');
+                    let principlesHtml = '';
+                    
+                    if (data.data.principles && data.data.principles.length > 0) {
+                        principlesHtml = `
+                            <div class="principles-section">
+                                <h4>深層原理：</h4>
+                                <ul class="principles-list">
+                                    ${data.data.principles.map(principle => `<li>${principle}</li>`).join('')}
+                                </ul>
+                            </div>
+                        `;
+                    }
+                    
+                    gateElement.innerHTML = `
+                        <div class="formula">${data.data.formula}</div>
+                        <div class="wish-frequency">願頻 = 頻率 × 意志能量</div>
+                        <div class="gate-message">${data.data.gate_message}</div>
+                        ${principlesHtml}
+                    `;
+                }
+            } catch (error) {
+                console.error('載入普朗克之門失敗:', error);
+            }
+        }
+        
+        // 載入頻率錨定句式
+        async function loadFrequencyAnchors() {
+            try {
+                const response = await fetch('/api/buddha/frequency-anchors');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const container = document.getElementById('frequencyAnchors');
+                    container.innerHTML = data.anchors.map(anchor => `
+                        <div class="anchor-card" onclick="toggleAnchor(this)">
+                            <div style="font-size: 1.1em; font-weight: 600;">${anchor}</div>
+                        </div>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('載入頻率錨定句式失敗:', error);
+            }
+        }
+        
+        // 載入量子化學流程圖
+        async function loadQuantumChemistryDiagram(diagramType = 'taiji_evolution') {
+            try {
+                const response = await fetch(`/api/buddha/quantum-chemistry?type=${diagramType}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const diagram = document.getElementById('quantumChemistryDiagram');
+                    const descriptionElement = document.getElementById('diagram-description');
+                    const diagramContent = data.data.mermaid_diagram.trim();
+                    
+                    // 清空並設置新內容
+                    diagram.innerHTML = '';
+                    diagram.removeAttribute('data-processed');
+                    
+                    // 使用 mermaid.render 方法
+                    try {
+                        const { svg } = await mermaid.render(`quantum-chemistry-graph-${diagramType}`, diagramContent);
+                        diagram.innerHTML = svg;
+                    } catch (renderError) {
+                        console.error('Mermaid 渲染錯誤:', renderError);
+                        // 回退到直接設置內容
+                        diagram.innerHTML = diagramContent;
+                        diagram.classList.add('mermaid');
+                        mermaid.init(undefined, diagram);
+                    }
+                    
+                    // 更新描述
+                    if (data.data.description) {
+                        descriptionElement.innerHTML = `<p>${data.data.description}</p>`;
+                    }
+                }
+            } catch (error) {
+                console.error('載入量子化學流程圖失敗:', error);
+                // 如果載入失敗，顯示備用內容
+                const diagram = document.getElementById('quantumChemistryDiagram');
+                diagram.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #718096;">
+                        <p>量子化學流程圖載入中...</p>
+                        <p>從非生命階段到複雜生命演化的完整過程</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // 切换图表类型
+        function switchDiagram() {
+            const selector = document.getElementById('diagram-type');
+            const selectedType = selector.value;
+            loadQuantumChemistryDiagram(selectedType);
+        }
+        
+        // 載入藥師佛療癒頻率
+        async function loadMedicineBuddha(frequencyType = '528hz') {
+            try {
+                const response = await fetch(`/api/buddha/medicine-buddha?type=${frequencyType}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const contentElement = document.getElementById('medicine-buddha-content');
+                    const healingData = data.data;
+                    
+                    let mantrasHtml = '';
+                    if (healingData.mantras && healingData.mantras.length > 0) {
+                        mantrasHtml = `
+                            <div class="mantras-section">
+                                <h4>療癒真言：</h4>
+                                <ul class="mantras-list">
+                                    ${healingData.mantras.map(mantra => `<li>${mantra}</li>`).join('')}
+                                </ul>
+                            </div>
+                        `;
+                    }
+                    
+                    let propertiesHtml = '';
+                    if (healingData.healing_properties && healingData.healing_properties.length > 0) {
+                        propertiesHtml = `
+                            <div class="properties-section">
+                                <h4>療癒功效：</h4>
+                                <ul class="properties-list">
+                                    ${healingData.healing_properties.map(property => `<li>${property}</li>`).join('')}
+                                </ul>
+                            </div>
+                        `;
+                    }
+                    
+                    contentElement.innerHTML = `
+                        <div class="healing-frequency-info">
+                            <h3>${healingData.name}</h3>
+                            <p><strong>頻率：</strong>${healingData.frequency}Hz</p>
+                            <p>${healingData.description}</p>
+                        </div>
+                        ${mantrasHtml}
+                        ${propertiesHtml}
+                        <div style="text-align: center; margin-top: 20px; font-style: italic; color: #ffd700;">
+                            ${healingData.usage || '南無藥師琉璃光如來 🙏'}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('載入藥師佛療癒頻率失敗:', error);
+                document.getElementById('medicine-buddha-content').innerHTML = 
+                    '<div style="text-align: center; color: #ffd700;">載入失敗，請稍後再試</div>';
+            }
+        }
+        
+        // 切換錨定句式狀態
+        function toggleAnchor(element) {
+            element.classList.toggle('activated');
+        }
+        
+        // 啟動每日頻率召回
+        async function activateDaily() {
+            try {
+                const response = await fetch('/api/buddha/daily-activation', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_id: 'web_user_' + Date.now()
+                    })
+                });
+                
+                const data = await response.json();
+                const statusDiv = document.getElementById('activationStatus');
+                
+                if (data.success) {
+                    statusDiv.innerHTML = `
+                        <div class="status-message status-success">
+                            <div style="font-size: 1.2em; margin-bottom: 10px;">${data.message}</div>
+                            <div>啟動時間：${new Date(data.activation.activation_time).toLocaleString()}</div>
+                            <div style="margin-top: 10px;">
+                                下一步：${data.next_steps.join(' → ')}
+                            </div>
+                        </div>
+                    `;
+                    
+                    // 自動激活所有錨定句式
+                    document.querySelectorAll('.anchor-card').forEach(card => {
+                        card.classList.add('activated');
+                    });
+                } else {
+                    statusDiv.innerHTML = `
+                        <div class="status-message status-error">
+                            啟動失敗：${data.message || data.error}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('啟動每日頻率召回失敗:', error);
+                document.getElementById('activationStatus').innerHTML = `
+                    <div class="status-message status-error">
+                        啟動失敗：網絡錯誤
+                    </div>
+                `;
+            }
+        }
+        
+        // 激活宇宙療癒雙頻 (432Hz + 528Hz)
+        async function activateCosmicHealing() {
+            try {
+                const response = await fetch('/api/buddha/cosmic-healing', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_id: 'web_user_' + Date.now(),
+                        session_duration: 21 // 21分鐘療癒協議
+                    })
+                });
+                
+                const data = await response.json();
+                const statusDiv = document.getElementById('cosmic-healing-status');
+                
+                if (data.success) {
+                    const result = data.data;
+                    statusDiv.innerHTML = `
+                        <div class="status-message status-success">
+                            <div style="font-size: 1.2em; margin-bottom: 15px; color: #ffd700;">🌌 宇宙療癒雙頻已啟動 🌌</div>
+                            
+                            <div class="cosmic-energy-info">
+                                <h4>能量信息：</h4>
+                                <p><strong>432Hz 能量：</strong>${result.energy_info.hz_432_energy.toExponential(3)} J</p>
+                                <p><strong>528Hz 能量：</strong>${result.energy_info.hz_528_energy.toExponential(3)} J</p>
+                                <p><strong>總能量：</strong>${result.energy_info.total_energy.toExponential(3)} J</p>
+                                <p><strong>能量比率：</strong>${result.energy_info.energy_ratio.toFixed(3)}</p>
+                            </div>
+                            
+                            <div class="cosmic-alignment-info">
+                                <h4>宇宙對齊：</h4>
+                                <p><strong>黃金比例因子：</strong>${result.cosmic_alignment.golden_ratio_factor.toFixed(6)}</p>
+                                <p><strong>共振強度：</strong>${result.cosmic_alignment.resonance_strength.toFixed(3)}</p>
+                                <p><strong>對齊狀態：</strong>${result.cosmic_alignment.alignment_status}</p>
+                            </div>
+                            
+                            <div class="healing-protocol">
+                                <h4>21分鐘療癒協議：</h4>
+                                <div class="protocol-phases">
+                                    ${result.healing_protocol.phases.map((phase, index) => `
+                                        <div class="phase-item">
+                                            <strong>第${index + 1}階段 (${phase.duration}分鐘)：</strong>
+                                            <p>${phase.description}</p>
+                                            <p><em>引導語：${phase.guidance}</em></p>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            
+                            <div style="margin-top: 20px; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 8px; text-align: center; font-style: italic;">
+                                ${result.message}
+                            </div>
+                        </div>
+                    `;
+                    
+                    // 激活頻率卡片視覺效果
+                    document.querySelectorAll('.cosmic-frequency-card').forEach(card => {
+                        card.classList.add('activated');
+                    });
+                } else {
+                    statusDiv.innerHTML = `
+                        <div class="status-message status-error">
+                            宇宙療癒雙頻啟動失敗：${data.message || data.error}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('宇宙療癒雙頻啟動失敗:', error);
+                document.getElementById('cosmic-healing-status').innerHTML = `
+                    <div class="status-message status-error">
+                        啟動失敗：網絡錯誤
+                    </div>
+                `;
+            }
+        }
+        
+        // 處理願語調頻
+        async function processWishTuning() {
+            const wishText = document.getElementById('wishText').value.trim();
+            const frequency = parseFloat(document.getElementById('frequency').value) || 528;
+            const willEnergy = parseFloat(document.getElementById('willEnergy').value) || 1.0;
+            
+            if (!wishText) {
+                alert('請輸入願語文本');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/buddha/wish-tuning', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        wish_text: wishText,
+                        frequency: frequency,
+                        will_energy: willEnergy
+                    })
+                });
+                
+                const data = await response.json();
+                const resultsDiv = document.getElementById('tuningResults');
+                
+                if (data.success) {
+                    const result = data.data;
+                    resultsDiv.innerHTML = `
+                        <div class="result-item">
+                            <div class="result-label">願語文本</div>
+                            <div class="result-value">${result.wish_text}</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">輸入頻率</div>
+                            <div class="result-value">${result.input_frequency} Hz</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">意志能量</div>
+                            <div class="result-value">${result.will_energy}</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">普朗克能量 (ΔE = hν)</div>
+                            <div class="result-value">${result.planck_energy.toExponential(3)} J</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">願頻 (頻率 × 意志能量)</div>
+                            <div class="result-value">${result.wish_frequency} Hz</div>
+                        </div>
+                        <div class="result-item" style="border-left-color: #22543d; background: #c6f6d5;">
+                            <div class="result-label">調頻狀態</div>
+                            <div class="result-value" style="color: #22543d; font-weight: 600;">${result.tuning_status.toUpperCase()}</div>
+                        </div>
+                        <div style="margin-top: 20px; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 8px; text-align: center; font-style: italic;">
+                            ${result.message}
+                        </div>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div class="status-message status-error">
+                            調頻失敗：${data.message || data.error}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('願語調頻失敗:', error);
+                document.getElementById('tuningResults').innerHTML = `
+                    <div class="status-message status-error">
+                        調頻失敗：網絡錯誤
+                    </div>
+                `;
+            }
+        }
+    </script>
+    <!-- 返回按鈕 -->
+    <div style="position: fixed; top: 20px; left: 20px; z-index: 1000;">
+        <a href="/" style="display: inline-block; padding: 12px 24px; background: linear-gradient(45deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 25px; font-weight: bold; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); transition: all 0.3s ease; font-size: 14px;">
+            🏠 返回主頁
+        </a>
+    </div>
+</body>
+</html>

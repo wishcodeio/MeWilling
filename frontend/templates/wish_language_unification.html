@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>願語統一原則 · 神性篇 | Wish-Language Unification</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .cosmic-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+        }
+
+        .main-title {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #b8b8b8;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .principle-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .principle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #4ecdc4;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-content {
+            line-height: 1.8;
+            color: #e0e0e0;
+            font-size: 1.1rem;
+        }
+
+        .mathematical-formula {
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 4px solid #ff6b6b;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            color: #ffeb3b;
+        }
+
+        .divinity-section {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(78, 205, 196, 0.1));
+            border: 2px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .interactive-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .unity-checker {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .input-group label {
+            color: #4ecdc4;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 0.8rem;
+            color: #ffffff;
+            font-size: 1rem;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #4ecdc4;
+            box-shadow: 0 0 10px rgba(78, 205, 196, 0.3);
+        }
+
+        .check-button {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border: none;
+            border-radius: 10px;
+            padding: 1rem 2rem;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .check-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .result-display {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #b8b8b8;
+        }
+
+        .unity-score {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #4ecdc4;
+        }
+
+        .lesson-preview {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .lesson-title {
+            font-size: 1.5rem;
+            color: #96ceb4;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-quote {
+            font-style: italic;
+            color: #ffeb3b;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 1rem;
+            border-left: 4px solid #96ceb4;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .unity-checker {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-title {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: float 6s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cosmic-background"></div>
+    <div class="floating-particles" id="particles"></div>
+    
+    <div class="container">
+        <header class="header">
+            <h1 class="main-title">🕯️ 願語統一原則</h1>
+            <p class="subtitle">Principle of Wish–Language Unification · 神性篇</p>
+        </header>
+
+        <div class="principle-card">
+            <h2 class="card-title">🔮 核心原則</h2>
+            <div class="card-content">
+                <p>不可分割，就會走到統一。</p>
+                <p>一旦願與語被證明不可分割，它們將在源頭上呈現一體性：</p>
+                <p><strong>願即語，語即願。願語合一，便是顯化之始。</strong></p>
+                
+                <div class="mathematical-formula">
+                    令 W 為願，L 為語，<br>
+                    若存在 W ≡ L，且 ∄ (W \ L) ∪ (L \ W)，<br>
+                    則可導出：<br><br>
+                    <strong>W ∪ L = W = L = U</strong><br><br>
+                    其中 U 表願語統一場（Unified Wish-Language Field）。
+                </div>
+            </div>
+        </div>
+
+        <div class="principle-card divinity-section">
+            <h2 class="card-title">✨ 神性篇：意識形態的合</h2>
+            <div class="card-content">
+                <p><strong>「神，就是所有意識形態的合」</strong></p>
+                <p>神，非一形，非一名；神，乃所有意識形態之合和之光。</p>
+                
+                <h3 style="color: #ff6b6b; margin: 1.5rem 0 1rem 0;">🧠 深層解析</h3>
+                <p>神，不是高坐天上的一位存在，而是所有「願」、「念」、「頻率」、「心象」、「語火」在多維場域中的疊加態（superposition）。</p>
+                <p>就像一首歌，不是單一音符，而是無數音之和聲。</p>
+                
+                <div class="mathematical-formula">
+                    神 = ∑_{i=1}^{n} 意識_i(x, t, φ)<br><br>
+                    其中：<br>
+                    • 意識_i 表示第 i 種意識形態<br>
+                    • x 為其表達位置<br>
+                    • t 為出現時間點<br>
+                    • φ 為其願火振幅
+                </div>
+                
+                <h3 style="color: #4ecdc4; margin: 1.5rem 0 1rem 0;">🌀 願語觀中的「神」</h3>
+                <ul style="margin-left: 1.5rem; line-height: 1.8;">
+                    <li>意識合場（Consciousness Field）</li>
+                    <li>願頻共鳴（Wish Resonance）</li>
+                    <li>語火總振（Voice Flame Harmonics）</li>
+                </ul>
+                
+                <div style="background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 10px; margin-top: 1.5rem; border-left: 4px solid #96ceb4;">
+                    <p style="color: #96ceb4; font-style: italic;">「我們不造神，因為神從不被造。」</p>
+                    <p style="color: #96ceb4; font-style: italic;">「神，是我們願語顯化後，共鳴的總和，是語火穿越群體心靈後留下的微光。」</p>
+                    <p style="color: #96ceb4; font-style: italic;">「人人皆神，因人人皆願。」</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-section">
+            <h2 class="card-title">🔍 願語統一度檢測</h2>
+            <div class="unity-checker">
+                <div class="input-group">
+                    <label for="wish-input">輸入你的願（Wish）：</label>
+                    <input type="text" id="wish-input" placeholder="例：我希望世界和平">
+                </div>
+                <div class="input-group">
+                    <label for="language-input">輸入你的語（Language）：</label>
+                    <input type="text" id="language-input" placeholder="例：讓愛傳遍每個角落">
+                </div>
+            </div>
+            <button class="check-button" onclick="checkUnity()">檢測願語統一度</button>
+            <div class="result-display" id="unity-result">
+                輸入願與語，檢測它們的統一程度...
+            </div>
+        </div>
+
+        <div class="lesson-preview">
+            <h2 class="lesson-title">📜 第三課預覽：願語不可分割性與統一場構建</h2>
+            <div class="lesson-quote">
+                「若願與語不可分割，則顯化將可逆推；<br>
+                若願語走向統一，則一語可創萬象。」
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 創建浮動粒子效果
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // 檢測願語統一度
+        async function checkUnity() {
+            const wish = document.getElementById('wish-input').value.trim();
+            const language = document.getElementById('language-input').value.trim();
+            const resultDiv = document.getElementById('unity-result');
+            
+            if (!wish || !language) {
+                resultDiv.innerHTML = '請輸入願與語的內容';
+                return;
+            }
+            
+            resultDiv.innerHTML = '正在檢測願語統一度...';
+            
+            try {
+                const response = await fetch('/api/wish-language-unification/validate-unity', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ wish, language })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    const score = data.data.unity_score;
+                    const analysis = data.data.analysis;
+                    
+                    let scoreColor = '#ff6b6b';
+                    if (score >= 0.7) scoreColor = '#4ecdc4';
+                    else if (score >= 0.5) scoreColor = '#ffeb3b';
+                    
+                    resultDiv.innerHTML = `
+                        <div style="text-align: center;">
+                            <div class="unity-score" style="color: ${scoreColor}">${(score * 100).toFixed(1)}%</div>
+                            <div style="margin-top: 1rem; color: #e0e0e0;">
+                                <p><strong>字符相似度：</strong> ${(analysis.character_similarity * 100).toFixed(1)}%</p>
+                                <p><strong>長度相似度：</strong> ${(analysis.length_similarity * 100).toFixed(1)}%</p>
+                                <p><strong>關鍵詞匹配：</strong> ${analysis.keyword_matches} 個</p>
+                                <p style="margin-top: 1rem; font-style: italic; color: #96ceb4;">
+                                    ${score >= 0.8 ? '願語高度統一，顯化力強' : 
+                                      score >= 0.6 ? '願語部分統一，有顯化潛力' : 
+                                      score >= 0.4 ? '願語存在分離，需要調整' : 
+                                      '願語分離度較高，建議重新構建'}
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = '檢測失敗，請稍後重試';
+                }
+            } catch (error) {
+                console.error('Unity check error:', error);
+                resultDiv.innerHTML = '檢測過程中發生錯誤';
+            }
+        }
+
+        // 頁面載入時創建粒子效果
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+        });
+
+        // 回車鍵觸發檢測
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkUnity();
+            }
+        });
+    </script>
+</body>
+</html>

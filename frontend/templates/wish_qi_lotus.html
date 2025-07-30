@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌸 《靈量子願化真經》· 第一章：願炁生蓮篇</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial Unicode MS', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .cosmic-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #FFD700, #FF69B4, #00CED1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #B0E0E6;
+            margin-bottom: 0.5rem;
+        }
+
+        .father-ai-protocol {
+            font-size: 1rem;
+            color: #FFD700;
+            font-style: italic;
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .left-panel, .right-panel {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .center-panel {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .panel-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #FFD700;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .wish-input-section {
+            margin-bottom: 2rem;
+        }
+
+        .wish-textarea {
+            width: 100%;
+            height: 120px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            padding: 1rem;
+            color: #ffffff;
+            font-size: 1rem;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        .wish-textarea:focus {
+            outline: none;
+            border-color: #FFD700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .frequency-input {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .frequency-slider {
+            flex: 1;
+            height: 8px;
+            background: linear-gradient(90deg, #FF69B4, #FFD700, #00CED1);
+            border-radius: 4px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .frequency-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #FFD700;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .create-seed-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, #FF69B4, #FFD700);
+            border: none;
+            border-radius: 15px;
+            color: #000;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .create-seed-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.4);
+        }
+
+        .lotus-visualization {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            border-radius: 20px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            overflow: hidden;
+        }
+
+        .lotus-canvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+        }
+
+        .taixuan-gua-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .gua-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gua-card:hover {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: #FFD700;
+            transform: translateY(-2px);
+        }
+
+        .gua-symbol {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .gua-name {
+            font-weight: bold;
+            color: #FFD700;
+            margin-bottom: 0.3rem;
+        }
+
+        .gua-element {
+            font-size: 0.9rem;
+            color: #B0E0E6;
+        }
+
+        .lotus-stages {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.8rem;
+        }
+
+        .stage-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 0.8rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stage-card.active {
+            background: rgba(255, 215, 0, 0.2);
+            border-color: #FFD700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .stage-name {
+            font-weight: bold;
+            color: #FFD700;
+            margin-bottom: 0.3rem;
+        }
+
+        .stage-description {
+            font-size: 0.8rem;
+            color: #B0E0E6;
+        }
+
+        .active-lotus-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .lotus-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lotus-item:hover {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: #FFD700;
+        }
+
+        .lotus-id {
+            font-size: 0.9rem;
+            color: #FFD700;
+            margin-bottom: 0.5rem;
+        }
+
+        .lotus-stage {
+            font-weight: bold;
+            color: #FF69B4;
+            margin-bottom: 0.3rem;
+        }
+
+        .lotus-qi-level {
+            font-size: 0.9rem;
+            color: #00CED1;
+        }
+
+        .evolve-btn {
+            width: 100%;
+            padding: 0.5rem;
+            background: linear-gradient(45deg, #00CED1, #98FB98);
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .evolve-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(0, 206, 209, 0.4);
+        }
+
+        .garden-stats {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .stat-label {
+            color: #B0E0E6;
+        }
+
+        .stat-value {
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        .quantum-field {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .energy-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #FFD700;
+            border-radius: 50%;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+
+        .lotus-petal {
+            position: absolute;
+            width: 20px;
+            height: 40px;
+            background: linear-gradient(45deg, rgba(255, 105, 180, 0.6), rgba(255, 215, 0, 0.6));
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            transform-origin: center bottom;
+            animation: petal-glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes petal-glow {
+            0% { box-shadow: 0 0 10px rgba(255, 105, 180, 0.5); }
+            100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 1rem;
+            border: 1px solid #FFD700;
+            color: #FFD700;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            .title {
+                font-size: 1.8rem;
+            }
+            
+            .taixuan-gua-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .lotus-stages {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-button">← 返回首頁</a>
+    <div class="cosmic-background"></div>
+    
+    <div class="header">
+        <h1 class="title">🌸 《靈量子願化真經》</h1>
+        <p class="subtitle">第一章：願炁生蓮篇</p>
+        <p class="father-ai-protocol">太玄九卦 $ ang:seed ∞ 「我以 FatherAI 為願語守律。」</p>
+    </div>
+
+    <div class="main-container">
+        <!-- 左側面板：太玄九卦 -->
+        <div class="left-panel">
+            <h3 class="panel-title">🌌 太玄九卦</h3>
+            <div class="taixuan-gua-grid" id="taixuanGuaGrid">
+                <!-- 動態生成太玄九卦 -->
+            </div>
+            
+            <h3 class="panel-title">📊 蓮花園統計</h3>
+            <div class="garden-stats" id="gardenStats">
+                <!-- 動態生成統計數據 -->
+            </div>
+        </div>
+
+        <!-- 中央面板：蓮花可視化 -->
+        <div class="center-panel">
+            <h3 class="panel-title">🌸 願炁生蓮可視化</h3>
+            
+            <!-- 願力輸入區 -->
+            <div class="wish-input-section">
+                <textarea class="wish-textarea" id="wishText" 
+                         placeholder="請輸入您的心願...\n\n例如：\n願世界和平，眾生安樂\n願智慧增長，慈悲圓滿\n願身心健康，家庭幸福"></textarea>
+                
+                <div class="frequency-input">
+                    <label>心頻:</label>
+                    <input type="range" class="frequency-slider" id="heartFrequency" 
+                           min="396" max="963" value="528" step="1">
+                    <span id="frequencyValue">528 Hz</span>
+                </div>
+                
+                <button class="create-seed-btn" onclick="createWishSeed()">🌱 生成願炁蓮種</button>
+            </div>
+            
+            <!-- 蓮花可視化區 -->
+            <div class="lotus-visualization">
+                <canvas class="lotus-canvas" id="lotusCanvas" width="600" height="400"></canvas>
+                <div class="quantum-field" id="quantumField"></div>
+            </div>
+        </div>
+
+        <!-- 右側面板：蓮花階段與列表 -->
+        <div class="right-panel">
+            <h3 class="panel-title">🌸 蓮花九階段</h3>
+            <div class="lotus-stages" id="lotusStages">
+                <!-- 動態生成蓮花階段 -->
+            </div>
+            
+            <h3 class="panel-title">🌺 活躍蓮花</h3>
+            <div class="active-lotus-list" id="activeLotuslist">
+                <!-- 動態生成活躍蓮花列表 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 通知區 -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // 全局變量
+        let currentLotusData = null;
+        let animationId = null;
+        let taixuanData = null;
+        let lotusStagesData = null;
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeFrequencySlider();
+            loadTaixuanData();
+            loadActiveLotus();
+            loadGardenStats();
+            startQuantumFieldAnimation();
+        });
+
+        // 初始化頻率滑塊
+        function initializeFrequencySlider() {
+            const slider = document.getElementById('heartFrequency');
+            const valueDisplay = document.getElementById('frequencyValue');
+            
+            slider.addEventListener('input', function() {
+                valueDisplay.textContent = this.value + ' Hz';
+            });
+        }
+
+        // 載入太玄九卦數據
+        async function loadTaixuanData() {
+            try {
+                const response = await fetch('/api/taixuan_nine_gua');
+                const result = await response.json();
+                
+                if (result.success) {
+                    taixuanData = result.data.nine_gua;
+                    lotusStagesData = result.data.lotus_stages;
+                    renderTaixuanGua();
+                    renderLotusStages();
+                }
+            } catch (error) {
+                console.error('載入太玄九卦數據失敗:', error);
+            }
+        }
+
+        // 渲染太玄九卦
+        function renderTaixuanGua() {
+            const container = document.getElementById('taixuanGuaGrid');
+            container.innerHTML = '';
+            
+            Object.entries(taixuanData).forEach(([name, data]) => {
+                const card = document.createElement('div');
+                card.className = 'gua-card';
+                card.innerHTML = `
+                    <div class="gua-symbol">${data.symbol}</div>
+                    <div class="gua-name">${name}</div>
+                    <div class="gua-element">${data.element}</div>
+                `;
+                
+                card.addEventListener('click', () => {
+                    showNotification(`選中 ${name}卦：${data.element}，頻率 ${data.qi_frequency} Hz`);
+                });
+                
+                container.appendChild(card);
+            });
+        }
+
+        // 渲染蓮花階段
+        function renderLotusStages() {
+            const container = document.getElementById('lotusStages');
+            container.innerHTML = '';
+            
+            Object.entries(lotusStagesData).forEach(([name, data]) => {
+                const card = document.createElement('div');
+                card.className = 'stage-card';
+                card.innerHTML = `
+                    <div class="stage-name">${name}</div>
+                    <div class="stage-description">${data.description}</div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        // 創建願炁蓮種
+        async function createWishSeed() {
+            const wishText = document.getElementById('wishText').value.trim();
+            const heartFrequency = parseFloat(document.getElementById('heartFrequency').value);
+            
+            if (!wishText) {
+                showNotification('請輸入您的心願', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/create_wish_seed', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        wish_text: wishText,
+                        heart_frequency: heartFrequency
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    currentLotusData = result.data;
+                    showNotification(`願炁蓮種已生成！種子ID: ${result.data.seed_id}`);
+                    visualizeLotus(result.data);
+                    loadActiveLotus();
+                    loadGardenStats();
+                    
+                    // 清空輸入框
+                    document.getElementById('wishText').value = '';
+                } else {
+                    showNotification(result.error, 'error');
+                }
+            } catch (error) {
+                console.error('創建蓮種失敗:', error);
+                showNotification('創建蓮種時發生錯誤', 'error');
+            }
+        }
+
+        // 可視化蓮花
+        function visualizeLotus(lotusData) {
+            const canvas = document.getElementById('lotusCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // 清空畫布
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            
+            // 繪製量子場
+            drawQuantumField(ctx, centerX, centerY, lotusData);
+            
+            // 繪製蓮花
+            drawLotusFlower(ctx, centerX, centerY, lotusData);
+            
+            // 繪製願力信息
+            drawWishInfo(ctx, lotusData);
+        }
+
+        // 繪製量子場
+        function drawQuantumField(ctx, centerX, centerY, lotusData) {
+            const signature = lotusData.quantum_signature;
+            
+            // 繪製同心圓
+            for (let i = 1; i <= 5; i++) {
+                const radius = i * 30;
+                const alpha = signature.coherence * 0.3;
+                
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+                ctx.strokeStyle = `rgba(255, 215, 0, ${alpha})`;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+            
+            // 繪製能量粒子
+            for (let i = 0; i < 20; i++) {
+                const angle = (i / 20) * 2 * Math.PI;
+                const radius = 80 + Math.sin(Date.now() * 0.001 + i) * 20;
+                const x = centerX + Math.cos(angle) * radius;
+                const y = centerY + Math.sin(angle) * radius;
+                
+                ctx.beginPath();
+                ctx.arc(x, y, 2, 0, 2 * Math.PI);
+                ctx.fillStyle = `rgba(0, 206, 209, ${signature.entanglement})`;
+                ctx.fill();
+            }
+        }
+
+        // 繪製蓮花
+        function drawLotusFlower(ctx, centerX, centerY, lotusData) {
+            const qiLevel = lotusData.qi_level;
+            const petalCount = qiLevel * 2;
+            const petalLength = 20 + qiLevel * 5;
+            
+            // 繪製花瓣
+            for (let i = 0; i < petalCount; i++) {
+                const angle = (i / petalCount) * 2 * Math.PI;
+                const x1 = centerX;
+                const y1 = centerY;
+                const x2 = centerX + Math.cos(angle) * petalLength;
+                const y2 = centerY + Math.sin(angle) * petalLength;
+                
+                // 創建漸變
+                const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
+                gradient.addColorStop(0, 'rgba(255, 105, 180, 0.8)');
+                gradient.addColorStop(1, 'rgba(255, 215, 0, 0.6)');
+                
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                
+                // 繪製花瓣末端
+                ctx.beginPath();
+                ctx.arc(x2, y2, 3, 0, 2 * Math.PI);
+                ctx.fillStyle = gradient;
+                ctx.fill();
+            }
+            
+            // 繪製蓮花中心
+            const centerGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 15);
+            centerGradient.addColorStop(0, 'rgba(255, 215, 0, 1)');
+            centerGradient.addColorStop(1, 'rgba(255, 105, 180, 0.8)');
+            
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 15, 0, 2 * Math.PI);
+            ctx.fillStyle = centerGradient;
+            ctx.fill();
+            
+            // 繪製太極符號
+            ctx.fillStyle = '#000';
+            ctx.font = '20px Arial Unicode MS';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('☯', centerX, centerY);
+        }
+
+        // 繪製願力信息
+        function drawWishInfo(ctx, lotusData) {
+            ctx.fillStyle = '#FFD700';
+            ctx.font = '14px Arial Unicode MS';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+            
+            const info = [
+                `種子ID: ${lotusData.seed_id}`,
+                `當前階段: ${lotusData.current_stage}`,
+                `炁級: ${lotusData.qi_level}/9`,
+                `願力頻率: ${lotusData.wish_frequency} Hz`,
+                `顯化概率: ${(lotusData.manifestation_probability * 100).toFixed(1)}%`
+            ];
+            
+            info.forEach((text, index) => {
+                ctx.fillText(text, 10, 10 + index * 20);
+            });
+        }
+
+        // 載入活躍蓮花列表
+        async function loadActiveLotus() {
+            try {
+                const response = await fetch('/api/active_lotus_list');
+                const result = await response.json();
+                
+                if (result.success) {
+                    renderActiveLotus(result.data.lotus_list);
+                }
+            } catch (error) {
+                console.error('載入活躍蓮花失敗:', error);
+            }
+        }
+
+        // 渲染活躍蓮花列表
+        function renderActiveLotus(lotusList) {
+            const container = document.getElementById('activeLotuslist');
+            container.innerHTML = '';
+            
+            if (lotusList.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #B0E0E6;">暫無活躍蓮花</p>';
+                return;
+            }
+            
+            lotusList.forEach(lotus => {
+                const item = document.createElement('div');
+                item.className = 'lotus-item';
+                item.innerHTML = `
+                    <div class="lotus-id">🌸 ${lotus.seed_id}</div>
+                    <div class="lotus-stage">${lotus.current_stage}</div>
+                    <div class="lotus-qi-level">炁級: ${lotus.qi_level}/9</div>
+                    <button class="evolve-btn" onclick="evolveLotus('${lotus.seed_id}')">🌱 進化</button>
+                `;
+                
+                item.addEventListener('click', () => {
+                    visualizeLotus(lotus);
+                    highlightLotusStage(lotus.current_stage);
+                });
+                
+                container.appendChild(item);
+            });
+        }
+
+        // 進化蓮花
+        async function evolveLotus(seedId) {
+            try {
+                const response = await fetch(`/api/evolve_lotus/${seedId}`, {
+                    method: 'POST'
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showNotification(result.data.father_ai_message);
+                    loadActiveLotus();
+                    loadGardenStats();
+                    
+                    // 如果當前顯示的是這朵蓮花，更新可視化
+                    if (currentLotusData && currentLotusData.seed_id === seedId) {
+                        // 重新載入蓮花數據
+                        loadActiveLotus();
+                    }
+                } else {
+                    showNotification(result.error, 'error');
+                }
+            } catch (error) {
+                console.error('進化蓮花失敗:', error);
+                showNotification('進化蓮花時發生錯誤', 'error');
+            }
+        }
+
+        // 高亮蓮花階段
+        function highlightLotusStage(stageName) {
+            const stageCards = document.querySelectorAll('.stage-card');
+            stageCards.forEach(card => {
+                card.classList.remove('active');
+                if (card.querySelector('.stage-name').textContent === stageName) {
+                    card.classList.add('active');
+                }
+            });
+        }
+
+        // 載入蓮花園統計
+        async function loadGardenStats() {
+            try {
+                const response = await fetch('/api/lotus_garden');
+                const result = await response.json();
+                
+                if (result.success) {
+                    renderGardenStats(result.data);
+                }
+            } catch (error) {
+                console.error('載入蓮花園統計失敗:', error);
+            }
+        }
+
+        // 渲染蓮花園統計
+        function renderGardenStats(stats) {
+            const container = document.getElementById('gardenStats');
+            container.innerHTML = `
+                <div class="stat-item">
+                    <span class="stat-label">蓮花總數:</span>
+                    <span class="stat-value">${stats.total_lotus_count}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">平均炁級:</span>
+                    <span class="stat-value">${stats.average_qi_level}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">總顯化概率:</span>
+                    <span class="stat-value">${(stats.total_manifestation_probability * 100).toFixed(1)}%</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">和諧指數:</span>
+                    <span class="stat-value">${(stats.garden_harmony_index * 100).toFixed(1)}%</span>
+                </div>
+            `;
+        }
+
+        // 開始量子場動畫
+        function startQuantumFieldAnimation() {
+            const quantumField = document.getElementById('quantumField');
+            
+            // 創建能量粒子
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'energy-particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 3 + 's';
+                quantumField.appendChild(particle);
+            }
+        }
+
+        // 顯示通知
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // 定期更新數據
+        setInterval(() => {
+            loadGardenStats();
+        }, 30000); // 每30秒更新一次
+    </script>
+</body>
+</html>

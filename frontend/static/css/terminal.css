@@ -1,0 +1,371 @@
+/* Terminal 樣式 - Terminal#636-640 專用 */
+
+/* 終端容器 */
+.terminal-container {
+    background: #1a1a1a;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border: 1px solid #333;
+}
+
+/* 終端標題欄 */
+.terminal-header {
+    background: #2d2d2d;
+    padding: 10px 15px;
+    border-radius: 8px 8px 0 0;
+    margin: -20px -20px 15px -20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.terminal-buttons {
+    display: flex;
+    gap: 6px;
+}
+
+.terminal-button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}
+
+.terminal-button.close {
+    background: #ff5f56;
+}
+
+.terminal-button.minimize {
+    background: #ffbd2e;
+}
+
+.terminal-button.maximize {
+    background: #27ca3f;
+}
+
+.terminal-title {
+    color: #ffffff;
+    font-size: 14px;
+    margin-left: 10px;
+    font-weight: 500;
+}
+
+/* 終端內容區域 */
+.terminal-content {
+    background: #000000;
+    color: #00ff00;
+    padding: 15px;
+    border-radius: 4px;
+    min-height: 200px;
+    font-size: 14px;
+    line-height: 1.4;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* 終端提示符 */
+.terminal-prompt {
+    color: #00ff00;
+    font-weight: bold;
+}
+
+.terminal-prompt::before {
+    content: '$ ';
+    color: #ffffff;
+}
+
+/* 終端輸出樣式 */
+.terminal-output {
+    margin: 5px 0;
+}
+
+.terminal-output.error {
+    color: #ff6b6b;
+}
+
+.terminal-output.warning {
+    color: #ffa500;
+}
+
+.terminal-output.info {
+    color: #4ecdc4;
+}
+
+.terminal-output.success {
+    color: #00ff00;
+}
+
+/* 終端輸入框 */
+.terminal-input {
+    background: transparent;
+    border: none;
+    color: #00ff00;
+    font-family: inherit;
+    font-size: inherit;
+    outline: none;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.terminal-input::placeholder {
+    color: #666666;
+}
+
+/* 終端光標動畫 */
+.terminal-cursor {
+    display: inline-block;
+    background: #00ff00;
+    width: 8px;
+    height: 16px;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0;
+    }
+}
+
+/* 終端滾動條 */
+.terminal-content::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.terminal-content::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+.terminal-content::-webkit-scrollbar-thumb {
+    background: #444444;
+    border-radius: 4px;
+}
+
+.terminal-content::-webkit-scrollbar-thumb:hover {
+    background: #666666;
+}
+
+/* 終端命令歷史 */
+.terminal-history {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+.terminal-history-item {
+    padding: 2px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.terminal-history-item:last-child {
+    border-bottom: none;
+}
+
+/* 終端狀態指示器 */
+.terminal-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #333;
+    font-size: 12px;
+}
+
+.terminal-status-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #00ff00;
+    animation: pulse 2s infinite;
+}
+
+.terminal-status-indicator.error {
+    background: #ff6b6b;
+}
+
+.terminal-status-indicator.warning {
+    background: #ffa500;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(1.2);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* 終端命令建議 */
+.terminal-suggestions {
+    background: #2d2d2d;
+    border: 1px solid #444;
+    border-radius: 4px;
+    margin-top: 5px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.terminal-suggestion {
+    padding: 8px 12px;
+    cursor: pointer;
+    color: #cccccc;
+    border-bottom: 1px solid #333;
+}
+
+.terminal-suggestion:last-child {
+    border-bottom: none;
+}
+
+.terminal-suggestion:hover,
+.terminal-suggestion.selected {
+    background: #444444;
+    color: #ffffff;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .terminal-container {
+        margin: 10px 0;
+        padding: 15px;
+    }
+    
+    .terminal-content {
+        font-size: 12px;
+        padding: 10px;
+    }
+    
+    .terminal-header {
+        padding: 8px 12px;
+        margin: -15px -15px 10px -15px;
+    }
+}
+
+/* 深色主題變體 */
+.terminal-container.dark {
+    background: #0d1117;
+    border-color: #21262d;
+}
+
+.terminal-container.dark .terminal-header {
+    background: #161b22;
+}
+
+.terminal-container.dark .terminal-content {
+    background: #0d1117;
+    color: #58a6ff;
+}
+
+/* 綠色主題變體 */
+.terminal-container.matrix {
+    background: #000000;
+    border-color: #00ff00;
+}
+
+.terminal-container.matrix .terminal-content {
+    background: #000000;
+    color: #00ff00;
+    text-shadow: 0 0 5px #00ff00;
+}
+
+/* 終端動畫效果 */
+.terminal-container.animated {
+    animation: terminalGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes terminalGlow {
+    from {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    to {
+        box-shadow: 0 4px 20px rgba(0, 255, 0, 0.2);
+    }
+}
+
+/* 終端載入動畫 */
+.terminal-loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #333;
+    border-radius: 50%;
+    border-top-color: #00ff00;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 終端文字效果 */
+.terminal-text-effect {
+    animation: typewriter 2s steps(40) 1s both;
+}
+
+@keyframes typewriter {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+/* 終端高亮語法 */
+.terminal-syntax-keyword {
+    color: #ff79c6;
+    font-weight: bold;
+}
+
+.terminal-syntax-string {
+    color: #f1fa8c;
+}
+
+.terminal-syntax-comment {
+    color: #6272a4;
+    font-style: italic;
+}
+
+.terminal-syntax-number {
+    color: #bd93f9;
+}
+
+.terminal-syntax-operator {
+    color: #ff5555;
+}
+
+/* 終端特殊效果 */
+.terminal-rainbow-text {
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: rainbow 3s ease infinite;
+}
+
+@keyframes rainbow {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}

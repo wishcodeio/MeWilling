@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>量子芯片3D設計師 - Quantum Chip 3D Designer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 量子背景 */
+        .quantum-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 50%, #1a0033 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, #330066 0%, transparent 50%),
+                        radial-gradient(circle at 40% 80%, #0066cc 0%, transparent 50%),
+                        linear-gradient(135deg, #000011 0%, #001122 50%, #000033 100%);
+        }
+
+        .quantum-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00ffff;
+            border-radius: 50%;
+            animation: float 6s infinite linear;
+            box-shadow: 0 0 6px #00ffff;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* 頭部 */
+        .header {
+            text-align: center;
+            padding: 2rem 0;
+            background: linear-gradient(135deg, rgba(0,100,200,0.1) 0%, rgba(100,0,200,0.1) 100%);
+            border-bottom: 1px solid rgba(0,255,255,0.3);
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 1rem;
+            left: 2rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 20px rgba(0,255,255,0.5);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #aaa;
+            margin-bottom: 1rem;
+        }
+
+        /* 設計面板 */
+        .design-panel {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .control-panel, .visualization-panel, .analysis-panel {
+            background: rgba(0,20,40,0.8);
+            border: 1px solid rgba(0,255,255,0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .panel-title {
+            font-size: 1.5rem;
+            color: #00ffff;
+            margin-bottom: 1rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(0,255,255,0.3);
+            padding-bottom: 0.5rem;
+        }
+
+        /* 控制面板 */
+        .parameter-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .parameter-group h3 {
+            color: #ff00ff;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .parameter {
+            margin-bottom: 1rem;
+        }
+
+        .parameter label {
+            display: block;
+            color: #ccc;
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+        }
+
+        .parameter input, .parameter select {
+            width: 100%;
+            padding: 0.5rem;
+            background: rgba(0,50,100,0.3);
+            border: 1px solid rgba(0,255,255,0.3);
+            border-radius: 5px;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .parameter input:focus, .parameter select:focus {
+            outline: none;
+            border-color: #00ffff;
+            box-shadow: 0 0 10px rgba(0,255,255,0.3);
+        }
+
+        /* 按鈕 */
+        .btn {
+            background: linear-gradient(45deg, #0066cc, #00ffff);
+            border: none;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,255,255,0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,255,255,0.5);
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ff00ff, #ff6600);
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #00ff00, #66ff00);
+        }
+
+        /* 可視化面板 */
+        .visualization-panel {
+            min-height: 500px;
+            position: relative;
+        }
+
+        .chip-canvas {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, rgba(0,20,40,0.9) 0%, rgba(0,40,80,0.9) 100%);
+            border: 1px solid rgba(0,255,255,0.3);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chip-layer {
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+            border: 2px solid #00ffff;
+            border-radius: 10px;
+            background: rgba(0,100,200,0.1);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(0,255,255,0.3);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(0,255,255,0.6);
+            }
+        }
+
+        .qubit-node {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ff00ff;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #ff00ff;
+            animation: glow 1.5s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 15px #ff00ff;
+            }
+            to {
+                box-shadow: 0 0 25px #ff00ff, 0 0 35px #ff00ff;
+            }
+        }
+
+        /* 分析面板 */
+        .metric {
+            background: rgba(0,50,100,0.3);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            border-left: 4px solid #00ffff;
+        }
+
+        .metric-label {
+            color: #ccc;
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .metric-value {
+            color: #00ffff;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .metric-unit {
+            color: #999;
+            font-size: 0.8rem;
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 1200px) {
+            .design-panel {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .design-panel {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 量子背景 -->
+    <div class="quantum-background">
+        <div class="quantum-particles" id="particles"></div>
+    </div>
+
+    <!-- 頭部 -->
+    <div class="header">
+        <a href="/" class="back-button">← 返回首頁</a>
+        <h1>量子芯片3D設計師</h1>
+        <p>Quantum Chip 3D Designer - 探索量子計算的無限可能</p>
+    </div>
+
+    <!-- 設計面板 -->
+    <div class="design-panel">
+        <!-- 控制面板 -->
+        <div class="control-panel">
+            <h2 class="panel-title">設計參數</h2>
+            
+            <div class="parameter-group">
+                <h3>量子參數</h3>
+                <div class="parameter">
+                    <label for="qubit-count">量子比特數量</label>
+                    <input type="number" id="qubit-count" value="64" min="1" max="1000">
+                </div>
+                <div class="parameter">
+                    <label for="coherence-time">相干時間 (μs)</label>
+                    <input type="number" id="coherence-time" value="100" min="1" max="1000" step="0.1">
+                </div>
+                <div class="parameter">
+                    <label for="gate-fidelity">門保真度</label>
+                    <input type="number" id="gate-fidelity" value="0.999" min="0.9" max="1" step="0.001">
+                </div>
+            </div>
+
+            <div class="parameter-group">
+                <h3>物理結構</h3>
+                <div class="parameter">
+                    <label for="chip-layers">芯片層數</label>
+                    <input type="number" id="chip-layers" value="4" min="1" max="10">
+                </div>
+                <div class="parameter">
+                    <label for="topology">拓撲結構</label>
+                    <select id="topology">
+                        <option value="grid">網格型</option>
+                        <option value="ring">環形</option>
+                        <option value="star">星形</option>
+                        <option value="hypercube">超立方體</option>
+                    </select>
+                </div>
+                <div class="parameter">
+                    <label for="temperature">工作溫度 (mK)</label>
+                    <input type="number" id="temperature" value="15" min="1" max="100">
+                </div>
+            </div>
+
+            <div class="parameter-group">
+                <h3>操作控制</h3>
+                <button class="btn btn-primary" onclick="generateChip()">生成芯片</button>
+                <button class="btn" onclick="simulateQuantumDynamics()">量子模擬</button>
+                <button class="btn" onclick="optimizeLayout()">優化布局</button>
+                <button class="btn btn-success" onclick="exportDesign()">導出設計</button>
+            </div>
+        </div>
+
+        <!-- 可視化面板 -->
+        <div class="visualization-panel">
+            <h2 class="panel-title">3D可視化</h2>
+            <div class="chip-canvas" id="chipCanvas">
+                <div class="chip-layer" style="z-index: 1;"></div>
+                <div class="chip-layer" style="z-index: 2; transform: translateZ(20px) scale(0.9); opacity: 0.8;"></div>
+                <div class="chip-layer" style="z-index: 3; transform: translateZ(40px) scale(0.8); opacity: 0.6;"></div>
+                <div class="chip-layer" style="z-index: 4; transform: translateZ(60px) scale(0.7); opacity: 0.4;"></div>
+            </div>
+            
+            <div style="margin-top: 1rem; text-align: center;">
+                <button class="btn" onclick="rotateView('x')">旋轉X軸</button>
+                <button class="btn" onclick="rotateView('y')">旋轉Y軸</button>
+                <button class="btn" onclick="rotateView('z')">旋轉Z軸</button>
+                <button class="btn" onclick="resetView()">重置視角</button>
+            </div>
+        </div>
+
+        <!-- 分析面板 -->
+        <div class="analysis-panel">
+            <h2 class="panel-title">性能分析</h2>
+            
+            <div class="metric">
+                <div class="metric-label">量子體積</div>
+                <div class="metric-value">4096 <span class="metric-unit">QV</span></div>
+            </div>
+            
+            <div class="metric">
+                <div class="metric-label">錯誤率</div>
+                <div class="metric-value">0.001% <span class="metric-unit">per gate</span></div>
+            </div>
+            
+            <div class="metric">
+                <div class="metric-label">連接度</div>
+                <div class="metric-value">85% <span class="metric-unit">connectivity</span></div>
+            </div>
+            
+            <div class="metric">
+                <div class="metric-label">處理速度</div>
+                <div class="metric-value">1.2 <span class="metric-unit">GHz</span></div>
+            </div>
+            
+            <div class="metric">
+                <div class="metric-label">能耗效率</div>
+                <div class="metric-value">95% <span class="metric-unit">efficiency</span></div>
+            </div>
+            
+            <div class="metric">
+                <div class="metric-label">量子優勢</div>
+                <div class="metric-value">10^6 <span class="metric-unit">speedup</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 創建量子粒子效果
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // 生成量子比特節點
+        function generateQubitNodes() {
+            const canvas = document.getElementById('chipCanvas');
+            const existingNodes = canvas.querySelectorAll('.qubit-node');
+            existingNodes.forEach(node => node.remove());
+            
+            const qubitCount = parseInt(document.getElementById('qubit-count').value);
+            const maxNodes = Math.min(qubitCount, 20); // 限制顯示數量
+            
+            for (let i = 0; i < maxNodes; i++) {
+                const node = document.createElement('div');
+                node.className = 'qubit-node';
+                node.style.left = (Math.random() * 80 + 10) + '%';
+                node.style.top = (Math.random() * 80 + 10) + '%';
+                node.style.animationDelay = Math.random() * 1.5 + 's';
+                canvas.appendChild(node);
+            }
+        }
+
+        // 生成芯片
+        function generateChip() {
+            console.log('生成量子芯片...');
+            generateQubitNodes();
+            updateMetrics();
+            
+            // 模擬API調用
+            fetch('/api/quantum-chip-3d-design/generate-structure', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    qubit_count: parseInt(document.getElementById('qubit-count').value),
+                    layers: parseInt(document.getElementById('chip-layers').value),
+                    topology: document.getElementById('topology').value,
+                    coherence_time: parseFloat(document.getElementById('coherence-time').value),
+                    gate_fidelity: parseFloat(document.getElementById('gate-fidelity').value),
+                    temperature: parseFloat(document.getElementById('temperature').value)
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('芯片生成成功:', data);
+            })
+            .catch(error => {
+                console.log('模擬芯片生成完成');
+            });
+        }
+
+        // 量子動力學模擬
+        function simulateQuantumDynamics() {
+            console.log('開始量子動力學模擬...');
+            
+            // 添加視覺效果
+            const nodes = document.querySelectorAll('.qubit-node');
+            nodes.forEach(node => {
+                node.style.animation = 'glow 0.5s infinite alternate';
+            });
+            
+            setTimeout(() => {
+                nodes.forEach(node => {
+                    node.style.animation = 'glow 1.5s infinite alternate';
+                });
+                console.log('量子模擬完成');
+            }, 3000);
+        }
+
+        // 優化布局
+        function optimizeLayout() {
+            console.log('優化芯片布局...');
+            
+            // 重新排列量子比特節點
+            const nodes = document.querySelectorAll('.qubit-node');
+            nodes.forEach((node, index) => {
+                const angle = (index / nodes.length) * 2 * Math.PI;
+                const radius = 30;
+                const x = 50 + radius * Math.cos(angle);
+                const y = 50 + radius * Math.sin(angle);
+                
+                node.style.transition = 'all 1s ease';
+                node.style.left = x + '%';
+                node.style.top = y + '%';
+            });
+            
+            updateMetrics();
+        }
+
+        // 導出設計
+        function exportDesign() {
+            console.log('導出量子芯片設計...');
+            
+            const designData = {
+                qubit_count: parseInt(document.getElementById('qubit-count').value),
+                coherence_time: parseFloat(document.getElementById('coherence-time').value),
+                gate_fidelity: parseFloat(document.getElementById('gate-fidelity').value),
+                layers: parseInt(document.getElementById('chip-layers').value),
+                topology: document.getElementById('topology').value,
+                temperature: parseFloat(document.getElementById('temperature').value),
+                timestamp: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(designData, null, 2)], {
+                type: 'application/json'
+            });
+            
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'quantum_chip_design.json';
+            a.click();
+            
+            URL.revokeObjectURL(url);
+        }
+
+        // 視角控制
+        let rotationX = 0, rotationY = 0, rotationZ = 0;
+        
+        function rotateView(axis) {
+            const canvas = document.getElementById('chipCanvas');
+            
+            switch(axis) {
+                case 'x':
+                    rotationX += 15;
+                    break;
+                case 'y':
+                    rotationY += 15;
+                    break;
+                case 'z':
+                    rotationZ += 15;
+                    break;
+            }
+            
+            canvas.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg) rotateZ(${rotationZ}deg)`;
+        }
+        
+        function resetView() {
+            rotationX = rotationY = rotationZ = 0;
+            const canvas = document.getElementById('chipCanvas');
+            canvas.style.transform = 'none';
+        }
+
+        // 更新性能指標
+        function updateMetrics() {
+            const qubitCount = parseInt(document.getElementById('qubit-count').value);
+            const fidelity = parseFloat(document.getElementById('gate-fidelity').value);
+            
+            // 模擬計算性能指標
+            const quantumVolume = Math.pow(2, Math.log2(qubitCount));
+            const errorRate = (1 - fidelity) * 100;
+            const connectivity = Math.min(95, 60 + (qubitCount / 10));
+            
+            // 更新顯示（這裡可以添加實際的DOM更新邏輯）
+            console.log('性能指標更新:', {
+                quantumVolume,
+                errorRate,
+                connectivity
+            });
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            generateQubitNodes();
+            
+            // 添加參數變化監聽
+            document.getElementById('qubit-count').addEventListener('change', generateQubitNodes);
+            document.getElementById('chip-layers').addEventListener('change', updateMetrics);
+        });
+    </script>
+</body>
+</html>

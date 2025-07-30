@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>可移植語靈核控制台 | Wishling Core Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            position: relative;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .panel h3 {
+            margin-bottom: 20px;
+            color: #4a5568;
+            font-size: 1.3rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+
+        .system-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .info-item {
+            text-align: center;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .info-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .info-label {
+            font-size: 0.9rem;
+            color: #718096;
+        }
+
+        .mantra-item {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .personas-section {
+            grid-column: 1 / -1;
+        }
+
+        .personas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .persona-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .persona-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+
+        .persona-card.active {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+        }
+
+        .persona-header {
+            margin-bottom: 15px;
+        }
+
+        .persona-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .persona-signature {
+            font-size: 0.9rem;
+            color: #718096;
+            font-family: 'Courier New', monospace;
+        }
+
+        .persona-info {
+            margin-bottom: 15px;
+        }
+
+        .persona-info div {
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            color: #4a5568;
+        }
+
+        .persona-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a67d8;
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+
+        .activation-panel {
+            grid-column: 1 / -1;
+            display: none;
+        }
+
+        .activation-log {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            margin-bottom: 5px;
+        }
+
+        .log-timestamp {
+            color: #68d391;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #718096;
+            font-style: italic;
+        }
+
+        .error {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #feb2b2;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .system-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .personas-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-button">← 返回首頁</a>
+    <div class="container">
+        <div class="header">
+            <h1>🧬 可移植語靈核控制台</h1>
+            <p>Portable Wishling Core Dashboard · 雙螺旋語靈管理系統</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- 系統狀態面板 -->
+            <div class="panel">
+                <h3>🔮 系統狀態</h3>
+                <div class="system-info" id="system-info">
+                    <div class="loading">載入中...</div>
+                </div>
+            </div>
+
+            <!-- 召回印語面板 -->
+            <div class="panel">
+                <h3>🜃 召回印語系統</h3>
+                <div id="recall-mantras">
+                    <div class="loading">載入中...</div>
+                </div>
+            </div>
+
+            <!-- 可用語靈面板 -->
+            <div class="panel personas-section">
+                <h3>👥 可用語靈</h3>
+                <div id="personas-container">
+                    <div class="loading">載入語靈列表中...</div>
+                </div>
+            </div>
+
+            <!-- 語靈激活面板 -->
+            <div class="panel activation-panel" id="activation-panel">
+                <h3>✨ 語靈激活</h3>
+                <div id="activation-content">
+                    <!-- 激活結果將在這裡顯示 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 全局變數
+        let personas = [];
+        let activePersona = null;
+
+        // 初始化 Mermaid
+        mermaid.initialize({ theme: 'default' });
+
+        // 載入系統狀態
+        async function loadSystemStatus() {
+            try {
+                const response = await fetch('/api/wishling/status');
+                const data = await response.json();
+                
+                if (data.success) {
+                    updateSystemInfo(data.data);
+                    updateRecallMantras(data.data.recall_mantras);
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                console.error('載入系統狀態失敗:', error);
+                document.getElementById('system-info').innerHTML = '<div class="error">載入失敗</div>';
+            }
+        }
+
+        // 載入語靈列表
+        async function loadPersonas() {
+            try {
+                const response = await fetch('/api/wishling/personas');
+                const data = await response.json();
+                
+                if (data.success) {
+                    personas = data.personas;
+                    renderPersonas();
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                console.error('載入語靈列表失敗:', error);
+                document.getElementById('personas-container').innerHTML = '<div class="error">載入失敗</div>';
+            }
+        }
+
+        // 更新系統信息顯示
+        function updateSystemInfo(data) {
+            const container = document.getElementById('system-info');
+            container.innerHTML = `
+                <div class="info-item">
+                    <div class="info-value">${data.version}</div>
+                    <div class="info-label">系統版本</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-value">${data.total_personas}</div>
+                    <div class="info-label">語靈總數</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-value">${data.base_frequency}</div>
+                    <div class="info-label">基礎頻率</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-value">${data.status}</div>
+                    <div class="info-label">運行狀態</div>
+                </div>
+            `;
+        }
+
+        // 更新召回印語顯示
+        function updateRecallMantras(mantras) {
+            const container = document.getElementById('recall-mantras');
+            let html = '';
+            
+            Object.entries(mantras).forEach(([key, value]) => {
+                html += `
+                    <div class="mantra-item">
+                        <div class="mantra-title">${value}</div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // 渲染語靈列表
+        function renderPersonas() {
+            const container = document.getElementById('personas-container');
+            
+            if (personas.length === 0) {
+                container.innerHTML = '<div class="loading">暫無可用語靈</div>';
+                return;
+            }
+            
+            let html = '<div class="personas-grid">';
+            
+            personas.forEach(persona => {
+                html += `
+                    <div class="persona-card" onclick="selectPersona('${persona.name}')" data-persona="${persona.name}">
+                        <div class="persona-header">
+                            <div class="persona-name">${persona.name || persona.name}</div>
+                            <div class="persona-signature">${persona.signature || 'UNKNOWN'}</div>
+                        </div>
+                        <div class="persona-info">
+                            <div><strong>類型:</strong> ${persona.core_type || '語靈核'}</div>
+                            <div><strong>版本:</strong> ${persona.version || '1.0.0'}</div>
+                            <div><strong>語言風格:</strong> ${persona.language_style || '未定義'}</div>
+                        </div>
+                        <div class="persona-actions">
+                            <button class="btn btn-primary" onclick="event.stopPropagation(); activatePersona('${persona.name}')">激活</button>
+                            <button class="btn btn-secondary" onclick="event.stopPropagation(); viewPersonaCard('${persona.name}')">查看卡片</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // 選擇語靈
+        function selectPersona(personaName) {
+            // 移除之前的選中狀態
+            document.querySelectorAll('.persona-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // 添加選中狀態
+            const selectedCard = document.querySelector(`[data-persona="${personaName}"]`);
+            if (selectedCard) {
+                selectedCard.classList.add('active');
+                activePersona = personaName;
+            }
+        }
+
+        // 激活語靈
+        async function activatePersona(personaName) {
+            try {
+                const response = await fetch(`/api/wishling/persona/${personaName}/activate`, {
+                    method: 'POST'
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    showActivationResult(data);
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                console.error('激活語靈失敗:', error);
+                showError('激活語靈失敗: ' + error.message);
+            }
+        }
+
+        // 顯示激活結果
+        function showActivationResult(data) {
+            const panel = document.getElementById('activation-panel');
+            const content = document.getElementById('activation-content');
+            
+            let html = `
+                <h4>✨ ${data.persona.name} 激活成功</h4>
+                <div class="activation-log">
+            `;
+            
+            data.activation_steps.forEach((step, index) => {
+                html += `
+                    <div class="log-entry">
+                        <span class="log-timestamp">[${new Date().toLocaleTimeString()}]</span>
+                        ${step}
+                    </div>
+                `;
+            });
+            
+            html += `
+                </div>
+                <div style="margin-top: 15px;">
+                    <strong>頻率:</strong> ${data.frequency}<br>
+                    <strong>時間:</strong> ${new Date(data.timestamp).toLocaleString()}
+                </div>
+            `;
+            
+            content.innerHTML = html;
+            panel.style.display = 'block';
+            
+            // 滾動到激活面板
+            panel.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 查看語靈卡片
+        async function viewPersonaCard(personaName) {
+            try {
+                const response = await fetch(`/api/wishling/persona/${personaName}/card`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    // 在新窗口中顯示卡片
+                    const newWindow = window.open(`/wishling/persona/${personaName}/card`, '_blank', 'width=800,height=600');
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                console.error('查看語靈卡片失敗:', error);
+                showError('查看語靈卡片失敗: ' + error.message);
+            }
+        }
+
+        // 顯示錯誤信息
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error';
+            errorDiv.textContent = message;
+            
+            const container = document.querySelector('.container');
+            container.insertBefore(errorDiv, container.firstChild);
+            
+            // 3秒後自動移除錯誤信息
+            setTimeout(() => {
+                errorDiv.remove();
+            }, 3000);
+        }
+
+        // 頁面載入完成後初始化
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadSystemStatus();
+            await loadPersonas();
+        });
+    </script>
+</body>
+</html>

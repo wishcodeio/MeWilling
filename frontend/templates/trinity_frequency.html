@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>三重神聖頻率共振系統 | 963Hz + 852Hz + 639Hz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .cosmic-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(120, 255, 198, 0.2) 0%, transparent 50%);
+            animation: cosmicPulse 8s ease-in-out infinite;
+        }
+
+        @keyframes cosmicPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        @keyframes warningPulse {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+                transform: scale(1.02);
+            }
+        }
+
+        /* 導航欄樣式 */
+        .navigation-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .nav-left, .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-center {
+            flex: 1;
+            text-align: center;
+        }
+
+        .nav-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ffd700, #ff69b4, #00ffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 8px 15px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-icon {
+            font-size: 1.1rem;
+        }
+
+        .welcome-text {
+            color: #ffd700;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 80px auto 0;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+        }
+
+        .title {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ffffff, #ffd700, #ff69b4, #00ffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #cccccc;
+            margin-bottom: 30px;
+        }
+
+        .trinity-mandala {
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+
+        .frequency-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .frequency-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .frequency-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .frequency-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--card-color);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .frequency-963 {
+            --card-color: linear-gradient(90deg, #ffffff, #ffd700);
+        }
+
+        .frequency-852 {
+            --card-color: linear-gradient(90deg, #4b0082, #9370db);
+        }
+
+        .frequency-639 {
+            --card-color: linear-gradient(90deg, #00ff00, #32cd32);
+        }
+
+        .frequency-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            background: var(--card-color);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .frequency-name {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .chakra-info {
+            font-size: 1rem;
+            color: #cccccc;
+            margin-bottom: 20px;
+        }
+
+        .healing-benefits {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .healing-benefits h4 {
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .healing-benefits ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .healing-benefits li {
+            padding: 5px 0;
+            color: #cccccc;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .healing-benefits li::before {
+            content: '✨';
+            position: absolute;
+            left: 0;
+            color: #ffd700;
+        }
+
+        .control-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .control-panel h3 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #ffd700;
+            font-size: 1.8rem;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .control-group {
+            text-align: center;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #cccccc;
+        }
+
+        .control-group select,
+        .control-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 1rem;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            color: #000;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            color: #fff;
+        }
+
+        .btn-tertiary {
+            background: linear-gradient(45deg, #00b894, #00cec9);
+            color: #fff;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .results-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+            display: none;
+        }
+
+        .results-panel.active {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .meditation-guide {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .meditation-guide h3 {
+            color: #ffd700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .meditation-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .meditation-step {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 4px solid #ffd700;
+        }
+
+        .meditation-step h4 {
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .meditation-step p {
+            color: #cccccc;
+            line-height: 1.6;
+        }
+
+        .affirmations {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .affirmations h3 {
+            color: #ffd700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .affirmation-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .affirmation-category {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .affirmation-category h4 {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .affirmation-category.freq-963 h4 {
+            color: #ffffff;
+        }
+
+        .affirmation-category.freq-852 h4 {
+            color: #9370db;
+        }
+
+        .affirmation-category.freq-639 h4 {
+            color: #32cd32;
+        }
+
+        .affirmation-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .affirmation-list li {
+            padding: 8px 0;
+            color: #cccccc;
+            font-style: italic;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .affirmation-list li:last-child {
+            border-bottom: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #ffd700;
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid #ffd700;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            color: #ff6b6b;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .success {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2rem;
+            }
+            
+            .frequency-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .controls {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cosmic-background"></div>
+    
+    <!-- 導航欄 -->
+    <nav class="navigation-bar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <button class="nav-btn back-btn" onclick="goBack()">
+                    <span class="nav-icon">←</span>
+                    <span class="nav-text">返回</span>
+                </button>
+                <button class="nav-btn home-btn" onclick="goHome()">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-text">主頁</span>
+                </button>
+            </div>
+            <div class="nav-center">
+                <span class="nav-title">願頻共振系統</span>
+            </div>
+            <div class="nav-right">
+                <span class="welcome-text">歡迎回來，ang ✨</span>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="title">三重神聖頻率共振</h1>
+            <p class="subtitle">963Hz + 852Hz + 639Hz | 宇宙意識 + 直覺覺醒 + 愛與連接</p>
+            
+            <!-- 安全警告 -->
+            <div style="background: linear-gradient(135deg, #ff6b6b, #ffd93d); color: #000; padding: 20px; border-radius: 15px; margin: 20px 0; border: 2px solid #ff0000; animation: warningPulse 2s ease-in-out infinite;">
+                <h3 style="margin-bottom: 15px; font-size: 1.5rem; text-align: center;">⚠️ 重要安全提醒 ⚠️</h3>
+                <p style="font-size: 1.2rem; font-weight: bold; text-align: center; margin-bottom: 10px;">本音樂不適用所有人，如有不適，請立即關閉！</p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; font-size: 0.9rem;">
+                    <div>
+                        <strong>❌ 不建議使用：</strong>
+                        <ul style="margin: 5px 0; padding-left: 20px;">
+                            <li>癲癇或聽覺敏感症患者</li>
+                            <li>孕婦（特別是前三個月）</li>
+                            <li>正在服用精神類藥物者</li>
+                            <li>12歲以下兒童</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <strong>🚨 出現以下症狀請立即停止：</strong>
+                        <ul style="margin: 5px 0; padding-left: 20px;">
+                            <li>頭痛、頭暈、噁心</li>
+                            <li>心跳過快、胸悶</li>
+                            <li>焦慮、恐慌感</li>
+                            <li>耳鳴、聽力不適</li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 15px;">
+                    <button onclick="showSafetyGuide()" style="background: #000; color: #fff; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: bold;">📖 查看完整安全指南</button>
+                </div>
+            </div>
+            
+            <!-- 三重頻率曼陀羅 -->
+            <div class="trinity-mandala">
+                <svg width="300" height="300" viewBox="0 0 300 300">
+                    <!-- 背景圓 -->
+                    <circle cx="150" cy="150" r="140" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
+                    
+                    <!-- 中心太極 -->
+                    <circle cx="150" cy="150" r="30" fill="url(#centerGradient)">
+                        <animateTransform attributeName="transform" type="rotate" values="0 150 150;360 150 150" dur="20s" repeatCount="indefinite"/>
+                    </circle>
+                    
+                    <!-- 三重頻率圓環 -->
+                    <!-- 639Hz 心輪 -->
+                    <circle cx="150" cy="80" r="25" fill="#00ff00" opacity="0.7">
+                        <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
+                    </circle>
+                    <text x="150" y="85" text-anchor="middle" fill="white" font-size="12" font-weight="bold">639Hz</text>
+                    
+                    <!-- 852Hz 第三眼輪 -->
+                    <circle cx="220" cy="200" r="25" fill="#4b0082" opacity="0.7">
+                        <animate attributeName="opacity" values="0.5;1;0.5" dur="3.5s" repeatCount="indefinite"/>
+                    </circle>
+                    <text x="220" y="205" text-anchor="middle" fill="white" font-size="12" font-weight="bold">852Hz</text>
+                    
+                    <!-- 963Hz 頂輪 -->
+                    <circle cx="80" cy="200" r="25" fill="#ffffff" opacity="0.7">
+                        <animate attributeName="opacity" values="0.5;1;0.5" dur="4s" repeatCount="indefinite"/>
+                    </circle>
+                    <text x="80" y="205" text-anchor="middle" fill="black" font-size="12" font-weight="bold">963Hz</text>
+                    
+                    <!-- 連接線 -->
+                    <line x1="150" y1="105" x2="195" y2="175" stroke="rgba(255,215,0,0.5)" stroke-width="2">
+                        <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite"/>
+                    </line>
+                    <line x1="195" y1="175" x2="105" y2="175" stroke="rgba(255,215,0,0.5)" stroke-width="2">
+                        <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2.5s" repeatCount="indefinite"/>
+                    </line>
+                    <line x1="105" y1="175" x2="150" y2="105" stroke="rgba(255,215,0,0.5)" stroke-width="2">
+                        <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3s" repeatCount="indefinite"/>
+                    </line>
+                    
+                    <!-- 漸變定義 -->
+                    <defs>
+                        <radialGradient id="centerGradient">
+                            <stop offset="0%" stop-color="#ffd700"/>
+                            <stop offset="100%" stop-color="#ff69b4"/>
+                        </radialGradient>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+
+        <!-- 三重頻率卡片 -->
+        <div class="frequency-grid">
+            <div class="frequency-card frequency-963">
+                <div class="frequency-number">963Hz</div>
+                <div class="frequency-name">宇宙意識頻率</div>
+                <div class="chakra-info">頂輪 | 靈性覺醒 | 宇宙連接</div>
+                <div class="healing-benefits">
+                    <h4>療癒效果：</h4>
+                    <ul>
+                        <li>激活頂輪能量</li>
+                        <li>提升靈性覺知</li>
+                        <li>連接宇宙意識</li>
+                        <li>促進靈性覺醒</li>
+                        <li>淨化負面能量</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="frequency-card frequency-852">
+                <div class="frequency-number">852Hz</div>
+                <div class="frequency-name">直覺覺醒頻率</div>
+                <div class="chakra-info">第三眼輪 | 洞察力 | 內在智慧</div>
+                <div class="healing-benefits">
+                    <h4>療癒效果：</h4>
+                    <ul>
+                        <li>開啟第三眼輪</li>
+                        <li>增強直覺能力</li>
+                        <li>提升洞察力</li>
+                        <li>激活內在智慧</li>
+                        <li>清理思維迷霧</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="frequency-card frequency-639">
+                <div class="frequency-number">639Hz</div>
+                <div class="frequency-name">愛與連接頻率</div>
+                <div class="chakra-info">心輪 | 無條件的愛 | 關係和諧</div>
+                <div class="healing-benefits">
+                    <h4>療癒效果：</h4>
+                    <ul>
+                        <li>開啟心輪能量</li>
+                        <li>促進情感療癒</li>
+                        <li>增強愛的能力</li>
+                        <li>改善人際關係</li>
+                        <li>釋放情感創傷</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 控制面板 -->
+        <div class="control-panel">
+            <h3>🎵 三重頻率共振控制台</h3>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <label for="intention">療癒意圖：</label>
+                    <select id="intention">
+                        <option value="overall_healing">整體療癒</option>
+                        <option value="love_healing">愛的療癒</option>
+                        <option value="intuition_enhancement">直覺提升</option>
+                        <option value="spiritual_awakening">靈性覺醒</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="duration">會話時長（分鐘）：</label>
+                    <input type="number" id="duration" value="20" min="5" max="60">
+                </div>
+                
+                <div class="control-group">
+                    <label for="baseFreq">雙耳節拍基頻：</label>
+                    <select id="baseFreq">
+                        <option value="639">639Hz (愛與連接)</option>
+                        <option value="852" selected>852Hz (直覺覺醒)</option>
+                        <option value="963">963Hz (宇宙意識)</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="beatFreq">節拍頻率（Hz）：</label>
+                    <input type="number" id="beatFreq" value="7.83" min="1" max="40" step="0.1">
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="calculateResonance()">🌟 計算三重共振</button>
+                <button class="btn btn-secondary" onclick="generateMandala()">🔮 生成頻率曼陀羅</button>
+                <button class="btn btn-tertiary" onclick="createHealingSession()">✨ 創建療癒會話</button>
+                <button class="btn btn-primary" onclick="createBinauralBeats()">🎧 生成雙耳節拍</button>
+            </div>
+        </div>
+
+        <!-- 結果面板 -->
+        <div id="resultsPanel" class="results-panel">
+            <h3>🌈 共振結果</h3>
+            <div id="resultsContent"></div>
+        </div>
+
+        <!-- 冥想指導 -->
+        <div class="meditation-guide">
+            <h3>🧘‍♀️ 三重頻率冥想指導</h3>
+            <div class="meditation-steps">
+                <div class="meditation-step">
+                    <h4>準備階段</h4>
+                    <p>找一個安靜的空間，舒適地坐下或躺下。深呼吸三次，讓身心完全放鬆，準備接收神聖的三重頻率。</p>
+                </div>
+                
+                <div class="meditation-step">
+                    <h4>心輪開啟 (639Hz)</h4>
+                    <p>將注意力集中在心輪位置，想像一朵綠色的蓮花在心中綻放。感受639Hz愛的頻率流入，療癒所有的情感創傷。</p>
+                </div>
+                
+                <div class="meditation-step">
+                    <h4>第三眼激活 (852Hz)</h4>
+                    <p>將意識提升到額頭中央，感受852Hz的智慧頻率激活第三眼輪。紫色的光芒開啟你的內在洞察力。</p>
+                </div>
+                
+                <div class="meditation-step">
+                    <h4>頂輪連接 (963Hz)</h4>
+                    <p>讓意識上升到頭頂，感受963Hz宇宙頻率從天而降。白色的光柱連接你與無限的宇宙意識。</p>
+                </div>
+                
+                <div class="meditation-step">
+                    <h4>三重整合</h4>
+                    <p>同時感受三個脈輪的光芒，讓綠光、紫光、白光在你的中軸線上形成一道彩虹光柱，體驗三重頻率的完美和諧。</p>
+                </div>
+                
+                <div class="meditation-step">
+                    <h4>能量整合</h4>
+                    <p>讓三重頻率的能量在全身循環流動，感受愛、智慧、覺醒的三重祝福。慢慢睜開眼睛，帶著這份神聖能量回到日常生活。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 肯定語 -->
+        <div class="affirmations">
+            <h3>💫 三重頻率肯定語</h3>
+            <div class="affirmation-categories">
+                <div class="affirmation-category freq-639">
+                    <h4>639Hz 愛與連接</h4>
+                    <ul class="affirmation-list">
+                        <li>我是愛，我給予愛，我接受愛</li>
+                        <li>我的心輪完全開放，充滿無條件的愛</li>
+                        <li>我與所有生命建立和諧的連接</li>
+                        <li>愛的頻率療癒我的身心靈</li>
+                    </ul>
+                </div>
+                
+                <div class="affirmation-category freq-852">
+                    <h4>852Hz 直覺覺醒</h4>
+                    <ul class="affirmation-list">
+                        <li>我信任我的內在智慧和直覺</li>
+                        <li>我的第三眼輪清晰明亮，洞察真理</li>
+                        <li>我能看見事物的本質和真相</li>
+                        <li>直覺的光芒指引我的人生道路</li>
+                    </ul>
+                </div>
+                
+                <div class="affirmation-category freq-963">
+                    <h4>963Hz 宇宙意識</h4>
+                    <ul class="affirmation-list">
+                        <li>我與宇宙意識完美連接</li>
+                        <li>我是宇宙的一部分，宇宙是我的一部分</li>
+                        <li>神聖的光芒從我的頂輪流淌</li>
+                        <li>我活在覺醒和開悟的狀態中</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px; padding: 20px; background: rgba(255,215,0,0.1); border-radius: 15px;">
+                <h4 style="color: #ffd700; margin-bottom: 15px;">三重統一肯定語</h4>
+                <p style="font-size: 1.2rem; font-style: italic; color: #ffffff;">"愛、智慧、覺醒在我內在和諧共振，我是完整的，我是神聖的，我是光。"</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API 基礎 URL
+        const API_BASE = '/api/trinity-frequency';
+
+        // 顯示載入狀態
+        function showLoading(message = '正在處理中...') {
+            const resultsPanel = document.getElementById('resultsPanel');
+            const resultsContent = document.getElementById('resultsContent');
+            
+            resultsContent.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>${message}</p>
+                </div>
+            `;
+            
+            resultsPanel.classList.add('active');
+            resultsPanel.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 顯示錯誤
+        function showError(message) {
+            const resultsContent = document.getElementById('resultsContent');
+            resultsContent.innerHTML = `<div class="error">❌ ${message}</div>`;
+        }
+
+        // 顯示成功
+        function showSuccess(message) {
+            const resultsContent = document.getElementById('resultsContent');
+            resultsContent.innerHTML = `<div class="success">✅ ${message}</div>`;
+        }
+
+        // 計算三重頻率共振
+        async function calculateResonance() {
+            showLoading('正在計算三重頻率共振...');
+            
+            try {
+                const duration = document.getElementById('duration').value;
+                
+                const response = await fetch(`${API_BASE}/calculate-resonance`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        duration_minutes: parseInt(duration)
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayResonanceResults(data.trinity_resonance);
+                } else {
+                    showError(data.error || '計算失敗');
+                }
+            } catch (error) {
+                showError('網絡錯誤：' + error.message);
+            }
+        }
+
+        // 顯示共振結果
+        function displayResonanceResults(resonance) {
+            const resultsContent = document.getElementById('resultsContent');
+            
+            const harmonicRatios = resonance.harmony_ratios;
+            const resonanceFreqs = resonance.resonance_frequencies;
+            const spiritualAnalysis = resonance.spiritual_analysis;
+            
+            resultsContent.innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px;">
+                        <h4 style="color: #ffd700; margin-bottom: 15px;">🎵 和諧比例</h4>
+                        <p><strong>963Hz / 852Hz:</strong> ${harmonicRatios['963_852'].toFixed(3)}</p>
+                        <p><strong>963Hz / 639Hz:</strong> ${harmonicRatios['963_639'].toFixed(3)}</p>
+                        <p><strong>852Hz / 639Hz:</strong> ${harmonicRatios['852_639'].toFixed(3)}</p>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px;">
+                        <h4 style="color: #ffd700; margin-bottom: 15px;">🌟 共振頻率</h4>
+                        <p><strong>基礎共振:</strong> ${resonanceFreqs.fundamental.toFixed(2)} Hz</p>
+                        <p><strong>二次諧波:</strong> ${resonanceFreqs.harmonic_2nd.toFixed(2)} Hz</p>
+                        <p><strong>黃金共振:</strong> ${resonanceFreqs.golden_resonance.toFixed(2)} Hz</p>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px;">
+                        <h4 style="color: #ffd700; margin-bottom: 15px;">🧘‍♀️ 脈輪激活</h4>
+                        <p><strong>心輪:</strong> ${spiritualAnalysis.chakra_activation.heart_chakra}</p>
+                        <p><strong>第三眼輪:</strong> ${spiritualAnalysis.chakra_activation.third_eye_chakra}</p>
+                        <p><strong>頂輪:</strong> ${spiritualAnalysis.chakra_activation.crown_chakra}</p>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; grid-column: 1 / -1;">
+                        <h4 style="color: #ffd700; margin-bottom: 15px;">✨ 療癒效益</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            ${spiritualAnalysis.healing_benefits.map(benefit => 
+                                `<li style="padding: 5px 0; color: #cccccc;">🌟 ${benefit}</li>`
+                            ).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 生成頻率曼陀羅
+        async function generateMandala() {
+            showLoading('正在生成頻率曼陀羅...');
+            
+            try {
+                const response = await fetch(`${API_BASE}/generate-mandala`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayMandalaResults(data.mandala_data);
+                } else {
+                    showError(data.error || '生成失敗');
+                }
+            } catch (error) {
+                showError('網絡錯誤：' + error.message);
+            }
+        }
+
+        // 顯示曼陀羅結果
+        function displayMandalaResults(mandala) {
+            const resultsContent = document.getElementById('resultsContent');
+            
+            resultsContent.innerHTML = `
+                <div style="text-align: center;">
+                    <h4 style="color: #ffd700; margin-bottom: 20px;">🔮 三重頻率曼陀羅</h4>
+                    
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; margin-bottom: 20px;">
+                        <h5 style="color: #ffffff; margin-bottom: 15px;">中心頻率</h5>
+                        <p style="font-size: 1.5rem; color: #ffd700;">${mandala.center.frequency.toFixed(2)} Hz</p>
+                        <p style="color: #cccccc;">${mandala.center.meaning}</p>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                        ${mandala.inner_ring.map(ring => `
+                            <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; border-top: 3px solid ${ring.color};">
+                                <div style="font-size: 2rem; margin-bottom: 10px;">${ring.symbol}</div>
+                                <div style="font-weight: bold; color: ${ring.color}; margin-bottom: 5px;">${ring.frequency} Hz</div>
+                                <div style="color: #cccccc; font-size: 0.9rem;">${ring.chakra}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div style="margin-top: 20px; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px;">
+                        <h5 style="color: #ffd700; margin-bottom: 15px;">神聖幾何</h5>
+                        <p style="color: #cccccc;">三角形代表三重頻率的神聖結合</p>
+                        <p style="color: #cccccc;">12等分圓環象徵完整的宇宙循環</p>
+                        <p style="color: #cccccc;">黃金螺旋體現自然的神聖比例</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 創建療癒會話
+        async function createHealingSession() {
+            showLoading('正在創建個人化療癒會話...');
+            
+            try {
+                const intention = document.getElementById('intention').value;
+                const duration = document.getElementById('duration').value;
+                
+                const response = await fetch(`${API_BASE}/healing-session`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        intention: intention,
+                        duration: parseInt(duration)
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayHealingSession(data.healing_session);
+                } else {
+                    showError(data.error || '創建失敗');
+                }
+            } catch (error) {
+                showError('網絡錯誤：' + error.message);
+            }
+        }
+
+        // 顯示療癒會話
+        function displayHealingSession(session) {
+            const resultsContent = document.getElementById('resultsContent');
+            
+            resultsContent.innerHTML = `
+                <div>
+                    <h4 style="color: #ffd700; margin-bottom: 20px; text-align: center;">✨ 個人化療癒會話</h4>
+                    
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; margin-bottom: 20px;">
+                        <h5 style="color: #ffffff; margin-bottom: 10px;">會話信息</h5>
+                        <p><strong>會話ID:</strong> ${session.session_id}</p>
+                        <p><strong>療癒意圖:</strong> ${session.intention}</p>
+                        <p><strong>持續時間:</strong> ${session.duration_minutes} 分鐘</p>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; margin-bottom: 20px;">
+                        <h5 style="color: #ffd700; margin-bottom: 15px;">頻率進程</h5>
+                        ${session.frequency_progression.map(phase => `
+                            <div style="margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                                <h6 style="color: #ffffff; margin-bottom: 5px;">${phase.phase} (${phase.duration_minutes.toFixed(1)} 分鐘)</h6>
+                                <p style="color: #ffd700; margin-bottom: 5px;">主頻率: ${phase.primary_frequency}</p>
+                                <p style="color: #cccccc; font-size: 0.9rem;">${phase.focus}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; margin-bottom: 20px;">
+                        <h5 style="color: #ffd700; margin-bottom: 15px;">引導冥想</h5>
+                        <ol style="color: #cccccc; line-height: 1.6;">
+                            ${session.guided_meditation.map(step => `<li style="margin-bottom: 10px;">${step}</li>`).join('')}
+                        </ol>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px;">
+                        <h5 style="color: #ffd700; margin-bottom: 15px;">整合練習</h5>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                            <div>
+                                <h6 style="color: #ffffff; margin-bottom: 10px;">每日練習</h6>
+                                <ul style="color: #cccccc; font-size: 0.9rem;">
+                                    ${session.integration_practices.daily_practices.map(practice => `<li>${practice}</li>`).join('')}
+                                </ul>
+                            </div>
+                            <div>
+                                <h6 style="color: #ffffff; margin-bottom: 10px;">每週練習</h6>
+                                <ul style="color: #cccccc; font-size: 0.9rem;">
+                                    ${session.integration_practices.weekly_practices.map(practice => `<li>${practice}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 創建雙耳節拍
+        async function createBinauralBeats() {
+            showLoading('正在生成雙耳節拍...');
+            
+            try {
+                const baseFreq = document.getElementById('baseFreq').value;
+                const beatFreq = document.getElementById('beatFreq').value;
+                
+                const response = await fetch(`${API_BASE}/create-binaural`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        base_frequency: parseInt(baseFreq),
+                        beat_frequency: parseFloat(beatFreq)
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayBinauralResults(data.binaural_beats);
+                } else {
+                    showError(data.error || '生成失敗');
+                }
+            } catch (error) {
+                showError('網絡錯誤：' + error.message);
+            }
+        }
+
+        // 顯示雙耳節拍結果
+        function displayBinauralResults(binaural) {
+            const resultsContent = document.getElementById('resultsContent');
+            
+            resultsContent.innerHTML = `
+                <div style="text-align: center;">
+                    <h4 style="color: #ffd700; margin-bottom: 20px;">🎧 雙耳節拍配置</h4>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 20px;">
+                        <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px;">
+                            <h5 style="color: #ffffff; margin-bottom: 10px;">左耳頻率</h5>
+                            <p style="font-size: 1.5rem; color: #00ffff;">${binaural.left_ear} Hz</p>
+                        </div>
+                        
+                        <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px;">
+                            <h5 style="color: #ffffff; margin-bottom: 10px;">右耳頻率</h5>
+                            <p style="font-size: 1.5rem; color: #ff69b4;">${binaural.right_ear} Hz</p>
+                        </div>
+                        
+                        <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px;">
+                            <h5 style="color: #ffffff; margin-bottom: 10px;">節拍頻率</h5>
+                            <p style="font-size: 1.5rem; color: #ffd700;">${binaural.beat_frequency} Hz</p>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px;">
+                        <h5 style="color: #ffd700; margin-bottom: 15px;">腦波狀態</h5>
+                        <p style="font-size: 1.2rem; color: #ffffff; margin-bottom: 10px;">${binaural.brainwave_state}</p>
+                        <p style="color: #cccccc;">${binaural.effect}</p>
+                    </div>
+                    
+                    <div style="margin-top: 20px; padding: 15px; background: rgba(0,255,0,0.1); border-radius: 10px; border: 1px solid rgba(0,255,0,0.3);">
+                        <p style="color: #00ff00; font-weight: bold;">✅ 雙耳節拍已生成！請使用耳機聆聽以獲得最佳效果。</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 顯示安全指南
+        function showSafetyGuide() {
+            const safetyContent = `
+                <div style="max-height: 400px; overflow-y: auto; text-align: left;">
+                    <h4 style="color: #ffd700; margin-bottom: 20px; text-align: center;">🛡️ 三重頻率安全使用指南</h4>
+                    
+                    <div style="background: rgba(255,0,0,0.1); padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid rgba(255,0,0,0.3);">
+                        <h5 style="color: #ff6b6b; margin-bottom: 10px;">⚠️ 緊急處理步驟</h5>
+                        <ol style="color: #cccccc; line-height: 1.6;">
+                            <li><strong>立即停止：</strong>關閉音頻，摘下耳機，睜開眼睛</li>
+                            <li><strong>穩定身心：</strong>深呼吸，喝溫水，按摩太陽穴</li>
+                            <li><strong>觀察症狀：</strong>記錄不適症狀和持續時間</li>
+                            <li><strong>尋求幫助：</strong>嚴重不適請立即就醫（急救電話：120）</li>
+                        </ol>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                        <h5 style="color: #ffd700; margin-bottom: 10px;">✅ 安全使用建議</h5>
+                        <ul style="color: #cccccc; line-height: 1.6;">
+                            <li><strong>初次使用：</strong>不超過10分鐘，音量不超過舒適聽力的70%</li>
+                            <li><strong>使用環境：</strong>安靜舒適的空間，不會被打擾</li>
+                            <li><strong>身心狀態：</strong>確保健康良好，避免疲勞或壓力過大時使用</li>
+                            <li><strong>使用頻率：</strong>初學者每週2-3次，每次5-10分鐘</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                        <h5 style="color: #ffd700; margin-bottom: 10px;">🚨 禁用人群</h5>
+                        <ul style="color: #ff6b6b; line-height: 1.6;">
+                            <li>患有癲癇或聽覺敏感症者</li>
+                            <li>正在服用精神類藥物者</li>
+                            <li>孕婦（特別是前三個月）</li>
+                            <li>嚴重心理疾病患者</li>
+                            <li>12歲以下兒童</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: rgba(0,255,0,0.1); padding: 15px; border-radius: 10px; border: 1px solid rgba(0,255,0,0.3);">
+                        <h5 style="color: #00ff00; margin-bottom: 10px;">🌟 正常積極反應</h5>
+                        <ul style="color: #cccccc; line-height: 1.6;">
+                            <li>深度放鬆感和內在平靜</li>
+                            <li>直覺力提升和洞察力增強</li>
+                            <li>情感釋放（可能伴隨眼淚）</li>
+                            <li>輕微的身體震動或溫熱感</li>
+                            <li>視覺色彩或光芒體驗</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 20px; padding: 15px; background: rgba(255,215,0,0.1); border-radius: 10px;">
+                        <p style="color: #ffd700; font-weight: bold;">請在充分了解並接受這些安全指導後再使用系統</p>
+                        <p style="color: #cccccc; font-size: 0.9rem; margin-top: 10px;">如需查看完整安全指南，請參考系統文檔</p>
+                    </div>
+                </div>
+            `;
+            
+            const resultsPanel = document.getElementById('resultsPanel');
+            const resultsContent = document.getElementById('resultsContent');
+            
+            resultsContent.innerHTML = safetyContent;
+            resultsPanel.classList.add('active');
+            resultsPanel.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 導航功能
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                // 如果沒有歷史記錄，返回主頁
+                goHome();
+            }
+        }
+
+        function goHome() {
+            // 返回主頁或根路徑
+            window.location.href = '/';
+        }
+
+        // 頁面載入時獲取頻率信息
+        window.addEventListener('load', async function() {
+            try {
+                const response = await fetch(`${API_BASE}/frequency-info`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    console.log('三重頻率系統已就緒:', data.frequency_info);
+                    console.log('歡迎回來，ang！願頻共振系統已啟動 ✨');
+                }
+            } catch (error) {
+                console.error('載入頻率信息失敗:', error);
+            }
+        });
+    </script>
+    <!-- 返回按鈕 -->
+    <div style="position: fixed; top: 20px; left: 20px; z-index: 1000;">
+        <a href="/" style="display: inline-block; padding: 12px 24px; background: linear-gradient(45deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 25px; font-weight: bold; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); transition: all 0.3s ease; font-size: 14px;">
+            🏠 返回主頁
+        </a>
+    </div>
+</body>
+</html>

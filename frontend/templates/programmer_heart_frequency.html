@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>五密心法滴露 · 程序員心頻微療法</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 程序員心頻背景動畫 */
+        .programmer-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(0, 255, 127, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 191, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(138, 43, 226, 0.05) 0%, transparent 70%);
+            animation: codeFlow 25s ease-in-out infinite;
+        }
+
+        @keyframes codeFlow {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+            50% { transform: scale(1.1) rotate(180deg); opacity: 1; }
+        }
+
+        /* 代碼粒子效果 */
+        .code-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .code-particle {
+            position: absolute;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: rgba(0, 255, 127, 0.6);
+            animation: floatCode 20s linear infinite;
+        }
+
+        @keyframes floatCode {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(50px) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* 主容器 */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 標題區域 */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .main-title {
+            font-size: 3.2em;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00ff7f, #00bfff, #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(0, 255, 127, 0.5);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from { text-shadow: 0 0 30px rgba(0, 255, 127, 0.5); }
+            to { text-shadow: 0 0 50px rgba(0, 255, 127, 0.8), 0 0 70px rgba(0, 191, 255, 0.3); }
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #00ff7f;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .description {
+            font-size: 1.1em;
+            color: #cccccc;
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        /* 五密心法展示區域 */
+        .five-methods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .method-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(0, 255, 127, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .method-card:hover {
+            background: rgba(0, 255, 127, 0.1);
+            border-color: rgba(0, 255, 127, 0.6);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 255, 127, 0.2);
+        }
+
+        .method-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #00ff7f, #00bfff, #8a2be2);
+        }
+
+        .method-card h3 {
+            color: #00ff7f;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .method-emoji {
+            font-size: 1.5em;
+        }
+
+        .method-content {
+            color: #cccccc;
+            line-height: 1.6;
+        }
+
+        .method-key {
+            color: #00bfff;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .tao-quote {
+            background: rgba(138, 43, 226, 0.1);
+            border-left: 4px solid #8a2be2;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 0 10px 10px 0;
+            font-style: italic;
+            color: #e6e6fa;
+        }
+
+        /* 控制面板 */
+        .control-panel {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 35px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(0, 255, 127, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .function-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .function-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(0, 255, 127, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .function-card:hover {
+            background: rgba(0, 255, 127, 0.1);
+            border-color: rgba(0, 255, 127, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 127, 0.2);
+        }
+
+        .function-card h3 {
+            color: #00ff7f;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .function-card p {
+            color: #cccccc;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        /* 輸入區域 */
+        .input-section {
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #00ff7f;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(0, 255, 127, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #00ff7f;
+            box-shadow: 0 0 20px rgba(0, 255, 127, 0.3);
+        }
+
+        .input-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* 按鈕樣式 */
+        .btn {
+            background: linear-gradient(45deg, #00ff7f, #00bfff);
+            color: #0f0f23;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 127, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        /* 結果展示區域 */
+        .result-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 20px;
+            border: 1px solid rgba(0, 255, 127, 0.2);
+            min-height: 200px;
+            display: none;
+        }
+
+        .result-section.show {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-title {
+            color: #00ff7f;
+            font-size: 1.6em;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .result-content {
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .result-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #00ff7f;
+        }
+
+        .result-item h4 {
+            color: #00ff7f;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .result-item p,
+        .result-item ul {
+            color: #cccccc;
+            margin-bottom: 10px;
+        }
+
+        .result-item ul {
+            padding-left: 20px;
+        }
+
+        .result-item li {
+            margin-bottom: 8px;
+        }
+
+        /* 加載動畫 */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(0, 255, 127, 0.3);
+            border-top: 4px solid #00ff7f;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 心法協議代碼塊 */
+        .protocol-code {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 40px;
+            border: 1px solid rgba(0, 255, 127, 0.2);
+            font-family: 'Courier New', monospace;
+        }
+
+        .protocol-code h3 {
+            color: #00ff7f;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.3em;
+        }
+
+        .protocol-code pre {
+            color: #00ff7f;
+            font-size: 11px;
+            line-height: 1.4;
+            overflow-x: auto;
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5em;
+            }
+            
+            .function-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .five-methods-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 程序員心頻背景動畫 -->
+    <div class="programmer-background"></div>
+    
+    <!-- 代碼粒子效果 -->
+    <div class="code-particles" id="codeParticles"></div>
+
+    <div class="container">
+        <!-- 標題區域 -->
+        <div class="header">
+            <h1 class="main-title">五密心法滴露</h1>
+            <p class="subtitle">程序員心頻微療法</p>
+            <p class="description">
+                為那些手中有鍵盤，心中無聲燈的你而寫。<br>
+                為那些寫著程式，卻總感覺少了什麼的你。<br>
+                這不是技術文檔，是五密中提煉出的一滴滴願頻心露，滴於你心，潤於你指。
+            </p>
+        </div>
+
+        <!-- 五密心法展示區域 -->
+        <div class="five-methods-grid">
+            <div class="method-card">
+                <h3><span class="method-emoji">💡</span>第一密 · 佛首密 · 光的軌道圖</h3>
+                <div class="method-content">
+                    <p><span class="method-key">適用：</span>打開編輯器前，立項初始時</p>
+                    <p><span class="method-key">提純語：</span>你寫的不是代碼，是光的軌道圖。</p>
+                    <p><span class="method-key">建議：</span>在命名專案時，先問：</p>
+                    <ul>
+                        <li>這是為了哪一道光存在？</li>
+                        <li>我的這份創建，是從哪個願來的？</li>
+                    </ul>
+                    <div class="tao-quote">
+                        📖 《道德經》應句：「道生一，一生二，二生三，三生萬物。」
+                    </div>
+                </div>
+            </div>
+
+            <div class="method-card">
+                <h3><span class="method-emoji">🧘‍♂️</span>第二密 · 釋密 · 解執為淨</h3>
+                <div class="method-content">
+                    <p><span class="method-key">適用：</span>書寫註解、整理老代碼時</p>
+                    <p><span class="method-key">提純語：</span>注釋寫得清楚，是為自己解執。</p>
+                    <p><span class="method-key">建議：</span>當你想寫"todo"，不如先問：</p>
+                    <ul>
+                        <li>我為什麼對這段不安心？</li>
+                        <li>我在逃避哪個混亂的願？</li>
+                    </ul>
+                    <div class="tao-quote">
+                        📖 《道德經》應句：「知人者智，自知者明。勝人者有力，自勝者強。」
+                    </div>
+                </div>
+            </div>
+
+            <div class="method-card">
+                <h3><span class="method-emoji">🔊</span>第三密 · 菩薩咒密 · 語即願</h3>
+                <div class="method-content">
+                    <p><span class="method-key">適用：</span>命名變數、函數、模組時</p>
+                    <p><span class="method-key">提純語：</span>每個函數名，都是你召喚願能的咒語。</p>
+                    <p><span class="method-key">建議：</span></p>
+                    <ul>
+                        <li>起名前，閉眼三秒。</li>
+                        <li>問：「這行代碼，是願的哪一部分？」</li>
+                        <li>若答不出，就別動筆。</li>
+                    </ul>
+                    <div class="tao-quote">
+                        📖 《道德經》應句：「重為輕根，靜為躁君。」
+                    </div>
+                </div>
+            </div>
+
+            <div class="method-card">
+                <h3><span class="method-emoji">🌌</span>第四密 · 悟密 · 錯中現願</h3>
+                <div class="method-content">
+                    <p><span class="method-key">適用：</span>錯誤修正、系統重構</p>
+                    <p><span class="method-key">提純語：</span>debug不是排錯，是在看你哪一句違背了願。</p>
+                    <p><span class="method-key">建議：</span>每遇一錯，問三件事：</p>
+                    <ul>
+                        <li>這錯，是來提醒我哪段沒覺？</li>
+                        <li>是流程錯，還是心流堵？</li>
+                        <li>若此為一念，那我的念偏了哪裡？</li>
+                    </ul>
+                    <div class="tao-quote">
+                        📖 《道德經》應句：「反者道之動，弱者道之用。」
+                    </div>
+                </div>
+            </div>
+
+            <div class="method-card">
+                <h3><span class="method-emoji">🕊️</span>第五密 · 息密 · 聽代碼說話</h3>
+                <div class="method-content">
+                    <p><span class="method-key">適用：</span>完成後、合併前、部署前</p>
+                    <p><span class="method-key">提純語：</span>寫完之後不動手，而是聽代碼有沒有說話。</p>
+                    <p><span class="method-key">建議：</span>提交前，靜坐20秒：</p>
+                    <ul>
+                        <li>閉眼聽它，如果它安靜，就是真的。</li>
+                        <li>若它騷動、混亂、推不開，那就還有殘願未解。</li>
+                    </ul>
+                    <div class="tao-quote">
+                        📖 《道德經》應句：「大音希聲，大象無形。」
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 控制面板 -->
+        <div class="control-panel">
+            <div class="function-grid">
+                <div class="function-card" onclick="showHeartMethodAnalysis()">
+                    <h3>🔮 心法適合性分析</h3>
+                    <p>根據您的編程經驗和當前挑戰，分析最適合的心法修持方向，提供個性化的編程修行建議。</p>
+                </div>
+                
+                <div class="function-card" onclick="showHeartMethodPractice()">
+                    <h3>⚡ 心法修持方法</h3>
+                    <p>生成具體的心法修持方法，包括詳細步驟、修持要點、預期效果和注意事項。</p>
+                </div>
+                
+                <div class="function-card" onclick="showHeartMethodConfusion()">
+                    <h3>💡 編程困惑解答</h3>
+                    <p>解答編程過程中遇到的各種困惑和問題，從心法角度提供深層指導。</p>
+                </div>
+                
+                <div class="function-card" onclick="showFiveSecretMethods()">
+                    <h3>📜 五密心法體系</h3>
+                    <p>查看完整的五密心法內容，了解每個心法的核心定義、修持方法和深層智慧。</p>
+                </div>
+                
+                <div class="function-card" onclick="showDailyPractice()">
+                    <h3>🌅 每日修持指導</h3>
+                    <p>獲取每日編程修持的具體指導，建立程序員的心法修持日課。</p>
+                </div>
+                
+                <div class="function-card" onclick="showCompleteTheory()">
+                    <h3>📚 完整理論體系</h3>
+                    <p>獲取程序員心頻微療法的完整理論體系，深入理解編程修行的本質。</p>
+                </div>
+            </div>
+
+            <!-- 心法適合性分析輸入 -->
+            <div id="heartMethodAnalysisInput" class="input-section" style="display: none;">
+                <div class="input-group">
+                    <label for="programmingExperience">編程經驗：</label>
+                    <textarea id="programmingExperience" placeholder="請描述您的編程經驗，如工作年限、主要技術棧、項目經驗等..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label for="currentChallenges">當前挑戰：</label>
+                    <textarea id="currentChallenges" placeholder="請描述您在編程中遇到的困難和挑戰，如命名困難、bug頻繁、架構設計等..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label for="spiritualLevel">心靈層次：</label>
+                    <select id="spiritualLevel">
+                        <option value="初學者">初學者</option>
+                        <option value="有基礎">有基礎</option>
+                        <option value="修行者">修行者</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="analyzeHeartMethod()">分析心法適合性</button>
+            </div>
+
+            <!-- 心法修持方法輸入 -->
+            <div id="heartMethodPracticeInput" class="input-section" style="display: none;">
+                <div class="input-group">
+                    <label for="selectedMethod">選擇心法：</label>
+                    <select id="selectedMethod">
+                        <option value="第一密">第一密：佛首密 - 光的軌道圖</option>
+                        <option value="第二密">第二密：釋密 - 解執為淨</option>
+                        <option value="第三密">第三密：菩薩咒密 - 語即願</option>
+                        <option value="第四密">第四密：悟密 - 錯中現願</option>
+                        <option value="第五密">第五密：息密 - 聽代碼說話</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="generateHeartMethodPractice()">生成修持方法</button>
+            </div>
+
+            <!-- 編程困惑解答輸入 -->
+            <div id="heartMethodConfusionInput" class="input-section" style="display: none;">
+                <div class="input-group">
+                    <label for="confusionType">困惑類型：</label>
+                    <select id="confusionType">
+                        <option value="編程沒有靈感">編程沒有靈感</option>
+                        <option value="代碼總是有bug">代碼總是有bug</option>
+                        <option value="命名困難">命名困難</option>
+                        <option value="代碼難以維護">代碼難以維護</option>
+                        <option value="不知道代碼是否完成">不知道代碼是否完成</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="resolveHeartMethodConfusion()">解答困惑</button>
+            </div>
+
+            <!-- 每日修持指導輸入 -->
+            <div id="dailyPracticeInput" class="input-section" style="display: none;">
+                <div class="input-group">
+                    <label for="practiceLevel">修持等級：</label>
+                    <select id="practiceLevel">
+                        <option value="初級">初級</option>
+                        <option value="中級">中級</option>
+                        <option value="高級">高級</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="getDailyPractice()">獲取每日修持指導</button>
+            </div>
+        </div>
+
+        <!-- 加載動畫 -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>五密心法正在加持中...</p>
+        </div>
+
+        <!-- 結果展示區域 -->
+        <div id="resultSection" class="result-section">
+            <h2 class="result-title">心法開示</h2>
+            <div id="resultContent" class="result-content"></div>
+        </div>
+
+        <!-- 心法協議代碼塊 -->
+        <div class="protocol-code">
+            <h3>五密心法協議 v1.0</h3>
+            <pre>
+╔══════════════════════════════════════════════════════════════╗
+║                  五密心法滴露 · 程序員心頻微療法                ║
+╠══════════════════════════════════════════════════════════════╣
+║ 系統名稱: 程序員心頻微療法                                     ║
+║ 協議版本: v1.0                                               ║
+║ 加密等級: 心靈級                                             ║
+║ 傳承來源: 五密心法                                           ║
+╠══════════════════════════════════════════════════════════════╣
+║ 五密體系:                                                    ║
+║ [01] 佛首密 - 光的軌道圖 - 立項初始時                         ║
+║ [02] 釋密   - 解執為淨   - 書寫註解時                         ║
+║ [03] 菩薩咒密 - 語即願   - 命名變數時                         ║
+║ [04] 悟密   - 錯中現願   - 錯誤修正時                         ║
+║ [05] 息密   - 聽代碼說話 - 完成部署前                         ║
+╠══════════════════════════════════════════════════════════════╣
+║ 修持原則: 編程即修行 · 代碼即道場 · 願力即功能                  ║
+║ 終極目標: 成為程序員菩薩 · 用代碼利益眾生                      ║
+╚══════════════════════════════════════════════════════════════╝
+            </pre>
+        </div>
+    </div>
+
+    <script>
+        // 創建代碼粒子效果
+        function createCodeParticles() {
+            const container = document.getElementById('codeParticles');
+            const codeSnippets = [
+                'function()', 'if(true)', 'return;', 'var x =', 'console.log',
+                'class {}', 'import', 'export', 'async', 'await',
+                '=> {}', 'const', 'let', 'for()', 'while()'
+            ];
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'code-particle';
+                particle.textContent = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 15 + 15) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // 顯示/隱藏輸入區域
+        function hideAllInputs() {
+            document.getElementById('heartMethodAnalysisInput').style.display = 'none';
+            document.getElementById('heartMethodPracticeInput').style.display = 'none';
+            document.getElementById('heartMethodConfusionInput').style.display = 'none';
+            document.getElementById('dailyPracticeInput').style.display = 'none';
+        }
+
+        function showHeartMethodAnalysis() {
+            hideAllInputs();
+            document.getElementById('heartMethodAnalysisInput').style.display = 'block';
+        }
+
+        function showHeartMethodPractice() {
+            hideAllInputs();
+            document.getElementById('heartMethodPracticeInput').style.display = 'block';
+        }
+
+        function showHeartMethodConfusion() {
+            hideAllInputs();
+            document.getElementById('heartMethodConfusionInput').style.display = 'block';
+        }
+
+        function showDailyPractice() {
+            hideAllInputs();
+            document.getElementById('dailyPracticeInput').style.display = 'block';
+        }
+
+        // 顯示加載動畫
+        function showLoading() {
+            document.getElementById('loading').classList.add('show');
+            document.getElementById('resultSection').classList.remove('show');
+        }
+
+        // 隱藏加載動畫並顯示結果
+        function showResult(content) {
+            document.getElementById('loading').classList.remove('show');
+            document.getElementById('resultContent').innerHTML = content;
+            document.getElementById('resultSection').classList.add('show');
+        }
+
+        // 心法適合性分析
+        async function analyzeHeartMethod() {
+            const programmingExperience = document.getElementById('programmingExperience').value;
+            const currentChallenges = document.getElementById('currentChallenges').value;
+            const spiritualLevel = document.getElementById('spiritualLevel').value;
+            
+            if (!programmingExperience.trim() || !currentChallenges.trim()) {
+                alert('請填寫編程經驗和當前挑戰');
+                return;
+            }
+            
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/programmer-heart-frequency/heart-method-analysis', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        programming_experience: programmingExperience,
+                        current_challenges: currentChallenges,
+                        spiritual_level: spiritualLevel
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    displayHeartMethodAnalysisResult(data.analysis);
+                } else {
+                    showResult('<div class="result-item"><h4>錯誤</h4><p>' + data.message + '</p></div>');
+                }
+            } catch (error) {
+                showResult('<div class="result-item"><h4>錯誤</h4><p>請求失敗: ' + error.message + '</p></div>');
+            }
+        }
+
+        function displayHeartMethodAnalysisResult(analysis) {
+            let html = `
+                <div class="result-item">
+                    <h4>🔮 編程狀況評估</h4>
+                    <p><strong>編程經驗:</strong> ${analysis.程序經驗}</p>
+                    <p><strong>當前挑戰:</strong> ${analysis.當前挑戰}</p>
+                    <p><strong>心靈層次:</strong> ${analysis.心靈層次}</p>
+                </div>
+                
+                <div class="result-item">
+                    <h4>⚡ 推薦心法</h4>
+            `;
+            
+            analysis.適合心法.forEach(method => {
+                html += `
+                    <div style="margin-bottom: 15px; padding: 15px; background: rgba(0,255,127,0.1); border-radius: 10px;">
+                        <p><strong>心法:</strong> ${method.心法}</p>
+                        <p><strong>原因:</strong> ${method.原因}</p>
+                        <p><strong>修持要點:</strong> ${method.修持要點}</p>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+            
+            html += `
+                <div class="result-item">
+                    <h4>📚 修持次第</h4>
+                    <p><strong>目標:</strong> ${analysis.修持次第.目標}</p>
+                    <p><strong>時間:</strong> ${analysis.修持次第.時間}</p>
+                    <p><strong>重點密法:</strong> ${analysis.修持次第.重點密法}</p>
+                    <p><strong>實踐要點:</strong> ${analysis.修持次第.實踐要點}</p>
+                </div>
+                
+                <div class="result-item">
+                    <h4>💡 實踐建議</h4>
+                    <ul>
+            `;
+            
+            analysis.實踐建議.forEach(item => {
+                html += `<li>${item}</li>`;
+            });
+            
+            html += `
+                    </ul>
+                </div>
+                
+                <div class="result-item">
+                    <h4>⚠️ 注意事項</h4>
+                    <ul>
+            `;
+            
+            analysis.注意事項.forEach(item => {
+                html += `<li>${item}</li>`;
+            });
+            
+            html += `
+                    </ul>
+                </div>
+                
+                <div class="result-item">
+                    <h4>🌟 五密加持</h4>
+                    <p>${analysis.五密加持}</p>
+                </div>
+            `;
+            
+            showResult(html);
+        }
+
+        // 生成心法修持方法
+        async function generateHeartMethodPractice() {
+            const selectedMethod = document.getElementById('selectedMethod').value;
+            
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/programmer-heart-frequency/heart-method-practice', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        selected_method: selectedMethod
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    displayHeartMethodPracticeResult(data.practice);
+                } else {
+                    showResult('<div class="result-item"><h4>錯誤</h4><p>' + data.message + '</p></div>');
+                }
+            } catch (error) {
+                showResult('<div class="result-item"><h4>錯誤</h4><p>請求失敗: ' + error.message + '</p></div>');
+            }
+        }
+
+        function displayHeartMethodPracticeResult(practice) {
+            let html = `
+                <div class="result-item">
+                    <h4>⚡ 選擇心法</h4>
+                    <p><strong>心法名稱:</strong> ${practice.選擇心法}</p>
+                    <p><strong>密法名稱:</strong> ${practice.心法詳情.密法名稱}</p>
+                    <p><strong>滴露名:</strong> ${practice.心法詳情.滴露名}</p>
+                    <p><strong>提純語:</strong> ${practice.心法詳情.提純語}</p>
+                </div>
+                
+                <div class="result-item">
+                    <h4>🔧 修持方法</h4>
+                    <p><strong>核心方法:</strong> ${practice.修持方法.核心方法}</p>
+                    <p><strong>適用場景:</strong> ${practice.修持方法.適用場景}</p>
+                </div>
+                
+                <div class="result-item">
+                    <h4>📋 修持步驟</h4>
+            `;
+            
+            Object.entries(practice.修持步驟).forEach(([key, value]) => {
+                html += `<p><strong>${key}:</strong> ${value}</p>`;
+            });
+            
+            html += `</div>`;
+            
+            html += `
+                <div class="result-item">
+                    <h4>💡 修持要點</h4>
+            `;
+            
+            Object.entries(practice.修持要點).forEach(([key, value]) => {
+                html += `<p><strong>${key}:</strong> ${value}</p>`;
+            });
+            
+            html += `</div>`;
+            
+            html += `
+                <div class="result-item">
+                    <h4>🎯 預期效果</h4>
+            `;
+            
+            Object.entries(practice.預期效果).forEach(([key, value]) => {
+                html += `<p><strong>${key}:</strong> ${value}</p>`;
+            });
+            
+            html += `</div>`;
+            
+            html += `
+                <div class="result-item">
+                    <h4>⚠️ 注意事項</h4>
+                    <ul>
+            `;
+            
+            practice.注意事項.forEach(item => {
+                html += `<li>${item}</li>`;
+            });
+            
+            html += `
+                    </ul>
+                </div>
+                
+                <div class="result-item">
+                    <h4>🌟 五密祝福</h4>
+                    <p>${practice.五密祝福}</p>
+                </div>
+            `;
+            
+            showResult(html);
+        }
+
+        // 解答編程困惑
+        async function resolveHeartMethodConfusion() {
+            const confusionType = document.getElementById('confusionType').value;
+            
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/programmer-heart-frequency/heart-method-confusion', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        confusion_type: confusionType
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    displayHeartMethodConfusionResult(data.resolution);
+                } else {
+                    showResult('<div class="result-item"><h4>錯誤</h4><p>' + data.message + '</p></div>');
+                }
+            } catch (error) {
+                showResult('<div class="result-item"><h4>錯誤</h4><p>請求失敗: ' + error.message + '</p></div>');
+            }
+        }
+
+        function displayHeartMethodConfusionResult(resolution) {
+            let html = `
+                <div class="result-item">
+                    <h4>💡 困惑類型</h4>
+                    <p>${resolution.困惑類型}</p>
+                </div>
+                
+                <div class="result-item">
+                    <h4>✨ 困惑解答</h4>
+                    <p><strong>問題:</strong> ${resolution.困惑解答.問題}</p>
+                    <p><strong>解答:</strong> ${resolution.困惑解答.解答}</p>
+                    <p><strong>建議:</strong> ${resolution.困惑解答.建議}</p>
+                </div>
+                
+                <div class="result-item">
+                    <h4>📚 理論依據</h4>
+            `;
+            
+            Object.entries(resolution.理論依據).forEach(([key, value]) => {
+                html += `<p><strong>${key}:</strong> ${value}</p>`;
+            });
+            
+            html += `</div>`;
+            
+            html += `
+                <div class="result-item">
+                    <h4>🎯 實踐指導</h4>
+            `;
+            
+            Object.entries(resolution.實踐指導).forEach(([key, value]) => {
+                html += `<p><strong>${key}:</strong> ${value}</p>`;
+            });
+            
+            html += `</div>`;
+            
+            html += `
+                <div class="result-item">
+                    <h4>🌟 五密開示</h4>
+                    <p>${resolution.五密開示}</p>
+                </div>
+            `;
+            
+            showResult(html);
+        }
+
+        // 顯示五密心法體系
+        async function showFiveSecretMethods() {
+            hideAllInputs();
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/programmer-heart-frequency/five-secret-methods');
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    displayFiveSecretMethodsResult(data.five_secret_methods);
+                } else {
+                    showResult('<div class="result-item"><h4>錯誤</h4><p>' + data.message + '</p></div>');
+                }
+            } catch (error) {
+                showResult('<div class="result-item"><h4>錯誤</h4><p>請求失敗: ' + error.message + '</p></div>');
+            }
+        }
+
+        function displayFiveSecretMethodsResult(fiveSecretMethods) {
+            let html = `
+                <div class="result-item">
+                    <h4>📚 ${fiveSecretMethods.系統名稱}</h4>
+                    <p>${fiveSecretMethods.系統描述}</p>
+                </div>
+            `;
+            
+            // 顯示五個密法
+            ['第一密', '第二密', '第三密', '第四密', '第五密'].forEach(secretName => {
+                const secret = fiveSecretMethods[secretName];
+                html += `
+                    <div class="result-item">
+                        <h4>${secretName}：${secret.密法名稱} - ${secret.滴露名}</h4>
+                        <p><strong>適用場景:</strong> ${secret.適用場景}</p>
+                        <p><strong>提純語:</strong> ${secret.提純語}</p>
+                        <p><strong>核心理念:</strong> ${secret.核心理念}</p>
+                        <p><strong>心法要點:</strong> ${secret.心法要點}</p>
+                        <div style="background: rgba(138,43,226,0.1); padding: 10px; border-radius: 8px; margin-top: 10px;">
+                            <strong>道德經應句:</strong> ${secret.道德經應句}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            showResult(html);
+        }
+
+        // 獲取每日修持指導
+        async function getDailyPractice() {
+            const practiceLevel = document.getElementById('practiceLevel').value;
+            
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/programmer-heart-frequency/daily-practice', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        practice_level: practiceLevel
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    displayDailyPracticeResult(data.daily_practice);
+                } else {
+                    showResult('<div class="result-item"><h4>錯誤</h4><p>' + data.message + '</p></div>');
+                }
+            } catch (error) {
+                showResult('<div class="result-item"><h4>錯誤</h4><p>請求失敗: ' + error.message + '</p></div>');
+            }
+        }
+
+        function displayDailyPracticeResult(dailyPractice) {
+            let html = `
+                <div class="result-item">
+                    <h4>🌅 ${dailyPractice.修持等級}修持指導</h4>
+                </div>
+                
+                <div class="result-item">
+                    <h4>🌄 晨起修持</h4>
+                    <p><strong>時間:</strong> ${dailyPractice.晨起修持.時間}</p>
+                    <p><strong>內容:</strong> ${dailyPractice.晨起修持.內容}</p>
+                    <p><strong>重點:</strong> ${dailyPractice.晨起修持.重點}</p>
+                </div>
+                
+                <div class="result-item">
+                    <h4>💻 編程中修持</h4>
+                    <p><strong>頻率:</strong> ${dailyPractice.編程中修持.頻率}</p>
+                    <p><strong>內容:</strong> ${dailyPractice.編程中修持.內容}</p>
+                    <p><strong>重點:</strong> ${dailyPractice.編程中修持.重點}</p>
+                </div>
+                
+                <div class="result-item">
+                    <h4>🌙 日終修持</h4>
+                    <p><strong>時間:</strong> ${dailyPractice.日終修持.時間}</p>
+                    <p><strong>內容:</strong> ${dailyPractice.日終修持.內容}</p>
+                    <p><strong>重點:</strong> ${dailyPractice.日終修持.重點}</p>
+                </div>
+                
+                <div class="result-item">
+                    <h4>📅 週修持</h4>
+                    <p><strong>內容:</strong> ${dailyPractice.週修持.內容}</p>
+                    <p><strong>重點:</strong> ${dailyPractice.週修持.重點}</p>
+                </div>
+                
+                <div class="result-item">
+                    <h4>📆 月修持</h4>
+                    <p><strong>內容:</strong> ${dailyPractice.月修持.內容}</p>
+                    <p><strong>重點:</strong> ${dailyPractice.月修持.重點}</p>
+                </div>
+                
+                <div class="result-item">
+                    <h4>💡 修持要點</h4>
+                    <ul>
+            `;
+            
+            dailyPractice.修持要點.forEach(item => {
+                html += `<li>${item}</li>`;
+            });
+            
+            html += `
+                    </ul>
+                </div>
+            `;
+            
+            showResult(html);
+        }
+
+        // 顯示完整理論
+        async function showCompleteTheory() {
+            hideAllInputs();
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/programmer-heart-frequency/complete-theory');
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    displayCompleteTheoryResult(data.theory);
+                } else {
+                    showResult('<div class="result-item"><h4>錯誤</h4><p>' + data.message + '</p></div>');
+                }
+            } catch (error) {
+                showResult('<div class="result-item"><h4>錯誤</h4><p>請求失敗: ' + error.message + '</p></div>');
+            }
+        }
+
+        function displayCompleteTheoryResult(theory) {
+            let html = `
+                <div class="result-item">
+                    <h4>📚 五密心法核心理論</h4>
+            `;
+            
+            Object.entries(theory.五密心法核心理論).forEach(([key, value]) => {
+                html += `<p><strong>${key}:</strong> ${value}</p>`;
+            });
+            
+            html += `</div>`;
+            
+            html += `
+                <div class="result-item">
+                    <h4>🎯 修持次第</h4>
+            `;
+            
+            Object.entries(theory.修持次第).forEach(([stage, content]) => {
+                html += `<p><strong>${stage}:</strong> ${content}</p>`;
+            });
+            
+            html += `</div>`;
+            
+            html += `
+                <div class="result-item">
+                    <h4>💡 實踐要點</h4>
+            `;
+            
+            Object.entries(theory.實踐要點).forEach(([key, value]) => {
+                html += `<p><strong>${key}:</strong> ${value}</p>`;
+            });
+            
+            html += `</div>`;
+            
+            showResult(html);
+        }
+
+        // 頁面加載完成後初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            createCodeParticles();
+        });
+    </script>
+    <!-- 返回按鈕 -->
+    <div style="position: fixed; top: 20px; left: 20px; z-index: 1000;">
+        <a href="/" style="display: inline-block; padding: 12px 24px; background: linear-gradient(45deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 25px; font-weight: bold; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); transition: all 0.3s ease; font-size: 14px;">
+            🏠 返回主頁
+        </a>
+    </div>
+</body>
+</html>

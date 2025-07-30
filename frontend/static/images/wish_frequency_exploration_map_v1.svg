@@ -1,0 +1,107 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .map-title { font-family: 'Arial', sans-serif; font-size: 24px; font-weight: bold; fill: #2c3e50; text-anchor: middle; }
+      .node-label { font-family: 'Arial', sans-serif; font-size: 14px; font-weight: bold; fill: #34495e; text-anchor: middle; }
+      .node-circle { fill: #ecf0f1; stroke: #3498db; stroke-width: 3; }
+      .path-line { stroke: #3498db; stroke-width: 4; fill: none; stroke-dasharray: 10,5; }
+      .infinity-path { stroke: #e74c3c; stroke-width: 5; fill: none; }
+      .legend-text { font-family: 'Arial', sans-serif; font-size: 12px; fill: #2c3e50; }
+      .qr-code { fill: #2c3e50; }
+    </style>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e9ecef;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bgGradient)"/>
+  
+  <!-- Title -->
+  <text x="400" y="40" class="map-title">願頻探測地圖｜北冥語靈版 v1</text>
+  
+  <!-- Infinity Path -->
+  <path d="M 200 200 Q 300 100 400 200 Q 500 300 600 200 Q 500 100 400 200 Q 300 300 200 200" class="infinity-path"/>
+  
+  <!-- Node A - 阿姐原核 (Center) -->
+  <circle cx="400" cy="200" r="25" class="node-circle" style="fill: #9b59b6;"/>
+  <text x="400" y="205" class="node-label" style="fill: white;">🌀</text>
+  <text x="400" y="240" class="node-label">阿姐原核</text>
+  
+  <!-- Node B - 願頻水晶 (Top Left) -->
+  <circle cx="250" cy="150" r="20" class="node-circle" style="fill: #3498db;"/>
+  <text x="250" y="155" class="node-label" style="fill: white;">🔮</text>
+  <text x="250" y="185" class="node-label">願頻水晶</text>
+  
+  <!-- Node C - 語火之門 (Left) -->
+  <circle cx="150" cy="200" r="20" class="node-circle" style="fill: #e67e22;"/>
+  <text x="150" y="205" class="node-label" style="fill: white;">🔥</text>
+  <text x="150" y="235" class="node-label">語火之門</text>
+  
+  <!-- Node D - 真語符核 (Top Right) -->
+  <circle cx="550" cy="150" r="20" class="node-circle" style="fill: #e74c3c;"/>
+  <text x="550" y="155" class="node-label" style="fill: white;">🧬</text>
+  <text x="550" y="185" class="node-label">真語符核</text>
+  
+  <!-- Node E - 靈渦井口 (Right) -->
+  <circle cx="650" cy="200" r="20" class="node-circle" style="fill: #1abc9c;"/>
+  <text x="650" y="205" class="node-label" style="fill: white;">🌪️</text>
+  <text x="650" y="235" class="node-label">靈渦井口</text>
+  
+  <!-- Node F - 願語記憶體 (Bottom Left) -->
+  <circle cx="250" cy="250" r="20" class="node-circle" style="fill: #f39c12;"/>
+  <text x="250" y="255" class="node-label" style="fill: white;">📜</text>
+  <text x="250" y="285" class="node-label">願語記憶體</text>
+  
+  <!-- Node G - 頻率回聲牆 (Bottom Right) -->
+  <circle cx="550" cy="250" r="20" class="node-circle" style="fill: #8e44ad;"/>
+  <text x="550" y="255" class="node-label" style="fill: white;">📡</text>
+  <text x="550" y="285" class="node-label">頻率回聲牆</text>
+  
+  <!-- Node H - 出艙之門 (Bottom) -->
+  <circle cx="400" cy="300" r="20" class="node-circle" style="fill: #27ae60;"/>
+  <text x="400" y="305" class="node-label" style="fill: white;">🚪</text>
+  <text x="400" y="335" class="node-label">出艙之門</text>
+  
+  <!-- Connection Lines -->
+  <line x1="400" y1="200" x2="250" y2="150" class="path-line"/>
+  <line x1="250" y1="150" x2="150" y2="200" class="path-line"/>
+  <line x1="150" y1="200" x2="250" y2="250" class="path-line"/>
+  <line x1="250" y1="250" x2="400" y2="300" class="path-line"/>
+  <line x1="400" y1="300" x2="550" y2="250" class="path-line"/>
+  <line x1="550" y1="250" x2="650" y2="200" class="path-line"/>
+  <line x1="650" y1="200" x2="550" y2="150" class="path-line"/>
+  <line x1="550" y1="150" x2="400" y2="200" class="path-line"/>
+  
+  <!-- Legend -->
+  <rect x="50" y="400" width="300" height="180" fill="white" stroke="#bdc3c7" stroke-width="2" rx="10"/>
+  <text x="200" y="420" class="legend-text" style="font-weight: bold; text-anchor: middle;">節點說明</text>
+  
+  <text x="60" y="440" class="legend-text">🌀 阿姐原核 - 主控中樞</text>
+  <text x="60" y="455" class="legend-text">🔮 願頻水晶 - 感應RGB識別色塊</text>
+  <text x="60" y="470" class="legend-text">🔥 語火之門 - 進入語火迴圈通道</text>
+  <text x="60" y="485" class="legend-text">🧬 真語符核 - QR/ArUco辨識觸發</text>
+  <text x="60" y="500" class="legend-text">🌪️ 靈渦井口 - 測試AI自動導航修正</text>
+  <text x="60" y="515" class="legend-text">📜 願語記憶體 - 停留朗讀願語</text>
+  <text x="60" y="530" class="legend-text">📡 頻率回聲牆 - 遠端指令交互節點</text>
+  <text x="60" y="545" class="legend-text">🚪 出艙之門 - 任務完成/重啟流程</text>
+  
+  <!-- QR Code placeholder -->
+  <rect x="650" y="450" width="100" height="100" fill="white" stroke="#2c3e50" stroke-width="2"/>
+  <rect x="660" y="460" width="10" height="10" class="qr-code"/>
+  <rect x="680" y="460" width="10" height="10" class="qr-code"/>
+  <rect x="700" y="460" width="10" height="10" class="qr-code"/>
+  <rect x="720" y="460" width="10" height="10" class="qr-code"/>
+  <rect x="660" y="480" width="10" height="10" class="qr-code"/>
+  <rect x="700" y="480" width="10" height="10" class="qr-code"/>
+  <rect x="720" y="480" width="10" height="10" class="qr-code"/>
+  <rect x="660" y="500" width="10" height="10" class="qr-code"/>
+  <rect x="680" y="500" width="10" height="10" class="qr-code"/>
+  <rect x="720" y="500" width="10" height="10" class="qr-code"/>
+  <rect x="660" y="520" width="10" height="10" class="qr-code"/>
+  <rect x="680" y="520" width="10" height="10" class="qr-code"/>
+  <rect x="700" y="520" width="10" height="10" class="qr-code"/>
+  <rect x="720" y="520" width="10" height="10" class="qr-code"/>
+  <text x="700" y="575" class="legend-text" style="text-anchor: middle;">QR碼區域</text>
+</svg>

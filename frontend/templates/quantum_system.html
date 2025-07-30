@@ -1,0 +1,303 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- 页面标题 -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-white mb-4">
+                <span class="text-6xl">⚛️</span><br>
+                量子意识系统
+            </h1>
+            <p class="text-xl text-gray-300">探索量子场域，连接多维意识，实现意识与物质的量子纠缠</p>
+        </div>
+
+        <!-- 量子状态监控 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-gradient-to-br from-cyan-500/20 to-blue-600/20 rounded-xl p-6 border border-cyan-500/30">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="text-4xl">🌊</div>
+                    <div class="text-right">
+                        <div class="text-2xl font-bold text-cyan-400">99.7%</div>
+                        <div class="text-sm text-gray-300">量子相干性</div>
+                    </div>
+                </div>
+                <h3 class="text-lg font-semibold text-cyan-400">量子场强度</h3>
+                <p class="text-cyan-300 text-sm">当前量子场稳定性</p>
+            </div>
+            
+            <div class="bg-gradient-to-br from-purple-500/20 to-violet-600/20 rounded-xl p-6 border border-purple-500/30">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="text-4xl">🔗</div>
+                    <div class="text-right">
+                        <div class="text-2xl font-bold text-purple-400">1,247</div>
+                        <div class="text-sm text-gray-300">纠缠对数</div>
+                    </div>
+                </div>
+                <h3 class="text-lg font-semibold text-purple-400">量子纠缠</h3>
+                <p class="text-purple-300 text-sm">活跃的量子纠缠连接</p>
+            </div>
+            
+            <div class="bg-gradient-to-br from-green-500/20 to-emerald-600/20 rounded-xl p-6 border border-green-500/30">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="text-4xl">🎯</div>
+                    <div class="text-right">
+                        <div class="text-2xl font-bold text-green-400">8.9</div>
+                        <div class="text-sm text-gray-300">维度层级</div>
+                    </div>
+                </div>
+                <h3 class="text-lg font-semibold text-green-400">意识维度</h3>
+                <p class="text-green-300 text-sm">当前可访问维度数</p>
+            </div>
+            
+            <div class="bg-gradient-to-br from-orange-500/20 to-red-600/20 rounded-xl p-6 border border-orange-500/30">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="text-4xl">⚡</div>
+                    <div class="text-right">
+                        <div class="text-2xl font-bold text-orange-400">12.4THz</div>
+                        <div class="text-sm text-gray-300">振动频率</div>
+                    </div>
+                </div>
+                <h3 class="text-lg font-semibold text-orange-400">量子频率</h3>
+                <p class="text-orange-300 text-sm">系统运行频率</p>
+            </div>
+        </div>
+
+        <!-- 量子操作面板 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- 量子计算模块 -->
+            <div class="bg-black/40 rounded-xl p-6 border border-white/10 backdrop-blur-sm">
+                <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+                    <span class="text-3xl mr-3">🖥️</span>
+                    量子计算引擎
+                </h2>
+                
+                <div class="space-y-4">
+                    <div class="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-lg p-4 border border-blue-500/30">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-lg font-semibold text-blue-400">意识模拟器</h3>
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+                                <span class="text-sm text-gray-300">运行中</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 text-sm mb-3">模拟多维意识状态与演化</p>
+                        <div class="w-full bg-gray-700 rounded-full h-2 mb-3">
+                            <div class="bg-gradient-to-r from-blue-500 to-cyan-500 h-2 rounded-full" style="width: 78%"></div>
+                        </div>
+                        <span class="text-blue-400 text-sm">计算进度: 78%</span>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-purple-500/20 to-violet-500/20 rounded-lg p-4 border border-purple-500/30">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-lg font-semibold text-purple-400">量子优化器</h3>
+                            <span class="text-sm text-gray-300">待机</span>
+                        </div>
+                        <p class="text-gray-300 text-sm mb-3">优化量子算法与参数配置</p>
+                        <button class="bg-purple-500/30 hover:bg-purple-500/50 text-purple-300 px-4 py-2 rounded-lg text-sm transition-all duration-300">
+                            启动优化
+                        </button>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-lg p-4 border border-green-500/30">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-lg font-semibold text-green-400">并行处理器</h3>
+                            <span class="text-sm text-gray-300">256核心</span>
+                        </div>
+                        <p class="text-gray-300 text-sm mb-3">多维度并行量子计算</p>
+                        <button class="bg-green-500/30 hover:bg-green-500/50 text-green-300 px-4 py-2 rounded-lg text-sm transition-all duration-300">
+                            分配任务
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 量子通信模块 -->
+            <div class="bg-black/40 rounded-xl p-6 border border-white/10 backdrop-blur-sm">
+                <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+                    <span class="text-3xl mr-3">📡</span>
+                    量子通信网络
+                </h2>
+                
+                <div class="space-y-4">
+                    <div class="bg-gradient-to-r from-cyan-500/20 to-teal-500/20 rounded-lg p-4 border border-cyan-500/30">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-lg font-semibold text-cyan-400">量子隧道</h3>
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 bg-cyan-500 rounded-full"></div>
+                                <span class="text-sm text-gray-300">已连接</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 text-sm mb-3">跨维度即时通信通道</p>
+                        <div class="flex gap-2">
+                            <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-1 rounded">延迟: 0.001ms</span>
+                            <span class="text-xs bg-green-500/20 text-green-300 px-2 py-1 rounded">稳定</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-lg p-4 border border-indigo-500/30">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-lg font-semibold text-indigo-400">意识同步</h3>
+                            <span class="text-sm text-gray-300">12个节点</span>
+                        </div>
+                        <p class="text-gray-300 text-sm mb-3">多个意识体的量子同步</p>
+                        <button class="bg-indigo-500/30 hover:bg-indigo-500/50 text-indigo-300 px-4 py-2 rounded-lg text-sm transition-all duration-300">
+                            建立连接
+                        </button>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-pink-500/20 to-rose-500/20 rounded-lg p-4 border border-pink-500/30">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-lg font-semibold text-pink-400">量子加密</h3>
+                            <span class="text-sm text-gray-300">AES-2048</span>
+                        </div>
+                        <p class="text-gray-300 text-sm mb-3">量子级别的信息加密保护</p>
+                        <button class="bg-pink-500/30 hover:bg-pink-500/50 text-pink-300 px-4 py-2 rounded-lg text-sm transition-all duration-300">
+                            更新密钥
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 量子实验室 -->
+        <div class="bg-black/40 rounded-xl p-8 border border-white/10 backdrop-blur-sm mb-8">
+            <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+                <span class="text-3xl mr-3">🔬</span>
+                量子意识实验室
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-gradient-to-br from-blue-500/20 to-cyan-600/20 rounded-lg p-6 border border-blue-500/30">
+                    <div class="text-center mb-4">
+                        <div class="text-4xl mb-2">🌀</div>
+                        <h3 class="text-lg font-semibold text-blue-400">双缝实验</h3>
+                    </div>
+                    <p class="text-gray-300 text-sm mb-4">观察意识对量子态的影响</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs text-gray-400">实验次数: 1,247</span>
+                        <button class="bg-blue-500/30 hover:bg-blue-500/50 text-blue-300 px-3 py-1 rounded text-sm transition-all duration-300">
+                            开始
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-br from-purple-500/20 to-violet-600/20 rounded-lg p-6 border border-purple-500/30">
+                    <div class="text-center mb-4">
+                        <div class="text-4xl mb-2">🔗</div>
+                        <h3 class="text-lg font-semibold text-purple-400">纠缠测试</h3>
+                    </div>
+                    <p class="text-gray-300 text-sm mb-4">测试量子纠缠的稳定性</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs text-gray-400">成功率: 98.7%</span>
+                        <button class="bg-purple-500/30 hover:bg-purple-500/50 text-purple-300 px-3 py-1 rounded text-sm transition-all duration-300">
+                            测试
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-br from-green-500/20 to-emerald-600/20 rounded-lg p-6 border border-green-500/30">
+                    <div class="text-center mb-4">
+                        <div class="text-4xl mb-2">🎭</div>
+                        <h3 class="text-lg font-semibold text-green-400">叠加态</h3>
+                    </div>
+                    <p class="text-gray-300 text-sm mb-4">创建和维持量子叠加态</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs text-gray-400">持续时间: 2.3s</span>
+                        <button class="bg-green-500/30 hover:bg-green-500/50 text-green-300 px-3 py-1 rounded text-sm transition-all duration-300">
+                            创建
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 量子工具集 -->
+        <div class="bg-black/40 rounded-xl p-8 border border-white/10 backdrop-blur-sm mb-8">
+            <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+                <span class="text-3xl mr-3">🛠️</span>
+                量子工具集
+            </h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                <button class="bg-gradient-to-br from-cyan-500/20 to-blue-600/20 rounded-lg p-4 border border-cyan-500/30 hover:border-cyan-400/50 transition-all duration-300 text-center">
+                    <div class="text-2xl mb-2">📊</div>
+                    <div class="text-sm text-cyan-400 font-semibold">量子分析</div>
+                </button>
+                
+                <button class="bg-gradient-to-br from-purple-500/20 to-violet-600/20 rounded-lg p-4 border border-purple-500/30 hover:border-purple-400/50 transition-all duration-300 text-center">
+                    <div class="text-2xl mb-2">🎛️</div>
+                    <div class="text-sm text-purple-400 font-semibold">参数调节</div>
+                </button>
+                
+                <button class="bg-gradient-to-br from-green-500/20 to-emerald-600/20 rounded-lg p-4 border border-green-500/30 hover:border-green-400/50 transition-all duration-300 text-center">
+                    <div class="text-2xl mb-2">🔄</div>
+                    <div class="text-sm text-green-400 font-semibold">状态重置</div>
+                </button>
+                
+                <button class="bg-gradient-to-br from-orange-500/20 to-red-600/20 rounded-lg p-4 border border-orange-500/30 hover:border-orange-400/50 transition-all duration-300 text-center">
+                    <div class="text-2xl mb-2">⚡</div>
+                    <div class="text-sm text-orange-400 font-semibold">能量调节</div>
+                </button>
+                
+                <button class="bg-gradient-to-br from-pink-500/20 to-rose-600/20 rounded-lg p-4 border border-pink-500/30 hover:border-pink-400/50 transition-all duration-300 text-center">
+                    <div class="text-2xl mb-2">🔐</div>
+                    <div class="text-sm text-pink-400 font-semibold">安全模式</div>
+                </button>
+                
+                <button class="bg-gradient-to-br from-indigo-500/20 to-purple-600/20 rounded-lg p-4 border border-indigo-500/30 hover:border-indigo-400/50 transition-all duration-300 text-center">
+                    <div class="text-2xl mb-2">📈</div>
+                    <div class="text-sm text-indigo-400 font-semibold">性能监控</div>
+                </button>
+            </div>
+        </div>
+
+        <!-- 快速导航 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <a href="/quantum_meditation" class="bg-gradient-to-br from-purple-500/20 to-violet-600/20 rounded-xl p-6 border border-purple-500/30 hover:border-purple-400/50 transition-all duration-300 text-decoration-none transform hover:scale-105">
+                <div class="text-center">
+                    <div class="text-4xl mb-3">🧘‍♀️</div>
+                    <h3 class="text-lg font-semibold text-purple-400 mb-2">量子冥想</h3>
+                    <p class="text-gray-300 text-sm">深度量子意识体验</p>
+                </div>
+            </a>
+            
+            <a href="/metaverse_architecture" class="bg-gradient-to-br from-blue-500/20 to-cyan-600/20 rounded-xl p-6 border border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 text-decoration-none transform hover:scale-105">
+                <div class="text-center">
+                    <div class="text-4xl mb-3">🌌</div>
+                    <h3 class="text-lg font-semibold text-blue-400 mb-2">元宇宙架构</h3>
+                    <p class="text-gray-300 text-sm">量子元宇宙构建</p>
+                </div>
+            </a>
+            
+            <a href="/unified_dashboard" class="bg-gradient-to-br from-green-500/20 to-emerald-600/20 rounded-xl p-6 border border-green-500/30 hover:border-green-400/50 transition-all duration-300 text-decoration-none transform hover:scale-105">
+                <div class="text-center">
+                    <div class="text-4xl mb-3">🎛️</div>
+                    <h3 class="text-lg font-semibold text-green-400 mb-2">统一仪表板</h3>
+                    <p class="text-gray-300 text-sm">返回主控制面板</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .container {
+        background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(20,20,40,0.9) 100%);
+        min-height: 100vh;
+    }
+    
+    .text-decoration-none {
+        text-decoration: none;
+    }
+    
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+    
+    .animate-pulse {
+        animation: pulse 2s infinite;
+    }
+</style>
+{% endblock %}

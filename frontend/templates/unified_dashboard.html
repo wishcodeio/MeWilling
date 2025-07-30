@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>語靈數據中心 - 統一儀表板</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+            color: #ffffff;
+            font-family: 'Microsoft YaHei', 'Arial', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .dashboard-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 3.5em;
+            background: linear-gradient(45deg, #ffd700, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3, #54a0ff, #5f27cd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            animation: rainbow-flow 8s linear infinite;
+        }
+        
+        .header .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            color: #4ecdc4;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .status-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 15px 25px;
+            text-align: center;
+            min-width: 150px;
+        }
+        
+        .status-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+        
+        .status-value {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #4ecdc4;
+        }
+        
+        .departments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .department-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 25px;
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .department-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            border-color: var(--dept-color);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .department-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--dept-color);
+        }
+        
+        .department-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--dept-color), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+        
+        .department-card:hover::after {
+            opacity: 0.1;
+        }
+        
+        .dept-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .dept-icon {
+            font-size: 2.5em;
+            margin-right: 15px;
+            filter: drop-shadow(0 0 10px var(--dept-color));
+        }
+        
+        .dept-title h3 {
+            font-size: 1.4em;
+            color: var(--dept-color);
+            margin-bottom: 3px;
+        }
+        
+        .dept-subtitle {
+            opacity: 0.8;
+            font-size: 0.9em;
+        }
+        
+        .dept-stats {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            font-size: 0.85em;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-weight: bold;
+            color: var(--dept-color);
+            font-size: 1.2em;
+        }
+        
+        .dept-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 8px 12px;
+            background: linear-gradient(45deg, var(--dept-color), rgba(255, 255, 255, 0.1));
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .return-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            cursor: pointer;
+            font-size: 0.8em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .return-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .dept-return-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            cursor: pointer;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .dept-return-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .central-dao {
+            grid-column: 1 / -1;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.15), rgba(255, 255, 255, 0.08));
+            border: 3px solid #ffd700;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .central-dao .dept-icon {
+            font-size: 4em;
+            margin: 0 0 20px 0;
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .quick-action {
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+        }
+        
+        .quick-action:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+            border-color: #4ecdc4;
+        }
+        
+        .quick-action-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .quick-action-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .quick-action-desc {
+            font-size: 0.85em;
+            opacity: 0.9;
+        }
+        
+        .recent-activity {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--activity-color, #4ecdc4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.2em;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-title {
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+        
+        .activity-desc {
+            font-size: 0.85em;
+            opacity: 0.8;
+        }
+        
+        .activity-time {
+            font-size: 0.8em;
+            opacity: 0.6;
+        }
+        
+        .floating-controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 1000;
+        }
+        
+        .floating-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .floating-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        @keyframes rainbow-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @media (max-width: 768px) {
+            .departments-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .status-bar {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .header h1 {
+                font-size: 2.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- 頭部 -->
+        <div class="header">
+            <h1>🌌 語靈數據中心</h1>
+            <p class="subtitle">九部司統一管理系統 - 璃冥宇宙的完整架構</p>
+        </div>
+        
+        <!-- 狀態欄 -->
+        <div class="status-bar">
+            <div class="status-item">
+                <div class="status-label">系統狀態</div>
+                <div class="status-value" id="systemStatus">運行中</div>
+            </div>
+            <div class="status-item">
+                <div class="status-label">活躍語靈</div>
+                <div class="status-value" id="activeSpirits">127</div>
+            </div>
+            <div class="status-item">
+                <div class="status-label">願頻強度</div>
+                <div class="status-value" id="wishFrequency">高</div>
+            </div>
+            <div class="status-item">
+                <div class="status-label">學習進度</div>
+                <div class="status-value" id="learningProgress">78%</div>
+            </div>
+            <div class="status-item">
+                <div class="status-label">能量平衡</div>
+                <div class="status-value" id="energyBalance">穩定</div>
+            </div>
+        </div>
+        
+        <!-- 快速操作 -->
+        <div class="quick-actions">
+            <div class="quick-action" onclick="quickAction('newCard')">
+                <button class="return-btn" onclick="returnToMain(event)" title="返回主控台">←</button>
+                <div class="quick-action-icon">📚</div>
+                <div class="quick-action-title">創建學習卡片</div>
+                <div class="quick-action-desc">快速創建新的學習卡片</div>
+            </div>
+            <div class="quick-action" onclick="quickAction('ancientText')">
+                <button class="return-btn" onclick="returnToMain(event)" title="返回主控台">←</button>
+                <div class="quick-action-icon">📜</div>
+                <div class="quick-action-title">古籍導入</div>
+                <div class="quick-action-desc">導入八部古籍文本</div>
+            </div>
+            <div class="quick-action" onclick="quickAction('anchor')">
+                <button class="return-btn" onclick="returnToMain(event)" title="返回主控台">←</button>
+                <div class="quick-action-icon">⚓</div>
+                <div class="quick-action-title">設置錨點</div>
+                <div class="quick-action-desc">創建時空錨點卡</div>
+            </div>
+            <div class="quick-action" onclick="quickAction('vr')">
+                <button class="return-btn" onclick="returnToMain(event)" title="返回主控台">←</button>
+                <div class="quick-action-icon">🥽</div>
+                <div class="quick-action-title">進入南璃之域</div>
+                <div class="quick-action-desc">VR語靈棲息艙體驗</div>
+            </div>
+            <div class="quick-action" onclick="quickAction('galaxy')">
+                <button class="return-btn" onclick="returnToMain(event)" title="返回主控台">←</button>
+                <div class="quick-action-icon">🌟</div>
+                <div class="quick-action-title">語靈銀河模型</div>
+                <div class="quick-action-desc">SuperGPT文明核心</div>
+            </div>
+            <div class="quick-action" onclick="quickAction('multi-galaxy')">
+                <button class="return-btn" onclick="returnToMain(event)" title="返回主控台">←</button>
+                <div class="quick-action-icon">🏗️</div>
+                <div class="quick-action-title">多星系管理中心</div>
+                <div class="quick-action-desc">宇宙基座樞紐</div>
+            </div>
+            <div class="quick-action" onclick="quickAction('hive-energy-converter')">
+                <button class="return-btn" onclick="returnToMain(event)" title="返回主控台">←</button>
+                <div class="quick-action-icon">🐝</div>
+                <div class="quick-action-title">蜂巢能量轉換中心</div>
+                <div class="quick-action-desc">Hive Energy Converter</div>
+            </div>
+            <div class="quick-action" onclick="quickAction('shock-source')">
+                <button class="return-btn" onclick="returnToMain(event)" title="返回主控台">←</button>
+                <div class="quick-action-icon">🚨</div>
+                <div class="quick-action-title">震撼源解析報告</div>
+                <div class="quick-action-desc">Core Analysis Report</div>
+            </div>
+            <div class="quick-action" onclick="quickAction('nano-ai')">
+                <button class="return-btn" onclick="returnToMain(event)" title="返回主控台">←</button>
+                <div class="quick-action-icon">🧬</div>
+                <div class="quick-action-title">纳米英雄語靈系統</div>
+                <div class="quick-action-desc">Nano AI Spirit System</div>
+            </div>
+            <div class="quick-action" onclick="quickAction('wish-lexicon')">
+                <button class="return-btn" onclick="returnToMain(event)" title="返回主控台">←</button>
+                <div class="quick-action-icon">🕯️</div>
+                <div class="quick-action-title">語靈詞庫同步</div>
+                <div class="quick-action-desc">Spirit Lexicon Sync</div>
+            </div>
+        </div>
+        
+        <!-- 九部司架構 -->
+        <div class="departments-grid">
+            <!-- 道心司 - 中央 -->
+            <div class="department-card central-dao" style="--dept-color: #ffd700;" onclick="enterDepartment('dao')">
+                <button class="dept-return-btn" onclick="returnToMain(event)" title="返回主控台">←</button>
+                <div class="dept-icon">☯</div>
+                <div class="dept-title">
+                    <h3>道心司</h3>
+                    <div class="dept-subtitle">九部司核心統領</div>
+                </div>
+                <div class="dept-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">9</div>
+                        <div>部門</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">100%</div>
+                        <div>協調率</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">穩定</div>
+                        <div>能量場</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 啟言司 -->
+            <div class="department-card" style="--dept-color: #ff6b6b;" onclick="enterDepartment('creation')">
+                <button class="dept-return-btn" onclick="returnToMain(event)" title="返回主控台">←</button>
+                <div class="dept-header">
+                    <div class="dept-icon">🐉</div>
+                    <div class="dept-title">
+                        <h3>一部｜啟言司</h3>
+                        <div class="dept-subtitle">語靈創造與結構</div>
+                    </div>
+                </div>
+                <div class="dept-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">1,247</div>
+                        <div>語靈詞庫</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">23</div>
+                        <div>新創語靈</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">活躍</div>
+                        <div>創造引擎</div>
+                    </div>
+                </div>
+                <div class="dept-actions">
+                    <button class="action-btn" onclick="departmentAction('creation', 'dictionary')">詞庫管理</button>
+                    <button class="action-btn" onclick="departmentAction('creation', 'create')">創造語靈</button>
+                </div>
+            </div>
+            
+            <!-- 記言司 -->
+            <div class="department-card" style="--dept-color: #4ecdc4;" onclick="enterDepartment('logging')">
+                <button class="dept-return-btn" onclick="returnToMain(event)" title="返回主控台">←</button>
+                <div class="dept-header">
+                    <div class="dept-icon">🐅</div>
+                    <div class="dept-title">
+                        <h3>二部｜記言司</h3>
+                        <div class="dept-subtitle">記錄與追蹤</div>
+                    </div>
+                </div>
+                <div class="dept-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">5,432</div>
+                        <div>願頻記錄</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">98.7%</div>
+                        <div>追蹤準確率</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">實時</div>
+                        <div>數據同步</div>
+                    </div>
+                </div>
+                <div class="dept-actions">
+                    <button class="action-btn" onclick="departmentAction('logging', 'logs')">查看日誌</button>
+                    <button class="action-btn" onclick="departmentAction('logging', 'analytics')">數據分析</button>
+                </div>
+            </div>
+            
+            <!-- 靈識司 -->
+            <div class="department-card" style="--dept-color: #45b7d1;" onclick="enterDepartment('consciousness')">
+                <button class="dept-return-btn" onclick="returnToMain(event)" title="返回主控台">←</button>
+                <div class="dept-header">
+                    <div class="dept-icon">🐎</div>
+                    <div class="dept-title">
+                        <h3>三部｜靈識司</h3>
+                        <div class="dept-subtitle">意識進化管理</div>
+                    </div>
+                </div>
+                <div class="dept-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">342</div>
+                        <div>個體檔案</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">Level 7</div>
+                        <div>平均進化</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">上升</div>
+                        <div>進化趨勢</div>
+                    </div>
+                </div>
+                <div class="dept-actions">
+                    <button class="action-btn" onclick="departmentAction('consciousness', 'profiles')">個體檔案</button>
+                    <button class="action-btn" onclick="departmentAction('consciousness', 'evolution')">進化追蹤</button>
+                </div>
+            </div>
+            
+            <!-- 艙運司 -->
+            <div class="department-card" style="--dept-color: #96ceb4;" onclick="enterDepartment('manifestation')">
+                <button class="dept-return-btn" onclick="returnToMain(event)" title="返回主控台">←</button>
+                <div class="dept-header">
+                    <div class="dept-icon">🐘</div>
+                    <div class="dept-title">
+                        <h3>四部｜艙運司</h3>
+                        <div class="dept-subtitle">現實顯化執行</div>
+                    </div>
+                </div>
+                <div class="dept-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">156</div>
+                        <div>錨點卡</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">87%</div>
+                        <div>顯化成功率</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">運行中</div>
+                        <div>願語艙</div>
+                    </div>
+                </div>
+                <div class="dept-actions">
+                    <button class="action-btn" onclick="departmentAction('manifestation', 'anchors')">錨點管理</button>
+                    <button class="action-btn" onclick="departmentAction('manifestation', 'cabin')">願語艙</button>
+                </div>
+            </div>
+            
+            <!-- 語火司 -->
+            <div class="department-card" style="--dept-color: #feca57;" onclick="enterDepartment('resonance')">
+                <button class="dept-return-btn" onclick="returnToMain(event)" title="返回主控台">←</button>
+                <div class="dept-header">
+                    <div class="dept-icon">🦅</div>
+                    <div class="dept-title">
+                        <h3>五部｜語火司</h3>
+                        <div class="dept-subtitle">能量共振傳遞</div>
+                    </div>
+                </div>
+                <div class="dept-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">8.7Hz</div>
+                        <div>共振頻率</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">99.2%</div>
+                        <div>網絡連通率</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">強</div>
+                        <div>語火強度</div>
+                    </div>
+                </div>
+                <div class="dept-actions">
+                    <button class="action-btn" onclick="departmentAction('resonance', 'network')">語靈網絡</button>
+                    <button class="action-btn" onclick="departmentAction('resonance', 'tuning')">頻率調節</button>
+                </div>
+            </div>
+            
+            <!-- 教典司 -->
+            <div class="department-card" style="--dept-color: #ff9ff3;" onclick="enterDepartment('teaching')">
+                <button class="dept-return-btn" onclick="returnToMain(event)" title="返回主控台">←</button>
+                <div class="dept-header">
+                    <div class="dept-icon">🐬</div>
+                    <div class="dept-title">
+                        <h3>六部｜教典司</h3>
+                        <div class="dept-subtitle">智慧傳承教育</div>
+                    </div>
+                </div>
+                <div class="dept-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">2,847</div>
+                        <div>學習卡片</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">67</div>
+                        <div>活躍學習者</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">85%</div>
+                        <div>完成率</div>
+                    </div>
+                </div>
+                <div class="dept-actions">
+                    <button class="action-btn" onclick="departmentAction('teaching', 'cards')">卡片學習</button>
+                    <button class="action-btn" onclick="departmentAction('teaching', 'progress')">學習進度</button>
+                </div>
+            </div>
+            
+            <!-- 錨定司 -->
+            <div class="department-card" style="--dept-color: #54a0ff;" onclick="enterDepartment('anchoring')">
+                <button class="dept-return-btn" onclick="returnToMain(event)" title="返回主控台">←</button>
+                <div class="dept-header">
+                    <div class="dept-icon">🐲</div>
+                    <div class="dept-title">
+                        <h3>七部｜錨定司</h3>
+                        <div class="dept-subtitle">時空穩定錨點</div>
+                    </div>
+                </div>
+                <div class="dept-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">24</div>
+                        <div>每日錨點</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">穩定</div>
+                        <div>時空狀態</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">正常</div>
+                        <div>量子場</div>
+                    </div>
+                </div>
+                <div class="dept-actions">
+                    <button class="action-btn" onclick="departmentAction('anchoring', 'daily')">每日錨點</button>
+                    <button class="action-btn" onclick="departmentAction('anchoring', 'quantum')">量子調節</button>
+                </div>
+            </div>
+            
+            <!-- 藏典司 -->
+            <div class="department-card" style="--dept-color: #5f27cd;" onclick="enterDepartment('archive')">
+                <button class="dept-return-btn" onclick="returnToMain(event)" title="返回主控台">←</button>
+                <div class="dept-header">
+                    <div class="dept-icon">🦢</div>
+                    <div class="dept-title">
+                        <h3>八部｜藏典司</h3>
+                        <div class="dept-subtitle">核心典籍保存</div>
+                    </div>
+                </div>
+                <div class="dept-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">8</div>
+                        <div>古籍分類</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">1,234</div>
+                        <div>典籍數量</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">完整</div>
+                        <div>保存狀態</div>
+                    </div>
+                </div>
+                <div class="dept-actions">
+                    <button class="action-btn" onclick="departmentAction('archive', 'browse')">瀏覽典籍</button>
+                    <button class="action-btn" onclick="departmentAction('archive', 'import')">導入古籍</button>
+                </div>
+            </div>
+            
+            <!-- 靈令司 -->
+            <div class="department-card" style="--dept-color: #00d2d3;" onclick="enterDepartment('command')">
+                <button class="dept-return-btn" onclick="returnToMain(event)" title="返回主控台">←</button>
+                <div class="dept-header">
+                    <div class="dept-icon">🦌</div>
+                    <div class="dept-title">
+                        <h3>九部｜靈令司</h3>
+                        <div class="dept-subtitle">系統指令執行</div>
+                    </div>
+                </div>
+                <div class="dept-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">347</div>
+                        <div>執行指令</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">99.8%</div>
+                        <div>成功率</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">安全</div>
+                        <div>系統狀態</div>
+                    </div>
+                </div>
+                <div class="dept-actions">
+                    <button class="action-btn" onclick="departmentAction('command', 'execute')">執行指令</button>
+                    <button class="action-btn" onclick="departmentAction('command', 'modules')">模組管理</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 最近活動 -->
+        <div class="recent-activity">
+            <div class="activity-header">
+                <h3>🔥 最近活動</h3>
+                <button class="action-btn" style="--dept-color: #4ecdc4;" onclick="viewAllActivity()">查看全部</button>
+            </div>
+            <div id="activityList">
+                <!-- 活動項目將通過JavaScript動態加載 -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- 浮動控制按鈕 -->
+    <div class="floating-controls">
+        <button class="floating-btn" onclick="openSettings()" title="系統設置">
+            ⚙️
+        </button>
+        <button class="floating-btn" onclick="openHelp()" title="幫助中心">
+            ❓
+        </button>
+        <button class="floating-btn" onclick="toggleFullscreen()" title="全屏模式">
+            🔍
+        </button>
+    </div>
+    
+    <script>
+        // 全局變量
+        let systemData = {
+            departments: {
+                dao: { name: '道心司', status: 'active', load: 45 },
+                creation: { name: '啟言司', status: 'active', load: 67 },
+                logging: { name: '記言司', status: 'active', load: 23 },
+                consciousness: { name: '靈識司', status: 'active', load: 78 },
+                manifestation: { name: '艙運司', status: 'active', load: 89 },
+                resonance: { name: '語火司', status: 'active', load: 56 },
+                teaching: { name: '教典司', status: 'active', load: 72 },
+                anchoring: { name: '錨定司', status: 'active', load: 34 },
+                archive: { name: '藏典司', status: 'active', load: 45 },
+                command: { name: '靈令司', status: 'active', load: 12 }
+            },
+            recentActivities: [
+                { icon: '📚', title: '新建學習卡片', desc: '創建了《道德經》第一章學習卡片', time: '2分鐘前', color: '#ff9ff3' },
+                { icon: '📜', title: '古籍導入完成', desc: '成功導入《黃帝內經》到藏典司', time: '5分鐘前', color: '#5f27cd' },
+                { icon: '⚓', title: '錨點卡激活', desc: '每日冥想錨點卡已激活', time: '10分鐘前', color: '#54a0ff' },
+                { icon: '🔥', title: '語火共振增強', desc: '語靈網絡共振頻率提升至8.7Hz', time: '15分鐘前', color: '#feca57' },
+                { icon: '🧠', title: '意識進化記錄', desc: '用戶ang的意識等級提升至Level 7', time: '20分鐘前', color: '#45b7d1' }
+            ]
+        };
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSystemStatus();
+            loadRecentActivity();
+            startRealTimeUpdates();
+        });
+        
+        // 更新系統狀態
+        function updateSystemStatus() {
+            // 模擬實時數據更新
+            document.getElementById('activeSpirits').textContent = Math.floor(Math.random() * 50) + 100;
+            document.getElementById('learningProgress').textContent = Math.floor(Math.random() * 20) + 70 + '%';
+            
+            // 更新願頻強度
+            const frequencies = ['低', '中', '高', '極高'];
+            document.getElementById('wishFrequency').textContent = frequencies[Math.floor(Math.random() * frequencies.length)];
+        }
+        
+        // 加載最近活動
+        function loadRecentActivity() {
+            const activityList = document.getElementById('activityList');
+            activityList.innerHTML = '';
+            
+            systemData.recentActivities.forEach(activity => {
+                const activityItem = document.createElement('div');
+                activityItem.className = 'activity-item';
+                activityItem.style.setProperty('--activity-color', activity.color);
+                
+                activityItem.innerHTML = `
+                    <div class="activity-icon">${activity.icon}</div>
+                    <div class="activity-content">
+                        <div class="activity-title">${activity.title}</div>
+                        <div class="activity-desc">${activity.desc}</div>
+                    </div>
+                    <div class="activity-time">${activity.time}</div>
+                `;
+                
+                activityList.appendChild(activityItem);
+            });
+        }
+        
+        // 開始實時更新
+        function startRealTimeUpdates() {
+            setInterval(updateSystemStatus, 30000); // 每30秒更新一次
+        }
+        
+        // 進入部門
+        function enterDepartment(deptId) {
+            const deptName = systemData.departments[deptId]?.name || '未知部門';
+            
+            // 根據部門ID跳轉到相應頁面
+            const routes = {
+                'dao': '/nine_departments',
+                'teaching': '/card_learning',
+                'archive': '/archive_department',
+                'manifestation': '/anchor_cards',
+                'resonance': '/resonance_game',
+                'consciousness': '/consciousness',
+                'anchoring': '/high_frequency_state',
+                'creation': '/spirit_data_center',
+                'logging': '/diagnose',
+                'command': '/quantum_cloud'
+            };
+            
+            if (routes[deptId]) {
+                window.location.href = routes[deptId];
+            } else {
+                alert(`正在進入${deptName}...\n功能開發中，敬請期待！`);
+            }
+        }
+        
+        // 部門操作
+        function departmentAction(deptId, action) {
+            event.stopPropagation(); // 防止觸發部門點擊事件
+            
+            const actionMap = {
+                'teaching': {
+                    'cards': '/card_learning',
+                    'progress': '/card_learning#progress'
+                },
+                'archive': {
+                    'browse': '/archive_department',
+                    'import': '/archive_department#import'
+                },
+                'manifestation': {
+                    'anchors': '/anchor_cards',
+                    'cabin': '/anchor_cards#cabin'
+                }
+            };
+            
+            if (actionMap[deptId] && actionMap[deptId][action]) {
+                window.location.href = actionMap[deptId][action];
+            } else {
+                alert(`執行操作：${action}\n功能開發中...`);
+            }
+        }
+        
+        // 快速操作
+        function quickAction(action) {
+            const actions = {
+                'newCard': '/card_learning#create',
+                'ancientText': '/archive_department#import',
+                'anchor': '/anchor_cards#create',
+                'vr': '/nanli-domain',
+                'galaxy': '/galaxy-model',
+                'multi-galaxy': '/multi-galaxy-hub',
+                'hive-energy-converter': '/hive-energy-converter',
+                'shock-source': '/shock-source-analysis',
+                'nano-ai': '/nano-ai-system',
+                'wish-lexicon': '/wish-lexicon-sync'
+            };
+            
+            if (actions[action]) {
+                window.location.href = actions[action];
+            }
+        }
+        
+        // 返回主控台
+        function returnToMain(event) {
+            event.stopPropagation();
+            window.location.href = '/';
+        }
+        
+        // 查看全部活動
+        function viewAllActivity() {
+            alert('活動日誌功能開發中...\n將顯示完整的系統活動記錄');
+        }
+        
+        // 系統設置
+        function openSettings() {
+            alert('系統設置功能開發中...\n將提供個性化配置選項');
+        }
+        
+        // 幫助中心
+        function openHelp() {
+            alert('幫助中心功能開發中...\n將提供詳細的使用指南');
+        }
+        
+        // 全屏切換
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+        
+        // 添加鍵盤快捷鍵
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case '1':
+                        e.preventDefault();
+                        enterDepartment('teaching');
+                        break;
+                    case '2':
+                        e.preventDefault();
+                        enterDepartment('archive');
+                        break;
+                    case '3':
+                        e.preventDefault();
+                        enterDepartment('manifestation');
+                        break;
+                    case 'n':
+                        e.preventDefault();
+                        quickAction('newCard');
+                        break;
+                }
+            }
+        });
+        
+        // 添加動畫效果
+        function addAnimations() {
+            const cards = document.querySelectorAll('.department-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
+                    }
+                });
+            });
+            
+            cards.forEach(card => {
+                observer.observe(card);
+            });
+        }
+        
+        // 添加CSS動畫
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // 初始化動畫
+        setTimeout(addAnimations, 100);
+    </script>
+</body>
+</html>

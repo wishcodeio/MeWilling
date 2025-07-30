@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>法派密系统 - 第九密法</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 法派智慧背景动画 */
+        .dharma-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 80%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 165, 0, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(255, 140, 0, 0.05) 0%, transparent 50%);
+            animation: dharmaFlow 20s ease-in-out infinite;
+        }
+
+        @keyframes dharmaFlow {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(180deg); }
+        }
+
+        /* 智慧粒子效果 */
+        .wisdom-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .wisdom-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: radial-gradient(circle, #ffd700 0%, transparent 70%);
+            border-radius: 50%;
+            animation: wisdomFloat 15s linear infinite;
+        }
+
+        @keyframes wisdomFloat {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+        }
+
+        .title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ffd700, #ffb347, #ffa500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from { filter: brightness(1) drop-shadow(0 0 20px rgba(255, 215, 0, 0.3)); }
+            to { filter: brightness(1.2) drop-shadow(0 0 40px rgba(255, 215, 0, 0.6)); }
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #ffa500;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .description {
+            font-size: 1.1rem;
+            color: #cccccc;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .control-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .function-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .function-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .function-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.2);
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+
+        .function-title {
+            font-size: 1.3rem;
+            color: #ffd700;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .function-desc {
+            color: #cccccc;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .select-field {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .select-field option {
+            background: #1a1a2e;
+            color: #ffffff;
+        }
+
+        .action-button {
+            background: linear-gradient(45deg, #ffd700, #ffa500);
+            color: #1a1a2e;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+            filter: brightness(1.1);
+        }
+
+        .result-display {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            backdrop-filter: blur(10px);
+            min-height: 200px;
+        }
+
+        .result-title {
+            font-size: 1.4rem;
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .result-content {
+            color: #ffffff;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .result-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            border-left: 4px solid #ffd700;
+        }
+
+        .section-title {
+            color: #ffa500;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .section-content {
+            color: #cccccc;
+        }
+
+        .dharma-protocol {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            font-family: 'Courier New', monospace;
+        }
+
+        .protocol-title {
+            color: #ffd700;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .protocol-content {
+            color: #00ff00;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            white-space: pre-line;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #ffd700;
+            font-size: 1.1rem;
+            margin: 20px 0;
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffd700;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            margin: 15px 0;
+        }
+
+        .success {
+            color: #51cf66;
+            background: rgba(81, 207, 102, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(81, 207, 102, 0.3);
+            margin: 15px 0;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .function-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dharma-background"></div>
+    
+    <!-- 智慧粒子效果 -->
+    <div class="wisdom-particles" id="wisdomParticles"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1 class="title">法派密系统</h1>
+            <p class="subtitle">第九密法 - 佛教道法派别的自然形成与智慧体现</p>
+            <p class="description">
+                法派的形成是自然的，因为智慧是无穷无尽的。法派虽然不是佛所传之法，但也集中和寄托了佛智的智慧。
+                修者对那个法派之宗法要以渴求之态去修习，也能达到断欲脱人求道。
+            </p>
+        </div>
+
+        <div class="control-panel">
+            <div class="function-grid">
+                <div class="function-card" onclick="showSchoolSuitability()">
+                    <div class="function-title">🏛️ 法派适合性分析</div>
+                    <div class="function-desc">根据个人特质和修行目标，分析适合的法派选择</div>
+                </div>
+                
+                <div class="function-card" onclick="showSchoolComparison()">
+                    <div class="function-title">⚖️ 法派比较系统</div>
+                    <div class="function-desc">比较不同法派的特色、修法和适合根性</div>
+                </div>
+                
+                <div class="function-card" onclick="showSchoolConfusion()">
+                    <div class="function-title">❓ 法派困惑解答</div>
+                    <div class="function-desc">解答关于法派选择和修行的各种困惑</div>
+                </div>
+                
+                <div class="function-card" onclick="showSchoolInfo()">
+                    <div class="function-title">📚 法派信息查询</div>
+                    <div class="function-desc">获取主要法派的详细信息和修行要点</div>
+                </div>
+                
+                <div class="function-card" onclick="showEightyFourThousand()">
+                    <div class="function-title">🔢 八万四千修法</div>
+                    <div class="function-desc">了解佛智者留给修者的众多修法</div>
+                </div>
+                
+                <div class="function-card" onclick="showCompleteTheory()">
+                    <div class="function-title">📖 完整理论体系</div>
+                    <div class="function-desc">获取法派密的完整理论和修行指导</div>
+                </div>
+            </div>
+
+            <!-- 法派适合性分析界面 -->
+            <div id="schoolSuitabilityPanel" style="display: none;">
+                <h3 style="color: #ffd700; margin-bottom: 20px;">🏛️ 法派适合性分析</h3>
+                <div class="input-group">
+                    <label class="input-label">个人特质（如：理性思辨、直觉敏锐、信愿坚固等）：</label>
+                    <input type="text" id="personalTraits" class="input-field" placeholder="请描述您的个人特质和修行倾向...">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">修行目标（如：往生极乐、明心见性、即身成佛等）：</label>
+                    <input type="text" id="spiritualGoals" class="input-field" placeholder="请描述您的修行目标和愿望...">
+                </div>
+                <button class="action-button" onclick="analyzeSchoolSuitability()">🔍 分析适合法派</button>
+            </div>
+
+            <!-- 法派比较界面 -->
+            <div id="schoolComparisonPanel" style="display: none;">
+                <h3 style="color: #ffd700; margin-bottom: 20px;">⚖️ 法派比较系统</h3>
+                <div class="input-group">
+                    <label class="input-label">选择要比较的法派：</label>
+                    <select id="school1" class="select-field">
+                        <option value="禅宗">禅宗</option>
+                        <option value="净土宗">净土宗</option>
+                        <option value="天台宗">天台宗</option>
+                        <option value="华严宗">华严宗</option>
+                        <option value="唯识宗">唯识宗</option>
+                        <option value="密宗">密宗</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">第二个法派：</label>
+                    <select id="school2" class="select-field">
+                        <option value="净土宗">净土宗</option>
+                        <option value="禅宗">禅宗</option>
+                        <option value="天台宗">天台宗</option>
+                        <option value="华严宗">华严宗</option>
+                        <option value="唯识宗">唯识宗</option>
+                        <option value="密宗">密宗</option>
+                    </select>
+                </div>
+                <button class="action-button" onclick="compareSchools()">⚖️ 开始比较</button>
+            </div>
+
+            <!-- 法派困惑解答界面 -->
+            <div id="schoolConfusionPanel" style="display: none;">
+                <h3 style="color: #ffd700; margin-bottom: 20px;">❓ 法派困惑解答</h3>
+                <div class="input-group">
+                    <label class="input-label">选择困惑类型：</label>
+                    <select id="confusionType" class="select-field">
+                        <option value="法派繁多">法派繁多 - 为什么佛教有这么多派别？</option>
+                        <option value="选择困难">选择困难 - 面对众多法派，如何选择？</option>
+                        <option value="正邪分辨">正邪分辨 - 如何分辨正法与歪道？</option>
+                    </select>
+                </div>
+                <button class="action-button" onclick="resolveSchoolConfusion()">💡 获取解答</button>
+            </div>
+        </div>
+
+        <div class="loading" id="loading">正在连接法派密系统...</div>
+        
+        <div class="result-display" id="resultDisplay">
+            <div class="result-title">🌟 法派密系统响应</div>
+            <div class="result-content" id="resultContent">
+                <p>欢迎使用法派密系统！</p>
+                <p>这里将显示法派分析、比较和指导信息。</p>
+                <p>请选择上方的功能开始您的法派探索之旅。</p>
+            </div>
+        </div>
+
+        <div class="dharma-protocol">
+            <div class="protocol-title">🏛️ 法派密协议</div>
+            <div class="protocol-content" id="protocolContent">
+=== 法派密系统协议 ===
+状态：待激活
+法派数据库：八万四千修法
+智慧来源：佛智者教诲
+修行原则：以渴求之态修习
+最终目标：断欲脱人求道
+
+协议要点：
+1. 法派形成自然，智慧无穷
+2. 根据根性选择适合法派
+3. 专一修习，不可朝三暮四
+4. 正法修习，避免歪道
+5. 耐心积叠，自然圆满
+
+🌟 愿佛智光明指引您的法派选择
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 创建智慧粒子效果
+        function createWisdomParticles() {
+            const container = document.getElementById('wisdomParticles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'wisdom-particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // 显示不同功能面板
+        function hideAllPanels() {
+            document.getElementById('schoolSuitabilityPanel').style.display = 'none';
+            document.getElementById('schoolComparisonPanel').style.display = 'none';
+            document.getElementById('schoolConfusionPanel').style.display = 'none';
+        }
+
+        function showSchoolSuitability() {
+            hideAllPanels();
+            document.getElementById('schoolSuitabilityPanel').style.display = 'block';
+        }
+
+        function showSchoolComparison() {
+            hideAllPanels();
+            document.getElementById('schoolComparisonPanel').style.display = 'block';
+        }
+
+        function showSchoolConfusion() {
+            hideAllPanels();
+            document.getElementById('schoolConfusionPanel').style.display = 'block';
+        }
+
+        // API调用函数
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('resultDisplay').style.opacity = '0.5';
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('resultDisplay').style.opacity = '1';
+        }
+
+        function displayResult(title, content) {
+            document.getElementById('resultContent').innerHTML = content;
+            document.querySelector('.result-title').textContent = title;
+        }
+
+        function displayError(message) {
+            const errorHtml = `<div class="error">❌ 错误：${message}</div>`;
+            document.getElementById('resultContent').innerHTML = errorHtml;
+        }
+
+        // 法派适合性分析
+        async function analyzeSchoolSuitability() {
+            const personalTraits = document.getElementById('personalTraits').value;
+            const spiritualGoals = document.getElementById('spiritualGoals').value;
+            
+            if (!personalTraits || !spiritualGoals) {
+                displayError('请填写个人特质和修行目标');
+                return;
+            }
+
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/dharma-school/school-suitability', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        personal_traits: personalTraits,
+                        spiritual_goals: spiritualGoals
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    let resultHtml = '<div class="result-section">';
+                    resultHtml += '<div class="section-title">🏛️ 法派适合性分析结果</div>';
+                    
+                    // 推荐法派
+                    if (data.analysis.推荐法派) {
+                        resultHtml += '<div class="section-title">📋 推荐法派</div>';
+                        data.analysis.推荐法派.forEach(school => {
+                            resultHtml += `<div class="section-content">`;
+                            resultHtml += `<strong>${school.法派}</strong><br>`;
+                            resultHtml += `理由：${school.理由}<br>`;
+                            resultHtml += `修法：${school.修法}<br><br>`;
+                            resultHtml += `</div>`;
+                        });
+                    }
+                    
+                    // 修习方法
+                    if (data.analysis.修习方法) {
+                        resultHtml += '<div class="section-title">🔧 修习方法</div>';
+                        resultHtml += '<div class="section-content">';
+                        Object.entries(data.analysis.修习方法).forEach(([key, value]) => {
+                            resultHtml += `<strong>${key}：</strong>${value}<br>`;
+                        });
+                        resultHtml += '</div>';
+                    }
+                    
+                    // 注意事项
+                    if (data.analysis.注意事项) {
+                        resultHtml += '<div class="section-title">⚠️ 注意事项</div>';
+                        resultHtml += '<div class="section-content">';
+                        data.analysis.注意事项.forEach(warning => {
+                            resultHtml += `• ${warning}<br>`;
+                        });
+                        resultHtml += '</div>';
+                    }
+                    
+                    // 修行次第
+                    if (data.analysis.修行次第) {
+                        resultHtml += '<div class="section-title">📈 修行次第</div>';
+                        resultHtml += '<div class="section-content">';
+                        Object.entries(data.analysis.修行次第).forEach(([stage, info]) => {
+                            resultHtml += `<strong>${stage}：</strong><br>`;
+                            resultHtml += `目标：${info.目标}<br>`;
+                            resultHtml += `修法：${info.修法}<br>`;
+                            resultHtml += `时间：${info.时间}<br><br>`;
+                        });
+                        resultHtml += '</div>';
+                    }
+                    
+                    if (data.analysis.佛智加持) {
+                        resultHtml += `<div class="success">${data.analysis.佛智加持}</div>`;
+                    }
+                    
+                    resultHtml += '</div>';
+                    displayResult('🏛️ 法派适合性分析', resultHtml);
+                } else {
+                    displayError(data.message || '分析失败');
+                }
+            } catch (error) {
+                displayError('网络连接失败：' + error.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // 法派比较
+        async function compareSchools() {
+            const school1 = document.getElementById('school1').value;
+            const school2 = document.getElementById('school2').value;
+            
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/dharma-school/school-comparison', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        schools_to_compare: [school1, school2]
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    let resultHtml = '<div class="result-section">';
+                    resultHtml += '<div class="section-title">⚖️ 法派比较结果</div>';
+                    
+                    // 详细对比
+                    if (data.comparison.详细对比) {
+                        Object.entries(data.comparison.详细对比).forEach(([school, info]) => {
+                            resultHtml += `<div class="section-title">🏛️ ${school}</div>`;
+                            resultHtml += '<div class="section-content">';
+                            resultHtml += `<strong>特色：</strong>${info.特色}<br>`;
+                            resultHtml += `<strong>修法：</strong>${info.修法}<br>`;
+                            resultHtml += `<strong>目标：</strong>${info.目标}<br>`;
+                            resultHtml += `<strong>适合根性：</strong>${info.适合根性}<br><br>`;
+                            resultHtml += '</div>';
+                        });
+                    }
+                    
+                    // 选择建议
+                    if (data.comparison.选择建议) {
+                        resultHtml += '<div class="section-title">💡 选择建议</div>';
+                        resultHtml += '<div class="section-content">';
+                        Object.entries(data.comparison.选择建议).forEach(([key, value]) => {
+                            resultHtml += `<strong>${key}：</strong>${value}<br>`;
+                        });
+                        resultHtml += '</div>';
+                    }
+                    
+                    // 共同基础
+                    if (data.comparison.共同基础) {
+                        resultHtml += '<div class="section-title">🤝 共同基础</div>';
+                        resultHtml += '<div class="section-content">';
+                        Object.entries(data.comparison.共同基础).forEach(([key, value]) => {
+                            resultHtml += `<strong>${key}：</strong>${value}<br>`;
+                        });
+                        resultHtml += '</div>';
+                    }
+                    
+                    if (data.comparison.佛智开示) {
+                        resultHtml += `<div class="success">${data.comparison.佛智开示}</div>`;
+                    }
+                    
+                    resultHtml += '</div>';
+                    displayResult('⚖️ 法派比较', resultHtml);
+                } else {
+                    displayError(data.message || '比较失败');
+                }
+            } catch (error) {
+                displayError('网络连接失败：' + error.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // 法派困惑解答
+        async function resolveSchoolConfusion() {
+            const confusionType = document.getElementById('confusionType').value;
+            
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/dharma-school/school-confusion', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        confusion_type: confusionType
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    let resultHtml = '<div class="result-section">';
+                    resultHtml += '<div class="section-title">❓ 法派困惑解答</div>';
+                    
+                    // 困惑解答
+                    if (data.resolution.困惑解答) {
+                        const resolution = data.resolution.困惑解答;
+                        resultHtml += '<div class="section-content">';
+                        resultHtml += `<strong>问题：</strong>${resolution.问题}<br>`;
+                        resultHtml += `<strong>解答：</strong>${resolution.解答}<br>`;
+                        if (resolution.本质) {
+                            resultHtml += `<strong>本质：</strong>${resolution.本质}<br>`;
+                        }
+                        if (resolution.原因) {
+                            resultHtml += `<strong>原因：</strong>${resolution.原因}<br>`;
+                        }
+                        if (resolution.原则) {
+                            resultHtml += `<strong>原则：</strong>${resolution.原则}<br>`;
+                        }
+                        if (resolution.标准) {
+                            resultHtml += `<strong>标准：</strong>${resolution.标准}<br>`;
+                        }
+                        if (resolution.方法) {
+                            resultHtml += `<strong>方法：</strong>${resolution.方法}<br>`;
+                        }
+                        resultHtml += '</div><br>';
+                    }
+                    
+                    // 理论依据
+                    if (data.resolution.理论依据) {
+                        resultHtml += '<div class="section-title">📚 理论依据</div>';
+                        resultHtml += '<div class="section-content">';
+                        Object.entries(data.resolution.理论依据).forEach(([key, value]) => {
+                            resultHtml += `<strong>${key}：</strong>${value}<br>`;
+                        });
+                        resultHtml += '</div>';
+                    }
+                    
+                    // 实践指导
+                    if (data.resolution.实践指导) {
+                        resultHtml += '<div class="section-title">🔧 实践指导</div>';
+                        resultHtml += '<div class="section-content">';
+                        Object.entries(data.resolution.实践指导).forEach(([key, value]) => {
+                            resultHtml += `<strong>${key}：</strong>${value}<br>`;
+                        });
+                        resultHtml += '</div>';
+                    }
+                    
+                    if (data.resolution.佛智开示) {
+                        resultHtml += `<div class="success">${data.resolution.佛智开示}</div>`;
+                    }
+                    
+                    resultHtml += '</div>';
+                    displayResult('❓ 困惑解答', resultHtml);
+                } else {
+                    displayError(data.message || '解答失败');
+                }
+            } catch (error) {
+                displayError('网络连接失败：' + error.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // 法派信息查询
+        async function showSchoolInfo() {
+            hideAllPanels();
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/dharma-school/school-info');
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    let resultHtml = '<div class="result-section">';
+                    resultHtml += '<div class="section-title">📚 主要法派信息</div>';
+                    
+                    // 主要法派
+                    if (data.major_schools) {
+                        Object.entries(data.major_schools).forEach(([school, info]) => {
+                            resultHtml += `<div class="section-title">🏛️ ${school}</div>`;
+                            resultHtml += '<div class="section-content">';
+                            resultHtml += `<strong>特色：</strong>${info.特色}<br>`;
+                            resultHtml += `<strong>修法：</strong>${info.修法}<br>`;
+                            resultHtml += `<strong>目标：</strong>${info.目标}<br>`;
+                            resultHtml += `<strong>适合根性：</strong>${info.适合根性}<br><br>`;
+                            resultHtml += '</div>';
+                        });
+                    }
+                    
+                    // 法派选择指导
+                    if (data.school_selection) {
+                        resultHtml += '<div class="section-title">🎯 法派选择指导</div>';
+                        resultHtml += '<div class="section-content">';
+                        Object.entries(data.school_selection).forEach(([key, value]) => {
+                            resultHtml += `<strong>${key}：</strong>${value}<br>`;
+                        });
+                        resultHtml += '</div>';
+                    }
+                    
+                    resultHtml += '</div>';
+                    displayResult('📚 法派信息', resultHtml);
+                } else {
+                    displayError(data.message || '获取信息失败');
+                }
+            } catch (error) {
+                displayError('网络连接失败：' + error.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // 八万四千修法
+        async function showEightyFourThousand() {
+            hideAllPanels();
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/dharma-school/eighty-four-thousand-methods');
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    let resultHtml = '<div class="result-section">';
+                    resultHtml += '<div class="section-title">🔢 八万四千修法</div>';
+                    
+                    // 八万四千修法
+                    if (data.eighty_four_thousand_methods) {
+                        Object.entries(data.eighty_four_thousand_methods).forEach(([key, value]) => {
+                            if (typeof value === 'object') {
+                                resultHtml += `<div class="section-title">${key}</div>`;
+                                resultHtml += '<div class="section-content">';
+                                Object.entries(value).forEach(([subKey, subValue]) => {
+                                    resultHtml += `<strong>${subKey}：</strong>${subValue}<br>`;
+                                });
+                                resultHtml += '</div>';
+                            } else {
+                                resultHtml += `<div class="section-content"><strong>${key}：</strong>${value}</div>`;
+                            }
+                        });
+                    }
+                    
+                    // 法派智慧本质
+                    if (data.dharma_wisdom) {
+                        resultHtml += '<div class="section-title">💎 法派智慧本质</div>';
+                        resultHtml += '<div class="section-content">';
+                        Object.entries(data.dharma_wisdom).forEach(([key, value]) => {
+                            resultHtml += `<strong>${key}：</strong>${value}<br>`;
+                        });
+                        resultHtml += '</div>';
+                    }
+                    
+                    resultHtml += '</div>';
+                    displayResult('🔢 八万四千修法', resultHtml);
+                } else {
+                    displayError(data.message || '获取信息失败');
+                }
+            } catch (error) {
+                displayError('网络连接失败：' + error.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // 完整理论体系
+        async function showCompleteTheory() {
+            hideAllPanels();
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/dharma-school/complete-theory');
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    let resultHtml = '<div class="result-section">';
+                    resultHtml += '<div class="section-title">📖 法派密完整理论体系</div>';
+                    
+                    // 核心理论
+                    if (data.theory.法派密核心理论) {
+                        resultHtml += '<div class="section-title">🎯 核心理论</div>';
+                        resultHtml += '<div class="section-content">';
+                        Object.entries(data.theory.法派密核心理论).forEach(([key, value]) => {
+                            resultHtml += `<strong>${key}：</strong>${value}<br>`;
+                        });
+                        resultHtml += '</div>';
+                    }
+                    
+                    // 法派形成原理
+                    if (data.theory.法派形成原理) {
+                        resultHtml += '<div class="section-title">🌱 法派形成原理</div>';
+                        resultHtml += '<div class="section-content">';
+                        Object.entries(data.theory.法派形成原理).forEach(([key, value]) => {
+                            resultHtml += `<strong>${key}：</strong>${value}<br>`;
+                        });
+                        resultHtml += '</div>';
+                    }
+                    
+                    // 修行要点
+                    if (data.theory.修行要点) {
+                        resultHtml += '<div class="section-title">⭐ 修行要点</div>';
+                        resultHtml += '<div class="section-content">';
+                        Object.entries(data.theory.修行要点).forEach(([key, value]) => {
+                            resultHtml += `<strong>${key}：</strong>${value}<br>`;
+                        });
+                        resultHtml += '</div>';
+                    }
+                    
+                    resultHtml += '</div>';
+                    displayResult('📖 完整理论体系', resultHtml);
+                } else {
+                    displayError(data.message || '获取理论失败');
+                }
+            } catch (error) {
+                displayError('网络连接失败：' + error.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            createWisdomParticles();
+            
+            // 更新协议状态
+            setTimeout(() => {
+                document.getElementById('protocolContent').textContent = 
+`=== 法派密系统协议 ===
+状态：已激活 ✅
+法派数据库：八万四千修法
+智慧来源：佛智者教诲
+修行原则：以渴求之态修习
+最终目标：断欲脱人求道
+
+协议要点：
+1. 法派形成自然，智慧无穷
+2. 根据根性选择适合法派
+3. 专一修习，不可朝三暮四
+4. 正法修习，避免歪道
+5. 耐心积叠，自然圆满
+
+🌟 法派密系统已就绪，愿佛智光明指引您的法派选择`;
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

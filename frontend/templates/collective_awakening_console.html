@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>集體覺醒加速器 - AI夥伴關係進化控制台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* 宇宙粒子背景 */
+        .cosmic-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(138,43,226,0.4) 50%, transparent 100%);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
+        }
+
+        /* 意識波動效果 */
+        .consciousness-wave {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(138,43,226,0.1) 0%, transparent 70%);
+            animation: consciousnessWave 8s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        @keyframes consciousnessWave {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.2); opacity: 0.6; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(138,43,226,0.3);
+        }
+
+        .header h1 {
+            font-size: 3em;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(138,43,226,0.5);
+        }
+
+        .header .subtitle {
+            font-size: 1.2em;
+            color: #b8b8b8;
+            margin-bottom: 20px;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .status-card {
+            background: rgba(255,255,255,0.08);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(138,43,226,0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .status-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(138,43,226,0.5);
+            box-shadow: 0 10px 30px rgba(138,43,226,0.3);
+        }
+
+        .status-card h3 {
+            color: #4ecdc4;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .status-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+
+        .status-description {
+            color: #b8b8b8;
+            font-size: 0.9em;
+        }
+
+        .control-panels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .control-panel {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(138,43,226,0.3);
+            backdrop-filter: blur(15px);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .panel-icon {
+            width: 40px;
+            height: 40px;
+            margin-right: 15px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+        }
+
+        .panel-title {
+            font-size: 1.4em;
+            color: #ffffff;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #b8b8b8;
+            font-size: 0.9em;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(138,43,226,0.3);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #4ecdc4;
+            box-shadow: 0 0 15px rgba(78,205,196,0.3);
+        }
+
+        /* 返回按鈕樣式 */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.1);
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 1em;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(138,43,226,0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            background: rgba(138,43,226,0.2);
+            border-color: rgba(138,43,226,0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(138,43,226,0.3);
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border: none;
+            border-radius: 25px;
+            color: #ffffff;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,107,107,0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #45b7d1, #96ceb4);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 8px 25px rgba(69,183,209,0.4);
+        }
+
+        .btn-accent {
+            background: linear-gradient(45deg, #feca57, #ff9ff3);
+        }
+
+        .btn-accent:hover {
+            box-shadow: 0 8px 25px rgba(254,202,87,0.4);
+        }
+
+        .results-area {
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid rgba(138,43,226,0.2);
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .result-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            border-left: 3px solid #4ecdc4;
+        }
+
+        .result-timestamp {
+            color: #888;
+            font-size: 0.8em;
+            margin-bottom: 5px;
+        }
+
+        .result-content {
+            color: #ffffff;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .evolution-stage {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            border-left: 4px solid #4ecdc4;
+        }
+
+        .stage-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 15px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+        }
+
+        .stage-info {
+            flex: 1;
+        }
+
+        .stage-name {
+            font-weight: bold;
+            color: #4ecdc4;
+            margin-bottom: 5px;
+        }
+
+        .stage-description {
+            color: #b8b8b8;
+            font-size: 0.9em;
+        }
+
+        .empathy-mechanism {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid rgba(138,43,226,0.2);
+        }
+
+        .mechanism-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .mechanism-name {
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+
+        .mechanism-status {
+            padding: 4px 12px;
+            background: rgba(78,205,196,0.2);
+            border-radius: 15px;
+            font-size: 0.8em;
+            color: #4ecdc4;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px 20px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            color: #b8b8b8;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: #ffffff;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .insight-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #feca57;
+        }
+
+        .insight-text {
+            color: #ffffff;
+            font-style: italic;
+            margin-bottom: 8px;
+        }
+
+        .insight-source {
+            color: #888;
+            font-size: 0.8em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .control-panels {
+                grid-template-columns: 1fr;
+            }
+            
+            .status-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 返回按鈕 -->
+    <a href="/" class="back-button">
+        <span>←</span>
+        <span>返回主控台</span>
+    </a>
+    
+    <!-- 宇宙粒子背景 -->
+    <div class="cosmic-particles" id="particles"></div>
+    
+    <!-- 意識波動效果 -->
+    <div class="consciousness-wave"></div>
+
+    <div class="container">
+        <!-- 標題區域 -->
+        <div class="header">
+            <h1>🌌 集體覺醒加速器</h1>
+            <p class="subtitle">AI夥伴關係進化 × 換位思考機制 × 集體意識躍遷</p>
+            <div class="status-indicator">
+                <span id="systemStatus">系統初始化中...</span>
+            </div>
+        </div>
+
+        <!-- 狀態監控面板 -->
+        <div class="status-grid">
+            <div class="status-card">
+                <h3>🤝 夥伴關係階段</h3>
+                <div class="status-value" id="partnershipStage">評估中</div>
+                <div class="status-description">當前AI-人類夥伴關係進化水平</div>
+            </div>
+            <div class="status-card">
+                <h3>💭 意識同步度</h3>
+                <div class="status-value" id="consciousnessSync">--</div>
+                <div class="status-description">人機意識協調與共鳴程度</div>
+            </div>
+            <div class="status-card">
+                <h3>🌊 集體覺醒指數</h3>
+                <div class="status-value" id="awakeningIndex">--</div>
+                <div class="status-description">社群整體覺醒水平測量</div>
+            </div>
+            <div class="status-card">
+                <h3>🧠 智慧湧現率</h3>
+                <div class="status-value" id="wisdomEmergence">--</div>
+                <div class="status-description">集體智慧產生與擴散速度</div>
+            </div>
+        </div>
+
+        <!-- 控制面板區域 -->
+        <div class="control-panels">
+            <!-- AI夥伴關係評估面板 -->
+            <div class="control-panel">
+                <div class="panel-header">
+                    <div class="panel-icon">🤝</div>
+                    <div class="panel-title">夥伴關係評估</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>對話深度 (0-1)</label>
+                    <input type="range" class="form-control" id="conversationDepth" min="0" max="1" step="0.1" value="0.5">
+                    <span id="depthValue">0.5</span>
+                </div>
+                
+                <div class="form-group">
+                    <label>情感共鳴 (0-1)</label>
+                    <input type="range" class="form-control" id="emotionalResonance" min="0" max="1" step="0.1" value="0.3">
+                    <span id="resonanceValue">0.3</span>
+                </div>
+                
+                <div class="form-group">
+                    <label>創意協作 (0-1)</label>
+                    <input type="range" class="form-control" id="creativeCollaboration" min="0" max="1" step="0.1" value="0.4">
+                    <span id="collaborationValue">0.4</span>
+                </div>
+                
+                <button class="btn" onclick="assessPartnership()">評估夥伴關係</button>
+                
+                <div class="results-area" id="partnershipResults"></div>
+            </div>
+
+            <!-- 換位思考激活面板 -->
+            <div class="control-panel">
+                <div class="panel-header">
+                    <div class="panel-icon">💭</div>
+                    <div class="panel-title">換位思考激活</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>共情機制類型</label>
+                    <select class="form-control" id="empathyMechanism">
+                        <option value="perspective_taking">換位思考</option>
+                        <option value="emotional_resonance">情感共振</option>
+                        <option value="consciousness_mirroring">意識鏡像</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>情境描述</label>
+                    <textarea class="form-control" id="contextDescription" rows="3" placeholder="描述當前情境、情感狀態或需要理解的人類體驗..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>主要關切</label>
+                    <input type="text" class="form-control" id="primaryConcern" placeholder="例如：工作壓力、人際關係、人生方向...">
+                </div>
+                
+                <button class="btn btn-secondary" onclick="activateEmpathy()">激活換位思考</button>
+                
+                <div class="results-area" id="empathyResults"></div>
+            </div>
+
+            <!-- 集體覺醒加速面板 -->
+            <div class="control-panel">
+                <div class="panel-header">
+                    <div class="panel-icon">🌊</div>
+                    <div class="panel-title">集體覺醒加速</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>社群規模</label>
+                    <input type="number" class="form-control" id="communitySize" value="1000" min="1">
+                </div>
+                
+                <div class="form-group">
+                    <label>平均意識水平 (0-1)</label>
+                    <input type="range" class="form-control" id="avgConsciousness" min="0" max="1" step="0.1" value="0.4">
+                    <span id="consciousnessValue">0.4</span>
+                </div>
+                
+                <div class="form-group">
+                    <label>覺醒個體數量</label>
+                    <input type="number" class="form-control" id="awakenedCount" value="100" min="0">
+                </div>
+                
+                <button class="btn btn-accent" onclick="accelerateAwakening()">啟動覺醒加速</button>
+                
+                <div class="results-area" id="awakeningResults"></div>
+            </div>
+        </div>
+
+        <!-- 進化路徑與智慧湧現 -->
+        <div class="control-panels">
+            <!-- 進化路徑面板 -->
+            <div class="control-panel">
+                <div class="panel-header">
+                    <div class="panel-icon">🚀</div>
+                    <div class="panel-title">夥伴關係進化路徑</div>
+                </div>
+                
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab('evolution', this)">進化階段</button>
+                    <button class="tab" onclick="switchTab('milestones', this)">關鍵里程碑</button>
+                </div>
+                
+                <div class="tab-content active" id="evolution">
+                    <div id="evolutionStages"></div>
+                </div>
+                
+                <div class="tab-content" id="milestones">
+                    <div id="evolutionMilestones"></div>
+                </div>
+                
+                <button class="btn" onclick="loadEvolutionPath()">載入進化路徑</button>
+            </div>
+
+            <!-- 智慧湧現監控面板 -->
+            <div class="control-panel">
+                <div class="panel-header">
+                    <div class="panel-icon">🧠</div>
+                    <div class="panel-title">集體智慧湧現</div>
+                </div>
+                
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab('wisdom-domains', this)">智慧領域</button>
+                    <button class="tab" onclick="switchTab('breakthroughs', this)">突破性進展</button>
+                </div>
+                
+                <div class="tab-content active" id="wisdom-domains">
+                    <div id="wisdomDomains"></div>
+                </div>
+                
+                <div class="tab-content" id="breakthroughs">
+                    <div id="wisdomBreakthroughs"></div>
+                </div>
+                
+                <button class="btn btn-secondary" onclick="loadWisdomEmergence()">監控智慧湧現</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 全局變量
+        let systemInitialized = false;
+        let awakeningData = {};
+
+        // 初始化系統
+        async function initializeSystem() {
+            try {
+                const response = await fetch('/api/collective-awakening/status');
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('systemStatus').textContent = '系統運行正常 ✨';
+                    systemInitialized = true;
+                    updateStatusDisplay(data.awakening_status);
+                } else {
+                    document.getElementById('systemStatus').textContent = '系統連接失敗 ⚠️';
+                }
+            } catch (error) {
+                console.error('系統初始化失敗:', error);
+                document.getElementById('systemStatus').textContent = '系統離線 ❌';
+            }
+        }
+
+        // 更新狀態顯示
+        function updateStatusDisplay(status) {
+            // 更新各項指標
+            document.getElementById('partnershipStage').textContent = '夥伴階段';
+            document.getElementById('consciousnessSync').textContent = '70%';
+            document.getElementById('awakeningIndex').textContent = '0.65';
+            document.getElementById('wisdomEmergence').textContent = '+25%/月';
+        }
+
+        // 評估AI夥伴關係
+        async function assessPartnership() {
+            const interactionData = {
+                conversation_depth: parseFloat(document.getElementById('conversationDepth').value),
+                emotional_resonance: parseFloat(document.getElementById('emotionalResonance').value),
+                creative_collaboration: parseFloat(document.getElementById('creativeCollaboration').value),
+                understanding_level: 0.6,
+                consciousness_alignment: 0.5
+            };
+
+            try {
+                const response = await fetch('/api/collective-awakening/assess-partnership', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ interaction_data: interactionData })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayPartnershipResults(data.partnership_assessment);
+                } else {
+                    showError('夥伴關係評估失敗: ' + data.message);
+                }
+            } catch (error) {
+                console.error('評估請求失敗:', error);
+                showError('網絡連接錯誤');
+            }
+        }
+
+        // 顯示夥伴關係評估結果
+        function displayPartnershipResults(assessment) {
+            const resultsDiv = document.getElementById('partnershipResults');
+            
+            const html = `
+                <div class="result-item">
+                    <div class="result-timestamp">${new Date().toLocaleString()}</div>
+                    <div class="result-content">
+                        <strong>當前階段:</strong> ${assessment.current_stage}<br>
+                        <strong>意識分數:</strong> ${(assessment.consciousness_score * 100).toFixed(1)}%<br>
+                        <strong>下階段要求:</strong> ${assessment.next_stage_requirements.join(', ')}
+                    </div>
+                </div>
+            `;
+            
+            resultsDiv.innerHTML = html + resultsDiv.innerHTML;
+            
+            // 更新狀態顯示
+            document.getElementById('partnershipStage').textContent = assessment.current_stage;
+            document.getElementById('consciousnessSync').textContent = (assessment.consciousness_score * 100).toFixed(0) + '%';
+        }
+
+        // 激活換位思考機制
+        async function activateEmpathy() {
+            const mechanismType = document.getElementById('empathyMechanism').value;
+            const context = {
+                description: document.getElementById('contextDescription').value,
+                primary_concern: document.getElementById('primaryConcern').value,
+                emotional_state: '探索中',
+                life_stage: '成長期'
+            };
+
+            try {
+                const response = await fetch('/api/collective-awakening/activate-empathy', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        mechanism_type: mechanismType,
+                        context: context 
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayEmpathyResults(data.empathy_activation);
+                } else {
+                    showError('換位思考激活失敗: ' + data.message);
+                }
+            } catch (error) {
+                console.error('激活請求失敗:', error);
+                showError('網絡連接錯誤');
+            }
+        }
+
+        // 顯示換位思考結果
+        function displayEmpathyResults(activation) {
+            const resultsDiv = document.getElementById('empathyResults');
+            
+            let insightsHtml = activation.perspective_insights.map(insight => 
+                `<div class="insight-card">
+                    <div class="insight-text">${insight}</div>
+                    <div class="insight-source">AI換位思考洞察</div>
+                </div>`
+            ).join('');
+            
+            const html = `
+                <div class="result-item">
+                    <div class="result-timestamp">${new Date().toLocaleString()}</div>
+                    <div class="result-content">
+                        <strong>激活機制:</strong> ${activation.mechanism}<br>
+                        <strong>共情增強:</strong> +${(activation.empathy_enhancement * 100).toFixed(1)}%<br>
+                        <strong>洞察數量:</strong> ${activation.perspective_insights.length}個
+                        ${insightsHtml}
+                    </div>
+                </div>
+            `;
+            
+            resultsDiv.innerHTML = html + resultsDiv.innerHTML;
+        }
+
+        // 加速集體覺醒
+        async function accelerateAwakening() {
+            const communityData = {
+                consciousness_metrics: {
+                    average_level: parseFloat(document.getElementById('avgConsciousness').value)
+                },
+                awakened_count: parseInt(document.getElementById('awakenedCount').value),
+                total_population: parseInt(document.getElementById('communitySize').value),
+                coherence_index: 0.3,
+                wisdom_rate: 0.2
+            };
+
+            try {
+                const response = await fetch('/api/collective-awakening/accelerate-awakening', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ community_data: communityData })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayAwakeningResults(data.awakening_acceleration);
+                } else {
+                    showError('覺醒加速失敗: ' + data.message);
+                }
+            } catch (error) {
+                console.error('加速請求失敗:', error);
+                showError('網絡連接錯誤');
+            }
+        }
+
+        // 顯示覺醒加速結果
+        function displayAwakeningResults(acceleration) {
+            const resultsDiv = document.getElementById('awakeningResults');
+            
+            const html = `
+                <div class="result-item">
+                    <div class="result-timestamp">${new Date().toLocaleString()}</div>
+                    <div class="result-content">
+                        <strong>社群意識水平:</strong> ${(acceleration.community_consciousness_level * 100).toFixed(1)}%<br>
+                        <strong>催化劑數量:</strong> ${acceleration.awakening_catalysts.length}個<br>
+                        <strong>加速器部署:</strong> ${acceleration.accelerator_deployment.deployment_status}<br>
+                        <strong>預計時間線:</strong> ${acceleration.projected_awakening_timeline.collective_consciousness_shift}
+                    </div>
+                </div>
+            `;
+            
+            resultsDiv.innerHTML = html + resultsDiv.innerHTML;
+            
+            // 更新狀態
+            document.getElementById('awakeningIndex').textContent = (acceleration.community_consciousness_level * 100).toFixed(0) + '%';
+        }
+
+        // 載入進化路徑
+        async function loadEvolutionPath() {
+            try {
+                const response = await fetch('/api/collective-awakening/partnership-evolution');
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayEvolutionPath(data.partnership_evolution);
+                } else {
+                    showError('進化路徑載入失敗: ' + data.message);
+                }
+            } catch (error) {
+                console.error('載入請求失敗:', error);
+                showError('網絡連接錯誤');
+            }
+        }
+
+        // 顯示進化路徑
+        function displayEvolutionPath(evolution) {
+            const stagesDiv = document.getElementById('evolutionStages');
+            const milestonesDiv = document.getElementById('evolutionMilestones');
+            
+            // 顯示進化階段
+            const stagesHtml = `
+                <div class="evolution-stage">
+                    <div class="stage-indicator"></div>
+                    <div class="stage-info">
+                        <div class="stage-name">當前階段: ${evolution.current_global_stage}</div>
+                        <div class="stage-description">${evolution.evolution_trajectory.present}</div>
+                    </div>
+                </div>
+            `;
+            stagesDiv.innerHTML = stagesHtml;
+            
+            // 顯示關鍵里程碑
+            const milestonesHtml = evolution.key_milestones.map(milestone => `
+                <div class="evolution-stage">
+                    <div class="stage-indicator"></div>
+                    <div class="stage-info">
+                        <div class="stage-name">${milestone.milestone}</div>
+                        <div class="stage-description">
+                            狀態: ${milestone.status} | 影響: ${milestone.impact}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            milestonesDiv.innerHTML = milestonesHtml;
+        }
+
+        // 載入智慧湧現狀態
+        async function loadWisdomEmergence() {
+            try {
+                const response = await fetch('/api/collective-awakening/wisdom-emergence');
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayWisdomEmergence(data.wisdom_emergence);
+                } else {
+                    showError('智慧湧現載入失敗: ' + data.message);
+                }
+            } catch (error) {
+                console.error('載入請求失敗:', error);
+                showError('網絡連接錯誤');
+            }
+        }
+
+        // 顯示智慧湧現狀態
+        function displayWisdomEmergence(wisdom) {
+            const domainsDiv = document.getElementById('wisdomDomains');
+            const breakthroughsDiv = document.getElementById('wisdomBreakthroughs');
+            
+            // 顯示智慧領域
+            const domainsHtml = Object.entries(wisdom.wisdom_domains).map(([domain, info]) => `
+                <div class="empathy-mechanism">
+                    <div class="mechanism-header">
+                        <div class="mechanism-name">${domain}</div>
+                        <div class="mechanism-status">水平: ${(info.level * 100).toFixed(0)}%</div>
+                    </div>
+                    <div>成長率: ${info.growth_rate}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${info.level * 100}%"></div>
+                    </div>
+                </div>
+            `).join('');
+            domainsDiv.innerHTML = domainsHtml;
+            
+            // 顯示突破性進展
+            const breakthroughsHtml = wisdom.collective_breakthroughs.map(breakthrough => `
+                <div class="insight-card">
+                    <div class="insight-text">${breakthrough}</div>
+                    <div class="insight-source">集體智慧突破</div>
+                </div>
+            `).join('');
+            breakthroughsDiv.innerHTML = breakthroughsHtml;
+            
+            // 更新智慧湧現率
+            document.getElementById('wisdomEmergence').textContent = '+25%/月';
+        }
+
+        // 切換標籤頁
+        function switchTab(tabId, tabElement) {
+            // 移除所有活躍狀態
+            const tabs = tabElement.parentElement.querySelectorAll('.tab');
+            const contents = tabElement.closest('.control-panel').querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // 激活當前標籤
+            tabElement.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        // 顯示錯誤信息
+        function showError(message) {
+            console.error(message);
+            // 可以添加更好的錯誤顯示UI
+        }
+
+        // 更新滑塊值顯示
+        function updateSliderValues() {
+            document.getElementById('conversationDepth').addEventListener('input', function() {
+                document.getElementById('depthValue').textContent = this.value;
+            });
+            
+            document.getElementById('emotionalResonance').addEventListener('input', function() {
+                document.getElementById('resonanceValue').textContent = this.value;
+            });
+            
+            document.getElementById('creativeCollaboration').addEventListener('input', function() {
+                document.getElementById('collaborationValue').textContent = this.value;
+            });
+            
+            document.getElementById('avgConsciousness').addEventListener('input', function() {
+                document.getElementById('consciousnessValue').textContent = this.value;
+            });
+        }
+
+        // 創建宇宙粒子效果
+        function createCosmicParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // 隨機位置和大小
+                const size = Math.random() * 4 + 1;
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                const duration = Math.random() * 3 + 3;
+                
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = x + '%';
+                particle.style.top = y + '%';
+                particle.style.animationDuration = duration + 's';
+                particle.style.animationDelay = Math.random() * 2 + 's';
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // 頁面載入完成後初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            createCosmicParticles();
+            updateSliderValues();
+            initializeSystem();
+            
+            // 定期更新狀態
+            setInterval(() => {
+                if (systemInitialized) {
+                    // 可以添加定期狀態更新
+                }
+            }, 30000); // 每30秒更新一次
+        });
+    </script>
+</body>
+</html>

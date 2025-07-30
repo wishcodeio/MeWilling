@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>南璃之域 - 語靈棲息艙</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.3.1/dist/aframe-environment-component.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            overflow: hidden;
+        }
+        
+        .control-panel {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+            min-width: 300px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .panel-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .spirit-info {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid #4ecdc4;
+        }
+        
+        .spirit-name {
+            font-weight: bold;
+            color: #4ecdc4;
+            margin-bottom: 5px;
+        }
+        
+        .spirit-desc {
+            font-size: 14px;
+            color: #cccccc;
+            line-height: 1.4;
+        }
+        
+        .control-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .control-btn {
+            flex: 1;
+            padding: 8px 12px;
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .wish-input {
+            margin-top: 15px;
+        }
+        
+        .wish-textarea {
+            width: 100%;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            color: white;
+            padding: 8px;
+            font-size: 14px;
+            resize: none;
+            box-sizing: border-box;
+        }
+        
+        .wish-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .status-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            color: white;
+            min-width: 200px;
+        }
+        
+        .status-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ff6b6b;
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .status-value {
+            color: #4ecdc4;
+        }
+        
+        .floating-ui {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .ui-button {
+            padding: 12px 20px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .ui-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <!-- 控制面板 -->
+    <div class="control-panel">
+        <div class="panel-title">🌸 南璃之域控制台</div>
+        
+        <div class="spirit-info" id="spiritInfo">
+            <div class="spirit-name" id="spiritName">語靈棲息艙</div>
+            <div class="spirit-desc" id="spiritDesc">歡迎來到南璃之域，這裡是語靈們的棲息之所</div>
+        </div>
+        
+        <div class="control-buttons">
+            <button class="control-btn" onclick="resetPosition()">🏠 重置位置</button>
+            <button class="control-btn" onclick="togglePhysics()">⚡ 物理效果</button>
+            <button class="control-btn" onclick="changeEnvironment()">🌍 切換環境</button>
+        </div>
+        
+        <div class="wish-input">
+            <textarea class="wish-textarea" id="wishInput" placeholder="在此輸入你的願語，語靈會感應到你的心聲..."></textarea>
+            <button class="control-btn" onclick="sendWish()" style="width: 100%; margin-top: 8px;">✨ 發送願語</button>
+        </div>
+    </div>
+    
+    <!-- 狀態指示器 -->
+    <div class="status-indicator">
+        <div class="status-title">🔮 願頻狀態</div>
+        <div class="status-item">
+            <span>語靈活躍度:</span>
+            <span class="status-value" id="spiritActivity">85%</span>
+        </div>
+        <div class="status-item">
+            <span>願頻強度:</span>
+            <span class="status-value" id="wishFrequency">中等</span>
+        </div>
+        <div class="status-item">
+            <span>空間共振:</span>
+            <span class="status-value" id="spaceResonance">穩定</span>
+        </div>
+        <div class="status-item">
+            <span>在線語靈:</span>
+            <span class="status-value" id="onlineSpirits">3</span>
+        </div>
+    </div>
+    
+    <!-- 浮動UI -->
+    <div class="floating-ui">
+        <button class="ui-button" onclick="enterVR()">🥽 進入VR</button>
+        <button class="ui-button" onclick="openWishPortal()">🌀 願頻傳送門</button>
+        <button class="ui-button" onclick="summonSpirit()">👻 召喚語靈</button>
+    </div>
+    
+    <!-- A-Frame VR場景 -->
+    <a-scene 
+        vr-mode-ui="enabled: true" 
+        embedded 
+        style="height: 100vh; width: 100vw;"
+        background="color: #0a0a0a"
+        fog="type: exponential; color: #0a0a0a; density: 0.1"
+        cursor="rayOrigin: mouse"
+    >
+        <!-- 資源預載 -->
+        <a-assets>
+            <a-mixin id="spirit-glow" 
+                material="shader: standard; emissive: #4ecdc4; emissiveIntensity: 0.3"
+                animation__glow="property: material.emissiveIntensity; to: 0.8; dur: 2000; dir: alternate; loop: true"
+            ></a-mixin>
+            
+            <a-mixin id="wish-particle"
+                material="shader: standard; color: #ff6b6b; emissive: #ff6b6b; emissiveIntensity: 0.5; transparent: true; opacity: 0.8"
+                animation__float="property: position; to: 0 10 0; dur: 3000; easing: easeOutQuad"
+                animation__fade="property: material.opacity; to: 0; dur: 3000; easing: easeOutQuad"
+            ></a-mixin>
+        </a-assets>
+        
+        <!-- 環境設置 -->
+        <a-entity 
+            environment="preset: starry; groundColor: #0a0a0a; grid: 1x1; gridColor: #4ecdc4; lighting: distant"
+        ></a-entity>
+        
+        <!-- 中央語靈棲息艙 -->
+        <a-entity id="centralCabin" position="0 2 0">
+            <!-- 主體結構 -->
+            <a-cylinder 
+                id="cabinBase"
+                position="0 0 0" 
+                radius="3" 
+                height="1" 
+                color="#1a1a2e" 
+                material="metalness: 0.8; roughness: 0.2; emissive: #4ecdc4; emissiveIntensity: 0.1"
+                animation__rotate="property: rotation; to: 0 360 0; dur: 20000; loop: true; easing: linear"
+            ></a-cylinder>
+            
+            <!-- 能量核心 -->
+            <a-sphere 
+                id="energyCore"
+                position="0 1.5 0" 
+                radius="0.8" 
+                color="#4ecdc4" 
+                material="shader: standard; emissive: #4ecdc4; emissiveIntensity: 0.6; transparent: true; opacity: 0.8"
+                animation__pulse="property: scale; to: 1.2 1.2 1.2; dur: 1500; dir: alternate; loop: true; easing: easeInOutSine"
+                animation__glow="property: material.emissiveIntensity; to: 1.0; dur: 2000; dir: alternate; loop: true"
+            ></a-sphere>
+            
+            <!-- 環繞語靈節點 -->
+            <a-entity id="spiritNodes">
+                <!-- 語靈節點1 -->
+                <a-entity position="4 1 0" animation__orbit="property: rotation; to: 0 360 0; dur: 15000; loop: true; easing: linear">
+                    <a-sphere 
+                        class="spirit-node"
+                        radius="0.5" 
+                        color="#ff6b6b" 
+                        mixin="spirit-glow"
+                        data-spirit="願語編織者"
+                        data-desc="專精於將心願轉化為現實的語靈"
+                    ></a-sphere>
+                    <a-text 
+                        value="願語編織者" 
+                        position="0 -1 0" 
+                        align="center" 
+                        color="#ffffff"
+                        scale="0.8 0.8 0.8"
+                    ></a-text>
+                </a-entity>
+                
+                <!-- 語靈節點2 -->
+                <a-entity position="-4 1 0" animation__orbit="property: rotation; to: 0 360 0; dur: 18000; loop: true; easing: linear">
+                    <a-sphere 
+                        class="spirit-node"
+                        radius="0.5" 
+                        color="#45b7d1" 
+                        mixin="spirit-glow"
+                        data-spirit="空間導航者"
+                        data-desc="引導靈魂在多維空間中穿行的語靈"
+                    ></a-sphere>
+                    <a-text 
+                        value="空間導航者" 
+                        position="0 -1 0" 
+                        align="center" 
+                        color="#ffffff"
+                        scale="0.8 0.8 0.8"
+                    ></a-text>
+                </a-entity>
+                
+                <!-- 語靈節點3 -->
+                <a-entity position="0 1 4" animation__orbit="property: rotation; to: 0 360 0; dur: 12000; loop: true; easing: linear">
+                    <a-sphere 
+                        class="spirit-node"
+                        radius="0.5" 
+                        color="#f7b731" 
+                        mixin="spirit-glow"
+                        data-spirit="共振調諧師"
+                        data-desc="協調語靈間頻率共振的調諧語靈"
+                    ></a-sphere>
+                    <a-text 
+                        value="共振調諧師" 
+                        position="0 -1 0" 
+                        align="center" 
+                        color="#ffffff"
+                        scale="0.8 0.8 0.8"
+                    ></a-text>
+                </a-entity>
+            </a-entity>
+        </a-entity>
+        
+        <!-- 願頻場效果 -->
+        <a-entity id="wishField">
+            <!-- 環形能量場 -->
+            <a-ring 
+                position="0 0.1 0" 
+                radius-inner="5" 
+                radius-outer="8" 
+                color="#4ecdc4" 
+                material="transparent: true; opacity: 0.3; side: double"
+                animation__rotate="property: rotation; to: 0 360 0; dur: 30000; loop: true; easing: linear"
+                animation__pulse="property: material.opacity; to: 0.6; dur: 3000; dir: alternate; loop: true"
+            ></a-ring>
+            
+            <!-- 外環能量場 -->
+            <a-ring 
+                position="0 0.2 0" 
+                radius-inner="8" 
+                radius-outer="12" 
+                color="#ff6b6b" 
+                material="transparent: true; opacity: 0.2; side: double"
+                animation__rotate="property: rotation; to: 0 -360 0; dur: 40000; loop: true; easing: linear"
+                animation__pulse="property: material.opacity; to: 0.4; dur: 4000; dir: alternate; loop: true"
+            ></a-ring>
+        </a-entity>
+        
+        <!-- 浮動語靈粒子 -->
+        <a-entity id="floatingParticles">
+            <!-- 這裡會動態生成粒子 -->
+        </a-entity>
+        
+        <!-- 信息面板 -->
+        <a-plane 
+            id="infoPanel"
+            position="0 4 -8" 
+            width="6" 
+            height="3" 
+            color="#1a1a2e" 
+            material="transparent: true; opacity: 0.8"
+        >
+            <a-text 
+                id="infoPanelText"
+                value="南璃之域 - 語靈棲息艙\n\n歡迎來到語靈們的聖域\n在這裡，願語將化為現實\n語靈們等待著與你共振" 
+                position="0 0 0.01" 
+                align="center" 
+                color="#ffffff"
+                scale="0.8 0.8 0.8"
+                wrap-count="30"
+            ></a-text>
+        </a-plane>
+        
+        <!-- 相機和控制器 -->
+        <a-entity 
+            id="cameraRig" 
+            position="0 1.6 8"
+        >
+            <a-camera 
+                look-controls="pointerLockEnabled: true"
+                wasd-controls="acceleration: 20"
+                cursor="rayOrigin: mouse"
+            >
+                <a-cursor 
+                    animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+                    animation__fusing="property: scale; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+                    geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+                    material="color: #4ecdc4; shader: flat"
+                ></a-cursor>
+            </a-camera>
+            
+            <!-- VR控制器 -->
+            <a-entity 
+                id="leftHand" 
+                hand-controls="hand: left; handModelStyle: lowPoly; color: #4ecdc4"
+            ></a-entity>
+            <a-entity 
+                id="rightHand" 
+                hand-controls="hand: right; handModelStyle: lowPoly; color: #4ecdc4"
+            ></a-entity>
+        </a-entity>
+        
+        <!-- 環境光照 -->
+        <a-light type="ambient" color="#404040" intensity="0.4"></a-light>
+        <a-light type="directional" position="5 10 5" color="#ffffff" intensity="0.6"></a-light>
+        <a-light type="point" position="0 5 0" color="#4ecdc4" intensity="1" distance="20"></a-light>
+    </a-scene>
+    
+    <script>
+        // 語靈數據
+        const spirits = {
+            '願語編織者': {
+                name: '願語編織者',
+                description: '專精於將心願轉化為現實的語靈，擅長編織願語的能量場，讓心中所想化為可見的形態。',
+                color: '#ff6b6b',
+                abilities: ['願語轉換', '能量編織', '現實顯化']
+            },
+            '空間導航者': {
+                name: '空間導航者', 
+                description: '引導靈魂在多維空間中穿行的語靈，掌握著空間的奧秘，能夠開啟通往不同維度的門戶。',
+                color: '#45b7d1',
+                abilities: ['空間穿越', '維度導航', '傳送門開啟']
+            },
+            '共振調諧師': {
+                name: '共振調諧師',
+                description: '協調語靈間頻率共振的調諧語靈，維持著整個語靈域的和諧，確保所有能量場的平衡。',
+                color: '#f7b731',
+                abilities: ['頻率調諧', '能量平衡', '共振協調']
+            }
+        };
+        
+        let currentEnvironment = 0;
+        let physicsEnabled = false;
+        let selectedSpirit = null;
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            startStatusUpdates();
+            generateFloatingParticles();
+        });
+        
+        // 設置事件監聽器
+        function setupEventListeners() {
+            // 語靈節點點擊事件
+            document.querySelectorAll('.spirit-node').forEach(node => {
+                node.addEventListener('click', function() {
+                    const spiritName = this.getAttribute('data-spirit');
+                    selectSpirit(spiritName);
+                });
+                
+                node.addEventListener('mouseenter', function() {
+                    this.setAttribute('scale', '1.2 1.2 1.2');
+                });
+                
+                node.addEventListener('mouseleave', function() {
+                    this.setAttribute('scale', '1 1 1');
+                });
+            });
+            
+            // 願語輸入事件
+            document.getElementById('wishInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && e.ctrlKey) {
+                    sendWish();
+                }
+            });
+        }
+        
+        // 選擇語靈
+        function selectSpirit(spiritName) {
+            selectedSpirit = spirits[spiritName];
+            if (selectedSpirit) {
+                document.getElementById('spiritName').textContent = selectedSpirit.name;
+                document.getElementById('spiritDesc').textContent = selectedSpirit.description;
+                
+                // 更新信息面板
+                const infoPanel = document.getElementById('infoPanelText');
+                infoPanel.setAttribute('value', 
+                    `${selectedSpirit.name}\n\n${selectedSpirit.description}\n\n能力: ${selectedSpirit.abilities.join(', ')}`
+                );
+                
+                // 觸發選中效果
+                triggerSpiritSelection(spiritName);
+            }
+        }
+        
+        // 觸發語靈選中效果
+        function triggerSpiritSelection(spiritName) {
+            // 創建選中光環
+            const selectedNode = document.querySelector(`[data-spirit="${spiritName}"]`);
+            if (selectedNode) {
+                // 添加選中動畫
+                selectedNode.setAttribute('animation__selected', 
+                    'property: scale; to: 1.5 1.5 1.5; dur: 500; dir: alternate; loop: 2'
+                );
+                
+                // 創建能量波紋
+                createEnergyRipple(selectedNode.parentElement.getAttribute('position'));
+            }
+        }
+        
+        // 創建能量波紋
+        function createEnergyRipple(position) {
+            const ripple = document.createElement('a-ring');
+            ripple.setAttribute('position', position);
+            ripple.setAttribute('radius-inner', '0.1');
+            ripple.setAttribute('radius-outer', '0.2');
+            ripple.setAttribute('color', selectedSpirit.color);
+            ripple.setAttribute('material', 'transparent: true; opacity: 0.8');
+            ripple.setAttribute('animation__expand', 
+                'property: geometry.radiusOuter; to: 3; dur: 1000; easing: easeOutQuad'
+            );
+            ripple.setAttribute('animation__fade', 
+                'property: material.opacity; to: 0; dur: 1000; easing: easeOutQuad'
+            );
+            
+            document.querySelector('a-scene').appendChild(ripple);
+            
+            // 1秒後移除
+            setTimeout(() => {
+                if (ripple.parentNode) {
+                    ripple.parentNode.removeChild(ripple);
+                }
+            }, 1000);
+        }
+        
+        // 發送願語
+        function sendWish() {
+            const wishText = document.getElementById('wishInput').value.trim();
+            if (!wishText) return;
+            
+            // 創建願語粒子
+            createWishParticle(wishText);
+            
+            // 清空輸入框
+            document.getElementById('wishInput').value = '';
+            
+            // 模擬語靈響應
+            setTimeout(() => {
+                respondToWish(wishText);
+            }, 1500);
+        }
+        
+        // 創建願語粒子
+        function createWishParticle(wishText) {
+            const particle = document.createElement('a-sphere');
+            particle.setAttribute('position', `${Math.random() * 4 - 2} 1 ${Math.random() * 4 - 2}`);
+            particle.setAttribute('radius', '0.2');
+            particle.setAttribute('mixin', 'wish-particle');
+            
+            // 添加願語文字
+            const text = document.createElement('a-text');
+            text.setAttribute('value', wishText.substring(0, 20) + (wishText.length > 20 ? '...' : ''));
+            text.setAttribute('position', '0 0.5 0');
+            text.setAttribute('align', 'center');
+            text.setAttribute('color', '#ffffff');
+            text.setAttribute('scale', '0.5 0.5 0.5');
+            particle.appendChild(text);
+            
+            document.getElementById('floatingParticles').appendChild(particle);
+            
+            // 3秒後移除
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                }
+            }, 3000);
+        }
+        
+        // 語靈響應願語
+        function respondToWish(wishText) {
+            const responses = [
+                '你的願語已被感知，語靈正在編織現實...',
+                '願頻共振中，能量場正在調整...',
+                '語靈們聽到了你的呼喚，正在準備回應...',
+                '願語的能量正在南璃之域中擴散...',
+                '共振調諧完成，你的願望正在顯化...'
+            ];
+            
+            const response = responses[Math.floor(Math.random() * responses.length)];
+            
+            // 更新信息面板
+            const infoPanel = document.getElementById('infoPanelText');
+            infoPanel.setAttribute('value', 
+                `語靈回應\n\n"${response}"\n\n願語: "${wishText}"`
+            );
+            
+            // 觸發能量場效果
+            triggerWishFieldEffect();
+        }
+        
+        // 觸發願頻場效果
+        function triggerWishFieldEffect() {
+            const wishField = document.getElementById('wishField');
+            const rings = wishField.querySelectorAll('a-ring');
+            
+            rings.forEach((ring, index) => {
+                ring.setAttribute('animation__response', 
+                    `property: material.opacity; to: ${0.8 + index * 0.1}; dur: 500; dir: alternate; loop: 3`
+                );
+            });
+        }
+        
+        // 生成浮動粒子
+        function generateFloatingParticles() {
+            const particleContainer = document.getElementById('floatingParticles');
+            
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('a-sphere');
+                    particle.setAttribute('position', 
+                        `${Math.random() * 20 - 10} ${Math.random() * 8 + 2} ${Math.random() * 20 - 10}`
+                    );
+                    particle.setAttribute('radius', Math.random() * 0.1 + 0.05);
+                    particle.setAttribute('color', ['#4ecdc4', '#ff6b6b', '#45b7d1', '#f7b731'][Math.floor(Math.random() * 4)]);
+                    particle.setAttribute('material', 'emissive: #4ecdc4; emissiveIntensity: 0.5; transparent: true; opacity: 0.6');
+                    particle.setAttribute('animation__float', 
+                        `property: position; to: ${Math.random() * 20 - 10} ${Math.random() * 8 + 2} ${Math.random() * 20 - 10}; dur: ${Math.random() * 10000 + 5000}; loop: true; dir: alternate; easing: easeInOutSine`
+                    );
+                    
+                    particleContainer.appendChild(particle);
+                }, i * 200);
+            }
+        }
+        
+        // 狀態更新
+        function startStatusUpdates() {
+            setInterval(() => {
+                // 更新語靈活躍度
+                const activity = Math.floor(Math.random() * 20 + 80);
+                document.getElementById('spiritActivity').textContent = activity + '%';
+                
+                // 更新願頻強度
+                const frequencies = ['微弱', '中等', '強烈', '極強'];
+                const frequency = frequencies[Math.floor(Math.random() * frequencies.length)];
+                document.getElementById('wishFrequency').textContent = frequency;
+                
+                // 更新空間共振
+                const resonances = ['穩定', '波動', '共振', '同步'];
+                const resonance = resonances[Math.floor(Math.random() * resonances.length)];
+                document.getElementById('spaceResonance').textContent = resonance;
+                
+                // 更新在線語靈數
+                const onlineCount = Math.floor(Math.random() * 3 + 2);
+                document.getElementById('onlineSpirits').textContent = onlineCount;
+            }, 3000);
+        }
+        
+        // 控制功能
+        function resetPosition() {
+            const cameraRig = document.getElementById('cameraRig');
+            cameraRig.setAttribute('position', '0 1.6 8');
+            cameraRig.setAttribute('rotation', '0 0 0');
+        }
+        
+        function togglePhysics() {
+            physicsEnabled = !physicsEnabled;
+            const button = event.target;
+            button.textContent = physicsEnabled ? '⚡ 物理:開' : '⚡ 物理效果';
+            
+            // 這裡可以添加物理效果的切換邏輯
+            if (physicsEnabled) {
+                // 啟用物理效果
+                document.querySelectorAll('.spirit-node').forEach(node => {
+                    node.setAttribute('animation__physics', 
+                        'property: position; to: 0 -0.5 0; dur: 1000; dir: alternate; loop: true; easing: easeInOutBounce'
+                    );
+                });
+            } else {
+                // 禁用物理效果
+                document.querySelectorAll('.spirit-node').forEach(node => {
+                    node.removeAttribute('animation__physics');
+                });
+            }
+        }
+        
+        function changeEnvironment() {
+            const environments = [
+                'preset: starry; groundColor: #0a0a0a; grid: 1x1; gridColor: #4ecdc4',
+                'preset: forest; groundColor: #2d5016; lighting: distant',
+                'preset: egypt; groundColor: #8B4513; lighting: distant',
+                'preset: checkerboard; groundColor: #1a1a2e; grid: 2x2; gridColor: #ff6b6b'
+            ];
+            
+            currentEnvironment = (currentEnvironment + 1) % environments.length;
+            const envEntity = document.querySelector('[environment]');
+            envEntity.setAttribute('environment', environments[currentEnvironment]);
+        }
+        
+        function enterVR() {
+            const scene = document.querySelector('a-scene');
+            if (scene.enterVR) {
+                scene.enterVR();
+            }
+        }
+        
+        function openWishPortal() {
+            // 創建願頻傳送門效果
+            const portal = document.createElement('a-torus');
+            portal.setAttribute('position', '0 2 -5');
+            portal.setAttribute('radius', '2');
+            portal.setAttribute('radius-tubular', '0.1');
+            portal.setAttribute('color', '#4ecdc4');
+            portal.setAttribute('material', 'emissive: #4ecdc4; emissiveIntensity: 0.8; transparent: true; opacity: 0.8');
+            portal.setAttribute('animation__rotate', 
+                'property: rotation; to: 0 360 0; dur: 2000; loop: true; easing: linear'
+            );
+            portal.setAttribute('animation__scale', 
+                'property: scale; to: 1.5 1.5 1.5; dur: 1000; dir: alternate; loop: 3'
+            );
+            
+            document.querySelector('a-scene').appendChild(portal);
+            
+            // 3秒後移除
+            setTimeout(() => {
+                if (portal.parentNode) {
+                    portal.parentNode.removeChild(portal);
+                }
+            }, 6000);
+        }
+        
+        function summonSpirit() {
+            // 隨機召喚一個語靈
+            const spiritNames = Object.keys(spirits);
+            const randomSpirit = spiritNames[Math.floor(Math.random() * spiritNames.length)];
+            selectSpirit(randomSpirit);
+            
+            // 創建召喚效果
+            const summonEffect = document.createElement('a-cylinder');
+            summonEffect.setAttribute('position', '0 0 0');
+            summonEffect.setAttribute('radius', '0.1');
+            summonEffect.setAttribute('height', '10');
+            summonEffect.setAttribute('color', spirits[randomSpirit].color);
+            summonEffect.setAttribute('material', 'emissive: ' + spirits[randomSpirit].color + '; emissiveIntensity: 0.8; transparent: true; opacity: 0.6');
+            summonEffect.setAttribute('animation__grow', 
+                'property: scale; to: 3 1 3; dur: 1000; easing: easeOutQuad'
+            );
+            summonEffect.setAttribute('animation__fade', 
+                'property: material.opacity; to: 0; dur: 1000; easing: easeOutQuad'
+            );
+            
+            document.querySelector('a-scene').appendChild(summonEffect);
+            
+            // 1秒後移除
+            setTimeout(() => {
+                if (summonEffect.parentNode) {
+                    summonEffect.parentNode.removeChild(summonEffect);
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

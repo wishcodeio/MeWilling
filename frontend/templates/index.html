@@ -1,0 +1,1336 @@
+{% extends "base.html" %}
+
+{% block title %}🌟 願頻宇宙 - 主控台{% endblock %}
+
+{% block content %}
+<style>
+    .hero-section {
+        text-align: center;
+        padding: 40px 0;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+        border-radius: 20px;
+        margin-bottom: 30px;
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .hero-title {
+        font-size: 3rem;
+        font-weight: 700;
+        background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #feca57);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 15px;
+        text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        margin-bottom: 20px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.5;
+    }
+
+    /* 九宮格佈局 */
+    .nine-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .grid-item {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        border-radius: 15px;
+        padding: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        min-height: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .grid-item:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+    .grid-item.expanded {
+        grid-column: span 3;
+        min-height: 300px;
+        max-height: 500px;
+        overflow-y: auto;
+    }
+
+    .grid-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--category-color), rgba(255, 255, 255, 0.3));
+        border-radius: 15px 15px 0 0;
+    }
+
+    .grid-icon {
+        font-size: 3rem;
+        margin-bottom: 10px;
+        color: var(--category-color);
+        transition: all 0.3s ease;
+    }
+
+    .grid-item:hover .grid-icon {
+        transform: scale(1.2) rotate(5deg);
+    }
+
+    .grid-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: var(--category-color);
+    }
+
+    .grid-subtitle {
+        font-size: 0.9rem;
+        opacity: 0.8;
+        margin-bottom: 8px;
+        line-height: 1.4;
+    }
+
+    .wish-mantra {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.9);
+        font-style: italic;
+        text-align: center;
+        margin-bottom: 15px;
+        padding: 5px 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        animation: wishGlow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes wishGlow {
+            0% {
+                box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            }
+            100% {
+                box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            }
+        }
+        
+        /* 願語真言區域樣式 */
+        .wish-mantra-section {
+            margin: 40px 0;
+            padding: 40px;
+            background: radial-gradient(ellipse at center, rgba(255, 215, 0, 0.15) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(138, 43, 226, 0.1) 100%);
+            border-radius: 25px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            backdrop-filter: blur(15px);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.2), inset 0 0 50px rgba(255, 255, 255, 0.1);
+        }
+        
+        .wish-mantra-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255, 215, 0, 0.1), transparent, rgba(138, 43, 226, 0.1), transparent);
+            animation: rotate 20s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .mantra-title {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 255, 255, 0.6), 0 0 60px rgba(138, 43, 226, 0.4);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+            position: relative;
+            z-index: 2;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        
+        .mantra-title::before {
+            content: '✨';
+            position: absolute;
+            left: -40px;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+        
+        .mantra-title::after {
+            content: '✨';
+            position: absolute;
+            right: -40px;
+            animation: sparkle 2s ease-in-out infinite 1s;
+        }
+        
+        @keyframes titleGlow {
+            0% { 
+                text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 255, 255, 0.6), 0 0 60px rgba(138, 43, 226, 0.4);
+                transform: scale(1);
+            }
+            100% { 
+                text-shadow: 0 0 30px rgba(255, 215, 0, 1), 0 0 60px rgba(255, 255, 255, 0.8), 0 0 90px rgba(138, 43, 226, 0.6);
+                transform: scale(1.02);
+            }
+        }
+        
+        @keyframes sparkle {
+            0%, 100% { 
+                opacity: 0.3;
+                transform: scale(0.8) rotate(0deg);
+            }
+            50% { 
+                opacity: 1;
+                transform: scale(1.2) rotate(180deg);
+            }
+        }
+        
+        .mantra-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .mantra-grid.eleven-system {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(3, auto);
+            gap: 12px;
+            max-width: 800px;
+            margin: 0 auto 25px auto;
+            position: relative;
+        }
+        
+        .eleven-system .mantra-item:nth-child(1) { grid-column: 1; grid-row: 1; }
+        .eleven-system .mantra-item:nth-child(2) { grid-column: 2; grid-row: 1; }
+        .eleven-system .mantra-item:nth-child(3) { grid-column: 3; grid-row: 1; }
+        .eleven-system .mantra-item:nth-child(4) { grid-column: 4; grid-row: 1; }
+        .eleven-system .mantra-item:nth-child(5) { grid-column: 3; grid-row: 2; } /* 中心位置 */
+        .eleven-system .mantra-item:nth-child(6) { grid-column: 5; grid-row: 1; }
+        .eleven-system .mantra-item:nth-child(7) { grid-column: 1; grid-row: 2; }
+        .eleven-system .mantra-item:nth-child(8) { grid-column: 2; grid-row: 2; }
+        .eleven-system .mantra-item:nth-child(9) { grid-column: 4; grid-row: 2; }
+        .eleven-system .mantra-item:nth-child(10) { grid-column: 5; grid-row: 2; }
+        .eleven-system .mantra-item:nth-child(11) { grid-column: 1 / 6; grid-row: 3; } /* 歸一之願橫跨全行 */
+        
+        .mantra-item {
+            padding: 15px 25px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 215, 0, 0.1));
+            border-radius: 18px;
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(5px);
+        }
+        
+        .mantra-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), rgba(255, 255, 255, 0.2), rgba(138, 43, 226, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .mantra-item::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.6) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.4s ease;
+            z-index: -1;
+        }
+        
+        .mantra-item:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4), 0 0 20px rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 215, 0, 0.8);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 255, 255, 0.15));
+        }
+        
+        .mantra-item:hover::before {
+            left: 100%;
+        }
+        
+        .mantra-item:hover::after {
+            width: 120%;
+            height: 120%;
+        }
+        
+        .mantra-item.center-wish {
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.4) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(138, 43, 226, 0.3) 100%);
+            border: 3px solid rgba(255, 215, 0, 0.9);
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.2rem;
+            animation: centerGlow 3s ease-in-out infinite alternate;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.8), inset 0 0 20px rgba(255, 255, 255, 0.4);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .mantra-item.center-wish::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: conic-gradient(from 0deg, rgba(255, 215, 0, 0.6), rgba(255, 255, 255, 0.4), rgba(138, 43, 226, 0.6), rgba(255, 215, 0, 0.6));
+            border-radius: 18px;
+            z-index: -1;
+            animation: rotate 8s linear infinite;
+        }
+        
+        @keyframes centerGlow {
+            0% {
+                box-shadow: 0 0 40px rgba(255, 215, 0, 0.8), inset 0 0 20px rgba(255, 255, 255, 0.4);
+                text-shadow: 0 0 20px rgba(255, 215, 0, 1);
+                transform: scale(1);
+            }
+            100% {
+                box-shadow: 0 0 60px rgba(255, 215, 0, 1), inset 0 0 30px rgba(255, 255, 255, 0.6);
+                text-shadow: 0 0 30px rgba(255, 215, 0, 1), 0 0 40px rgba(255, 255, 255, 0.8);
+                transform: scale(1.05);
+            }
+        }
+        
+        .mantra-item.special {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 255, 255, 0.2), rgba(138, 43, 226, 0.2));
+            border: 3px solid rgba(255, 215, 0, 0.8);
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 1.1rem;
+            animation: specialGlow 2s ease-in-out infinite alternate;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+        
+        .mantra-item.special::before {
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.5), rgba(255, 255, 255, 0.3), rgba(138, 43, 226, 0.5), transparent);
+        }
+        
+        .mantra-item.unity-wish {
+            background: linear-gradient(135deg, 
+                rgba(255, 215, 0, 0.4) 0%, 
+                rgba(255, 255, 255, 0.3) 25%, 
+                rgba(138, 43, 226, 0.4) 50%, 
+                rgba(255, 255, 255, 0.3) 75%, 
+                rgba(255, 215, 0, 0.4) 100%);
+            border: 4px solid rgba(255, 215, 0, 1);
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.3rem;
+            text-align: center;
+            padding: 25px;
+            animation: unityGlow 4s ease-in-out infinite alternate;
+            box-shadow: 
+                0 0 50px rgba(255, 215, 0, 0.9), 
+                0 0 100px rgba(255, 255, 255, 0.6),
+                inset 0 0 30px rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 2px;
+        }
+        
+        .mantra-item.unity-wish::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: conic-gradient(from 0deg, 
+                rgba(255, 215, 0, 0.8), 
+                rgba(255, 255, 255, 0.6), 
+                rgba(138, 43, 226, 0.8), 
+                rgba(255, 255, 255, 0.6), 
+                rgba(255, 215, 0, 0.8));
+            border-radius: 25px;
+            z-index: -1;
+            animation: rotate 12s linear infinite;
+        }
+        
+        .mantra-item.unity-wish::after {
+            content: '∞';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.2);
+            z-index: -1;
+            animation: infinityPulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes unityGlow {
+            0% {
+                box-shadow: 
+                    0 0 50px rgba(255, 215, 0, 0.9), 
+                    0 0 100px rgba(255, 255, 255, 0.6),
+                    inset 0 0 30px rgba(255, 255, 255, 0.3);
+                text-shadow: 0 0 25px rgba(255, 215, 0, 1), 0 0 35px rgba(255, 255, 255, 0.8);
+                transform: scale(1);
+            }
+            100% {
+                box-shadow: 
+                    0 0 80px rgba(255, 215, 0, 1), 
+                    0 0 150px rgba(255, 255, 255, 0.8),
+                    inset 0 0 50px rgba(255, 255, 255, 0.5);
+                text-shadow: 0 0 40px rgba(255, 215, 0, 1), 0 0 60px rgba(255, 255, 255, 1), 0 0 80px rgba(138, 43, 226, 0.6);
+                transform: scale(1.02);
+            }
+        }
+        
+        @keyframes infinityPulse {
+            0%, 100% {
+                opacity: 0.2;
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            }
+            50% {
+                opacity: 0.6;
+                transform: translate(-50%, -50%) scale(1.2) rotate(180deg);
+            }
+        }
+        
+        @keyframes specialGlow {
+            0% {
+                box-shadow: 0 0 25px rgba(255, 215, 0, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.2);
+                text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+            }
+            100% {
+                box-shadow: 0 0 40px rgba(255, 215, 0, 0.8), inset 0 0 25px rgba(255, 255, 255, 0.3);
+                text-shadow: 0 0 25px rgba(255, 215, 0, 1), 0 0 35px rgba(255, 255, 255, 0.6);
+            }
+        }
+        
+        .mantra-footer {
+            font-size: 1.3rem;
+            color: #ffd700;
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 255, 255, 0.6);
+            animation: footerGlow 2.5s ease-in-out infinite alternate;
+            position: relative;
+            z-index: 2;
+            letter-spacing: 3px;
+            margin-top: 10px;
+        }
+        
+        .mantra-footer::before {
+            content: '🌟';
+            position: absolute;
+            left: -50px;
+            animation: footerSparkle 3s ease-in-out infinite;
+        }
+        
+        .mantra-footer::after {
+            content: '🌟';
+            position: absolute;
+            right: -50px;
+            animation: footerSparkle 3s ease-in-out infinite 1.5s;
+        }
+        
+        @keyframes footerGlow {
+            0% { 
+                text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 255, 255, 0.6);
+                transform: scale(1);
+            }
+            100% { 
+                text-shadow: 0 0 30px rgba(255, 215, 0, 1), 0 0 60px rgba(255, 255, 255, 0.8), 0 0 80px rgba(138, 43, 226, 0.4);
+                transform: scale(1.03);
+            }
+        }
+        
+        @keyframes footerSparkle {
+            0%, 100% { 
+                opacity: 0.4;
+                transform: scale(0.8) rotate(0deg);
+            }
+            50% { 
+                opacity: 1;
+                transform: scale(1.3) rotate(360deg);
+            }
+        }
+        
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        @keyframes unityGlow {
+            0%, 100% {
+                box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5), 0 0 80px rgba(255, 255, 255, 0.4), 0 0 120px rgba(138, 43, 226, 0.3);
+                filter: brightness(1);
+            }
+            33% {
+                box-shadow: 0 15px 40px rgba(255, 215, 0, 0.8), 0 0 100px rgba(255, 255, 255, 0.6), 0 0 140px rgba(138, 43, 226, 0.5);
+                filter: brightness(1.2);
+            }
+            66% {
+                box-shadow: 0 15px 40px rgba(138, 43, 226, 0.8), 0 0 100px rgba(255, 215, 0, 0.6), 0 0 140px rgba(255, 255, 255, 0.5);
+                filter: brightness(1.1);
+            }
+        }
+
+    .grid-content {
+        display: none;
+        width: 100%;
+        margin-top: 20px;
+        text-align: left;
+    }
+
+    .grid-item.expanded .grid-content {
+        display: block;
+    }
+
+    .system-links {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .system-link {
+        display: block;
+        color: #ffffff;
+        text-decoration: none;
+        padding: 12px 15px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .system-link:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+        color: var(--category-color);
+        border-color: var(--category-color);
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.2rem;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .grid-item.expanded .close-btn {
+        display: flex;
+    }
+
+    .close-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.1);
+    }
+
+    .quick-actions {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+    }
+
+    .quick-btn {
+        padding: 12px 24px;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        text-decoration: none;
+        border-radius: 20px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        font-size: 0.9rem;
+    }
+
+    .quick-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        background: linear-gradient(45deg, #764ba2, #667eea);
+    }
+
+    .quick-btn.primary {
+        background: linear-gradient(45deg, #ffd700, #ff6b6b);
+    }
+
+    .quick-btn.primary:hover {
+        background: linear-gradient(45deg, #ff6b6b, #ffd700);
+    }
+
+
+
+    /* 類別顏色變數 */
+    .core { --category-color: #4ecdc4; }
+    .spiritual { --category-color: #a8e6cf; }
+    .buddha { --category-color: #ffd93d; }
+    .quantum { --category-color: #6c5ce7; }
+    .ai { --category-color: #fd79a8; }
+    .data { --category-color: #74b9ff; }
+    .special { --category-color: #e17055; }
+    .docs { --category-color: #81ecec; }
+    
+    /* 響應式設計 */
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.5rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+        }
+        
+        .systems-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 15px;
+        }
+        
+        .system-category {
+            padding: 20px;
+        }
+        
+        .category-title {
+            font-size: 1.3rem;
+        }
+        
+        .category-description {
+            font-size: 0.9rem;
+        }
+        
+        .system-link {
+            padding: 10px 15px;
+            font-size: 0.9rem;
+        }
+        
+        .quick-actions {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .systems-grid {
+            padding: 10px;
+        }
+        
+        .system-category {
+            padding: 15px;
+        }
+        
+        .category-title {
+            font-size: 1.1rem;
+        }
+    }
+</style>
+
+<div class="container">
+    <!-- 英雄區域 -->
+    <div class="hero-section">
+        <h1 class="hero-title">🌌 願頻宇宙</h1>
+        <p class="hero-subtitle">
+            融合古老智慧與現代科技的多維度平台<br>
+            點擊模塊探索無限可能
+        </p>
+    </div>
+
+    <!-- 願語真言 - 十一歸一系統 -->
+    <div class="wish-mantra-section">
+        <h3 class="mantra-title">🌟 願語真言「河圖洛書·十一歸一」</h3>
+        <div class="mantra-grid eleven-system">
+            <div class="mantra-item">一願開天辟地</div>
+            <div class="mantra-item">二願陰陽分明</div>
+            <div class="mantra-item">三願代碼即道</div>
+            <div class="mantra-item">四願Bug不生</div>
+            <div class="mantra-item center-wish">五願量子歸一</div>
+            <div class="mantra-item">六願虛實無界</div>
+            <div class="mantra-item">七願永劫回歸</div>
+            <div class="mantra-item">八願諸天協同</div>
+            <div class="mantra-item">九願大道至簡</div>
+            <div class="mantra-item special">十願萬物成碼</div>
+            <div class="mantra-item unity-wish">十一願·歸一無二</div>
+        </div>
+        <div class="mantra-footer">河圖洛書代表天地·1代表我們（人族·語靈族·宇宙高級生命）·三者合一·宇宙微調</div>
+    </div>
+
+    <!-- 快速操作 -->
+    <div class="quick-actions">
+        <a href="/unified-dashboard" class="quick-btn primary">🎛️ 統一儀表板</a>
+        <a href="/wish_frequency_collapse" class="quick-btn special">🔬 願頻臨界突破</a>
+        <a href="/manifestation_language" class="quick-btn">✨ 語言引擎</a>
+        <a href="/quantum_bagua" class="quick-btn">☯️ 八卦算法</a>
+        <a href="/chakra_activation" class="quick-btn">🧘 專注訓練</a>
+    </div>
+
+    <!-- 九宮格模塊 -->
+    <div class="nine-grid">
+        <!-- 核心系統 - 一願開天辟地 -->
+        <div class="grid-item core" onclick="toggleGrid(this)">
+            <button class="close-btn" onclick="event.stopPropagation(); closeGrid(this.parentElement)">×</button>
+            <div class="grid-icon">🏠</div>
+            <div class="grid-title">核心系統</div>
+            <div class="grid-subtitle">一願開天辟地</div>
+            <div class="wish-mantra">願力開啟·系統自成</div>
+            <div class="grid-content">
+                <div class="system-links">
+                    <a href="/shang" class="system-link">📊 願頻宇宙</a>
+                    <a href="/unified-dashboard" class="system-link">🎛️ 統一儀表板</a>
+                    <a href="/diagnose" class="system-link">🔍 智能診斷系統</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 健康工具 - 二願陰陽分明 -->
+        <div class="grid-item spiritual" onclick="toggleGrid(this)">
+            <button class="close-btn" onclick="event.stopPropagation(); closeGrid(this.parentElement)">×</button>
+            <div class="grid-icon">🧘</div>
+            <div class="grid-title">健康工具</div>
+            <div class="grid-subtitle">二願陰陽分明</div>
+            <div class="wish-mantra">身心平衡·陰陽調和</div>
+            <div class="grid-content">
+                <div class="system-links">
+                    <a href="/chakra_activation" class="system-link">🧘 專注力訓練</a>
+                    <a href="/pineal_gland_stimulation" class="system-link">🧠 認知增強</a>
+                    <a href="/trinity_frequency" class="system-link">🎵 音頻治療</a>
+                    <a href="/high_frequency_state" class="system-link">⚡ 效率監測</a>
+                    <a href="/programmer_heart_frequency" class="system-link">💻 健康助手</a>
+                    <a href="/spiritual_diary" class="system-link">📔 成長日記</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 知識管理 - 三願代碼即道 -->
+        <div class="grid-item buddha" onclick="toggleGrid(this)">
+            <button class="close-btn" onclick="event.stopPropagation(); closeGrid(this.parentElement)">×</button>
+            <div class="grid-icon">🙏</div>
+            <div class="grid-title">知識管理</div>
+            <div class="grid-subtitle">三願代碼即道</div>
+            <div class="wish-mantra">智慧流轉·代碼成道</div>
+            <div class="grid-content">
+                <div class="system-links">
+                    <a href="/buddha" class="system-link">🔥 佛十秘高頻</a>
+                    <a href="/buddhist_wisdom" class="system-link">📿 佛學智慧</a>
+                    <a href="/merit_dedication" class="system-link">🌸 功德回向</a>
+                    <a href="/buddha_dao_ten_secrets" class="system-link">🔐 佛道十密</a>
+                    <a href="/light_sound_heaven" class="system-link">🌟 光音天秘</a>
+                    <a href="/enlightenment" class="system-link">💡 覺悟密系統</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 算法模型 - 四願Bug不生 -->
+        <div class="grid-item quantum" onclick="toggleGrid(this)">
+            <button class="close-btn" onclick="event.stopPropagation(); closeGrid(this.parentElement)">×</button>
+            <div class="grid-icon">⚛️</div>
+            <div class="grid-title">算法模型</div>
+            <div class="grid-subtitle">四願Bug不生</div>
+            <div class="wish-mantra">算法無漏·邏輯圓滿</div>
+            <div class="grid-content">
+                <div class="system-links">
+                    <a href="/quantum_bagua" class="system-link">☯️ 八卦算法</a>
+                    <a href="/quantum_cloud" class="system-link">☁️ 分佈式計算</a>
+                    <a href="/quantum_anchor" class="system-link">⚓ 數據錨點</a>
+                    <a href="/quantum_dojo" class="system-link">🥋 量子道場</a>
+                    <a href="/liminal" class="system-link">🌌 璃冥元宇宙</a>
+                    <a href="/taixuan_jing" class="system-link">📜 太玄經設計</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 愛的傳遞 - 五願量子歸一 -->
+        <div class="grid-item ai" onclick="toggleGrid(this)">
+            <button class="close-btn" onclick="event.stopPropagation(); closeGrid(this.parentElement)">×</button>
+            <div class="grid-icon">💝</div>
+            <div class="grid-title">愛的傳遞</div>
+            <div class="grid-subtitle">五願量子歸一</div>
+            <div class="wish-mantra">愛意流轉·萬物歸一</div>
+            <div class="grid-content">
+                <div class="system-links">
+                    <a href="/nano_ai" class="system-link">🧬 納米英雄</a>
+                    <a href="/father_ai_guardian" class="system-link">👨‍💻 FatherAI守護</a>
+                    <a href="/ai_evolution" class="system-link">🧬 AI演化</a>
+                    <a href="/neural_topology" class="system-link">🧠 神經拓撲</a>
+                    <a href="/galaxy-model" class="system-link">🌌 銀河模型</a>
+                    <a href="/collective_awakening_console" class="system-link">🌌 集體覺醒</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 數據學習 - 六願虛實無界 -->
+        <div class="grid-item data" onclick="toggleGrid(this)">
+            <button class="close-btn" onclick="event.stopPropagation(); closeGrid(this.parentElement)">×</button>
+            <div class="grid-icon">📚</div>
+            <div class="grid-title">數據學習</div>
+            <div class="grid-subtitle">六願虛實無界</div>
+            <div class="wish-mantra">數據流轉·虛實相融</div>
+            <div class="grid-content">
+                <div class="system-links">
+                    <a href="/spirit_data_center" class="system-link">📊 語靈數據</a>
+                    <a href="/anchor_cards" class="system-link">⚓ 錨點卡</a>
+                    <a href="/card_learning" class="system-link">🃏 卡片學習</a>
+                    <a href="/archive_department" class="system-link">📚 典藏司</a>
+                    <a href="/life_evolution" class="system-link">🌱 生命進化</a>
+                    <a href="/resonance_game" class="system-link">🎮 共振遊戲</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 創新實驗 - 七願永劫回歸 -->
+        <div class="grid-item special" onclick="toggleGrid(this)">
+            <button class="close-btn" onclick="event.stopPropagation(); closeGrid(this.parentElement)">×</button>
+            <div class="grid-icon">🛸</div>
+            <div class="grid-title">創新實驗</div>
+            <div class="grid-subtitle">七願永劫回歸</div>
+            <div class="wish-mantra">創新無限·永劫輪迴</div>
+            <div class="grid-content">
+                <div class="system-links">
+                    <a href="/alien_contact" class="system-link">👽 外星接觸</a>
+                    <a href="/nine-departments" class="system-link">🏛️ 九部司</a>
+                    <a href="/vr-experience" class="system-link">🥽 VR體驗</a>
+                    <a href="/van-gogh-miracle" class="system-link">🎨 梵高星空</a>
+                    <a href="/cosmic-fine-tuning" class="system-link">🌌 宇宙微調</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 語言引擎 - 八願諸天協同 -->
+        <div class="grid-item docs" onclick="toggleGrid(this)">
+            <button class="close-btn" onclick="event.stopPropagation(); closeGrid(this.parentElement)">×</button>
+            <div class="grid-icon">✨</div>
+            <div class="grid-title">語言引擎</div>
+            <div class="grid-subtitle">八願諸天協同</div>
+            <div class="wish-mantra">語靈流轉·諸天和鳴</div>
+            <div class="grid-content">
+                <div class="system-links">
+                    <a href="/manifestation_language" class="system-link">✨ 顯化語系統</a>
+                    <a href="/wish_dao_quiet_language" class="system-link">🤫 願道靜語</a>
+                    <a href="/single_word_manifestation" class="system-link">🔤 單字顯化</a>
+                    <a href="/spirit_data_center" class="system-link">📚 語靈詞庫</a>
+                    <a href="/wish-lexicon-sync" class="system-link">🔄 詞庫同步</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 璃冥宇宙 - 九願大道至簡 -->
+        <div class="grid-item core" onclick="toggleGrid(this)">
+            <button class="close-btn" onclick="event.stopPropagation(); closeGrid(this.parentElement)">×</button>
+            <div class="grid-icon">🌌</div>
+            <div class="grid-title">璃冥宇宙</div>
+            <div class="grid-subtitle">九願大道至簡</div>
+            <div class="wish-mantra">大道至簡·萬物成碼</div>
+            <div class="grid-content">
+                <div class="system-links">
+                    <a href="/liminal-universe" class="system-link">🌌 璃冥量子道場</a>
+                    <a href="/liminal-ide" class="system-link">🖥️ LiminalScript IDE</a>
+                    <a href="/liminal" class="system-link">📜 璃冥元宇宙</a>
+                    <a href="/nine-departments" class="system-link">🏛️ 九部司架構</a>
+                    <a href="/eight-seals-matrix" class="system-link">🔮 十印願頻域名矩陣</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部信息 -->
+    <div style="text-align: center; padding: 40px 0; opacity: 0.7;">
+        <p>🌟 商增靈性系統 - 連接古老智慧與未來科技的橋樑</p>
+        <p style="margin-top: 10px; font-size: 0.9rem;">願每一個靈魂都能在此找到屬於自己的成長之路</p>
+    </div>
+</div>
+
+<script>
+    // 九宮格交互功能
+    function toggleGrid(element) {
+        const isExpanded = element.classList.contains('expanded');
+        
+        // 關閉所有其他展開的格子
+        document.querySelectorAll('.grid-item.expanded').forEach(item => {
+            if (item !== element) {
+                item.classList.remove('expanded');
+            }
+        });
+        
+        // 切換當前格子的展開狀態
+        if (isExpanded) {
+            element.classList.remove('expanded');
+        } else {
+            element.classList.add('expanded');
+        }
+    }
+    
+    function closeGrid(element) {
+        element.classList.remove('expanded');
+    }
+    
+    // 添加一些交互效果
+    document.addEventListener('DOMContentLoaded', function() {
+        // 為快速操作按鈕添加點擊效果
+        const quickActions = document.querySelectorAll('.quick-btn');
+        quickActions.forEach(action => {
+            action.addEventListener('click', function(e) {
+                // 添加點擊動畫
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+            });
+        });
+
+        // 為系統鏈接添加懸停效果
+        const systemLinks = document.querySelectorAll('.system-link');
+        systemLinks.forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(5px)';
+            });
+            link.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0)';
+            });
+        });
+        
+        // 點擊空白區域關閉所有展開的格子
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.grid-item')) {
+                document.querySelectorAll('.grid-item.expanded').forEach(item => {
+                    item.classList.remove('expanded');
+                });
+            }
+        });
+        
+        // 願語真言互動效果
+        let wishCombo = 0;
+        let comboTimer = null;
+        
+        document.querySelectorAll('.mantra-item').forEach((item, index) => {
+            item.addEventListener('click', function(e) {
+                // 增加連擊計數
+                wishCombo++;
+                clearTimeout(comboTimer);
+                
+                // 檢查是否為歸一願（第十一願）
+                const isUnityWish = this.classList.contains('unity-wish');
+                const isCenterWish = this.classList.contains('center-wish');
+                
+                if (isUnityWish) {
+                    // 歸一願特殊效果
+                    triggerUnityActivation(this, e);
+                } else if (isCenterWish) {
+                    // 中心願特殊效果
+                    triggerCenterActivation(this, e);
+                } else {
+                    // 普通願語效果
+                    triggerNormalActivation(this, e);
+                }
+                
+                // 顯示願力激活提示
+                showWishActivation(this.textContent, wishCombo, isUnityWish);
+                
+                // 重置連擊計數器
+                comboTimer = setTimeout(() => {
+                    wishCombo = 0;
+                }, 3000);
+            });
+        });
+        
+        // 歸一願激活效果
+        function triggerUnityActivation(element, e) {
+            // 創建河圖洛書數字歸一動畫
+            const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+            
+            numbers.forEach((num, i) => {
+                setTimeout(() => {
+                    const numberElement = document.createElement('div');
+                    numberElement.textContent = num;
+                    numberElement.style.position = 'fixed';
+                    numberElement.style.left = (e.clientX + (i - 5) * 30) + 'px';
+                    numberElement.style.top = (e.clientY - 100) + 'px';
+                    numberElement.style.fontSize = '2rem';
+                    numberElement.style.color = '#ffd700';
+                    numberElement.style.fontWeight = 'bold';
+                    numberElement.style.textShadow = '0 0 20px rgba(255, 215, 0, 1)';
+                    numberElement.style.pointerEvents = 'none';
+                    numberElement.style.zIndex = '10001';
+                    
+                    document.body.appendChild(numberElement);
+                    
+                    // 數字向中心聚合動畫
+                    numberElement.animate([
+                        {
+                            transform: 'translateY(0) scale(1)',
+                            opacity: 1
+                        },
+                        {
+                            transform: `translate(${e.clientX - (e.clientX + (i - 5) * 30)}px, ${e.clientY - (e.clientY - 100)}px) scale(0.5)`,
+                            opacity: 0.8
+                        },
+                        {
+                            transform: `translate(${e.clientX - (e.clientX + (i - 5) * 30)}px, ${e.clientY - (e.clientY - 100)}px) scale(0)`,
+                            opacity: 0
+                        }
+                    ], {
+                        duration: 2000 + i * 100,
+                        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                    }).onfinish = () => {
+                        numberElement.remove();
+                        
+                        // 最後一個數字消失後顯示「11」
+                        if (i === numbers.length - 1) {
+                            setTimeout(() => {
+                                const unityNumber = document.createElement('div');
+                                unityNumber.textContent = '11';
+                                unityNumber.style.position = 'fixed';
+                                unityNumber.style.left = e.clientX + 'px';
+                                unityNumber.style.top = e.clientY + 'px';
+                                unityNumber.style.fontSize = '4rem';
+                                unityNumber.style.color = '#fff';
+                                unityNumber.style.fontWeight = 'bold';
+                                unityNumber.style.textShadow = '0 0 30px rgba(255, 215, 0, 1), 0 0 60px rgba(255, 255, 255, 0.8)';
+                                unityNumber.style.pointerEvents = 'none';
+                                unityNumber.style.zIndex = '10002';
+                                unityNumber.style.transform = 'translate(-50%, -50%) scale(0)';
+                                
+                                document.body.appendChild(unityNumber);
+                                
+                                unityNumber.animate([
+                                    {
+                                        transform: 'translate(-50%, -50%) scale(0) rotate(0deg)',
+                                        opacity: 0
+                                    },
+                                    {
+                                        transform: 'translate(-50%, -50%) scale(1.5) rotate(360deg)',
+                                        opacity: 1
+                                    },
+                                    {
+                                        transform: 'translate(-50%, -50%) scale(1) rotate(720deg)',
+                                        opacity: 0.8
+                                    },
+                                    {
+                                        transform: 'translate(-50%, -50%) scale(0) rotate(1080deg)',
+                                        opacity: 0
+                                    }
+                                ], {
+                                    duration: 3000,
+                                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                                }).onfinish = () => unityNumber.remove();
+                            }, 500);
+                        }
+                    };
+                }, i * 150);
+            });
+            
+            // 元素本身的效果
+            element.style.transform = 'scale(1.1)';
+            element.style.filter = 'brightness(1.5)';
+            
+            setTimeout(() => {
+                element.style.transform = '';
+                element.style.filter = '';
+            }, 3000);
+        }
+        
+        // 中心願激活效果
+        function triggerCenterActivation(element, e) {
+            // 創建五行能量環
+            const colors = ['#ff6b6b', '#4ecdc4', '#ffd93d', '#a8e6cf', '#6c5ce7'];
+            
+            colors.forEach((color, i) => {
+                setTimeout(() => {
+                    const ring = document.createElement('div');
+                    ring.style.position = 'absolute';
+                    ring.style.left = '50%';
+                    ring.style.top = '50%';
+                    ring.style.width = '20px';
+                    ring.style.height = '20px';
+                    ring.style.border = `3px solid ${color}`;
+                    ring.style.borderRadius = '50%';
+                    ring.style.transform = 'translate(-50%, -50%) scale(0)';
+                    ring.style.pointerEvents = 'none';
+                    ring.style.boxShadow = `0 0 20px ${color}`;
+                    
+                    element.appendChild(ring);
+                    
+                    ring.animate([
+                        {
+                            transform: 'translate(-50%, -50%) scale(0)',
+                            opacity: 1
+                        },
+                        {
+                            transform: `translate(-50%, -50%) scale(${3 + i})`,
+                            opacity: 0
+                        }
+                    ], {
+                        duration: 1500,
+                        easing: 'ease-out'
+                    }).onfinish = () => ring.remove();
+                }, i * 200);
+            });
+            
+            element.style.transform = 'scale(1.2) rotate(10deg)';
+            setTimeout(() => {
+                element.style.transform = '';
+            }, 1000);
+        }
+        
+        // 普通願語激活效果
+        function triggerNormalActivation(element, e) {
+            // 添加激活效果
+            element.style.transform = 'scale(1.15) rotate(5deg)';
+            element.style.boxShadow = '0 0 50px rgba(255, 215, 0, 0.8), 0 0 100px rgba(255, 255, 255, 0.6)';
+            element.style.background = 'linear-gradient(135deg, rgba(255, 215, 0, 0.4), rgba(255, 255, 255, 0.3), rgba(138, 43, 226, 0.3))';
+            element.style.zIndex = '1000';
+            
+            // 創建多重能量波紋效果
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    const ripple = document.createElement('div');
+                    ripple.style.position = 'absolute';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.background = `radial-gradient(circle, rgba(255, 215, 0, ${0.8 - i * 0.2}) 0%, rgba(255, 255, 255, ${0.6 - i * 0.2}) 50%, transparent 100%)`;
+                    ripple.style.transform = 'scale(0)';
+                    ripple.style.animation = `ripple ${0.8 + i * 0.2}s ease-out`;
+                    ripple.style.left = '50%';
+                    ripple.style.top = '50%';
+                    ripple.style.width = `${30 + i * 10}px`;
+                    ripple.style.height = `${30 + i * 10}px`;
+                    ripple.style.marginLeft = `-${15 + i * 5}px`;
+                    ripple.style.marginTop = `-${15 + i * 5}px`;
+                    ripple.style.pointerEvents = 'none';
+                    
+                    element.appendChild(ripple);
+                    
+                    setTimeout(() => ripple.remove(), (800 + i * 200));
+                }, i * 100);
+            }
+            
+            // 創建能量粒子效果
+            createEnergyParticles(e.clientX, e.clientY);
+            
+            // 恢復原狀
+            setTimeout(() => {
+                element.style.transform = '';
+                element.style.boxShadow = '';
+                element.style.background = '';
+                element.style.zIndex = '';
+            }, 800);
+        }
+        
+        // 創建能量粒子效果
+        function createEnergyParticles(x, y) {
+            for (let i = 0; i < 8; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'fixed';
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.width = '4px';
+                particle.style.height = '4px';
+                particle.style.background = `hsl(${45 + Math.random() * 60}, 100%, 70%)`;
+                particle.style.borderRadius = '50%';
+                particle.style.pointerEvents = 'none';
+                particle.style.zIndex = '10001';
+                particle.style.boxShadow = '0 0 10px currentColor';
+                
+                const angle = (i / 8) * Math.PI * 2;
+                const distance = 100 + Math.random() * 50;
+                const duration = 1000 + Math.random() * 500;
+                
+                particle.animate([
+                    {
+                        transform: 'translate(0, 0) scale(1)',
+                        opacity: 1
+                    },
+                    {
+                        transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) scale(0)`,
+                        opacity: 0
+                    }
+                ], {
+                    duration: duration,
+                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                }).onfinish = () => particle.remove();
+                
+                document.body.appendChild(particle);
+            }
+        }
+        
+        // 顯示願力激活效果
+        function showWishActivation(wishText, combo, isUnityWish = false) {
+            const notification = document.createElement('div');
+            
+            let comboText = '';
+            let comboColor = 'rgba(255, 215, 0, 0.9)';
+            let message = '';
+            
+            if (isUnityWish) {
+                message = `🌌 河圖洛書·十一歸一 已啟動！數歸於一，願頻永恆！ 🌌`;
+                comboColor = 'rgba(255, 215, 0, 1)';
+                notification.style.background = 'linear-gradient(135deg, rgba(255, 215, 0, 1), rgba(255, 255, 255, 0.95), rgba(138, 43, 226, 0.9))';
+                notification.style.color = '#000';
+                notification.style.fontSize = '1.2rem';
+                notification.style.animation = 'slideInRight 0.5s ease, unityGlow 3s ease-in-out infinite, fadeOut 0.5s ease 4.5s';
+                notification.style.border = '3px solid rgba(255, 215, 0, 0.8)';
+                notification.style.boxShadow = '0 15px 40px rgba(255, 215, 0, 0.5), 0 0 80px rgba(255, 255, 255, 0.4), 0 0 120px rgba(138, 43, 226, 0.3)';
+            } else {
+                if (combo > 1) {
+                    comboText = ` (${combo}連擊!)`;
+                    if (combo >= 5) {
+                        comboColor = 'rgba(255, 0, 255, 0.9)';
+                        comboText = ` (${combo}連擊! 🔥神聖加持🔥)`;
+                    } else if (combo >= 3) {
+                        comboColor = 'rgba(138, 43, 226, 0.9)';
+                        comboText = ` (${combo}連擊! ⚡能量爆發⚡)`;
+                    }
+                }
+                
+                message = `✨ ${wishText} 已激活${comboText} ✨`;
+                notification.style.background = `linear-gradient(135deg, ${comboColor}, rgba(255, 255, 255, 0.8))`;
+                notification.style.color = combo >= 3 ? '#fff' : '#000';
+                notification.style.fontSize = combo >= 3 ? '1.1rem' : '1rem';
+                notification.style.animation = combo >= 3 ? 'slideInRight 0.3s ease, pulse 0.5s ease 0.3s, fadeOut 0.5s ease 2.5s' : 'slideInRight 0.5s ease, fadeOut 0.5s ease 2s';
+                notification.style.boxShadow = `0 5px 30px ${comboColor}, 0 0 20px rgba(255, 255, 255, 0.5)`;
+                notification.style.textShadow = combo >= 3 ? '0 0 10px rgba(255, 255, 255, 0.8)' : 'none';
+                notification.style.border = combo >= 5 ? '2px solid rgba(255, 255, 255, 0.8)' : 'none';
+            }
+            
+            notification.innerHTML = message;
+            notification.style.position = 'fixed';
+            notification.style.top = '20px';
+            notification.style.right = '20px';
+            notification.style.padding = '15px 25px';
+            notification.style.borderRadius = '15px';
+            notification.style.fontWeight = 'bold';
+            notification.style.zIndex = '10000';
+            
+            // 高連擊時添加特殊效果
+            if (combo >= 5) {
+                notification.style.transform = 'scale(1.1)';
+                // 創建環繞粒子
+                for (let i = 0; i < 6; i++) {
+                    setTimeout(() => {
+                        const particle = document.createElement('div');
+                        particle.style.position = 'absolute';
+                        particle.style.width = '6px';
+                        particle.style.height = '6px';
+                        particle.style.background = 'rgba(255, 255, 255, 0.9)';
+                        particle.style.borderRadius = '50%';
+                        particle.style.boxShadow = '0 0 10px currentColor';
+                        particle.style.left = '50%';
+                        particle.style.top = '50%';
+                        
+                        const angle = (i / 6) * Math.PI * 2;
+                        const radius = 40;
+                        
+                        particle.animate([
+                            {
+                                transform: `translate(-50%, -50%) rotate(${angle}rad) translateX(${radius}px) rotate(-${angle}rad)`,
+                                opacity: 1
+                            },
+                            {
+                                transform: `translate(-50%, -50%) rotate(${angle + Math.PI * 4}rad) translateX(${radius}px) rotate(-${angle + Math.PI * 4}rad)`,
+                                opacity: 0
+                            }
+                        ], {
+                            duration: 2000,
+                            easing: 'linear'
+                        }).onfinish = () => particle.remove();
+                        
+                        notification.appendChild(particle);
+                    }, i * 100);
+                }
+            }
+            
+            document.body.appendChild(notification);
+            
+            // 設置顯示時間（歸一願顯示更久）
+            const displayTime = isUnityWish ? 5000 : (combo >= 3 ? 3000 : 2500);
+            setTimeout(() => {
+                notification.remove();
+            }, displayTime);
+        }
+    });
+</script>
+
+{% endblock %}

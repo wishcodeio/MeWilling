@@ -1,0 +1,269 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-6xl mx-auto">
+        <!-- 页面标题 -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-white mb-4">
+                <span class="text-6xl">🧘‍♀️</span><br>
+                灵性修行中心
+            </h1>
+            <p class="text-xl text-gray-300">探索内在智慧，提升意识频率，连接宇宙能量</p>
+        </div>
+
+        <!-- 修行状态概览 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-gradient-to-br from-purple-500/20 to-violet-600/20 rounded-xl p-6 border border-purple-500/30">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="text-4xl">⚡</div>
+                    <div class="text-right">
+                        <div class="text-2xl font-bold text-purple-400">8.7kHz</div>
+                        <div class="text-sm text-gray-300">当前频率</div>
+                    </div>
+                </div>
+                <h3 class="text-lg font-semibold text-purple-400">意识频率</h3>
+                <p class="text-purple-300 text-sm">今日平均共振频率</p>
+            </div>
+            
+            <div class="bg-gradient-to-br from-green-500/20 to-emerald-600/20 rounded-xl p-6 border border-green-500/30">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="text-4xl">🕐</div>
+                    <div class="text-right">
+                        <div class="text-2xl font-bold text-green-400">2h 45m</div>
+                        <div class="text-sm text-gray-300">今日修行</div>
+                    </div>
+                </div>
+                <h3 class="text-lg font-semibold text-green-400">修行时长</h3>
+                <p class="text-green-300 text-sm">累计冥想与练习时间</p>
+            </div>
+            
+            <div class="bg-gradient-to-br from-blue-500/20 to-cyan-600/20 rounded-xl p-6 border border-blue-500/30">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="text-4xl">🌟</div>
+                    <div class="text-right">
+                        <div class="text-2xl font-bold text-blue-400">Level 7</div>
+                        <div class="text-sm text-gray-300">灵性等级</div>
+                    </div>
+                </div>
+                <h3 class="text-lg font-semibold text-blue-400">修行境界</h3>
+                <p class="text-blue-300 text-sm">当前灵性发展阶段</p>
+            </div>
+        </div>
+
+        <!-- 修行模块 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- 冥想练习 -->
+            <div class="bg-black/40 rounded-xl p-6 border border-white/10 backdrop-blur-sm">
+                <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+                    <span class="text-3xl mr-3">🧘</span>
+                    冥想练习
+                </h2>
+                
+                <div class="space-y-4">
+                    <div class="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-lg p-4 border border-purple-500/30">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-lg font-semibold text-purple-400">正念呼吸</h3>
+                            <span class="text-sm text-gray-300">15分钟</span>
+                        </div>
+                        <p class="text-gray-300 text-sm mb-3">专注于呼吸，培养当下觉知</p>
+                        <button class="bg-purple-500/30 hover:bg-purple-500/50 text-purple-300 px-4 py-2 rounded-lg text-sm transition-all duration-300">
+                            开始练习
+                        </button>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-lg p-4 border border-blue-500/30">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-lg font-semibold text-blue-400">脉轮激活</h3>
+                            <span class="text-sm text-gray-300">30分钟</span>
+                        </div>
+                        <p class="text-gray-300 text-sm mb-3">平衡七个主要能量中心</p>
+                        <button class="bg-blue-500/30 hover:bg-blue-500/50 text-blue-300 px-4 py-2 rounded-lg text-sm transition-all duration-300">
+                            开始练习
+                        </button>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-lg p-4 border border-green-500/30">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-lg font-semibold text-green-400">慈心禅</h3>
+                            <span class="text-sm text-gray-300">20分钟</span>
+                        </div>
+                        <p class="text-gray-300 text-sm mb-3">培养慈悲心与爱的能量</p>
+                        <button class="bg-green-500/30 hover:bg-green-500/50 text-green-300 px-4 py-2 rounded-lg text-sm transition-all duration-300">
+                            开始练习
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 能量工作 -->
+            <div class="bg-black/40 rounded-xl p-6 border border-white/10 backdrop-blur-sm">
+                <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+                    <span class="text-3xl mr-3">⚡</span>
+                    能量工作
+                </h2>
+                
+                <div class="space-y-4">
+                    <div class="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-lg p-4 border border-yellow-500/30">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-lg font-semibold text-yellow-400">气场净化</h3>
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 bg-yellow-500 rounded-full animate-pulse"></div>
+                                <span class="text-sm text-gray-300">进行中</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 text-sm mb-3">清理负面能量，提升振动频率</p>
+                        <div class="w-full bg-gray-700 rounded-full h-2 mb-3">
+                            <div class="bg-gradient-to-r from-yellow-500 to-orange-500 h-2 rounded-full" style="width: 65%"></div>
+                        </div>
+                        <span class="text-yellow-400 text-sm">净化进度: 65%</span>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-lg p-4 border border-indigo-500/30">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-lg font-semibold text-indigo-400">水晶疗愈</h3>
+                            <span class="text-sm text-gray-300">可用</span>
+                        </div>
+                        <p class="text-gray-300 text-sm mb-3">使用水晶能量进行深度疗愈</p>
+                        <button class="bg-indigo-500/30 hover:bg-indigo-500/50 text-indigo-300 px-4 py-2 rounded-lg text-sm transition-all duration-300">
+                            选择水晶
+                        </button>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-pink-500/20 to-rose-500/20 rounded-lg p-4 border border-pink-500/30">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-lg font-semibold text-pink-400">光体激活</h3>
+                            <span class="text-sm text-gray-300">高级</span>
+                        </div>
+                        <p class="text-gray-300 text-sm mb-3">激活多维度光体能量系统</p>
+                        <button class="bg-pink-500/30 hover:bg-pink-500/50 text-pink-300 px-4 py-2 rounded-lg text-sm transition-all duration-300">
+                            开始激活
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 修行记录与进度 -->
+        <div class="bg-black/40 rounded-xl p-8 border border-white/10 backdrop-blur-sm mb-8">
+            <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+                <span class="text-3xl mr-3">📈</span>
+                修行进度追踪
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="text-4xl mb-2">🔥</div>
+                    <div class="text-2xl font-bold text-orange-400 mb-1">28</div>
+                    <div class="text-sm text-gray-300">连续修行天数</div>
+                </div>
+                
+                <div class="text-center">
+                    <div class="text-4xl mb-2">🎯</div>
+                    <div class="text-2xl font-bold text-green-400 mb-1">156</div>
+                    <div class="text-sm text-gray-300">完成的练习</div>
+                </div>
+                
+                <div class="text-center">
+                    <div class="text-4xl mb-2">⏱️</div>
+                    <div class="text-2xl font-bold text-blue-400 mb-1">87h</div>
+                    <div class="text-sm text-gray-300">总修行时长</div>
+                </div>
+                
+                <div class="text-center">
+                    <div class="text-4xl mb-2">🏆</div>
+                    <div class="text-2xl font-bold text-purple-400 mb-1">12</div>
+                    <div class="text-sm text-gray-300">获得成就</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 灵性工具箱 -->
+        <div class="bg-black/40 rounded-xl p-8 border border-white/10 backdrop-blur-sm mb-8">
+            <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+                <span class="text-3xl mr-3">🧰</span>
+                灵性工具箱
+            </h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                <button class="bg-gradient-to-br from-purple-500/20 to-violet-600/20 rounded-lg p-4 border border-purple-500/30 hover:border-purple-400/50 transition-all duration-300 text-center">
+                    <div class="text-2xl mb-2">🔮</div>
+                    <div class="text-sm text-purple-400 font-semibold">塔罗占卜</div>
+                </button>
+                
+                <button class="bg-gradient-to-br from-blue-500/20 to-cyan-600/20 rounded-lg p-4 border border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 text-center">
+                    <div class="text-2xl mb-2">🌙</div>
+                    <div class="text-sm text-blue-400 font-semibold">月相指导</div>
+                </button>
+                
+                <button class="bg-gradient-to-br from-green-500/20 to-emerald-600/20 rounded-lg p-4 border border-green-500/30 hover:border-green-400/50 transition-all duration-300 text-center">
+                    <div class="text-2xl mb-2">🌿</div>
+                    <div class="text-sm text-green-400 font-semibold">草药疗愈</div>
+                </button>
+                
+                <button class="bg-gradient-to-br from-yellow-500/20 to-orange-600/20 rounded-lg p-4 border border-yellow-500/30 hover:border-yellow-400/50 transition-all duration-300 text-center">
+                    <div class="text-2xl mb-2">🎵</div>
+                    <div class="text-sm text-yellow-400 font-semibold">颂钵疗愈</div>
+                </button>
+                
+                <button class="bg-gradient-to-br from-pink-500/20 to-rose-600/20 rounded-lg p-4 border border-pink-500/30 hover:border-pink-400/50 transition-all duration-300 text-center">
+                    <div class="text-2xl mb-2">💎</div>
+                    <div class="text-sm text-pink-400 font-semibold">水晶能量</div>
+                </button>
+                
+                <button class="bg-gradient-to-br from-indigo-500/20 to-purple-600/20 rounded-lg p-4 border border-indigo-500/30 hover:border-indigo-400/50 transition-all duration-300 text-center">
+                    <div class="text-2xl mb-2">🕯️</div>
+                    <div class="text-sm text-indigo-400 font-semibold">仪式魔法</div>
+                </button>
+            </div>
+        </div>
+
+        <!-- 快速导航 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <a href="/spiritual_diary" class="bg-gradient-to-br from-green-500/20 to-emerald-600/20 rounded-xl p-6 border border-green-500/30 hover:border-green-400/50 transition-all duration-300 text-decoration-none transform hover:scale-105">
+                <div class="text-center">
+                    <div class="text-4xl mb-3">📝</div>
+                    <h3 class="text-lg font-semibold text-green-400 mb-2">心灵日记</h3>
+                    <p class="text-gray-300 text-sm">记录修行感悟与成长</p>
+                </div>
+            </a>
+            
+            <a href="/quantum_meditation" class="bg-gradient-to-br from-purple-500/20 to-violet-600/20 rounded-xl p-6 border border-purple-500/30 hover:border-purple-400/50 transition-all duration-300 text-decoration-none transform hover:scale-105">
+                <div class="text-center">
+                    <div class="text-4xl mb-3">🌌</div>
+                    <h3 class="text-lg font-semibold text-purple-400 mb-2">量子冥想</h3>
+                    <p class="text-gray-300 text-sm">深度意识探索体验</p>
+                </div>
+            </a>
+            
+            <a href="/unified_dashboard" class="bg-gradient-to-br from-blue-500/20 to-cyan-600/20 rounded-xl p-6 border border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 text-decoration-none transform hover:scale-105">
+                <div class="text-center">
+                    <div class="text-4xl mb-3">🎛️</div>
+                    <h3 class="text-lg font-semibold text-blue-400 mb-2">统一仪表板</h3>
+                    <p class="text-gray-300 text-sm">返回主控制面板</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .container {
+        background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(20,20,40,0.9) 100%);
+        min-height: 100vh;
+    }
+    
+    .text-decoration-none {
+        text-decoration: none;
+    }
+    
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+    
+    .animate-pulse {
+        animation: pulse 2s infinite;
+    }
+</style>
+{% endblock %}

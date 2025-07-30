@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>西方极乐世界密 - 第七密法系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 极乐世界光明背景动画 */
+        .pure-land-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(circle at 50% 50%, 
+                rgba(255, 215, 0, 0.1) 0%, 
+                rgba(255, 255, 255, 0.05) 30%, 
+                transparent 70%);
+            animation: pureLandGlow 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes pureLandGlow {
+            0% {
+                transform: scale(1) rotate(0deg);
+                opacity: 0.3;
+            }
+            100% {
+                transform: scale(1.2) rotate(5deg);
+                opacity: 0.6;
+            }
+        }
+
+        /* 光雾粒子效果 */
+        .light-mist {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .mist-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.8) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: floatMist 15s linear infinite;
+        }
+
+        @keyframes floatMist {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(45deg, #ffd700, #ff8c00);
+            color: #000;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+        }
+
+        .title {
+            font-size: 3.5em;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ffd700, #ffffff, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% {
+                filter: brightness(1) drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+            }
+            100% {
+                filter: brightness(1.2) drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
+            }
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #ffd700;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .description {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #e0e0e0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .control-panel {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .function-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .function-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .function-card:hover {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: rgba(255, 215, 0, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.2);
+        }
+
+        .function-title {
+            font-size: 1.3em;
+            color: #ffd700;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .function-desc {
+            color: #cccccc;
+            line-height: 1.6;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #ffd700;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .select-field {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .select-field option {
+            background: #1a1a2e;
+            color: #ffffff;
+        }
+
+        .action-button {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #1a1a2e;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .action-button:hover {
+            background: linear-gradient(45deg, #ffed4e, #ffd700);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .result-display {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            min-height: 200px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .result-title {
+            color: #ffd700;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            font-weight: bold;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .result-content {
+            color: #e0e0e0;
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+
+        .loading {
+            text-align: center;
+            color: #ffd700;
+            font-style: italic;
+        }
+
+        .error {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .success {
+            color: #4ecdc4;
+            background: rgba(78, 205, 196, 0.1);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        /* 极乐世界协议代码块 */
+        .pure-land-protocol {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            font-family: 'Courier New', monospace;
+        }
+
+        .protocol-title {
+            color: #ffd700;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .protocol-code {
+            color: #00ff00;
+            font-size: 0.9em;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5em;
+            }
+            
+            .function-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+        }
+
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 215, 0, 0.5);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 215, 0, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-button">← 返回</a>
+    <!-- 极乐世界光明背景 -->
+    <div class="pure-land-background"></div>
+    
+    <!-- 光雾粒子效果 -->
+    <div class="light-mist" id="lightMist"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1 class="title">西方极乐世界密</h1>
+            <p class="subtitle">第七密法 - 永恒高智能生命的净土世界</p>
+            <p class="description">
+                西方极乐世界是距离银河系一亿光年的实体星体，约为地球7500倍大小。
+                这里是佛智者的集合地，永恒高智能生命以光雾为依靠，
+                体验无欲之乐的究竟境界。阿弥陀佛慈悲接引，
+                愿一切众生早日具足往生条件。
+            </p>
+        </div>
+
+        <div class="control-panel">
+            <div class="function-grid">
+                <div class="function-card" onclick="showRebirthAnalysis()">
+                    <div class="function-title">🌟 往生潜力分析</div>
+                    <div class="function-desc">分析当前修行状况和精神状态，评估往生等级，提供修行建议和临终准备计划</div>
+                </div>
+                
+                <div class="function-card" onclick="showVisualization()">
+                    <div class="function-title">✨ 极乐世界观想</div>
+                    <div class="function-desc">观想极乐世界的光明庄严、佛智者形象和十乐境界，增强信愿</div>
+                </div>
+                
+                <div class="function-card" onclick="showAmitabhaConnection()">
+                    <div class="function-title">🙏 阿弥陀佛连接</div>
+                    <div class="function-desc">激活与阿弥陀佛的连接，获得光明加持和接引指导</div>
+                </div>
+                
+                <div class="function-card" onclick="showPureLandInfo()">
+                    <div class="function-title">🏛️ 极乐世界信息</div>
+                    <div class="function-desc">了解极乐世界的详细信息、佛智者特性和十乐系统</div>
+                </div>
+                
+                <div class="function-card" onclick="showBlissComparison()">
+                    <div class="function-title">⚖️ 极乐与凡乐对比</div>
+                    <div class="function-desc">理解极乐之乐与世间欲乐的本质区别，认识无欲之乐</div>
+                </div>
+                
+                <div class="function-card" onclick="showCompleteTheory()">
+                    <div class="function-title">📚 完整理论体系</div>
+                    <div class="function-desc">获取西方极乐世界密的完整理论，包括科学描述和修行要点</div>
+                </div>
+            </div>
+
+            <!-- 往生分析输入区 -->
+            <div id="rebirthAnalysisInputs" style="display: none;">
+                <div class="input-group">
+                    <label class="input-label">当前修行状况：</label>
+                    <textarea id="currentPractice" class="input-field" rows="3" 
+                        placeholder="请描述您的修行情况，如念佛、持戒、禅定等..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">精神状态：</label>
+                    <textarea id="spiritualState" class="input-field" rows="3" 
+                        placeholder="请描述您的精神状态，如信愿、欲望、散乱等..."></textarea>
+                </div>
+                <button class="action-button" onclick="analyzeRebirthPotential()">🌟 分析往生潜力</button>
+            </div>
+
+            <!-- 观想输入区 -->
+            <div id="visualizationInputs" style="display: none;">
+                <div class="input-group">
+                    <label class="input-label">观想重点：</label>
+                    <select id="focusAspect" class="select-field">
+                        <option value="光明世界">光明世界</option>
+                        <option value="建筑奇观">建筑奇观</option>
+                        <option value="生命形态">生命形态</option>
+                        <option value="十乐境界">十乐境界</option>
+                    </select>
+                </div>
+                <button class="action-button" onclick="generateVisualization()">✨ 生成观想指导</button>
+            </div>
+
+            <!-- 阿弥陀佛连接输入区 -->
+            <div id="amitabhaInputs" style="display: none;">
+                <div class="input-group">
+                    <label class="input-label">连接意图：</label>
+                    <textarea id="connectionIntention" class="input-field" rows="3" 
+                        placeholder="请表达您希望与阿弥陀佛连接的意图和愿望..."></textarea>
+                </div>
+                <button class="action-button" onclick="activateAmitabhaConnection()">🙏 激活阿弥陀佛连接</button>
+            </div>
+
+            <div class="result-display" id="resultDisplay">
+                <div class="result-title">🌟 极乐世界密系统已激活</div>
+                <div class="result-content">欢迎进入西方极乐世界密系统。这里是第七密法，揭示了极乐世界的真实面貌和往生的究竟方法。
+
+🏛️ 极乐世界特性：
+• 实体星体，距离银河系一亿光年
+• 约为地球7500倍大小
+• 自转不公转，自身发光不带热辐射
+• 光雾环绕，优雅壮观
+
+👥 佛智者特征：
+• 永恒的高智能生命
+• 能质重量微弱，只有形状
+• 以宇宙最美身形显现
+• 无欲染，永恒不变
+
+🎯 往生要点：
+• 念'阿弥陀'（不加佛字）效应更佳
+• 真诚恳切，不可硬梆梆呼唤
+• 具足信愿行，必得慈悲接引
+
+请选择上方功能开始您的极乐世界密修行之旅。</div>
+            </div>
+        </div>
+
+        <!-- 极乐世界协议代码块 -->
+        <div class="pure-land-protocol">
+            <div class="protocol-title">🌟 极乐世界密协议 🌟</div>
+            <div class="protocol-code">
+=== 西方极乐世界密系统协议 ===
+
+[极乐世界定位]
+坐标: 银河系外一亿光年
+规模: 地球体积 × 7500
+性质: 实体星体，非虚幻境界
+特征: 自转不公转，自发光明
+
+[佛智者生存模式]
+生命形态: 永恒高智能生命
+身体性质: 能质微弱，形状显现
+依存方式: 光雾为生命依靠
+移动能力: 跨界身形显现
+欲望状态: 完全无欲染
+
+[十乐境界系统]
+无生灭乐 → 无欲染乐 → 光明遍照乐
+自在无碍乐 → 智慧圆满乐 → 形态美妙乐
+永恒生命乐 → 无忧无虑乐 → 宇宙和谐乐
+圆满究竟乐
+
+[往生核心协议]
+念佛方法: "阿弥陀"（不加佛字）
+接引条件: 信愿行具足
+临终要求: 正念分明，真诚恳切
+最终目标: 意识体分离，往生净土
+
+[系统状态]: 🌟 极乐光明加持中 🌟
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 创建光雾粒子效果
+        function createLightMist() {
+            const mistContainer = document.getElementById('lightMist');
+            
+            function createParticle() {
+                const particle = document.createElement('div');
+                particle.className = 'mist-particle';
+                
+                // 随机位置和大小
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                
+                // 随机颜色（金色系）
+                const colors = [
+                    'rgba(255, 215, 0, 0.8)',
+                    'rgba(255, 255, 255, 0.6)',
+                    'rgba(255, 248, 220, 0.7)',
+                    'rgba(255, 228, 181, 0.5)'
+                ];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.background = `radial-gradient(circle, ${color} 0%, transparent 70%)`;
+                
+                mistContainer.appendChild(particle);
+                
+                // 动画结束后移除粒子
+                setTimeout(() => {
+                    if (particle.parentNode) {
+                        particle.parentNode.removeChild(particle);
+                    }
+                }, 25000);
+            }
+            
+            // 定期创建粒子
+            setInterval(createParticle, 300);
+            
+            // 初始创建一些粒子
+            for (let i = 0; i < 20; i++) {
+                setTimeout(createParticle, i * 100);
+            }
+        }
+
+        // 显示不同功能的输入区
+        function showRebirthAnalysis() {
+            hideAllInputs();
+            document.getElementById('rebirthAnalysisInputs').style.display = 'block';
+        }
+
+        function showVisualization() {
+            hideAllInputs();
+            document.getElementById('visualizationInputs').style.display = 'block';
+        }
+
+        function showAmitabhaConnection() {
+            hideAllInputs();
+            document.getElementById('amitabhaInputs').style.display = 'block';
+        }
+
+        function hideAllInputs() {
+            document.getElementById('rebirthAnalysisInputs').style.display = 'none';
+            document.getElementById('visualizationInputs').style.display = 'none';
+            document.getElementById('amitabhaInputs').style.display = 'none';
+        }
+
+        // API调用函数
+        async function analyzeRebirthPotential() {
+            const currentPractice = document.getElementById('currentPractice').value;
+            const spiritualState = document.getElementById('spiritualState').value;
+            
+            if (!currentPractice || !spiritualState) {
+                showResult('错误', '请填写完整的修行状况和精神状态信息。', 'error');
+                return;
+            }
+            
+            showResult('分析中', '正在分析您的往生潜力...', 'loading');
+            
+            try {
+                const response = await fetch('/api/pure-land/rebirth-analysis', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        current_practice: currentPractice,
+                        spiritual_state: spiritualState
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    const analysis = data.analysis;
+                    let result = `🌟 往生潜力分析结果\n\n`;
+                    result += `📊 当前修行状况：${analysis.当前修行状况}\n\n`;
+                    result += `🧘 精神状态评估：${analysis.精神状态评估}\n\n`;
+                    result += `🎯 往生等级预测：${analysis.往生等级预测}\n\n`;
+                    result += `📝 需要改进的方面：\n${analysis.需要改进的方面.join('\n')}\n\n`;
+                    result += `💡 修行建议：\n${analysis.修行建议.join('\n')}\n\n`;
+                    result += `🙏 临终准备：\n`;
+                    result += `平时准备：\n${Object.entries(analysis.临终准备.平时准备).map(([k,v]) => `• ${k}：${v}`).join('\n')}\n\n`;
+                    result += `临终关键：\n${Object.entries(analysis.临终准备.临终关键).map(([k,v]) => `• ${k}：${v}`).join('\n')}\n\n`;
+                    result += `${analysis.宇宙加持}`;
+                    
+                    showResult('往生潜力分析', result, 'success');
+                } else {
+                    showResult('错误', data.message, 'error');
+                }
+            } catch (error) {
+                showResult('错误', '网络请求失败，请稍后重试。', 'error');
+            }
+        }
+
+        async function generateVisualization() {
+            const focusAspect = document.getElementById('focusAspect').value;
+            
+            showResult('生成中', '正在生成极乐世界观想指导...', 'loading');
+            
+            try {
+                const response = await fetch('/api/pure-land/pure-land-visualization', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        focus_aspect: focusAspect
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    const viz = data.visualization;
+                    let result = `✨ 极乐世界观想指导\n\n`;
+                    result += `🎯 观想主题：${viz.观想主题}\n\n`;
+                    result += `🏛️ 极乐世界景象：\n`;
+                    result += `• 景象：${viz.极乐世界景象.景象}\n`;
+                    result += `• 特色：${viz.极乐世界景象.特色}\n`;
+                    result += `• 感受：${viz.极乐世界景象.感受}\n\n`;
+                    result += `👥 佛智者形象：\n`;
+                    result += `• 外观特征：${viz.佛智者形象.外观特征}\n`;
+                    result += `• 身体性质：${viz.佛智者形象.身体性质}\n`;
+                    result += `• 生存方式：${viz.佛智者形象.生存方式}\n`;
+                    result += `• 心境状态：${viz.佛智者形象.心境状态}\n\n`;
+                    result += `🎊 十乐体验：\n`;
+                    result += `• 核心特征：${viz.十乐体验.核心特征}\n`;
+                    result += `• 体验层次：${viz.十乐体验.体验层次}\n`;
+                    result += `• 状态描述：${viz.十乐体验.状态描述}\n\n`;
+                    result += `🧘 观想方法：${viz.观想方法}\n\n`;
+                    result += `🌟 预期效果：\n`;
+                    result += `${Object.entries(viz.预期效果).map(([k,v]) => `• ${k}：${v}`).join('\n')}\n\n`;
+                    result += `${viz.宇宙祝福}`;
+                    
+                    showResult('极乐世界观想', result, 'success');
+                } else {
+                    showResult('错误', data.message, 'error');
+                }
+            } catch (error) {
+                showResult('错误', '网络请求失败，请稍后重试。', 'error');
+            }
+        }
+
+        async function activateAmitabhaConnection() {
+            const intention = document.getElementById('connectionIntention').value;
+            
+            if (!intention) {
+                showResult('错误', '请输入您的连接意图。', 'error');
+                return;
+            }
+            
+            showResult('连接中', '正在激活与阿弥陀佛的连接...', 'loading');
+            
+            try {
+                const response = await fetch('/api/pure-land/amitabha-connection', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        intention: intention
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    const conn = data.connection;
+                    let result = `🙏 阿弥陀佛连接已激活\n\n`;
+                    result += `💭 连接意图：${conn.连接意图}\n\n`;
+                    result += `📡 阿弥陀佛响应：${conn.阿弥陀佛响应}\n\n`;
+                    result += `📿 念佛指导：\n`;
+                    result += `• 正确方法：${conn.念佛指导.正确方法}\n`;
+                    result += `• 效应差别：${conn.念佛指导.效应差别}\n`;
+                    result += `• 原理说明：${conn.念佛指导.原理说明}\n`;
+                    result += `• 临终关键：${conn.念佛指导.临终关键}\n\n`;
+                    result += `✅ 接引条件：\n`;
+                    result += `${Object.entries(conn.接引条件).map(([k,v]) => `• ${k}：${v}`).join('\n')}\n\n`;
+                    result += `🌟 光明加持：\n`;
+                    result += `${Object.entries(conn.光明加持).map(([k,v]) => `• ${k}：${v}`).join('\n')}\n\n`;
+                    result += `🎯 往生保证：${conn.往生保证}\n\n`;
+                    result += `${conn.宇宙祝福}`;
+                    
+                    showResult('阿弥陀佛连接', result, 'success');
+                } else {
+                    showResult('错误', data.message, 'error');
+                }
+            } catch (error) {
+                showResult('错误', '网络请求失败，请稍后重试。', 'error');
+            }
+        }
+
+        async function showPureLandInfo() {
+            hideAllInputs();
+            showResult('获取中', '正在获取极乐世界信息...', 'loading');
+            
+            try {
+                const response = await fetch('/api/pure-land/pure-land-info');
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    let result = `🏛️ 极乐世界详细信息\n\n`;
+                    result += `🌍 基本信息：\n`;
+                    result += `${Object.entries(data.pure_land_info).map(([k,v]) => `• ${k}：${v}`).join('\n')}\n\n`;
+                    result += `👥 佛智者特性：\n`;
+                    result += `${Object.entries(data.buddha_beings).map(([k,v]) => `• ${k}：${v}`).join('\n')}\n\n`;
+                    result += `🎊 十乐系统：\n`;
+                    result += `${Object.entries(data.ten_bliss).map(([k,v]) => `• ${v.名称}：${v.特征}`).join('\n')}\n\n`;
+                    result += `✅ 往生条件：\n`;
+                    result += `基本条件：\n${Object.entries(data.rebirth_conditions.基本条件).map(([k,v]) => `• ${k}：${v}`).join('\n')}\n\n`;
+                    result += `临终要求：\n${Object.entries(data.rebirth_conditions.临终要求).map(([k,v]) => `• ${k}：${v}`).join('\n')}`;
+                    
+                    showResult('极乐世界信息', result, 'success');
+                } else {
+                    showResult('错误', data.message, 'error');
+                }
+            } catch (error) {
+                showResult('错误', '网络请求失败，请稍后重试。', 'error');
+            }
+        }
+
+        async function showBlissComparison() {
+            hideAllInputs();
+            showResult('获取中', '正在获取极乐与凡乐对比...', 'loading');
+            
+            try {
+                const response = await fetch('/api/pure-land/bliss-comparison');
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    let result = `⚖️ 极乐与凡乐对比\n\n`;
+                    result += `🌍 凡间之乐：\n`;
+                    result += `${Object.entries(data.bliss_comparison.凡间之乐).map(([k,v]) => `• ${k}：${v}`).join('\n')}\n\n`;
+                    result += `🌟 极乐之乐：\n`;
+                    result += `${Object.entries(data.bliss_comparison.极乐之乐).map(([k,v]) => `• ${k}：${v}`).join('\n')}\n\n`;
+                    result += `🎯 极乐世界层次：\n`;
+                    result += `${Object.entries(data.pure_land_levels).map(([k,v]) => `• ${k}：${v.条件} - ${v.特征}`).join('\n')}\n\n`;
+                    result += `🌌 宇宙星体世界：\n`;
+                    result += `${Object.entries(data.cosmic_worlds.大千世界构成).map(([k,v]) => `• ${k}：${v}`).join('\n')}`;
+                    
+                    showResult('极乐与凡乐对比', result, 'success');
+                } else {
+                    showResult('错误', data.message, 'error');
+                }
+            } catch (error) {
+                showResult('错误', '网络请求失败，请稍后重试。', 'error');
+            }
+        }
+
+        async function showCompleteTheory() {
+            hideAllInputs();
+            showResult('获取中', '正在获取完整理论体系...', 'loading');
+            
+            try {
+                const response = await fetch('/api/pure-land/complete-theory');
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    const theory = data.theory;
+                    let result = `📚 西方极乐世界密完整理论\n\n`;
+                    result += `🎯 核心理论：\n`;
+                    result += `${Object.entries(theory.西方极乐世界密核心理论).map(([k,v]) => `• ${k}：${v}`).join('\n')}\n\n`;
+                    result += `📿 念佛要点：\n`;
+                    result += `${Object.entries(theory.念佛要点).map(([k,v]) => `• ${k}：${v}`).join('\n')}\n\n`;
+                    result += `🎯 修行目标：${theory.修行目标}\n\n`;
+                    result += `🌟 这是实体存在的星体世界，不是虚幻境界。\n`;
+                    result += `🙏 愿一切众生早日具足往生条件，得阿弥陀佛慈悲接引。`;
+                    
+                    showResult('完整理论体系', result, 'success');
+                } else {
+                    showResult('错误', data.message, 'error');
+                }
+            } catch (error) {
+                showResult('错误', '网络请求失败，请稍后重试。', 'error');
+            }
+        }
+
+        function showResult(title, content, type) {
+            const resultDisplay = document.getElementById('resultDisplay');
+            const resultTitle = resultDisplay.querySelector('.result-title');
+            const resultContent = resultDisplay.querySelector('.result-content');
+            
+            resultTitle.textContent = title;
+            resultContent.textContent = content;
+            
+            // 移除之前的类型类
+            resultDisplay.classList.remove('loading', 'error', 'success');
+            
+            // 添加新的类型类
+            if (type) {
+                resultDisplay.classList.add(type);
+            }
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            createLightMist();
+        });
+    </script>
+</body>
+</html>

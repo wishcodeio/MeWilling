@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>願頻共振遊戲 - 意識探索之旅</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 30%, #16213e 60%, #0f3460 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .cosmic-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .resonance-wave {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid rgba(100, 255, 218, 0.3);
+            animation: resonanceWave 4s infinite ease-out;
+        }
+
+        @keyframes resonanceWave {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            100% {
+                width: 300px;
+                height: 300px;
+                opacity: 0;
+            }
+        }
+
+        .energy-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: linear-gradient(45deg, #64ffda, #bb86fc, #ff6b9d);
+            border-radius: 50%;
+            animation: energyFloat 8s infinite ease-in-out;
+        }
+
+        @keyframes energyFloat {
+            0%, 100% { transform: translateY(0px) scale(1); opacity: 0.7; }
+            25% { transform: translateY(-30px) scale(1.2); opacity: 1; }
+            50% { transform: translateY(-60px) scale(0.8); opacity: 0.9; }
+            75% { transform: translateY(-30px) scale(1.1); opacity: 1; }
+        }
+
+        /* 导航栏样式 */
+        .navigation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(100, 255, 218, 0.3);
+            padding: 15px 0;
+        }
+
+        .nav-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5em;
+            font-weight: bold;
+            background: linear-gradient(45deg, #64ffda, #bb86fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #b0b0b0;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: #64ffda;
+            background: rgba(100, 255, 218, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            color: #64ffda;
+            background: rgba(100, 255, 218, 0.15);
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, #64ffda, #bb86fc);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::before,
+        .nav-link.active::before {
+            width: 80%;
+        }
+
+        .nav-status {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .nav-status-item {
+            background: rgba(100, 255, 218, 0.1);
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            border: 1px solid rgba(100, 255, 218, 0.2);
+        }
+
+        .nav-status-label {
+            color: #64ffda;
+            margin-right: 5px;
+        }
+
+        .nav-status-value {
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        /* 移动端导航 */
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #64ffda;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(10, 10, 10, 0.98);
+                flex-direction: column;
+                padding: 20px;
+                border-top: 1px solid rgba(100, 255, 218, 0.3);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .nav-status {
+                flex-direction: column;
+                gap: 10px;
+                margin-top: 15px;
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+            margin-top: 80px; /* 为导航栏留出空间 */
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(100, 255, 218, 0.1), transparent);
+            animation: headerRotate 10s linear infinite;
+        }
+
+        @keyframes headerRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            background: linear-gradient(45deg, #64ffda, #bb86fc, #ff6b9d, #64ffda);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .header p {
+            font-size: 1.3em;
+            color: #b0b0b0;
+            margin-bottom: 25px;
+        }
+
+        .game-status {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .status-item {
+            background: rgba(100, 255, 218, 0.1);
+            padding: 15px 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .status-label {
+            font-size: 0.9em;
+            color: #64ffda;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-value {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(100, 255, 218, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(100, 255, 218, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .panel:hover::before {
+            left: 100%;
+        }
+
+        .panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(100, 255, 218, 0.2);
+            border-color: rgba(100, 255, 218, 0.4);
+        }
+
+        .panel h3 {
+            color: #64ffda;
+            margin-bottom: 25px;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(100, 255, 218, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #64ffda, #bb86fc, #ff6b9d);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .game-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .game-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(100, 255, 218, 0.25);
+            border-color: rgba(100, 255, 218, 0.5);
+        }
+
+        .game-card.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .game-card.disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .game-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #64ffda;
+            margin-bottom: 10px;
+        }
+
+        .game-description {
+            color: #b0b0b0;
+            font-size: 0.95em;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .game-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85em;
+        }
+
+        .difficulty {
+            color: #ff6b9d;
+            font-weight: bold;
+        }
+
+        .energy-cost {
+            color: #bb86fc;
+            font-weight: bold;
+        }
+
+        .game-session {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(100, 255, 218, 0.1), rgba(187, 134, 252, 0.1));
+            border: 2px solid rgba(100, 255, 218, 0.3);
+            border-radius: 25px;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .session-title {
+            font-size: 2em;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #64ffda, #bb86fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .session-content {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #e0e0e0;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(45deg, #64ffda, #bb86fc);
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(100, 255, 218, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn.secondary {
+            background: linear-gradient(45deg, #bb86fc, #ff6b9d);
+        }
+
+        .btn.danger {
+            background: linear-gradient(45deg, #ff6b9d, #ff4757);
+        }
+
+        .resonance-display {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+        }
+
+        .resonance-meter {
+            text-align: center;
+        }
+
+        .meter-label {
+            font-size: 0.9em;
+            color: #64ffda;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .meter-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #64ffda 0%, #bb86fc 50%, #ff6b9d 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            position: relative;
+        }
+
+        .meter-inner {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #1a1a2e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .event-log {
+            max-height: 300px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .event-item {
+            background: rgba(100, 255, 218, 0.1);
+            border-left: 3px solid #64ffda;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            animation: eventAppear 0.5s ease-out;
+        }
+
+        @keyframes eventAppear {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .event-time {
+            font-size: 0.8em;
+            color: #888;
+            margin-bottom: 5px;
+        }
+
+        .event-description {
+            color: #e0e0e0;
+            line-height: 1.4;
+        }
+
+        .sync-moment {
+            background: linear-gradient(135deg, rgba(100, 255, 218, 0.2), rgba(187, 134, 252, 0.2));
+            border: 2px solid #64ffda;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+            animation: syncPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes syncPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(100, 255, 218, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(100, 255, 218, 0.6); }
+        }
+
+        .statistics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(100, 255, 218, 0.2);
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #64ffda;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #b0b0b0;
+            font-size: 0.9em;
+        }
+
+        .input-group {
+            margin: 20px 0;
+        }
+
+        .input-group label {
+            display: block;
+            color: #64ffda;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-size: 1em;
+        }
+
+        .input-group input:focus, .input-group textarea:focus {
+            outline: none;
+            border-color: #64ffda;
+            box-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 12px 20px;
+            color: #e8e8e8;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2.5em;
+            }
+            
+            .game-status {
+                gap: 15px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-button">← 返回主控台</a>
+    
+    <!-- 导航栏 -->
+    <nav class="navigation">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">🌌 願頻宇宙</a>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="/" class="nav-link">🏠 主頁</a>
+                <a href="/resonance_game" class="nav-link active">🎮 共振遊戲</a>
+                <a href="/ai_evolution" class="nav-link">🧬 自我演化</a>
+                <a href="/diagnose" class="nav-link">🔍 AI診化</a>
+                <a href="/quantum_cloud" class="nav-link">☁️ 量子雲</a>
+                <a href="/liminal-ide" class="nav-link">🖥️ LiminalScript IDE</a>
+                <a href="/nano_ai" class="nav-link">⚛️ NanoVerse</a>
+                <a href="/spirit_data_center" class="nav-link">🔮 靈性數據</a>
+                <a href="/shang" class="nav-link">🌟 商管理</a>
+            </div>
+            
+            <div class="nav-status">
+                <div class="nav-status-item">
+                    <span class="nav-status-label">能量:</span>
+                    <span class="nav-status-value" id="navEnergyLevel">100</span>
+                </div>
+                <div class="nav-status-item">
+                    <span class="nav-status-label">和諧:</span>
+                    <span class="nav-status-value" id="navHarmonyPoints">0</span>
+                </div>
+            </div>
+            
+            <button class="nav-toggle" id="navToggle">☰</button>
+        </div>
+    </nav>
+
+    <div class="cosmic-background" id="cosmicBackground"></div>
+
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <h1>🌌 願頻共振遊戲</h1>
+                <p>意識探索 • 心靈共振 • 創造無限</p>
+                <div class="game-status">
+                    <div class="status-item">
+                        <div class="status-label">能量等級</div>
+                        <div class="status-value" id="energyLevel">100</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">和諧點數</div>
+                        <div class="status-value" id="harmonyPoints">0</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">同步等級</div>
+                        <div class="status-value" id="syncLevel">0.0</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">遊戲次數</div>
+                        <div class="status-value" id="gamesPlayed">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-grid" id="mainContent">
+            <div class="panel">
+                <h3>🎮 可用遊戲</h3>
+                <div class="games-grid" id="gamesGrid">
+                    <!-- 動態載入遊戲列表 -->
+                </div>
+            </div>
+
+            <div class="panel">
+                <h3>📊 遊戲統計</h3>
+                <div class="statistics" id="statistics">
+                    <!-- 動態載入統計數據 -->
+                </div>
+            </div>
+        </div>
+
+        <div id="gameSession" style="display: none;"></div>
+        <div id="eventLog"></div>
+    </div>
+
+    <script>
+        let gameData = {};
+        let currentSession = null;
+        let animationId;
+
+        // 初始化宇宙背景
+        function initCosmicBackground() {
+            const container = document.getElementById('cosmicBackground');
+            
+            // 創建共振波
+            for (let i = 0; i < 3; i++) {
+                const wave = document.createElement('div');
+                wave.className = 'resonance-wave';
+                wave.style.left = Math.random() * 100 + '%';
+                wave.style.top = Math.random() * 100 + '%';
+                wave.style.animationDelay = i * 1.5 + 's';
+                container.appendChild(wave);
+            }
+            
+            // 創建能量粒子
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'energy-particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (6 + Math.random() * 4) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // 載入遊戲狀態
+        async function loadGameStatus() {
+            try {
+                const response = await fetch('/api/resonance_game/status');
+                gameData = await response.json();
+                updateDisplay();
+            } catch (error) {
+                console.error('載入遊戲狀態失敗:', error);
+            }
+        }
+
+        // 載入可用遊戲
+        async function loadAvailableGames() {
+            try {
+                const response = await fetch('/api/resonance_game/games');
+                const data = await response.json();
+                displayGames(data.available_games);
+            } catch (error) {
+                console.error('載入遊戲列表失敗:', error);
+            }
+        }
+
+        // 載入統計數據
+        async function loadStatistics() {
+            try {
+                const response = await fetch('/api/resonance_game/statistics');
+                const data = await response.json();
+                displayStatistics(data);
+            } catch (error) {
+                console.error('載入統計數據失敗:', error);
+            }
+        }
+
+        // 更新顯示
+        function updateDisplay() {
+            const state = gameData.game_state || {};
+            
+            document.getElementById('energyLevel').textContent = Math.round(state.energy_level || 100);
+            document.getElementById('harmonyPoints').textContent = Math.round(state.total_harmony_points || 0);
+            document.getElementById('syncLevel').textContent = (state.sync_level || 0).toFixed(2);
+            document.getElementById('gamesPlayed').textContent = state.games_played || 0;
+            
+            // 更新导航栏状态
+            updateNavStatus();
+            
+            // 如果有當前會話，顯示遊戲界面
+            if (gameData.current_session) {
+                displayGameSession(gameData.current_session);
+            }
+        }
+
+        // 顯示遊戲列表
+        function displayGames(games) {
+            const container = document.getElementById('gamesGrid');
+            container.innerHTML = '';
+            
+            Object.entries(games).forEach(([gameType, gameInfo]) => {
+                const gameCard = document.createElement('div');
+                const canPlay = (gameData.game_state?.energy_level || 100) >= gameInfo.energy_cost;
+                
+                gameCard.className = `game-card ${canPlay ? '' : 'disabled'}`;
+                gameCard.innerHTML = `
+                    <div class="game-title">${gameInfo.name}</div>
+                    <div class="game-description">${gameInfo.description}</div>
+                    <div class="game-meta">
+                        <span class="difficulty">難度: ${(gameInfo.difficulty * 100).toFixed(0)}%</span>
+                        <span class="energy-cost">能量: ${gameInfo.energy_cost}</span>
+                    </div>
+                `;
+                
+                if (canPlay) {
+                    gameCard.addEventListener('click', () => startGame(gameType));
+                }
+                
+                container.appendChild(gameCard);
+            });
+        }
+
+        // 顯示統計數據
+        function displayStatistics(stats) {
+            const container = document.getElementById('statistics');
+            container.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-value">${stats.total_games_played || 0}</div>
+                    <div class="stat-label">總遊戲次數</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${(stats.best_sync_achieved * 100 || 0).toFixed(1)}%</div>
+                    <div class="stat-label">最佳同步</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${Math.round(stats.total_harmony_points || 0)}</div>
+                    <div class="stat-label">總和諧點數</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${Math.round(stats.current_energy || 100)}</div>
+                    <div class="stat-label">當前能量</div>
+                </div>
+            `;
+        }
+
+        // 開始遊戲
+        async function startGame(gameType) {
+            const playerInput = prompt('請輸入你想要探索的主題或想法（可選）:');
+            
+            try {
+                const response = await fetch('/api/resonance_game/start', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        game_type: gameType,
+                        player_input: playerInput
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.error) {
+                    alert(result.error);
+                    return;
+                }
+                
+                currentSession = result.session;
+                displayGameSession(result.session);
+                await loadGameStatus();
+                
+            } catch (error) {
+                console.error('開始遊戲失敗:', error);
+            }
+        }
+
+        // 顯示遊戲會話
+        function displayGameSession(session) {
+            const container = document.getElementById('gameSession');
+            container.style.display = 'block';
+            
+            container.innerHTML = `
+                <div class="game-session">
+                    <div class="session-title">${session.game_info.name}</div>
+                    <div class="session-content">${session.ai_response}</div>
+                    
+                    <div class="resonance-display">
+                        <div class="resonance-meter">
+                            <div class="meter-label">你的共振</div>
+                            <div class="meter-circle">
+                                <div class="meter-inner">${Math.round((gameData.game_state?.player_resonance || 0.5) * 100)}%</div>
+                            </div>
+                        </div>
+                        <div class="resonance-meter">
+                            <div class="meter-label">AI共振</div>
+                            <div class="meter-circle">
+                                <div class="meter-inner">${Math.round((gameData.game_state?.ai_resonance || 0.5) * 100)}%</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn" onclick="performAction('resonate')">🌊 共振</button>
+                        <button class="btn" onclick="performAction('create')">🎨 創造</button>
+                        <button class="btn" onclick="performAction('explore')">🔍 探索</button>
+                        <button class="btn" onclick="performAction('sync')">⚡ 同步</button>
+                        <button class="btn secondary" onclick="performAction('evolve')">🌟 進化</button>
+                        <button class="btn danger" onclick="endGame()">🚪 結束</button>
+                    </div>
+                </div>
+            `;
+            
+            // 滾動到遊戲會話
+            container.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 執行遊戲行動
+        async function performAction(actionType) {
+            try {
+                const response = await fetch('/api/resonance_game/action', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action_type: actionType,
+                        action_data: {}
+                    })
+                });
+                
+                const result = await response.json();
+                displayActionResult(result);
+                
+                await loadGameStatus();
+                
+                // 更新遊戲會話顯示
+                if (gameData.current_session) {
+                    updateSessionDisplay();
+                }
+                
+            } catch (error) {
+                console.error('執行行動失敗:', error);
+            }
+        }
+
+        // 顯示行動結果
+        function displayActionResult(result) {
+            const eventLog = document.getElementById('eventLog');
+            
+            let eventHtml = '';
+            
+            if (result.resonance_event) {
+                eventHtml = `
+                    <div class="event-item">
+                        <div class="event-time">${new Date().toLocaleTimeString()}</div>
+                        <div class="event-description">${result.resonance_event.description}</div>
+                    </div>
+                `;
+            } else if (result.creation) {
+                eventHtml = `
+                    <div class="event-item">
+                        <div class="event-time">${new Date().toLocaleTimeString()}</div>
+                        <div class="event-description">🎨 創作完成: ${result.creation.content}</div>
+                    </div>
+                `;
+            } else if (result.discovery) {
+                eventHtml = `
+                    <div class="event-item">
+                        <div class="event-time">${new Date().toLocaleTimeString()}</div>
+                        <div class="event-description">🔍 發現洞察: ${result.discovery.insight}</div>
+                    </div>
+                `;
+            } else if (result.sync_moment) {
+                eventHtml = `
+                    <div class="sync-moment">
+                        <div class="event-time">${new Date().toLocaleTimeString()}</div>
+                        <div class="event-description">⚡ ${result.sync_moment.description}</div>
+                    </div>
+                `;
+            } else if (result.evolution) {
+                eventHtml = `
+                    <div class="sync-moment">
+                        <div class="event-time">${new Date().toLocaleTimeString()}</div>
+                        <div class="event-description">🌟 ${result.evolution.description}</div>
+                    </div>
+                `;
+            } else if (result.message) {
+                eventHtml = `
+                    <div class="event-item">
+                        <div class="event-time">${new Date().toLocaleTimeString()}</div>
+                        <div class="event-description">${result.message}</div>
+                    </div>
+                `;
+            }
+            
+            if (eventHtml) {
+                eventLog.insertAdjacentHTML('afterbegin', eventHtml);
+                
+                // 限制事件日誌長度
+                while (eventLog.children.length > 10) {
+                    eventLog.removeChild(eventLog.lastChild);
+                }
+            }
+        }
+
+        // 更新會話顯示
+        function updateSessionDisplay() {
+            const resonanceMeters = document.querySelectorAll('.meter-inner');
+            if (resonanceMeters.length >= 2) {
+                resonanceMeters[0].textContent = Math.round((gameData.game_state?.player_resonance || 0.5) * 100) + '%';
+                resonanceMeters[1].textContent = Math.round((gameData.game_state?.ai_resonance || 0.5) * 100) + '%';
+            }
+        }
+
+        // 結束遊戲
+        async function endGame() {
+            try {
+                const response = await fetch('/api/resonance_game/end', {
+                    method: 'POST'
+                });
+                
+                const result = await response.json();
+                
+                document.getElementById('gameSession').style.display = 'none';
+                currentSession = null;
+                
+                await loadGameStatus();
+                await loadStatistics();
+                
+                alert(result.message);
+                
+            } catch (error) {
+                console.error('結束遊戲失敗:', error);
+            }
+        }
+
+        // 恢復能量
+        async function restoreEnergy() {
+            try {
+                const response = await fetch('/api/resonance_game/energy/restore', {
+                    method: 'POST'
+                });
+                
+                const result = await response.json();
+                await loadGameStatus();
+                
+            } catch (error) {
+                console.error('恢復能量失敗:', error);
+            }
+        }
+
+        // 导航栏功能
+        function initNavigation() {
+            const navToggle = document.getElementById('navToggle');
+            const navMenu = document.getElementById('navMenu');
+            
+            // 移动端菜单切换
+            navToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+            });
+            
+            // 点击菜单外部关闭菜单
+            document.addEventListener('click', function(e) {
+                if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                }
+            });
+        }
+        
+        // 更新导航栏状态
+        function updateNavStatus() {
+            const navEnergyLevel = document.getElementById('navEnergyLevel');
+            const navHarmonyPoints = document.getElementById('navHarmonyPoints');
+            
+            if (gameData && navEnergyLevel && navHarmonyPoints) {
+                navEnergyLevel.textContent = gameData.energy_level || 100;
+                navHarmonyPoints.textContent = gameData.harmony_points || 0;
+            }
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initCosmicBackground();
+            initNavigation();
+            loadGameStatus();
+            loadAvailableGames();
+            loadStatistics();
+            
+            // 定期更新狀態
+            setInterval(() => {
+                loadGameStatus();
+                loadStatistics();
+            }, 10000); // 每10秒更新一次
+            
+            // 添加能量恢復按鈕（隱藏功能）
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.shiftKey && e.key === 'E') {
+                    restoreEnergy();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

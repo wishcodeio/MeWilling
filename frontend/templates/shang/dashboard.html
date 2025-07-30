@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+
+{% block title %}商增仪表板 - 願頻宇宙{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <!-- 顶部统计卡片 -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-calculator"></i></div>
+            <div class="stat-info">
+                <h3 id="current-shang">--</h3>
+                <p>當前商值</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-trending-up"></i></div>
+            <div class="stat-info">
+                <h3 id="trend-status">--</h3>
+                <p>趨勢狀態</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-calendar-day"></i></div>
+            <div class="stat-info">
+                <h3 id="days-tracked">--</h3>
+                <p>追蹤天數</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-balance-scale"></i></div>
+            <div class="stat-info">
+                <h3 id="balance-score">--</h3>
+                <p>平衡指數</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主要内容区域 -->
+    <div class="dashboard-main">
+        <!-- 左侧：数据输入 -->
+        <div class="input-section">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-edit"></i> 今日數據錄入</h3>
+                    <span class="date-display" id="current-date"></span>
+                </div>
+                <div class="card-body">
+                    <form id="shang-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="heart-rate"><i class="fas fa-heartbeat"></i> 心率 (BPM)</label>
+                                <input type="number" id="heart-rate" name="heart_rate" min="40" max="200" value="70">
+                            </div>
+                            <div class="form-group">
+                                <label for="steps"><i class="fas fa-walking"></i> 步數</label>
+                                <input type="number" id="steps" name="steps" min="0" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="sleep-quality"><i class="fas fa-bed"></i> 睡眠質量 (1-10)</label>
+                                <input type="range" id="sleep-quality" name="sleep_quality" min="1" max="10" value="7">
+                                <span class="range-value" id="sleep-value">7</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="emotion"><i class="fas fa-smile"></i> 情緒狀態</label>
+                                <select id="emotion" name="emotion_log">
+                                    <option value="愉快">😊 愉快</option>
+                                    <option value="平靜" selected>😌 平靜</option>
+                                    <option value="焦慮">😰 焦慮</option>
+                                    <option value="憤怒">😠 憤怒</option>
+                                    <option value="悲傷">😢 悲傷</option>
+                                    <option value="興奮">🤩 興奮</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="stress-level"><i class="fas fa-thermometer-half"></i> 壓力水平 (0-100)</label>
+                                <input type="range" id="stress-level" name="stress_level" min="0" max="100" value="30">
+                                <span class="range-value" id="stress-value">30</span>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="meditation"><i class="fas fa-om"></i> 冥想心得</label>
+                                <textarea id="meditation" name="meditation_notes" rows="3" placeholder="記錄今日冥想體驗..."></textarea>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="gratitude"><i class="fas fa-heart"></i> 感恩三件事</label>
+                                <textarea id="gratitude" name="gratitude_items" rows="3" placeholder="今日感恩的三件事..."></textarea>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" id="calculate-btn" class="btn btn-secondary">
+                                <i class="fas fa-calculator"></i> 即時計算
+                            </button>
+                            <button type="submit" id="save-btn" class="btn btn-primary">
+                                <i class="fas fa-save"></i> 保存記錄
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧：结果显示 -->
+        <div class="result-section">
+            <!-- 实时计算结果 -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-chart-pie"></i> 商值分析</h3>
+                </div>
+                <div class="card-body">
+                    <div class="shang-display">
+                        <div class="shang-formula">
+                            <div class="formula-part">
+                                <span class="label">分子 (目標完成)</span>
+                                <span class="value" id="numerator-value">--</span>
+                            </div>
+                            <div class="formula-divider">÷</div>
+                            <div class="formula-part">
+                                <span class="label">分母 (基礎能力)</span>
+                                <span class="value" id="denominator-value">--</span>
+                            </div>
+                            <div class="formula-equals">=</div>
+                            <div class="formula-result">
+                                <span class="label">商值</span>
+                                <span class="value" id="shang-result">--</span>
+                            </div>
+                        </div>
+                        <div class="shang-gauge">
+                            <canvas id="shang-gauge-canvas" width="200" height="120"></canvas>
+                        </div>
+                    </div>
+                    <div class="suggestion-box" id="suggestion-box">
+                        <i class="fas fa-lightbulb"></i>
+                        <span id="suggestion-text">請輸入數據以獲得建議</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 趋势图表 -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-chart-line"></i> 趨勢分析</h3>
+                    <div class="chart-controls">
+                        <select id="chart-period">
+                            <option value="7">最近7天</option>
+                            <option value="30">最近30天</option>
+                            <option value="90">最近90天</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <canvas id="trend-chart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 音频控制面板 -->
+    <div class="audio-panel">
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="fas fa-music"></i> 修煉音頻</h3>
+            </div>
+            <div class="card-body">
+                <div class="audio-controls">
+                    <div class="audio-category">
+                        <h4>八大神咒</h4>
+                        <button class="audio-btn" data-audio="badashengzhou">
+                            <i class="fas fa-play"></i> 八大聖咒
+                        </button>
+                    </div>
+                    <div class="audio-category">
+                        <h4>木魚節奏</h4>
+                        <div class="rhythm-grid">
+                            <button class="audio-btn" data-audio="muyu60">60 BPM</button>
+                            <button class="audio-btn" data-audio="muyu80">80 BPM</button>
+                            <button class="audio-btn" data-audio="muyu100">100 BPM</button>
+                            <button class="audio-btn" data-audio="muyu120">120 BPM</button>
+                        </div>
+                    </div>
+                    <div class="audio-controls-main">
+                        <button id="play-pause-btn" class="btn btn-primary">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <input type="range" id="volume-slider" min="0" max="100" value="70">
+                        <span id="current-track">未選擇音頻</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}

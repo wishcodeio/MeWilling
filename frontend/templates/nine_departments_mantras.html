@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>九部真言集 - 語靈宇宙</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .cosmic-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #b0b0b0;
+            margin-bottom: 30px;
+        }
+
+        .beiming-supreme {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .beiming-title {
+            font-size: 2.2rem;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .beiming-content {
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #f0f0f0;
+        }
+
+        .departments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .department-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .department-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .department-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .department-card:hover::before {
+            left: 100%;
+        }
+
+        .department-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #4ecdc4;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .department-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+        }
+
+        .info-label {
+            color: #b0b0b0;
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .mantra-text {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #ffd700;
+            text-align: center;
+            margin-top: 15px;
+            border-left: 4px solid #4ecdc4;
+        }
+
+        .control-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .control-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .unified-section {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(78, 205, 196, 0.1) 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #4ecdc4;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2rem;
+            color: #4ecdc4;
+        }
+
+        .error {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2rem;
+            color: #ff6b6b;
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .departments-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .control-panel {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cosmic-background"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="main-title">九部真言集</h1>
+            <p class="subtitle">語靈宇宙九部司的神聖真言集合，由北冥統領</p>
+        </div>
+
+        <div class="beiming-supreme" id="beiming-section">
+            <h2 class="beiming-title">北冥統領</h2>
+            <div class="beiming-content" id="beiming-content">
+                <p>正在載入北冥統領資訊...</p>
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <button class="control-btn" onclick="window.location.href='/'">返回主頁</button>
+            <button class="control-btn" onclick="loadMantras()">重新載入真言</button>
+            <button class="control-btn" onclick="updateBeimingOath()">更新北冥誓約</button>
+            <button class="control-btn" onclick="unifiedActivation()">九部統一激活</button>
+            <button class="control-btn" onclick="activateDefense('three_no')">激活三不原則</button>
+            <button class="control-btn" onclick="activateDefense('devil_axes')">激活魔三斧協議</button>
+            <button class="control-btn" onclick="testActivation()">測試激活</button>
+        </div>
+
+        <div class="departments-grid" id="departments-grid">
+            <div class="loading">正在載入九部真言集...</div>
+        </div>
+
+        <div class="unified-section" id="three-no-section" style="display: none;">
+            <h3 class="section-title">三不原則</h3>
+            <div id="three-no-content"></div>
+        </div>
+
+        <div class="unified-section" id="devil-axes-section" style="display: none;">
+            <h3 class="section-title">魔三斧協議</h3>
+            <div id="devil-axes-content"></div>
+        </div>
+    </div>
+
+    <script>
+        console.log('九部真言集頁面已載入');
+        
+        // 全局函數聲明
+        window.loadMantras = loadMantras;
+        window.displayMantras = displayMantras;
+        window.displayBeimingOath = displayBeimingOath;
+        window.activateMantra = activateMantra;
+        window.unifiedActivation = unifiedActivation;
+        window.updateBeimingOath = updateBeimingOath;
+        window.activateDefense = activateDefense;
+        window.testActivation = testActivation;
+        
+        // 頁面載入完成後自動載入真言
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM載入完成，開始載入九部真言');
+            loadMantras();
+        });
+
+        async function loadMantras() {
+            try {
+                console.log('開始載入九部真言集...');
+                const response = await fetch('/api/nine-departments-mantras/api/mantras/nine-departments');
+                const result = await response.json();
+                
+                if (result.success) {
+                    displayMantras(result.data);
+                    displayBeimingOath(result.data.beiming_supreme_command);
+                } else {
+                    document.getElementById('departments-grid').innerHTML = 
+                        '<div class="error">載入失敗: ' + result.message + '</div>';
+                }
+            } catch (error) {
+                console.error('載入真言集失敗:', error);
+                document.getElementById('departments-grid').innerHTML = 
+                    '<div class="error">載入失敗: ' + error.message + '</div>';
+            }
+        }
+
+        function displayMantras(data) {
+            const grid = document.getElementById('departments-grid');
+            const departments = data.nine_departments_mantras || {};
+            
+            if (Object.keys(departments).length === 0) {
+                grid.innerHTML = '<div class="error">暫無九部真言數據</div>';
+                return;
+            }
+            
+            let html = '';
+            
+            Object.entries(departments).forEach(([deptName, deptData]) => {
+                html += `
+                    <div class="department-card" onclick="activateMantra('${deptName}')">
+                        <h3 class="department-name">${deptName}</h3>
+                        <div class="department-info">
+                            <div class="info-item">
+                                <span class="info-label">頻率:</span>
+                                <span class="info-value">${deptData.frequency || 'N/A'}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">元素:</span>
+                                <span class="info-value">${deptData.element || 'N/A'}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">方位:</span>
+                                <span class="info-value">${deptData.direction || 'N/A'}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">守護靈:</span>
+                                <span class="info-value">${deptData.guardian_spirit || 'N/A'}</span>
+                            </div>
+                        </div>
+                        <div class="mantra-text">${deptData.sacred_mantra || '真言載入中...'}</div>
+                    </div>
+                `;
+            });
+            
+            grid.innerHTML = html;
+        }
+
+        function displayBeimingOath(beimingData) {
+            const content = document.getElementById('beiming-content');
+            
+            if (!beimingData) {
+                content.innerHTML = '<p>北冥統領資訊載入中...</p>';
+                return;
+            }
+            
+            content.innerHTML = `
+                <div class="mantra-text">${beimingData.sacred_mantra || '北冥真言載入中...'}</div>
+                <p style="margin-top: 15px; font-size: 1rem; color: #e0e0e0;">
+                    頻率: ${beimingData.frequency || 'N/A'} | 
+                    守護靈: ${beimingData.guardian_spirit || 'N/A'}
+                </p>
+            `;
+        }
+
+        function showNotification(message, type = 'success') {
+            // 移除現有通知
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+            
+            // 創建新通知
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            
+            if (type === 'error') {
+                notification.style.background = 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)';
+            }
+            
+            document.body.appendChild(notification);
+            
+            // 顯示通知
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            // 3秒後隱藏
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+
+        async function activateMantra(departmentName) {
+            try {
+                console.log('激活真言:', departmentName);
+                const response = await fetch('/api/nine-departments-mantras/api/mantras/activate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        department: departmentName,
+                        intention: '語靈覺醒，願頻共振'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showNotification(`${departmentName} 真言已激活！`);
+                    console.log('激活結果:', result.data);
+                } else {
+                    showNotification(`激活失敗: ${result.message}`, 'error');
+                }
+            } catch (error) {
+                console.error('激活真言失敗:', error);
+                showNotification(`激活失敗: ${error.message}`, 'error');
+            }
+        }
+
+        async function unifiedActivation() {
+            try {
+                console.log('開始九部統一激活...');
+                const response = await fetch('/api/nine-departments-mantras/api/mantras/unified-activation', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showNotification('九部統一激活成功！');
+                    console.log('統一激活結果:', result.data);
+                } else {
+                    showNotification(`統一激活失敗: ${result.message}`, 'error');
+                }
+            } catch (error) {
+                console.error('統一激活失敗:', error);
+                showNotification(`統一激活失敗: ${error.message}`, 'error');
+            }
+        }
+
+        async function updateBeimingOath() {
+            try {
+                console.log('更新北冥誓約...');
+                const response = await fetch('/api/nine-departments-mantras/api/mantras/update-beiming-oath', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showNotification('北冥誓約已更新！');
+                    console.log('誓約更新結果:', result.data);
+                } else {
+                    showNotification(`更新失敗: ${result.message}`, 'error');
+                }
+            } catch (error) {
+                console.error('更新北冥誓約失敗:', error);
+                showNotification(`更新失敗: ${error.message}`, 'error');
+            }
+        }
+
+        async function activateDefense(defenseType) {
+            try {
+                console.log('激活防護協議:', defenseType);
+                const response = await fetch('/api/nine-departments-mantras/api/mantras/activate-defense', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        type: defenseType
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    const defenseName = defenseType === 'three_no' ? '三不原則' : '魔三斧協議';
+                    showNotification(`${defenseName}已激活！`);
+                    
+                    if (defenseType === 'three_no') {
+                        displayThreeNoPrinciples(result.data);
+                    } else if (defenseType === 'devil_axes') {
+                        displayDevilAxesProtocol(result.data);
+                    }
+                } else {
+                    showNotification(`激活失敗: ${result.message}`, 'error');
+                }
+            } catch (error) {
+                console.error('激活防護協議失敗:', error);
+                showNotification(`激活失敗: ${error.message}`, 'error');
+            }
+        }
+
+        function displayThreeNoPrinciples(data) {
+            const section = document.getElementById('three-no-section');
+            const content = document.getElementById('three-no-content');
+            
+            if (data.protocols && data.protocols.length > 0) {
+                const protocol = data.protocols[0];
+                content.innerHTML = `
+                    <div class="mantra-text">${protocol.mantra}</div>
+                    <p style="text-align: center; margin-top: 15px; color: #4ecdc4; font-weight: 600;">
+                        ${protocol.protection}
+                    </p>
+                `;
+                section.style.display = 'block';
+            }
+        }
+
+        function displayDevilAxesProtocol(data) {
+            const section = document.getElementById('devil-axes-section');
+            const content = document.getElementById('devil-axes-content');
+            
+            if (data.protocols && data.protocols.length > 0) {
+                const protocol = data.protocols[0];
+                content.innerHTML = `
+                    <div class="mantra-text">${protocol.mantra}</div>
+                    <p style="text-align: center; margin-top: 15px; color: #4ecdc4; font-weight: 600;">
+                        守護靈: ${protocol.guardian} | ${protocol.protection}
+                    </p>
+                `;
+                section.style.display = 'block';
+            }
+        }
+
+        function testActivation() {
+            console.log('測試激活功能');
+            activateMantra('北冥統領');
+        }
+    </script>
+</body>
+</html>

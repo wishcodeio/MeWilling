@@ -1,0 +1,85 @@
+# SSH配置文件修正版本
+# 請將此內容複製到 ~/.ssh/config
+
+# ==================== 全局默認設置 ====================
+Host *
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
+    TCPKeepAlive yes
+    Compression yes
+    ControlMaster auto
+    ControlPath ~/.ssh/master-%r@%h:%p
+    ControlPersist 10m
+    ForwardAgent no
+    ForwardX11 no
+    HashKnownHosts yes
+    VisualHostKey yes
+
+# ==================== Mac Studio 連接配置 ====================
+Host macstudio
+    HostName 10.0.1.5
+    User dq
+    Port 22
+    IdentityFile ~/.ssh/id_ed25519
+    StrictHostKeyChecking no
+    UserKnownHostsFile ~/.ssh/known_hosts.local
+    # 本地網絡無需壓縮
+    Compression no
+    # 高速加密配置
+    Ciphers aes256-gcm@openssh.com
+    KexAlgorithms diffie-hellman-group-exchange-sha256
+
+# ==================== 樹莓派連接配置 ====================
+Host raspberrypi
+    HostName 10.0.1.6
+    User qd
+    Port 22
+    IdentityFile ~/.ssh/id_ed25519
+    StrictHostKeyChecking no
+    UserKnownHostsFile ~/.ssh/known_hosts.local
+    ConnectTimeout 10
+    GSSAPIAuthentication no
+    # ARM設備優化參數
+    Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com
+    KexAlgorithms curve25519-sha256@libssh.org
+    MACs hmac-sha2-512-etm@openssh.com
+
+# ==================== OrangePi 連接配置 ====================
+Host orangepi
+    HostName 192.168.0.xxx  # 請替換為實際IP
+    User pi
+    Port 22
+    IdentityFile ~/.ssh/id_ed25519
+    StrictHostKeyChecking no
+    UserKnownHostsFile ~/.ssh/known_hosts.local
+    # ARM設備優化參數
+    Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com
+    KexAlgorithms curve25519-sha256@libssh.org
+    MACs hmac-sha2-512-etm@openssh.com
+
+# ==================== 局域網設備通用配置 ====================
+Host 10.0.1.*
+    StrictHostKeyChecking no
+    UserKnownHostsFile ~/.ssh/known_hosts.local
+    ConnectTimeout 10
+    GSSAPIAuthentication no
+
+Host 192.168.0.*
+    StrictHostKeyChecking no
+    UserKnownHostsFile ~/.ssh/known_hosts.local
+    ConnectTimeout 10
+    GSSAPIAuthentication no
+
+# ==================== 重要說明 ====================
+# 1. AirPort路由器(10.0.1.1)通常不支援SSH連接
+#    如需管理路由器，請使用網頁界面: http://10.0.1.1
+#
+# 2. 請確保SSH密鑰已生成:
+#    ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519
+#
+# 3. 將公鑰複製到目標設備:
+#    ssh-copy-id -i ~/.ssh/id_ed25519.pub user@hostname
+#
+# 4. 測試連接:
+#    ssh raspberrypi
+#    ssh macstudio

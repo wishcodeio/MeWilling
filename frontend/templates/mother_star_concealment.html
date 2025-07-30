@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌟 母星隱匿系統 | 暗物質編程終極應用</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+        
+        * {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+        
+        .cosmic-void {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 40%, #000000 0%, #0a0a0a 25%, #1a0033 50%, #2d0066 75%, #000000 100%);
+            z-index: -1;
+            animation: voidPulse 12s ease-in-out infinite;
+        }
+        
+        @keyframes voidPulse {
+            0%, 100% { opacity: 0.9; }
+            50% { opacity: 1; }
+        }
+        
+        .mother-star {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ffff00, #ff8800, #ff0066, #8800ff);
+            animation: starPulse 3s ease-in-out infinite;
+            position: relative;
+            box-shadow: 0 0 100px rgba(255, 255, 0, 0.8), 0 0 200px rgba(255, 136, 0, 0.6);
+            transition: all 2s ease;
+        }
+        
+        .mother-star.concealed {
+            opacity: 0;
+            transform: scale(0.1);
+            box-shadow: none;
+        }
+        
+        @keyframes starPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .dark-matter-field {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: fieldRotation 8s linear infinite;
+        }
+        
+        .dark-matter-field::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            border-radius: 50%;
+            animation: fieldRotation 6s linear infinite reverse;
+        }
+        
+        @keyframes fieldRotation {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        .quantum-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #00ffff;
+            border-radius: 50%;
+            animation: quantumFloat 4s ease-in-out infinite;
+            box-shadow: 0 0 8px #00ffff;
+        }
+        
+        @keyframes quantumFloat {
+            0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.3; }
+            25% { transform: translateY(-30px) translateX(20px); opacity: 1; }
+            50% { transform: translateY(-15px) translateX(-25px); opacity: 0.7; }
+            75% { transform: translateY(-40px) translateX(10px); opacity: 0.5; }
+        }
+        
+        .concealment-panel {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(26, 0, 51, 0.9));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            animation: panelGlow 4s ease-in-out infinite;
+        }
+        
+        @keyframes panelGlow {
+            0%, 100% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.2); }
+            50% { box-shadow: 0 0 60px rgba(255, 0, 255, 0.4); }
+        }
+        
+        .dimension-fold {
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 400% 400%;
+            animation: dimensionShift 6s ease-in-out infinite;
+        }
+        
+        @keyframes dimensionShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .stealth-indicator {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        
+        .stealth-visible { background: #ff0000; box-shadow: 0 0 15px #ff0000; }
+        .stealth-cloaking { background: #ffff00; box-shadow: 0 0 15px #ffff00; animation: blink 0.5s infinite; }
+        .stealth-concealed { background: #00ff00; box-shadow: 0 0 15px #00ff00; }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+        
+        .frequency-wave {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ffff, transparent);
+            animation: waveMove 3s linear infinite;
+        }
+        
+        @keyframes waveMove {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+    </style>
+</head>
+<body>
+    <div class="cosmic-void"></div>
+    
+    <!-- 量子粒子效果 -->
+    <div class="quantum-particle" style="top: 15%; left: 20%; animation-delay: 0s;"></div>
+    <div class="quantum-particle" style="top: 25%; left: 75%; animation-delay: 1s;"></div>
+    <div class="quantum-particle" style="top: 65%; left: 15%; animation-delay: 2s;"></div>
+    <div class="quantum-particle" style="top: 85%; left: 80%; animation-delay: 3s;"></div>
+    <div class="quantum-particle" style="top: 45%; left: 90%; animation-delay: 4s;"></div>
+    
+    <div class="min-h-screen p-6">
+        <!-- 標題區域 -->
+        <div class="text-center mb-8">
+            <h1 class="text-5xl font-bold text-white mb-4">🌟 母星隱匿系統</h1>
+            <p class="text-2xl text-gray-300 mb-2">暗物質編程終極應用 | 維度折疊隱匿技術</p>
+            <p class="text-lg text-purple-300">「掌控暗物質，即可隱匿整個恆星系統」</p>
+        </div>
+        
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- 左側：母星可視化 -->
+            <div class="lg:col-span-1">
+                <div class="concealment-panel p-8 text-center">
+                    <h3 class="text-2xl font-bold text-white mb-6">🌟 母星狀態</h3>
+                    <div class="relative flex justify-center mb-8">
+                        <div class="dark-matter-field"></div>
+                        <div id="motherStar" class="mother-star">
+                            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-2xl font-bold">
+                                ⭐
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="text-white">
+                            <span id="visibilityIndicator" class="stealth-indicator stealth-visible"></span>
+                            <span id="visibilityText">母星可見狀態: 完全可見</span>
+                        </div>
+                        <div class="text-white">
+                            <span class="stealth-indicator stealth-concealed"></span>
+                            <span>暗物質場強度: <span id="darkMatterStrength">0%</span></span>
+                        </div>
+                        <div class="text-white">
+                            <span class="stealth-indicator stealth-concealed"></span>
+                            <span>維度折疊程度: <span id="dimensionFold">0%</span></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 量子隱形原理 -->
+                <div class="concealment-panel p-6 mt-6">
+                    <h3 class="text-xl font-bold text-white mb-4">🔬 量子隱形原理</h3>
+                    <div class="space-y-3 text-sm text-gray-300">
+                        <div class="bg-gray-800 bg-opacity-50 p-3 rounded">
+                            <div class="text-white font-medium">1. 暗物質場操控</div>
+                            <div>通過編程暗物質粒子，創建負能量密度場</div>
+                        </div>
+                        <div class="bg-gray-800 bg-opacity-50 p-3 rounded">
+                            <div class="text-white font-medium">2. 時空曲率調節</div>
+                            <div>彎曲光線路徑，使母星從視覺上消失</div>
+                        </div>
+                        <div class="bg-gray-800 bg-opacity-50 p-3 rounded">
+                            <div class="text-white font-medium">3. 維度相位轉移</div>
+                            <div>將母星轉移到平行維度空間</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 中間：隱匿控制系統 -->
+            <div class="lg:col-span-1">
+                <div class="concealment-panel p-6">
+                    <h3 class="text-2xl font-bold text-white mb-6">🎛️ 隱匿控制中樞</h3>
+                    
+                    <!-- 暗物質編程控制 -->
+                    <div class="space-y-6">
+                        <div class="bg-gray-800 bg-opacity-50 p-4 rounded-lg">
+                            <h4 class="text-lg font-bold text-white mb-3">⚛️ 暗物質場調節</h4>
+                            <div class="space-y-3">
+                                <div>
+                                    <label class="text-sm text-gray-300">場強度 (0-100%)</label>
+                                    <input type="range" id="darkMatterRange" min="0" max="100" value="0" 
+                                           class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                                           oninput="adjustDarkMatterField(this.value)">
+                                    <div class="frequency-wave"></div>
+                                </div>
+                                <div>
+                                    <label class="text-sm text-gray-300">粒子密度</label>
+                                    <input type="range" id="particleDensity" min="0" max="100" value="0" 
+                                           class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                                           oninput="adjustParticleDensity(this.value)">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-800 bg-opacity-50 p-4 rounded-lg">
+                            <h4 class="text-lg font-bold text-white mb-3">🌀 維度折疊控制</h4>
+                            <div class="space-y-3">
+                                <div>
+                                    <label class="text-sm text-gray-300">折疊深度</label>
+                                    <input type="range" id="foldDepth" min="0" max="100" value="0" 
+                                           class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                                           oninput="adjustDimensionFold(this.value)">
+                                </div>
+                                <div>
+                                    <label class="text-sm text-gray-300">相位偏移</label>
+                                    <input type="range" id="phaseShift" min="0" max="360" value="0" 
+                                           class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                                           oninput="adjustPhaseShift(this.value)">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <button class="dimension-fold w-full py-3 px-4 rounded text-white font-medium" 
+                                    onclick="activateConcealment()">
+                                🌟 啟動母星隱匿
+                            </button>
+                            <button class="dimension-fold w-full py-3 px-4 rounded text-white font-medium" 
+                                    onclick="emergencyReveal()">
+                                🚨 緊急顯現
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 右側：系統監控與狀態 -->
+            <div class="lg:col-span-1">
+                <div class="concealment-panel p-6">
+                    <h3 class="text-2xl font-bold text-white mb-6">📊 系統監控</h3>
+                    
+                    <!-- 隱匿狀態監控 -->
+                    <div class="space-y-4 mb-6">
+                        <div class="bg-gray-800 bg-opacity-50 p-4 rounded">
+                            <div class="text-lg font-bold text-white mb-2">🛡️ 隱匿狀態</div>
+                            <div id="concealmentStatus" class="text-red-400 text-center py-2">未啟動</div>
+                            <div class="text-xs text-gray-400">當前隱匿等級: <span id="concealmentLevel">0</span></div>
+                        </div>
+                        
+                        <div class="bg-gray-800 bg-opacity-50 p-4 rounded">
+                            <div class="text-lg font-bold text-white mb-2">⚡ 能量消耗</div>
+                            <div class="w-full bg-gray-700 rounded-full h-3">
+                                <div id="energyBar" class="bg-gradient-to-r from-green-500 to-red-500 h-3 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                            </div>
+                            <div class="text-xs text-gray-400 mt-1">消耗: <span id="energyConsumption">0</span> TW</div>
+                        </div>
+                        
+                        <div class="bg-gray-800 bg-opacity-50 p-4 rounded">
+                            <div class="text-lg font-bold text-white mb-2">🌌 空間穩定性</div>
+                            <div class="w-full bg-gray-700 rounded-full h-3">
+                                <div id="stabilityBar" class="bg-gradient-to-r from-blue-500 to-purple-500 h-3 rounded-full transition-all duration-1000" style="width: 100%"></div>
+                            </div>
+                            <div class="text-xs text-gray-400 mt-1">穩定度: <span id="spaceStability">100</span>%</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 警告系統 -->
+                    <div id="warningSystem" class="bg-red-900 bg-opacity-50 p-4 rounded border border-red-500 hidden">
+                        <div class="text-red-400 font-bold mb-2">⚠️ 系統警告</div>
+                        <div id="warningMessage" class="text-red-300 text-sm"></div>
+                    </div>
+                </div>
+                
+                <!-- 技術參數 -->
+                <div class="concealment-panel p-6 mt-6">
+                    <h3 class="text-xl font-bold text-white mb-4">📋 技術參數</h3>
+                    <div class="space-y-2 text-sm text-gray-300">
+                        <div class="flex justify-between">
+                            <span>暗物質操控精度:</span>
+                            <span class="text-green-400">99.97%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>量子場穩定性:</span>
+                            <span class="text-blue-400">穩定</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>維度折疊效率:</span>
+                            <span class="text-purple-400">最佳</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>隱匿範圍:</span>
+                            <span class="text-yellow-400">整個恆星系</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>檢測規避率:</span>
+                            <span class="text-green-400">100%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部狀態欄 -->
+        <div class="mt-8 concealment-panel p-6">
+            <div class="text-center">
+                <h3 class="text-2xl font-bold text-white mb-4">🌌 母星隱匿系統總覽</h3>
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 text-center">
+                    <div class="bg-gray-800 bg-opacity-50 p-3 rounded">
+                        <div class="text-2xl mb-2">⚛️</div>
+                        <div class="text-white font-medium">暗物質場</div>
+                        <div id="darkMatterStatus" class="text-yellow-400">待啟動</div>
+                    </div>
+                    <div class="bg-gray-800 bg-opacity-50 p-3 rounded">
+                        <div class="text-2xl mb-2">🌀</div>
+                        <div class="text-white font-medium">維度折疊</div>
+                        <div id="dimensionStatus" class="text-yellow-400">待啟動</div>
+                    </div>
+                    <div class="bg-gray-800 bg-opacity-50 p-3 rounded">
+                        <div class="text-2xl mb-2">🛡️</div>
+                        <div class="text-white font-medium">量子隱形</div>
+                        <div id="quantumStatus" class="text-yellow-400">待啟動</div>
+                    </div>
+                    <div class="bg-gray-800 bg-opacity-50 p-3 rounded">
+                        <div class="text-2xl mb-2">🌟</div>
+                        <div class="text-white font-medium">母星狀態</div>
+                        <div id="starStatus" class="text-green-400">正常運行</div>
+                    </div>
+                    <div class="bg-gray-800 bg-opacity-50 p-3 rounded">
+                        <div class="text-2xl mb-2">🎯</div>
+                        <div class="text-white font-medium">隱匿完成度</div>
+                        <div id="completionStatus" class="text-red-400">0%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let concealmentActive = false;
+        let darkMatterField = 0;
+        let dimensionFold = 0;
+        let energyConsumption = 0;
+        let spaceStability = 100;
+        
+        function adjustDarkMatterField(value) {
+            darkMatterField = parseInt(value);
+            document.getElementById('darkMatterStrength').textContent = value + '%';
+            updateEnergyConsumption();
+            updateSystemStatus();
+        }
+        
+        function adjustDimensionFold(value) {
+            dimensionFold = parseInt(value);
+            document.getElementById('dimensionFold').textContent = value + '%';
+            updateEnergyConsumption();
+            updateSystemStatus();
+        }
+        
+        function adjustParticleDensity(value) {
+            // 粒子密度影響隱匿效果
+            updateSystemStatus();
+        }
+        
+        function adjustPhaseShift(value) {
+            // 相位偏移影響維度轉移
+            updateSystemStatus();
+        }
+        
+        function updateEnergyConsumption() {
+            energyConsumption = Math.round((darkMatterField + dimensionFold) * 0.5);
+            document.getElementById('energyConsumption').textContent = energyConsumption;
+            document.getElementById('energyBar').style.width = energyConsumption + '%';
+            
+            // 能量消耗影響空間穩定性
+            spaceStability = Math.max(20, 100 - energyConsumption * 0.8);
+            document.getElementById('spaceStability').textContent = Math.round(spaceStability);
+            document.getElementById('stabilityBar').style.width = spaceStability + '%';
+            
+            // 高能量消耗警告
+            if (energyConsumption > 80) {
+                showWarning('高能量消耗警告：系統接近極限負荷');
+            } else {
+                hideWarning();
+            }
+        }
+        
+        function updateSystemStatus() {
+            // 更新各系統狀態
+            if (darkMatterField > 0) {
+                document.getElementById('darkMatterStatus').textContent = '運行中';
+                document.getElementById('darkMatterStatus').className = 'text-green-400';
+            }
+            
+            if (dimensionFold > 0) {
+                document.getElementById('dimensionStatus').textContent = '運行中';
+                document.getElementById('dimensionStatus').className = 'text-green-400';
+            }
+            
+            // 計算總隱匿完成度
+            const completion = Math.round((darkMatterField + dimensionFold) / 2);
+            document.getElementById('completionStatus').textContent = completion + '%';
+            
+            if (completion > 0) {
+                document.getElementById('completionStatus').className = 'text-green-400';
+            }
+        }
+        
+        function activateConcealment() {
+            if (darkMatterField < 50 || dimensionFold < 50) {
+                showNotification('⚠️ 請先調整暗物質場和維度折疊參數至50%以上！', 'error');
+                return;
+            }
+            
+            concealmentActive = true;
+            
+            // 更新母星視覺效果
+            const motherStar = document.getElementById('motherStar');
+            motherStar.classList.add('concealed');
+            
+            // 更新狀態指示器
+            const indicator = document.getElementById('visibilityIndicator');
+            indicator.className = 'stealth-indicator stealth-cloaking';
+            
+            document.getElementById('visibilityText').textContent = '母星可見狀態: 隱匿中...';
+            document.getElementById('concealmentStatus').textContent = '隱匿進行中';
+            document.getElementById('concealmentStatus').className = 'text-yellow-400';
+            
+            // 啟動隱匿序列
+            setTimeout(() => {
+                indicator.className = 'stealth-indicator stealth-concealed';
+                document.getElementById('visibilityText').textContent = '母星可見狀態: 完全隱匿';
+                document.getElementById('concealmentStatus').textContent = '隱匿完成';
+                document.getElementById('concealmentStatus').className = 'text-green-400';
+                document.getElementById('quantumStatus').textContent = '已啟動';
+                document.getElementById('quantumStatus').className = 'text-green-400';
+                document.getElementById('starStatus').textContent = '隱匿狀態';
+                document.getElementById('starStatus').className = 'text-purple-400';
+                
+                showNotification('🌟 母星隱匿成功！整個恆星系統已從宇宙中消失');
+            }, 3000);
+        }
+        
+        function emergencyReveal() {
+            if (!concealmentActive) {
+                showNotification('⚠️ 母星當前未處於隱匿狀態！', 'error');
+                return;
+            }
+            
+            concealmentActive = false;
+            
+            // 恢復母星視覺效果
+            const motherStar = document.getElementById('motherStar');
+            motherStar.classList.remove('concealed');
+            
+            // 重置狀態
+            document.getElementById('visibilityIndicator').className = 'stealth-indicator stealth-visible';
+            document.getElementById('visibilityText').textContent = '母星可見狀態: 完全可見';
+            document.getElementById('concealmentStatus').textContent = '未啟動';
+            document.getElementById('concealmentStatus').className = 'text-red-400';
+            document.getElementById('quantumStatus').textContent = '待啟動';
+            document.getElementById('quantumStatus').className = 'text-yellow-400';
+            document.getElementById('starStatus').textContent = '正常運行';
+            document.getElementById('starStatus').className = 'text-green-400';
+            
+            showNotification('🚨 緊急顯現完成！母星已重新出現在宇宙中');
+        }
+        
+        function showWarning(message) {
+            document.getElementById('warningSystem').classList.remove('hidden');
+            document.getElementById('warningMessage').textContent = message;
+        }
+        
+        function hideWarning() {
+            document.getElementById('warningSystem').classList.add('hidden');
+        }
+        
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 p-4 rounded-lg text-white font-medium z-50 ${
+                type === 'error' ? 'bg-red-600' : 'bg-green-600'
+            }`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 4000);
+        }
+        
+        // 初始化量子粒子動畫
+        function initQuantumParticles() {
+            const particles = document.querySelectorAll('.quantum-particle');
+            particles.forEach((particle, index) => {
+                particle.style.animationDelay = (index * 0.8) + 's';
+            });
+        }
+        
+        // 頁面載入完成後初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initQuantumParticles();
+            showNotification('🌟 母星隱匿系統已啟動，準備進行暗物質編程操作！');
+        });
+    </script>
+</body>
+</html>

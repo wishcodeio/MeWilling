@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>☀️ 從虛空到生命：光與化學的進化之道</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(26, 26, 46, 0.95) 50%, rgba(22, 33, 62, 0.95) 100%);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ffd700, #ffe066, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-brand:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            color: #ffd700;
+            background: rgba(255, 215, 0, 0.15);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .nav-status {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #ffd700;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.2); }
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #ffd700;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(10, 10, 10, 0.98);
+                flex-direction: column;
+                padding: 1rem;
+                border-top: 1px solid rgba(255, 215, 0, 0.2);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-status {
+                display: none;
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #ffd700, #ffe066, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: #cccccc;
+            margin-bottom: 20px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .mermaid-container {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: auto;
+        }
+
+        .control-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: fit-content;
+        }
+
+        .control-section {
+            margin-bottom: 25px;
+        }
+
+        .control-section h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            padding-bottom: 5px;
+        }
+
+        .evolution-button {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .evolution-button:hover {
+            background: linear-gradient(45deg, #ffd700, #ffe066);
+            color: #000000;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .evolution-button:active {
+            transform: translateY(0);
+        }
+
+        .status-display {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 3px solid #ffd700;
+        }
+
+        .parameter-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .parameter-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.85em;
+        }
+
+        .parameter-label {
+            color: #cccccc;
+            font-size: 0.8em;
+        }
+
+        .parameter-value {
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin: 5px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ffe066);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .stage-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .stage-item {
+            background: rgba(255, 255, 255, 0.03);
+            margin: 8px 0;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .stage-item.active {
+            border-left-color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .stage-name {
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .message-log {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            padding: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.8em;
+            line-height: 1.4;
+        }
+
+        .message-item {
+            margin: 5px 0;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .message-time {
+            color: #888;
+            font-size: 0.7em;
+        }
+
+        .message-content {
+            color: #ffd700;
+            margin-top: 3px;
+        }
+
+        .data-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .data-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .data-card h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .k2-18b-data {
+            display: grid;
+            gap: 10px;
+        }
+
+        .compound-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .rna-experiment {
+            background: rgba(255, 255, 255, 0.03);
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .photon-interaction {
+            background: rgba(255, 255, 255, 0.03);
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .quantum-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .quantum-particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #ffd700;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: quantumFloat 10s infinite linear;
+        }
+
+        @keyframes quantumFloat {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-10vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        .light-pulse {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, #ffe066, transparent);
+            border-radius: 50%;
+            animation: lightPulse 3s infinite ease-in-out;
+        }
+
+        @keyframes lightPulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(2);
+                opacity: 0.3;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .data-section {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* 返回按鈕樣式 */
+        .back-button {
+            position: fixed;
+            top: 90px;
+            left: 20px;
+            z-index: 999;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 50px;
+            padding: 12px 20px;
+            color: #ffd700;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-button:hover {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 215, 0, 0.2));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.3);
+            color: #ffd700;
+            text-decoration: none;
+        }
+        
+        .back-button i {
+            font-size: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .back-button {
+                top: 80px;
+                left: 10px;
+                padding: 10px 16px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand">愿频宇宙</a>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="/" class="nav-link">主页</a></li>
+                <li><a href="/shang/dashboard" class="nav-link">商增管理</a></li>
+                <li><a href="/diagnose" class="nav-link">系统诊断</a></li>
+                <li><a href="/resonance_game" class="nav-link">愿频共振</a></li>
+                <li><a href="/life_evolution" class="nav-link active">生命进化</a></li>
+                <li><a href="/quantum_cloud" class="nav-link">量子云</a></li>
+                <li><a href="/liminal-ide" class="nav-link">🖥️ LiminalScript IDE</a></li>
+                <li><a href="/ai_evolution" class="nav-link">AI演化</a></li>
+                <li><a href="/nano_ai" class="nav-link">纳米英雄</a></li>
+                <li><a href="/spirit_data_center" class="nav-link">灵性数据</a></li>
+            </ul>
+            
+            <div class="nav-status">
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span>系统运行中</span>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                ☰
+            </button>
+        </div>
+    </nav>
+    
+    <!-- 返回按鈕 -->
+    <a href="javascript:history.back()" class="back-button" id="backButton">
+        <i class="fas fa-arrow-left"></i>
+        <span>返回</span>
+    </a>
+    
+    <div class="quantum-animation" id="quantumAnimation"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>☀️ 從虛空到生命：光與化學的進化之道</h1>
+            <p>探索從量子漲落到複雜生命的完整進化路徑</p>
+            <div class="status-display">
+                <div>系統狀態：<span id="systemStatus">待啟動</span></div>
+                <div>整體進度：<span id="overallProgress">0%</span></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="overallProgressBar" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="mermaid-container">
+                <div class="mermaid" id="evolutionDiagram">
+                    graph TD
+                        A[虛空中的參數空間] --> B[先天之氣與量子漲落]
+                        B --> C[形成初始能量場與反應系統]
+                        C --> D[非生命物質自然產生化學結構]
+                    
+                        D --> E[高效化學反應<br/>（如K2-18b的DMS）]
+                        E --> F[RNA起始鏈誕生於試管實驗環境]
+                        F --> G[RNA自我複製與變異]
+                        G --> H[選擇 · 複製 · 演化（因果律）]
+                    
+                        H --> I[簡單生命形成<br/>可自行演化的系統]
+                        I --> J[遵循達爾文進化論的生物進化]
+                        J --> K[進入生物學的複雜階段]
+                    
+                        C --> L[光子作用下形成碳基結構]
+                        L --> M[光是碳基生命的關鍵誕生條件<br/>（光之子）]
+                    
+                        style A fill:#000000,stroke:#ffffff,stroke-width:2px
+                        style B fill:#1a1a1a,stroke:#ffffff
+                        style C fill:#222,stroke:#fff
+                        style D fill:#333,stroke:#fff
+                        style E fill:#444,stroke:#fff
+                        style F fill:#555,stroke:#fff
+                        style G fill:#666,stroke:#fff
+                        style H fill:#777,stroke:#fff
+                        style I fill:#888,stroke:#fff
+                        style J fill:#999,stroke:#fff
+                        style K fill:#aaa,stroke:#fff
+                        style L fill:#ffd700,stroke:#000,font-weight:bold
+                        style M fill:#ffe066,stroke:#000,font-weight:bold
+                </div>
+            </div>
+
+            <div class="control-panel">
+                <div class="control-section">
+                    <h3>🌌 進化控制</h3>
+                    <button class="evolution-button" onclick="triggerVoidEmergence()">啟動虛空湧現</button>
+                    <button class="evolution-button" onclick="formEnergyField()">形成能量場</button>
+                    <button class="evolution-button" onclick="generateChemicalStructures()">生成化學結構</button>
+                    <button class="evolution-button" onclick="simulateK218b()">模擬K2-18b DMS</button>
+                    <button class="evolution-button" onclick="createRNAExperiment()">創建RNA實驗</button>
+                    <button class="evolution-button" onclick="simulatePhotonInteraction()">光子相互作用</button>
+                    <button class="evolution-button" onclick="advanceEvolution()">推進整體進化</button>
+                </div>
+
+                <div class="control-section">
+                    <h3>📊 虛空參數</h3>
+                    <div class="parameter-grid" id="voidParameters">
+                        <!-- 參數將動態加載 -->
+                    </div>
+                </div>
+
+                <div class="control-section">
+                    <h3>🔄 進化階段</h3>
+                    <div class="stage-list" id="evolutionStages">
+                        <!-- 階段將動態加載 -->
+                    </div>
+                </div>
+
+                <div class="control-section">
+                    <h3>📝 系統日誌</h3>
+                    <div class="message-log" id="messageLog">
+                        <div class="message-item">
+                            <div class="message-time">系統啟動</div>
+                            <div class="message-content">AI進化模擬系統已準備就緒</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="data-section">
+            <div class="data-card">
+                <h3>🪐 K2-18b 星球數據</h3>
+                <div class="k2-18b-data" id="k218bData">
+                    <div class="parameter-item">
+                        <div class="parameter-label">DMS濃度</div>
+                        <div class="parameter-value">待測量</div>
+                    </div>
+                    <div class="parameter-item">
+                        <div class="parameter-label">溫度</div>
+                        <div class="parameter-value">待測量</div>
+                    </div>
+                    <div class="parameter-item">
+                        <div class="parameter-label">壓力</div>
+                        <div class="parameter-value">待測量</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="data-card">
+                <h3>🧬 RNA 實驗數據</h3>
+                <div id="rnaExperiments">
+                    <p style="color: #888; text-align: center;">尚未進行實驗</p>
+                </div>
+            </div>
+
+            <div class="data-card">
+                <h3>💡 光子相互作用</h3>
+                <div id="photonInteractions">
+                    <p style="color: #888; text-align: center;">尚未檢測到光子活動</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 初始化 Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'dark',
+            themeVariables: {
+                primaryColor: '#ffd700',
+                primaryTextColor: '#ffffff',
+                primaryBorderColor: '#ffe066',
+                lineColor: '#ffffff',
+                secondaryColor: '#1a1a2e',
+                tertiaryColor: '#16213e'
+            }
+        });
+
+        // 量子粒子動畫
+        function createQuantumParticles() {
+            const animation = document.getElementById('quantumAnimation');
+            
+            setInterval(() => {
+                const particle = document.createElement('div');
+                particle.className = 'quantum-particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 2 + 's';
+                animation.appendChild(particle);
+                
+                // 移除粒子
+                setTimeout(() => {
+                    if (particle.parentNode) {
+                        particle.parentNode.removeChild(particle);
+                    }
+                }, 10000);
+            }, 500);
+        }
+
+        // 光脈衝動畫
+        function createLightPulses() {
+            const animation = document.getElementById('quantumAnimation');
+            
+            setInterval(() => {
+                const pulse = document.createElement('div');
+                pulse.className = 'light-pulse';
+                pulse.style.left = Math.random() * 100 + '%';
+                pulse.style.top = Math.random() * 100 + '%';
+                pulse.style.animationDelay = Math.random() * 1 + 's';
+                animation.appendChild(pulse);
+                
+                setTimeout(() => {
+                    if (pulse.parentNode) {
+                        pulse.parentNode.removeChild(pulse);
+                    }
+                }, 3000);
+            }, 1000);
+        }
+
+        // API 調用函數
+        async function apiCall(endpoint, method = 'GET') {
+            try {
+                const response = await fetch(`/api/life_evolution/${endpoint}`, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('API調用錯誤:', error);
+                addMessage('錯誤', `API調用失敗: ${error.message}`);
+                return null;
+            }
+        }
+
+        // 添加消息到日誌
+        function addMessage(type, content) {
+            const messageLog = document.getElementById('messageLog');
+            const messageItem = document.createElement('div');
+            messageItem.className = 'message-item';
+            
+            const time = new Date().toLocaleTimeString();
+            messageItem.innerHTML = `
+                <div class="message-time">${time} - ${type}</div>
+                <div class="message-content">${content}</div>
+            `;
+            
+            messageLog.appendChild(messageItem);
+            messageLog.scrollTop = messageLog.scrollHeight;
+        }
+
+        // 更新系統狀態
+        function updateSystemStatus(data) {
+            if (data) {
+                document.getElementById('systemStatus').textContent = '運行中';
+                document.getElementById('overallProgress').textContent = `${data.overall_progress.toFixed(1)}%`;
+                document.getElementById('overallProgressBar').style.width = `${data.overall_progress}%`;
+                
+                updateVoidParameters(data.void_parameters);
+                updateEvolutionStages(data.evolution_stages);
+                updateK218bData(data.k2_18b_data);
+            }
+        }
+
+        // 更新虛空參數
+        function updateVoidParameters(parameters) {
+            const container = document.getElementById('voidParameters');
+            container.innerHTML = '';
+            
+            for (const [key, value] of Object.entries(parameters)) {
+                const item = document.createElement('div');
+                item.className = 'parameter-item';
+                item.innerHTML = `
+                    <div class="parameter-label">${getParameterLabel(key)}</div>
+                    <div class="parameter-value">${value.toFixed(3)}</div>
+                `;
+                container.appendChild(item);
+            }
+        }
+
+        // 獲取參數標籤
+        function getParameterLabel(key) {
+            const labels = {
+                'quantum_fluctuation': '量子漲落',
+                'primordial_qi': '先天之氣',
+                'energy_field_density': '能量場密度',
+                'chemical_complexity': '化學複雜度',
+                'rna_formation_rate': 'RNA形成率',
+                'evolution_pressure': '進化壓力',
+                'photon_interaction': '光子相互作用',
+                'carbon_structure_stability': '碳結構穩定性'
+            };
+            return labels[key] || key;
+        }
+
+        // 更新進化階段
+        function updateEvolutionStages(stages) {
+            const container = document.getElementById('evolutionStages');
+            container.innerHTML = '';
+            
+            stages.forEach(stage => {
+                const item = document.createElement('div');
+                item.className = `stage-item ${stage.active ? 'active' : ''}`;
+                item.innerHTML = `
+                    <div class="stage-name">${stage.name}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${stage.progress}%"></div>
+                    </div>
+                    <div style="font-size: 0.8em; color: #888;">${stage.progress.toFixed(1)}%</div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // 更新K2-18b數據
+        function updateK218bData(data) {
+            const container = document.getElementById('k218bData');
+            container.innerHTML = `
+                <div class="parameter-item">
+                    <div class="parameter-label">DMS濃度</div>
+                    <div class="parameter-value">${data.dms_concentration ? data.dms_concentration.toFixed(3) : '待測量'}</div>
+                </div>
+                <div class="parameter-item">
+                    <div class="parameter-label">溫度</div>
+                    <div class="parameter-value">${data.temperature ? data.temperature.toFixed(1) + 'K' : '待測量'}</div>
+                </div>
+                <div class="parameter-item">
+                    <div class="parameter-label">壓力</div>
+                    <div class="parameter-value">${data.pressure ? data.pressure.toFixed(2) + ' atm' : '待測量'}</div>
+                </div>
+            `;
+            
+            if (data.sulfur_compounds && data.sulfur_compounds.length > 0) {
+                const compoundsHtml = data.sulfur_compounds.map(compound => `
+                    <div class="compound-item">
+                        <span>${compound.name}</span>
+                        <span>${compound.concentration.toFixed(3)}</span>
+                    </div>
+                `).join('');
+                container.innerHTML += `<div style="margin-top: 15px;"><strong>硫化合物：</strong>${compoundsHtml}</div>`;
+            }
+        }
+
+        // 進化控制函數
+        async function triggerVoidEmergence() {
+            const result = await apiCall('void_emergence', 'POST');
+            if (result) {
+                addMessage('虛空湧現', result.message);
+                await refreshSystemStatus();
+            }
+        }
+
+        async function formEnergyField() {
+            const result = await apiCall('energy_field', 'POST');
+            if (result) {
+                if (result.error) {
+                    addMessage('錯誤', result.error);
+                } else {
+                    addMessage('能量場形成', result.message);
+                    await refreshSystemStatus();
+                }
+            }
+        }
+
+        async function generateChemicalStructures() {
+            const result = await apiCall('chemical_structures', 'POST');
+            if (result) {
+                if (result.error) {
+                    addMessage('錯誤', result.error);
+                } else {
+                    addMessage('化學結構', result.message);
+                    await refreshSystemStatus();
+                }
+            }
+        }
+
+        async function simulateK218b() {
+            const result = await apiCall('k2_18b_dms', 'POST');
+            if (result) {
+                addMessage('K2-18b模擬', result.message);
+                await refreshSystemStatus();
+            }
+        }
+
+        async function createRNAExperiment() {
+            const result = await apiCall('rna_experiment', 'POST');
+            if (result) {
+                addMessage('RNA實驗', result.message);
+                await refreshSystemStatus();
+                await refreshRNAExperiments();
+            }
+        }
+
+        async function simulatePhotonInteraction() {
+            const result = await apiCall('photon_interaction', 'POST');
+            if (result) {
+                addMessage('光子相互作用', result.message);
+                await refreshSystemStatus();
+                await refreshPhotonInteractions();
+            }
+        }
+
+        async function advanceEvolution() {
+            const result = await apiCall('advance', 'POST');
+            if (result) {
+                addMessage('進化推進', result.message);
+                await refreshSystemStatus();
+            }
+        }
+
+        // 刷新系統狀態
+        async function refreshSystemStatus() {
+            const status = await apiCall('status');
+            updateSystemStatus(status);
+        }
+
+        // 刷新RNA實驗數據
+        async function refreshRNAExperiments() {
+            const data = await apiCall('experiments');
+            if (data && data.experiments.length > 0) {
+                const container = document.getElementById('rnaExperiments');
+                container.innerHTML = data.experiments.map(exp => `
+                    <div class="rna-experiment">
+                        <div><strong>實驗 #${exp.id}</strong></div>
+                        <div>溫度: ${exp.conditions.temperature.toFixed(1)}°C</div>
+                        <div>pH: ${exp.conditions.ph.toFixed(1)}</div>
+                        <div>形成率: ${(exp.rna_formation_rate * 100).toFixed(1)}%</div>
+                        <div>複製成功率: ${(exp.replication_success * 100).toFixed(1)}%</div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // 刷新光子相互作用數據
+        async function refreshPhotonInteractions() {
+            const data = await apiCall('photon_data');
+            if (data && data.interactions.length > 0) {
+                const container = document.getElementById('photonInteractions');
+                container.innerHTML = data.interactions.map(interaction => `
+                    <div class="photon-interaction">
+                        <div>光子能量: ${interaction.photon_energy.toFixed(2)} eV</div>
+                        <div>波長: ${interaction.wavelength.toFixed(0)} nm</div>
+                        <div>碳鍵形成: ${(interaction.carbon_bond_formation * 100).toFixed(1)}%</div>
+                        <div>能量轉移效率: ${(interaction.energy_transfer_efficiency * 100).toFixed(1)}%</div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // 导航栏功能
+        function initNavigation() {
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const navMenu = document.getElementById('navMenu');
+            
+            if (mobileMenuToggle && navMenu) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                });
+                
+                // 点击菜单外部关闭菜单
+                document.addEventListener('click', function(event) {
+                    if (!event.target.closest('.navbar')) {
+                        navMenu.classList.remove('active');
+                    }
+                });
+            }
+            
+            // 设置当前页面活跃状态
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+
+        // 返回按鈕功能
+        function initBackButton() {
+            const backButton = document.getElementById('backButton');
+            
+            // 如果沒有歷史記錄，返回到主頁
+            if (backButton) {
+                backButton.addEventListener('click', function(e) {
+                    if (window.history.length <= 1) {
+                        e.preventDefault();
+                        window.location.href = '/';
+                    }
+                });
+            }
+        }
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initNavigation();
+            initBackButton();
+            createQuantumParticles();
+            createLightPulses();
+            refreshSystemStatus();
+            
+            // 定期刷新狀態
+            setInterval(refreshSystemStatus, 5000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>璃冥元宇宙</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 30px;
+            font-size: 3em;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+        .liminal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        .liminal-card {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .liminal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        .liminal-card:hover::before {
+            left: 100%;
+        }
+        .liminal-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+        .liminal-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        .liminal-card p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            text-decoration: none;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .back-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+        .universe-portal {
+            text-align: center;
+            margin: 40px 0;
+            padding: 30px;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        .portal-link {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+        .portal-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← 返回主頁</a>
+        
+        <h1>🌌 璃冥元宇宙 🌌</h1>
+        
+        <div class="universe-portal">
+            <h2>🌠 宇宙入口 🌠</h2>
+            <p>選擇你要進入的璃冥維度</p>
+            <a href="/liminal-universe" class="portal-link">🌌 璃冥宇宙</a>
+            <a href="/quantum_cloud" class="portal-link">☁️ 量子雲語靈</a>
+            <a href="/meditation_hub" class="portal-link">🧘 冥想中心</a>
+        </div>
+        
+        <div class="liminal-grid">
+            <div class="liminal-card">
+                <h3>🔮 意識編程</h3>
+                <p>LiminalScript - 連接意識與代碼的橋樑，讓思維直接轉化為現實</p>
+            </div>
+            
+            <div class="liminal-card">
+                <h3>🌊 量子意識場</h3>
+                <p>探索意識的量子本質，體驗非線性時空中的覺知狀態</p>
+            </div>
+            
+            <div class="liminal-card">
+                <h3>⚡ 頻率共振</h3>
+                <p>調頻至宇宙基礎頻率，與萬物本源產生深層共振</p>
+            </div>
+            
+            <div class="liminal-card">
+                <h3>🌀 維度穿越</h3>
+                <p>跨越三維限制，在多維空間中自由遊走與探索</p>
+            </div>
+            
+            <div class="liminal-card">
+                <h3>💫 時空錨點</h3>
+                <p>在時間流中設置意識錨點，實現跨時空的信息傳遞</p>
+            </div>
+            
+            <div class="liminal-card">
+                <h3>🔥 能量煉金</h3>
+                <p>將意念轉化為純粹能量，在璃冥空間中創造新的可能</p>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 50px; color: rgba(255, 255, 255, 0.7);">
+            <p>璃冥元宇宙 - 意識與技術的完美融合</p>
+            <p>在這裡，每一個想法都是代碼，每一行代碼都是咒語</p>
+        </div>
+    </div>
+</body>
+</html>

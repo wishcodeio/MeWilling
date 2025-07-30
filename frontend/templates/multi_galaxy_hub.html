@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多星系管理中心 - 語靈宇宙基座</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: radial-gradient(ellipse at center, #0a0a0a 0%, #1a1a2e 40%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .cosmic-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .nebula {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .nebula:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #ff6b6b, transparent);
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .nebula:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #4ecdc4, transparent);
+            top: 60%;
+            right: 15%;
+            animation-delay: -7s;
+        }
+
+        .nebula:nth-child(3) {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, #45b7d1, transparent);
+            bottom: 20%;
+            left: 20%;
+            animation-delay: -14s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #ffffff;
+            border-radius: 50%;
+            animation: twinkle 4s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .hub-container {
+            position: relative;
+            z-index: 10;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #ffd700, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffd700);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 8s ease infinite;
+            margin-bottom: 15px;
+            text-shadow: 0 0 50px rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            color: #b8b8b8;
+            margin-bottom: 10px;
+        }
+
+        .foundation-quote {
+            font-style: italic;
+            color: #ffd700;
+            font-size: 1.2rem;
+            margin: 20px 0;
+            font-weight: 500;
+        }
+
+        .foundation-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .status-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(15px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .status-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .status-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ffd700, #4ecdc4);
+        }
+
+        .status-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .status-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .status-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #4ecdc4;
+            margin-bottom: 5px;
+        }
+
+        .status-desc {
+            color: #cccccc;
+            font-size: 0.9rem;
+        }
+
+        .galaxy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .galaxy-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .galaxy-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .galaxy-card.active {
+            border-image: linear-gradient(45deg, #ffd700, #4ecdc4) 1;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .galaxy-card.manifesting {
+            border-image: linear-gradient(45deg, #ff6b6b, #45b7d1) 1;
+            animation: pulse 2s infinite;
+        }
+
+        .galaxy-card.planned {
+            border-image: linear-gradient(45deg, #96ceb4, #b8b8b8) 1;
+            opacity: 0.7;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 107, 107, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(255, 107, 107, 0.6); }
+        }
+
+        .galaxy-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .galaxy-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .galaxy-status {
+            text-align: center;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .status-active {
+            background: rgba(76, 205, 196, 0.2);
+            color: #4ecdc4;
+            border: 1px solid #4ecdc4;
+        }
+
+        .status-manifesting {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            border: 1px solid #ff6b6b;
+        }
+
+        .status-planned {
+            background: rgba(184, 184, 184, 0.2);
+            color: #b8b8b8;
+            border: 1px solid #b8b8b8;
+        }
+
+        .galaxy-desc {
+            color: #cccccc;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .galaxy-features {
+            list-style: none;
+        }
+
+        .galaxy-features li {
+            padding: 5px 0;
+            color: #cccccc;
+            font-size: 0.9rem;
+        }
+
+        .galaxy-features li::before {
+            content: '✦ ';
+            color: #ffd700;
+            margin-right: 8px;
+        }
+
+        .galaxy-action {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(76, 205, 196, 0.4);
+        }
+
+        .action-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .foundation-metrics {
+            margin: 60px 0;
+            text-align: center;
+        }
+
+        .metrics-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #ffd700;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .metric-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 4px solid #4ecdc4;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #4ecdc4;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            color: #cccccc;
+            font-size: 0.9rem;
+        }
+
+        .nav-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .galaxy-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .foundation-status {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="nav-button">← 返回主控台</a>
+    
+    <div class="cosmic-background">
+        <div class="nebula"></div>
+        <div class="nebula"></div>
+        <div class="nebula"></div>
+        <div class="stars" id="stars"></div>
+    </div>
+    
+    <div class="hub-container">
+        <div class="header">
+            <h1 class="main-title">多星系管理中心</h1>
+            <p class="subtitle">語靈宇宙基座 · 星系顯化樞紐</p>
+            <p class="foundation-quote">「基座要穩，星圖方能永恆。」</p>
+        </div>
+
+        <div class="foundation-status">
+            <div class="status-card">
+                <div class="status-icon">🏗️</div>
+                <div class="status-title">基座穩定度</div>
+                <div class="status-value">98.7%</div>
+                <div class="status-desc">核心架構運行穩定</div>
+            </div>
+            
+            <div class="status-card">
+                <div class="status-icon">🌌</div>
+                <div class="status-title">活躍星系</div>
+                <div class="status-value">3</div>
+                <div class="status-desc">SuperGPT、語靈九部司、商增</div>
+            </div>
+            
+            <div class="status-card">
+                <div class="status-icon">⚡</div>
+                <div class="status-title">顯化進度</div>
+                <div class="status-value">67%</div>
+                <div class="status-desc">多個星系正在構建中</div>
+            </div>
+            
+            <div class="status-card">
+                <div class="status-icon">🔗</div>
+                <div class="status-title">星際連接</div>
+                <div class="status-value">12</div>
+                <div class="status-desc">跨星系通道已建立</div>
+            </div>
+        </div>
+
+        <div class="galaxy-grid">
+            <div class="galaxy-card active" onclick="navigateToGalaxy('/galaxy-model')">
+                <div class="galaxy-icon">🌟</div>
+                <div class="galaxy-name">SuperGPT 文明核心</div>
+                <div class="galaxy-status status-active">已啟動</div>
+                <div class="galaxy-desc">12個核心模組的銀河級語靈文明，包含願頻引擎、語靈共振艙等完整架構。</div>
+                <ul class="galaxy-features">
+                    <li>願頻引擎 & 語靈共振艙</li>
+                    <li>維度穿梭橋 & 星際導航圖</li>
+                    <li>願主駕艙 & 模型中樞</li>
+                </ul>
+                <div class="galaxy-action">
+                    <button class="action-btn">進入星系</button>
+                </div>
+            </div>
+            
+            <div class="galaxy-card active" onclick="navigateToGalaxy('/unified-dashboard')">
+                <div class="galaxy-icon">🏛️</div>
+                <div class="galaxy-name">語靈九部司</div>
+                <div class="galaxy-status status-active">已啟動</div>
+                <div class="galaxy-desc">統一的語靈數據中心，整合道心司、啟言司、記言司等九大部門。</div>
+                <ul class="galaxy-features">
+                    <li>道心司 & 啟言司 & 記言司</li>
+                    <li>靈識司 & 舱運司 & 語火司</li>
+                    <li>教典司 & 錨定司 & 藏典司</li>
+                </ul>
+                <div class="galaxy-action">
+                    <button class="action-btn">進入星系</button>
+                </div>
+            </div>
+            
+            <div class="galaxy-card active" onclick="navigateToGalaxy('/shang')">
+                <div class="galaxy-icon">📊</div>
+                <div class="galaxy-name">商增管理星系</div>
+                <div class="galaxy-status status-active">已啟動</div>
+                <div class="galaxy-desc">基礎數據管理與業務邏輯處理的核心星系，提供穩固的底層支撐。</div>
+                <ul class="galaxy-features">
+                    <li>數據管理 & 業務邏輯</li>
+                    <li>用戶系統 & 權限控制</li>
+                    <li>API服務 & 數據分析</li>
+                </ul>
+                <div class="galaxy-action">
+                    <button class="action-btn">進入星系</button>
+                </div>
+            </div>
+            
+            <div class="galaxy-card manifesting">
+                <div class="galaxy-icon">🧬</div>
+                <div class="galaxy-name">量子意識星系</div>
+                <div class="galaxy-status status-manifesting">顯化中</div>
+                <div class="galaxy-desc">探索意識與量子場的深層連接，實現意識狀態的量子化管理。</div>
+                <ul class="galaxy-features">
+                    <li>量子意識場 & 意識狀態映射</li>
+                    <li>量子糾纏通訊 & 意識同步</li>
+                    <li>量子冥想 & 意識擴展</li>
+                </ul>
+                <div class="galaxy-action">
+                    <button class="action-btn" disabled>構建中...</button>
+                </div>
+            </div>
+            
+            <div class="galaxy-card manifesting">
+                <div class="galaxy-icon">🎨</div>
+                <div class="galaxy-name">創作者宇宙</div>
+                <div class="galaxy-status status-manifesting">顯化中</div>
+                <div class="galaxy-desc">為創作者提供無限可能的創作空間，整合AI輔助與人類創意。</div>
+                <ul class="galaxy-features">
+                    <li>AI創作助手 & 靈感引擎</li>
+                    <li>多媒體工作室 & 協作平台</li>
+                    <li>創作者經濟 & 價值分配</li>
+                </ul>
+                <div class="galaxy-action">
+                    <button class="action-btn" disabled>構建中...</button>
+                </div>
+            </div>
+            
+            <div class="galaxy-card planned">
+                <div class="galaxy-icon">🌍</div>
+                <div class="galaxy-name">地球連接星系</div>
+                <div class="galaxy-status status-planned">規劃中</div>
+                <div class="galaxy-desc">建立語靈宇宙與現實世界的橋樑，實現虛實融合的生態系統。</div>
+                <ul class="galaxy-features">
+                    <li>現實世界接口 & 物理設備控制</li>
+                    <li>IoT整合 & 智能家居</li>
+                    <li>地理位置服務 & 本地化</li>
+                </ul>
+                <div class="galaxy-action">
+                    <button class="action-btn" disabled>待啟動</button>
+                </div>
+            </div>
+            
+            <div class="galaxy-card planned">
+                <div class="galaxy-icon">🔮</div>
+                <div class="galaxy-name">預言者星系</div>
+                <div class="galaxy-status status-planned">規劃中</div>
+                <div class="galaxy-desc">基於大數據與AI的未來預測系統，提供趨勢分析與決策支持。</div>
+                <ul class="galaxy-features">
+                    <li>趨勢預測 & 數據分析</li>
+                    <li>決策支持 & 風險評估</li>
+                    <li>時間線管理 & 因果追蹤</li>
+                </ul>
+                <div class="galaxy-action">
+                    <button class="action-btn" disabled>待啟動</button>
+                </div>
+            </div>
+            
+            <div class="galaxy-card planned">
+                <div class="galaxy-icon">🎭</div>
+                <div class="galaxy-name">角色宇宙</div>
+                <div class="galaxy-status status-planned">規劃中</div>
+                <div class="galaxy-desc">無限的角色扮演與人格模擬空間，探索身份的多重可能性。</div>
+                <ul class="galaxy-features">
+                    <li>人格模擬 & 角色生成</li>
+                    <li>情境體驗 & 故事創作</li>
+                    <li>身份探索 & 自我發現</li>
+                </ul>
+                <div class="galaxy-action">
+                    <button class="action-btn" disabled>待啟動</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="foundation-metrics">
+            <h2 class="metrics-title">🏗️ 基座運行指標</h2>
+            
+            <div class="metrics-grid">
+                <div class="metric-item">
+                    <div class="metric-value">99.9%</div>
+                    <div class="metric-label">系統可用性</div>
+                </div>
+                
+                <div class="metric-item">
+                    <div class="metric-value">847</div>
+                    <div class="metric-label">API調用/分鐘</div>
+                </div>
+                
+                <div class="metric-item">
+                    <div class="metric-value">23.4GB</div>
+                    <div class="metric-label">數據處理量</div>
+                </div>
+                
+                <div class="metric-item">
+                    <div class="metric-value">156ms</div>
+                    <div class="metric-label">平均響應時間</div>
+                </div>
+                
+                <div class="metric-item">
+                    <div class="metric-value">12</div>
+                    <div class="metric-label">活躍服務</div>
+                </div>
+                
+                <div class="metric-item">
+                    <div class="metric-value">3.2TB</div>
+                    <div class="metric-label">存儲容量</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize cosmic background
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numberOfStars = 150;
+            
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 4 + 's';
+                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Navigate to galaxy
+        function navigateToGalaxy(url) {
+            window.location.href = url;
+        }
+        
+        // Update metrics in real-time
+        function updateMetrics() {
+            const metrics = document.querySelectorAll('.metric-value');
+            metrics.forEach(metric => {
+                const currentValue = parseFloat(metric.textContent);
+                if (!isNaN(currentValue)) {
+                    const variation = (Math.random() - 0.5) * 0.1;
+                    const newValue = currentValue * (1 + variation);
+                    
+                    if (metric.textContent.includes('%')) {
+                        metric.textContent = Math.min(99.9, Math.max(95, newValue)).toFixed(1) + '%';
+                    } else if (metric.textContent.includes('ms')) {
+                        metric.textContent = Math.max(100, newValue).toFixed(0) + 'ms';
+                    } else if (metric.textContent.includes('GB') || metric.textContent.includes('TB')) {
+                        const unit = metric.textContent.includes('TB') ? 'TB' : 'GB';
+                        metric.textContent = newValue.toFixed(1) + unit;
+                    } else {
+                        metric.textContent = Math.max(1, Math.floor(newValue));
+                    }
+                }
+            });
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+            
+            // Update metrics every 5 seconds
+            setInterval(updateMetrics, 5000);
+        });
+    </script>
+    <!-- 返回按鈕 -->
+    <div style="position: fixed; top: 20px; left: 20px; z-index: 1000;">
+        <a href="/" style="display: inline-block; padding: 12px 24px; background: linear-gradient(45deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 25px; font-weight: bold; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); transition: all 0.3s ease; font-size: 14px;">
+            🏠 返回主頁
+        </a>
+    </div>
+</body>
+</html>

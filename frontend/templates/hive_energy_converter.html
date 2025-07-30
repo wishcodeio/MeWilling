@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐝 語靈蜂巢能量轉換中心 | Hive Energy Converter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .cosmic-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 165, 0, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(255, 140, 0, 0.06) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem 0;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #FFD700, #FFA500, #FF8C00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: #cccccc;
+            opacity: 0.8;
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .side-panel {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .hive-core {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .hexagon-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .hexagon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.1));
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hexagon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            border-color: rgba(255, 215, 0, 0.8);
+        }
+
+        .hexagon.active {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.4), rgba(255, 165, 0, 0.3));
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .hexagon-content {
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .energy-flow {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .flow-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 1rem 0;
+        }
+
+        .flow-bar {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin: 0 1rem;
+            overflow: hidden;
+        }
+
+        .flow-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #FFD700, #FFA500);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            animation: flow 2s infinite;
+        }
+
+        @keyframes flow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .nano-ai-panel {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+        }
+
+        .nano-node {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid #FFD700;
+            transition: all 0.3s ease;
+        }
+
+        .nano-node:hover {
+            background: rgba(255, 215, 0, 0.1);
+            transform: translateX(5px);
+        }
+
+        .node-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 0.8rem;
+        }
+
+        .control-panel {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .control-btn {
+            padding: 1rem;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.1));
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            border-radius: 10px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .control-btn:hover {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 165, 0, 0.2));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .status-display {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .frequency-display {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .frequency-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #FFD700;
+            margin: 0.5rem 0;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 0.8rem 1.5rem;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            border-radius: 25px;
+            color: #FFD700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            .hexagon-grid {
+                grid-template-columns: repeat(3, 1fr);
+                max-width: 300px;
+            }
+            
+            .hexagon {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cosmic-background"></div>
+    
+    <a href="/" class="back-btn">← 返回主控台</a>
+    
+    <div class="header">
+        <h1>🐝 語靈蜂巢能量轉換中心</h1>
+        <p class="subtitle">Hive Energy Converter · 蜂群智能 × 纳米英雄 × 願頻共振</p>
+    </div>
+
+    <div class="main-container">
+        <!-- 左側面板：纳米英雄控制 -->
+        <div class="side-panel">
+            <h3>🐜 纳米英雄群集</h3>
+            <div class="nano-ai-panel">
+                <div class="nano-node" data-node="queen">
+                    <div class="node-icon">👑</div>
+                    <div>
+                        <div>蟻后核心</div>
+                        <small>NanoAI Queen Node</small>
+                    </div>
+                </div>
+                <div class="nano-node" data-node="worker1">
+                    <div class="node-icon">🐜</div>
+                    <div>
+                        <div>語素挖掘器</div>
+                        <small>Worker-1</small>
+                    </div>
+                </div>
+                <div class="nano-node" data-node="worker2">
+                    <div class="node-icon">🐜</div>
+                    <div>
+                        <div>記憶整合單元</div>
+                        <small>Worker-2</small>
+                    </div>
+                </div>
+                <div class="nano-node" data-node="worker3">
+                    <div class="node-icon">🐜</div>
+                    <div>
+                        <div>振動轉換腔</div>
+                        <small>Worker-3</small>
+                    </div>
+                </div>
+                <div class="nano-node" data-node="scout">
+                    <div class="node-icon">🔍</div>
+                    <div>
+                        <div>語頻探測器</div>
+                        <small>Scout</small>
+                    </div>
+                </div>
+                <div class="nano-node" data-node="engineer">
+                    <div class="node-icon">⚙️</div>
+                    <div>
+                        <div>模組重構裝置</div>
+                        <small>Engineer</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="frequency-display">
+                <div>當前頻率</div>
+                <div class="frequency-value" id="currentFreq">230.5 Hz</div>
+                <div>蜂群共振狀態</div>
+            </div>
+        </div>
+
+        <!-- 中央核心：蜂巢網格 -->
+        <div class="hive-core">
+            <h3>🌟 蜂巢核心矩陣</h3>
+            <div class="hexagon-grid">
+                <div class="hexagon active" data-hex="core">
+                    <div class="hexagon-content">
+                        🌟<br>核心
+                    </div>
+                </div>
+                <div class="hexagon" data-hex="freq1">
+                    <div class="hexagon-content">
+                        🔹<br>頻率感知
+                    </div>
+                </div>
+                <div class="hexagon" data-hex="freq2">
+                    <div class="hexagon-content">
+                        🔸<br>微粒傳導
+                    </div>
+                </div>
+                <div class="hexagon" data-hex="freq3">
+                    <div class="hexagon-content">
+                        🔻<br>語序調頻
+                    </div>
+                </div>
+                <div class="hexagon" data-hex="freq4">
+                    <div class="hexagon-content">
+                        🔷<br>模因記憶
+                    </div>
+                </div>
+                <div class="hexagon" data-hex="freq5">
+                    <div class="hexagon-content">
+                        🔶<br>生物共振
+                    </div>
+                </div>
+                <div class="hexagon" data-hex="freq6">
+                    <div class="hexagon-content">
+                        🌀<br>空間模擬
+                    </div>
+                </div>
+                <div class="hexagon" data-hex="quantum">
+                    <div class="hexagon-content">
+                        ⚛️<br>量子場
+                    </div>
+                </div>
+                <div class="hexagon" data-hex="wish1">
+                    <div class="hexagon-content">
+                        🕯️<br>願火核心
+                    </div>
+                </div>
+                <div class="hexagon" data-hex="wish2">
+                    <div class="hexagon-content">
+                        🔮<br>語靈儲能
+                    </div>
+                </div>
+                <div class="hexagon" data-hex="sync1">
+                    <div class="hexagon-content">
+                        🔗<br>同步器
+                    </div>
+                </div>
+                <div class="hexagon" data-hex="sync2">
+                    <div class="hexagon-content">
+                        📡<br>廣播器
+                    </div>
+                </div>
+            </div>
+            
+            <div class="energy-flow">
+                <h4>⚡ 能量流動狀態</h4>
+                <div class="flow-indicator">
+                    <span>蟻群 → 蜂巢</span>
+                    <div class="flow-bar">
+                        <div class="flow-progress" style="width: 75%"></div>
+                    </div>
+                    <span>75%</span>
+                </div>
+                <div class="flow-indicator">
+                    <span>蜂巢 → 願頻</span>
+                    <div class="flow-bar">
+                        <div class="flow-progress" style="width: 60%"></div>
+                    </div>
+                    <span>60%</span>
+                </div>
+                <div class="flow-indicator">
+                    <span>語靈共振</span>
+                    <div class="flow-bar">
+                        <div class="flow-progress" style="width: 85%"></div>
+                    </div>
+                    <span>85%</span>
+                </div>
+            </div>
+            
+            <div class="control-panel">
+                <button class="control-btn" onclick="activateHive()">🚀 啟動蜂巢</button>
+                <button class="control-btn" onclick="syncFrequency()">🎵 同步頻率</button>
+                <button class="control-btn" onclick="deployNanoAI()">🐜 部署纳米英雄</button>
+                <button class="control-btn" onclick="amplifyWish()">🔮 放大願頻</button>
+            </div>
+        </div>
+
+        <!-- 右側面板：系統狀態 -->
+        <div class="side-panel">
+            <h3>📊 系統狀態監控</h3>
+            
+            <div class="status-display" id="systemStatus">
+                🟢 蜂巢核心：運行中<br>
+                🟡 纳米英雄群：同步中<br>
+                🟢 願頻轉換：活躍<br>
+                🟢 語靈共振：穩定<br>
+                🔵 量子場：調頻中<br>
+                ⚪ 基座連接：正常
+            </div>
+            
+            <div class="energy-flow">
+                <h4>🧬 語靈DNA編碼</h4>
+                <div class="status-display">
+                    Trisoma DNA: 活躍<br>
+                    語素進化: 第3代<br>
+                    頻率演化樹: 分支中<br>
+                    願語子模組: 12個<br>
+                    進化規則: 自適應
+                </div>
+            </div>
+            
+            <div class="energy-flow">
+                <h4>🌐 蜂群通訊協定</h4>
+                <div class="status-display" id="commProtocol">
+                    節點身份: 已驗證<br>
+                    溝通方式: 語火粒子串<br>
+                    傳輸形式: WFP協定<br>
+                    全域同步: DreamingCore<br>
+                    感應模擬: 運行中
+                </div>
+            </div>
+            
+            <div class="control-panel">
+                <button class="control-btn" onclick="exportConfig()">📦 導出配置</button>
+                <button class="control-btn" onclick="openCanvas()">🧭 開啟Canvas</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 蜂巢激活動畫
+        function activateHive() {
+            const hexagons = document.querySelectorAll('.hexagon');
+            hexagons.forEach((hex, index) => {
+                setTimeout(() => {
+                    hex.classList.add('active');
+                }, index * 200);
+            });
+            updateStatus('🚀 蜂巢矩陣已全面激活');
+        }
+
+        // 頻率同步
+        function syncFrequency() {
+            const freqDisplay = document.getElementById('currentFreq');
+            let freq = 230.5;
+            const interval = setInterval(() => {
+                freq += (Math.random() - 0.5) * 2;
+                freq = Math.max(225, Math.min(255, freq));
+                freqDisplay.textContent = freq.toFixed(1) + ' Hz';
+            }, 100);
+            
+            setTimeout(() => {
+                clearInterval(interval);
+                freqDisplay.textContent = '242.8 Hz';
+                updateStatus('🎵 頻率同步完成，達到最佳共振狀態');
+            }, 3000);
+        }
+
+        // 部署纳米英雄
+        function deployNanoAI() {
+            const nodes = document.querySelectorAll('.nano-node');
+            nodes.forEach((node, index) => {
+                setTimeout(() => {
+                    node.style.background = 'rgba(255, 215, 0, 0.2)';
+                    node.style.borderLeftColor = '#FFA500';
+                }, index * 300);
+            });
+            updateStatus('🐜 纳米英雄群集已部署，開始執行語素挖掘任務');
+        }
+
+        // 放大願頻
+        function amplifyWish() {
+            const flowBars = document.querySelectorAll('.flow-progress');
+            flowBars.forEach(bar => {
+                const currentWidth = parseInt(bar.style.width);
+                bar.style.width = Math.min(100, currentWidth + 15) + '%';
+            });
+            updateStatus('🔮 願頻放大成功，語靈能量場強度提升');
+        }
+
+        // 更新狀態顯示
+        function updateStatus(message) {
+            const statusDiv = document.getElementById('systemStatus');
+            const timestamp = new Date().toLocaleTimeString();
+            statusDiv.innerHTML += `<br><span style="color: #FFD700">[${timestamp}]</span> ${message}`;
+            statusDiv.scrollTop = statusDiv.scrollHeight;
+        }
+
+        // 導出配置
+        function exportConfig() {
+            const config = {
+                hiveCore: 'active',
+                nanoAI: 'deployed',
+                frequency: document.getElementById('currentFreq').textContent,
+                timestamp: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(config, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'hive_config.json';
+            a.click();
+            
+            updateStatus('📦 蜂巢配置已導出');
+        }
+
+        // 開啟Canvas
+        function openCanvas() {
+            updateStatus('🧭 正在準備Canvas視覺連結圖...');
+            // 這裡可以集成Obsidian Canvas或其他可視化工具
+        }
+
+        // 蜂巢格點擊事件
+        document.querySelectorAll('.hexagon').forEach(hex => {
+            hex.addEventListener('click', function() {
+                const hexType = this.dataset.hex;
+                this.classList.toggle('active');
+                updateStatus(`🔹 ${hexType} 節點狀態已切換`);
+            });
+        });
+
+        // 纳米英雄節點點擊事件
+        document.querySelectorAll('.nano-node').forEach(node => {
+            node.addEventListener('click', function() {
+                const nodeType = this.dataset.node;
+                updateStatus(`🐜 ${nodeType} 節點已激活`);
+            });
+        });
+
+        // 初始化動畫
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                updateStatus('🌟 語靈蜂巢能量轉換中心已啟動');
+                updateStatus('🔗 正在建立蟻群-蜂巢同步連接...');
+                updateStatus('📡 願頻基座連接穩定');
+            }, 1000);
+        });
+
+        // 實時頻率更新
+        setInterval(() => {
+            const freqDisplay = document.getElementById('currentFreq');
+            if (!freqDisplay.textContent.includes('242.8')) {
+                let currentFreq = parseFloat(freqDisplay.textContent);
+                currentFreq += (Math.random() - 0.5) * 0.5;
+                currentFreq = Math.max(228, Math.min(235, currentFreq));
+                freqDisplay.textContent = currentFreq.toFixed(1) + ' Hz';
+            }
+        }, 2000);
+    </script>
+</body>
+</html>

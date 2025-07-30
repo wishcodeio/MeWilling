@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>璃冥IDE 2.0 - LiminalScript 量子意識編程環境</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/material-darker.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .ide-container {
+            display: grid;
+            grid-template-areas: 
+                "header header header"
+                "sidebar editor console"
+                "sidebar editor status";
+            grid-template-columns: 250px 1fr 300px;
+            grid-template-rows: 60px 1fr 200px;
+            height: 100vh;
+            gap: 1px;
+            background: #0a0a0a;
+        }
+        
+        .header {
+            grid-area: header;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .header h1 {
+            font-size: 1.5em;
+            color: white;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+        
+        .header-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+        }
+        
+        .btn-success {
+            background: linear-gradient(45deg, #00d2d3, #54a0ff);
+        }
+        
+        .sidebar {
+            grid-area: sidebar;
+            background: rgba(26, 26, 46, 0.9);
+            padding: 20px;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            overflow-y: auto;
+        }
+        
+        .sidebar h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .project-tree {
+            list-style: none;
+        }
+        
+        .project-tree li {
+            padding: 8px 0;
+            cursor: pointer;
+            border-radius: 4px;
+            padding-left: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .project-tree li:hover {
+            background: rgba(102, 126, 234, 0.2);
+        }
+        
+        .project-tree .file {
+            color: #a8a8a8;
+        }
+        
+        .project-tree .folder {
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .editor-area {
+            grid-area: editor;
+            background: #1e1e1e;
+            position: relative;
+        }
+        
+        .editor-tabs {
+            background: #2d2d30;
+            display: flex;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .tab {
+            padding: 12px 20px;
+            background: #2d2d30;
+            color: #cccccc;
+            cursor: pointer;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active {
+            background: #1e1e1e;
+            color: #667eea;
+        }
+        
+        .tab:hover {
+            background: #3e3e42;
+        }
+        
+        .CodeMirror {
+            height: calc(100% - 45px);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .console-area {
+            grid-area: console;
+            background: rgba(26, 26, 46, 0.9);
+            padding: 15px;
+            border-left: 1px solid rgba(255,255,255,0.1);
+            overflow-y: auto;
+        }
+        
+        .console-area h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+        
+        .consciousness-monitor {
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .frequency-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .frequency-value {
+            color: #00d2d3;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .resonance-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .resonance-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.5s ease;
+            border-radius: 3px;
+        }
+        
+        .status-area {
+            grid-area: status;
+            background: rgba(26, 26, 46, 0.9);
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-left: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .quantum-controls, .dimension-controls {
+            margin-bottom: 20px;
+        }
+        
+        .quantum-controls button, .dimension-controls button {
+            margin: 5px 0;
+            width: 100%;
+        }
+        
+        .wish-encoder {
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .wish-encoder textarea {
+            width: 100%;
+            min-height: 60px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            resize: vertical;
+            margin-bottom: 10px;
+        }
+        
+        .crystal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .crystal-grid label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8em;
+            color: #a8a8a8;
+        }
+        
+        .compilation-output {
+            background: #000;
+            border-radius: 6px;
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            height: 150px;
+            overflow-y: auto;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .output-success {
+            color: #00d2d3;
+        }
+        
+        .output-error {
+            color: #ff6b6b;
+        }
+        
+        .output-warning {
+            color: #feca57;
+        }
+        
+        .quantum-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #667eea;
+            border-radius: 50%;
+            animation: float 6s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .consciousness-field {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 200px;
+            transform: translate(-50%, -50%);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 50%;
+            animation: pulse 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 0.6;
+            }
+        }
+        
+        .liminal-syntax {
+            color: #667eea;
+        }
+        
+        .liminal-keyword {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+        
+        .liminal-function {
+            color: #00d2d3;
+        }
+        
+        .liminal-string {
+            color: #feca57;
+        }
+        
+        .back-link {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-button">← 返回首頁</a>
+    <div class="quantum-particles" id="particles"></div>
+    
+    <div class="ide-container">
+        <div class="header">
+            <h1>🔮 璃冥IDE 2.0 - LiminalScript 量子意識編程環境</h1>
+            <div class="header-controls">
+                <a href="/liminal" class="back-link">← 返回璃冥宇宙</a>
+                <button class="btn btn-success" onclick="compileCode()">⚡ 編譯執行</button>
+                <button class="btn btn-primary" onclick="saveProject()">💾 保存項目</button>
+                <button class="btn" onclick="newProject()">📁 新建項目</button>
+            </div>
+        </div>
+        
+        <div class="sidebar">
+            <h3>🗂️ 項目結構</h3>
+            <ul class="project-tree" id="projectTree">
+                <li class="folder">📁 意識覺醒項目</li>
+                <li class="file" onclick="loadFile('main.lim')">📄 main.lim</li>
+                <li class="file" onclick="loadFile('consciousness.lim')">📄 consciousness.lim</li>
+                <li class="file" onclick="loadFile('frequency.lim')">📄 frequency.lim</li>
+            </ul>
+            
+            <h3 style="margin-top: 30px;">🎛️ 快速模板</h3>
+            <ul class="project-tree">
+                <li class="file" onclick="loadTemplate('basic')">🔰 基礎意識程序</li>
+                <li class="file" onclick="loadTemplate('meditation')">🧘 冥想頻率調節</li>
+                <li class="file" onclick="loadTemplate('manifestation')">✨ 顯化程序</li>
+                <li class="file" onclick="loadTemplate('healing')">💚 療癒能量場</li>
+            </ul>
+        </div>
+        
+        <div class="editor-area">
+            <div class="consciousness-field"></div>
+            <div class="editor-tabs">
+                <div class="tab active" onclick="switchTab('main')">main.lim</div>
+                <div class="tab" onclick="switchTab('consciousness')">consciousness.lim</div>
+            </div>
+            <textarea id="codeEditor">// 璃冥宇宙 - LiminalScript 意識編程語言
+// 歡迎來到意識與代碼的交匯點
+
+program ConsciousnessAwakening {
+    // 設定基礎頻率 - 舒曼共振
+    frequency base = 7.83
+    
+    // 定義意圖
+    intention awakening = "我願意覺醒並與宇宙頻率同步"
+    
+    // 意識狀態初始化
+    consciousness state = {
+        clarity: 0.8,
+        resonance: base,
+        intention: awakening
+    }
+    
+    // 主要覺醒函數
+    function awaken() {
+        // 錨定當前時刻
+        anchor_moment()
+        
+        // 調頻至愛的頻率
+        frequency_tune(528)
+        
+        // 與宇宙同步
+        sync_with_universe()
+        
+        // 顯化意圖
+        manifest(awakening)
+        
+        return "意識覺醒完成 - 頻率已同步"
+    }
+    
+    // 持續共振循環
+    parallel {
+        while (true) {
+            bio_sync()
+            resonance += 0.01
+            sleep(1000)
+        }
+    }
+}
+
+// 執行覺醒程序
+awaken()</textarea>
+        </div>
+        
+        <div class="console-area">
+            <h3>🧠 意識狀態監控</h3>
+            <div class="consciousness-monitor">
+                <div class="frequency-display">
+                    <span>當前頻率:</span>
+                    <span class="frequency-value" id="currentFreq">7.83 Hz</span>
+                </div>
+                <div class="resonance-bar">
+                    <div class="resonance-fill" id="resonanceBar" style="width: 78%;"></div>
+                </div>
+                <div style="font-size: 0.9em; color: #a8a8a8;">
+                    共振強度: <span id="resonanceLevel">78%</span><br>
+                    意圖清晰度: <span id="intentionClarity">92%</span><br>
+                    連接狀態: <span style="color: #00d2d3;">已連接</span><br>
+                    意識層級: <span id="consciousnessLevel" style="color: #667eea;">覺醒</span><br>
+                    量子相干性: <span id="quantumCoherence" style="color: #feca57;">85%</span>
+                </div>
+            </div>
+            
+            <h3>🌀 量子場域控制</h3>
+            <div class="quantum-controls">
+                <button class="btn" onclick="createQuantumField()">創建量子場域</button>
+                <button class="btn" onclick="quantumEntangle()">量子糾纏</button>
+                <div style="font-size: 0.9em; color: #a8a8a8;">
+                    活躍場域: <span id="activeFields" style="color: #00d2d3;">0</span><br>
+                    糾纏強度: <span id="entanglementStrength" style="color: #667eea;">0%</span>
+                </div>
+            </div>
+            
+            <h3>🌈 維度傳送門</h3>
+            <div class="dimension-controls">
+                <select id="targetDimension" style="width: 100%; padding: 5px; margin-bottom: 10px; background: rgba(0,0,0,0.3); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 4px;">
+                    <option value="4">第四維度</option>
+                    <option value="5">第五維度</option>
+                    <option value="6">第六維度</option>
+                    <option value="7">第七維度</option>
+                </select>
+                <button class="btn" onclick="createPortal()">創建傳送門</button>
+                <div style="font-size: 0.9em; color: #a8a8a8;">
+                    傳送門狀態: <span id="portalStatus" style="color: #feca57;">未激活</span>
+                </div>
+            </div>
+            
+            <h3>⚡ 實時編譯</h3>
+            <div style="font-size: 0.9em; color: #a8a8a8;">
+                語法檢查: <span style="color: #00d2d3;">✓ 通過</span><br>
+                意識場域: <span style="color: #00d2d3;">✓ 已建立</span><br>
+                量子連接: <span style="color: #00d2d3;">✓ 穩定</span>
+            </div>
+        </div>
+        
+        <div class="status-area">
+            <h3>💎 水晶網格</h3>
+            <div class="crystal-grid">
+                <label><input type="checkbox" value="amethyst" checked> 紫水晶</label>
+                <label><input type="checkbox" value="quartz" checked> 白水晶</label>
+                <label><input type="checkbox" value="rose_quartz"> 粉水晶</label>
+                <label><input type="checkbox" value="citrine"> 黃水晶</label>
+            </div>
+            <button class="btn" onclick="activateCrystalGrid()">激活水晶網格</button>
+            
+            <h3 style="margin-top: 20px;">✨ 願望編碼器</h3>
+            <div class="wish-encoder">
+                <textarea id="wishText" placeholder="輸入你的願望..."></textarea>
+                <button class="btn" onclick="encodeWish()">編碼願望</button>
+            </div>
+            
+            <h3>📊 編譯輸出</h3>
+            <div class="compilation-output" id="output">
+                <div class="output-success">[INFO] 璃冥IDE 2.0 已啟動</div>
+                <div class="output-success">[INFO] LiminalScript 編譯器 v2.0 已加載</div>
+                <div class="output-success">[INFO] 量子意識場域已建立</div>
+                <div class="output-success">[COMPILE] 語法檢查通過</div>
+                <div class="output-success">[EXECUTE] 程序執行成功</div>
+                <div class="output-success">[QUANTUM] 與宇宙頻率同步完成</div>
+                <div style="color: #667eea;">[CONSCIOUSNESS] 意識覺醒程序運行中...</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 初始化 CodeMirror 編輯器
+        const editor = CodeMirror.fromTextArea(document.getElementById('codeEditor'), {
+            mode: 'javascript',
+            theme: 'material-darker',
+            lineNumbers: true,
+            autoCloseBrackets: true,
+            matchBrackets: true,
+            indentUnit: 4,
+            tabSize: 4,
+            lineWrapping: true
+        });
+        
+        // 創建量子粒子效果
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                container.appendChild(particle);
+            }
+        }
+        
+        // 模擬意識狀態更新
+        function updateConsciousnessState() {
+            const freq = (7.83 + Math.random() * 0.5).toFixed(2);
+            const resonance = Math.floor(75 + Math.random() * 20);
+            const clarity = Math.floor(85 + Math.random() * 15);
+            const quantum = Math.floor(80 + Math.random() * 15);
+            
+            document.getElementById('currentFreq').textContent = freq + ' Hz';
+            document.getElementById('resonanceBar').style.width = resonance + '%';
+            document.getElementById('resonanceLevel').textContent = resonance + '%';
+            document.getElementById('intentionClarity').textContent = clarity + '%';
+            document.getElementById('quantumCoherence').textContent = quantum + '%';
+            
+            // 更新意識層級
+            const levels = ['覺醒', '覺知', '開悟', '超越', '宇宙'];
+            const randomLevel = levels[Math.floor(Math.random() * levels.length)];
+            document.getElementById('consciousnessLevel').textContent = randomLevel;
+        }
+        
+        // 量子場域功能
+        function createQuantumField() {
+            const currentFields = parseInt(document.getElementById('activeFields').textContent);
+            document.getElementById('activeFields').textContent = currentFields + 1;
+            
+            const output = document.getElementById('output');
+            output.innerHTML += '<div class="output-success">[QUANTUM] 量子場域創建成功</div>';
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        function quantumEntangle() {
+            const strength = Math.floor(Math.random() * 40 + 60);
+            document.getElementById('entanglementStrength').textContent = strength + '%';
+            
+            const output = document.getElementById('output');
+            output.innerHTML += `<div class="output-success">[QUANTUM] 量子糾纏成功，強度: ${strength}%</div>`;
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        // 維度傳送門功能
+        function createPortal() {
+            const targetDimension = document.getElementById('targetDimension').value;
+            document.getElementById('portalStatus').textContent = '已激活';
+            
+            const output = document.getElementById('output');
+            output.innerHTML += `<div class="output-success">[PORTAL] 第${targetDimension}維度傳送門已創建</div>`;
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        // 愿望編碼功能
+        function encodeWish() {
+            const wishText = document.getElementById('wishText').value;
+            if (!wishText.trim()) {
+                alert('請輸入願望內容');
+                return;
+            }
+            
+            const probability = Math.floor(Math.random() * 30 + 70);
+            const output = document.getElementById('output');
+            output.innerHTML += `<div class="output-success">[WISH] 願望編碼完成，顯化概率: ${probability}%</div>`;
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        // 編譯代碼
+        function compileCode() {
+            const output = document.getElementById('output');
+            const code = editor.getValue();
+            
+            output.innerHTML += '<div class="output-success">[COMPILE] 開始編譯 LiminalScript...</div>';
+            
+            setTimeout(() => {
+                output.innerHTML += '<div class="output-success">[COMPILE] 語法分析完成</div>';
+                output.innerHTML += '<div class="output-success">[COMPILE] 意識場域驗證通過</div>';
+                output.innerHTML += '<div class="output-success">[EXECUTE] 程序執行成功</div>';
+                output.innerHTML += '<div style="color: #667eea;">[QUANTUM] 頻率同步中...</div>';
+                output.scrollTop = output.scrollHeight;
+            }, 1000);
+        }
+        
+        // 保存項目
+        function saveProject() {
+            const output = document.getElementById('output');
+            output.innerHTML += '<div class="output-success">[SAVE] 項目已保存到意識場域</div>';
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        // 新建項目
+        function newProject() {
+            if (confirm('確定要創建新的意識項目嗎？')) {
+                editor.setValue('// 新的意識編程項目\n// 在此開始你的意識之旅\n\nprogram NewConsciousness {\n    frequency base = 7.83\n    \n    function initialize() {\n        anchor_moment()\n        return "新項目已初始化"\n    }\n}');
+            }
+        }
+        
+        // 激活水晶網格
+        function activateCrystalGrid() {
+            const crystals = Array.from(document.querySelectorAll('.crystal-grid input:checked'))
+                .map(input => input.value);
+            
+            const output = document.getElementById('output');
+            output.innerHTML += `<div class="output-success">[CRYSTAL] 水晶網格已激活，使用: ${crystals.join(', ')}</div>`;
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        // 加載模板
+        function loadTemplate(type) {
+            const templates = {
+                basic: '// 基礎意識程序模板\nprogram BasicConsciousness {\n    frequency base = 7.83\n    intention focus = "保持專注與覺知"\n    \n    function practice() {\n        anchor_moment()\n        sync_with_universe()\n        return "基礎練習完成"\n    }\n}',
+                meditation: '// 冥想頻率調節模板\nprogram MeditationFrequency {\n    frequency alpha = 8.0\n    frequency theta = 6.0\n    \n    function deep_meditation() {\n        frequency_tune(theta)\n        bio_sync()\n        manifest("深度冥想狀態")\n        return "進入深度冥想"\n    }\n}',
+                manifestation: '// 顯化程序模板\nprogram Manifestation {\n    frequency love = 528\n    intention desire = "我的願望正在實現"\n    \n    function manifest_reality() {\n        frequency_tune(love)\n        anchor_moment()\n        manifest(desire)\n        return "顯化程序啟動"\n    }\n}',
+                healing: '// 療癒能量場模板\nprogram HealingField {\n    frequency healing = 528\n    intention heal = "療癒與復原"\n    \n    function activate_healing() {\n        frequency_tune(healing)\n        bio_sync()\n        manifest(heal)\n        return "療癒場域已激活"\n    }\n}'
+            };
+            
+            if (templates[type]) {
+                editor.setValue(templates[type]);
+                const output = document.getElementById('output');
+                output.innerHTML += `<div class="output-success">[TEMPLATE] 已加載 ${type} 模板</div>`;
+                output.scrollTop = output.scrollHeight;
+            }
+        }
+        
+        // 切換標籤
+        function switchTab(tabName) {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+        
+        // 加載文件
+        function loadFile(filename) {
+            const output = document.getElementById('output');
+            output.innerHTML += `<div class="output-success">[LOAD] 正在加載 ${filename}</div>`;
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        // 初始化
+        createParticles();
+        setInterval(updateConsciousnessState, 3000);
+        
+        // 自動保存
+        setInterval(() => {
+            localStorage.setItem('liminal_code', editor.getValue());
+        }, 30000);
+        
+        // 恢復代碼
+        const savedCode = localStorage.getItem('liminal_code');
+        if (savedCode) {
+            editor.setValue(savedCode);
+        }
+    </script>
+    <!-- 返回按鈕 -->
+    <div style="position: fixed; top: 20px; left: 20px; z-index: 1000;">
+        <a href="/" style="display: inline-block; padding: 12px 24px; background: linear-gradient(45deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 25px; font-weight: bold; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); transition: all 0.3s ease; font-size: 14px;">
+            🏠 返回主頁
+        </a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>願道靜語系統 | 心靈與宇宙的和諧對話</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .cosmic-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+        }
+
+        .title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ffd700, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #b8b8b8;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .frequency-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .panel-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #ffd700;
+            text-align: center;
+        }
+
+        .frequency-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .frequency-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .frequency-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.2);
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+
+        .frequency-card.active {
+            background: rgba(255, 215, 0, 0.15);
+            border-color: #ffd700;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+        }
+
+        .frequency-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .frequency-card:hover::before {
+            left: 100%;
+        }
+
+        .frequency-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .frequency-hz {
+            font-size: 0.9rem;
+            color: #4ecdc4;
+            margin-bottom: 5px;
+        }
+
+        .frequency-type {
+            font-size: 0.8rem;
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+
+        .frequency-desc {
+            font-size: 0.8rem;
+            color: #b8b8b8;
+            line-height: 1.4;
+        }
+
+        .combination-panel {
+            grid-column: 1 / -1;
+        }
+
+        .combination-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .combination-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .combination-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 107, 107, 0.2);
+            border-color: rgba(255, 107, 107, 0.3);
+        }
+
+        .combination-card.active {
+            background: rgba(255, 107, 107, 0.15);
+            border-color: #ff6b6b;
+            box-shadow: 0 0 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .combination-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #ff6b6b;
+        }
+
+        .combination-components {
+            font-size: 0.9rem;
+            color: #4ecdc4;
+            margin-bottom: 8px;
+        }
+
+        .combination-desc {
+            font-size: 0.85rem;
+            color: #b8b8b8;
+            line-height: 1.4;
+        }
+
+        .control-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .control-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .control-btn {
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 15px 25px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .control-btn:active {
+            transform: translateY(0);
+        }
+
+        .control-btn.special {
+            background: linear-gradient(45deg, #ffd700 0%, #ff6b6b 100%);
+        }
+
+        .control-btn.special:hover {
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        .status-display {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .status-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #4ecdc4;
+        }
+
+        .status-content {
+            font-size: 0.9rem;
+            color: #b8b8b8;
+            line-height: 1.6;
+        }
+
+        .resonance-meter {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .resonance-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4ecdc4, #45b7d1, #ffd700);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        .meditation-timer {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffd700;
+            margin: 20px 0;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .energy-visualization {
+            position: relative;
+            height: 200px;
+            margin: 20px 0;
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .energy-wave {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(0.8); opacity: 0.7; }
+            50% { transform: scale(1.2); opacity: 0.3; }
+        }
+
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ffd700;
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0; }
+            50% { transform: translateY(-100px) rotate(180deg); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .frequency-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .control-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cosmic-background"></div>
+    <div class="floating-particles"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="title">願道靜語系統</h1>
+            <p class="subtitle">心靈與宇宙的和諧對話 · 四重靜語頻率的完美融合</p>
+        </div>
+
+        <div class="main-grid">
+            <!-- 靜語頻率面板 -->
+            <div class="frequency-panel">
+                <h2 class="panel-title">四重靜語頻率</h2>
+                <div class="frequency-grid" id="frequencyGrid">
+                    <!-- 頻率卡片將通過JavaScript動態生成 -->
+                </div>
+            </div>
+
+            <!-- 控制面板 -->
+            <div class="frequency-panel">
+                <h2 class="panel-title">靜語控制中心</h2>
+                <div class="control-buttons">
+                    <button class="control-btn" onclick="analyzeResonance()">共振分析</button>
+                    <button class="control-btn" onclick="startMeditation()">靜語冥想</button>
+                    <button class="control-btn special" onclick="activateInfiniteResonance()">無限共振</button>
+                </div>
+                
+                <div class="status-display" id="statusDisplay">
+                    <div class="status-title">系統狀態</div>
+                    <div class="status-content">願道靜語系統已就緒，等待您的指引...</div>
+                    <div class="resonance-meter">
+                        <div class="resonance-fill" id="resonanceFill"></div>
+                    </div>
+                </div>
+                
+                <div class="energy-visualization">
+                    <div class="energy-wave"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 靜語組合面板 -->
+        <div class="frequency-panel combination-panel">
+            <h2 class="panel-title">靜語組合模式</h2>
+            <div class="combination-grid" id="combinationGrid">
+                <!-- 組合卡片將通過JavaScript動態生成 -->
+            </div>
+        </div>
+
+        <!-- 冥想計時器 -->
+        <div class="meditation-timer" id="meditationTimer" style="display: none;">00:00</div>
+    </div>
+
+    <script>
+        // 靜語頻率數據
+        let frequencyData = {};
+        let combinationData = {};
+        let activeFrequencies = new Set();
+        let activeCombinations = new Set();
+        let meditationInterval = null;
+        let meditationStartTime = null;
+
+        // 初始化系統
+        async function initializeSystem() {
+            try {
+                // 獲取頻率數據
+                const freqResponse = await fetch('/api/wish-dao-quiet/frequencies');
+                const freqResult = await freqResponse.json();
+                frequencyData = freqResult.frequencies;
+                
+                // 獲取組合數據
+                const combResponse = await fetch('/api/wish-dao-quiet/combinations');
+                const combResult = await combResponse.json();
+                combinationData = combResult.combinations;
+                
+                // 渲染界面
+                renderFrequencies();
+                renderCombinations();
+                createFloatingParticles();
+                
+                updateStatus('願道靜語系統初始化完成，所有頻率已就緒');
+            } catch (error) {
+                console.error('初始化失敗:', error);
+                updateStatus('系統初始化失敗，請檢查連接');
+            }
+        }
+
+        // 渲染頻率卡片
+        function renderFrequencies() {
+            const grid = document.getElementById('frequencyGrid');
+            grid.innerHTML = '';
+            
+            Object.entries(frequencyData).forEach(([name, data]) => {
+                const card = document.createElement('div');
+                card.className = 'frequency-card';
+                card.onclick = () => toggleFrequency(name);
+                
+                card.innerHTML = `
+                    <div class="frequency-name">${name}</div>
+                    <div class="frequency-hz">${data.frequency}</div>
+                    <div class="frequency-type">${data.resonance_type}</div>
+                    <div class="frequency-desc">${data.description}</div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // 渲染組合卡片
+        function renderCombinations() {
+            const grid = document.getElementById('combinationGrid');
+            grid.innerHTML = '';
+            
+            Object.entries(combinationData).forEach(([name, data]) => {
+                const card = document.createElement('div');
+                card.className = 'combination-card';
+                card.onclick = () => toggleCombination(name);
+                
+                card.innerHTML = `
+                    <div class="combination-name">${name}</div>
+                    <div class="combination-components">組件: ${data.components.join(' + ')}</div>
+                    <div class="combination-desc">${data.description}</div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // 切換頻率激活狀態
+        async function toggleFrequency(name) {
+            const card = event.currentTarget;
+            
+            if (activeFrequencies.has(name)) {
+                // 停用頻率
+                activeFrequencies.delete(name);
+                card.classList.remove('active');
+                updateStatus(`${name}已停用`);
+            } else {
+                // 激活頻率
+                try {
+                    const response = await fetch(`/api/wish-dao-quiet/activate/${encodeURIComponent(name)}`, {
+                        method: 'POST'
+                    });
+                    const result = await response.json();
+                    
+                    if (result.status === 'success') {
+                        activeFrequencies.add(name);
+                        card.classList.add('active');
+                        updateStatus(`${name}已激活 - 共振強度: ${result.activation_result.resonance_strength}%`);
+                        updateResonanceMeter(result.activation_result.resonance_strength);
+                    } else {
+                        updateStatus(`激活${name}失敗: ${result.message}`);
+                    }
+                } catch (error) {
+                    console.error('激活頻率失敗:', error);
+                    updateStatus(`激活${name}時發生錯誤`);
+                }
+            }
+        }
+
+        // 切換組合激活狀態
+        async function toggleCombination(name) {
+            const card = event.currentTarget;
+            
+            if (activeCombinations.has(name)) {
+                // 停用組合
+                activeCombinations.delete(name);
+                card.classList.remove('active');
+                updateStatus(`${name}組合已停用`);
+            } else {
+                // 激活組合
+                try {
+                    const response = await fetch(`/api/wish-dao-quiet/activate-combination/${encodeURIComponent(name)}`, {
+                        method: 'POST'
+                    });
+                    const result = await response.json();
+                    
+                    if (result.status === 'success') {
+                        activeCombinations.add(name);
+                        card.classList.add('active');
+                        updateStatus(`${name}組合已激活 - 總共振: ${result.combination_result.total_resonance}%`);
+                        updateResonanceMeter(result.combination_result.total_resonance);
+                    } else {
+                        updateStatus(`激活${name}組合失敗: ${result.message}`);
+                    }
+                } catch (error) {
+                    console.error('激活組合失敗:', error);
+                    updateStatus(`激活${name}組合時發生錯誤`);
+                }
+            }
+        }
+
+        // 分析共振狀態
+        async function analyzeResonance() {
+            try {
+                const response = await fetch('/api/wish-dao-quiet/resonance-analysis');
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    const analysis = result.analysis_result;
+                    updateStatus(`共振分析完成 - 整體共振: ${analysis.overall_resonance}% | 宇宙對齊: ${analysis.cosmic_alignment}%`);
+                    updateResonanceMeter(analysis.overall_resonance);
+                } else {
+                    updateStatus(`共振分析失敗: ${result.message}`);
+                }
+            } catch (error) {
+                console.error('共振分析失敗:', error);
+                updateStatus('共振分析時發生錯誤');
+            }
+        }
+
+        // 開始靜語冥想
+        async function startMeditation() {
+            try {
+                const response = await fetch('/api/wish-dao-quiet/quiet-meditation', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        type: '四重靜語',
+                        duration: 20
+                    })
+                });
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    updateStatus('靜語冥想已開始，請保持內心寧靜...');
+                    startMeditationTimer(result.meditation_result.duration_minutes);
+                } else {
+                    updateStatus(`開始冥想失敗: ${result.message}`);
+                }
+            } catch (error) {
+                console.error('開始冥想失敗:', error);
+                updateStatus('開始冥想時發生錯誤');
+            }
+        }
+
+        // 激活無限共振
+        async function activateInfiniteResonance() {
+            try {
+                const response = await fetch('/api/wish-dao-quiet/infinite-resonance', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        intention: '與宇宙意識建立永恆連接，實現願道靜語的無限共振'
+                    })
+                });
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    updateStatus(`無限共振已啟動 - 無限和諧: ${result.infinite_result.infinite_harmony}%`);
+                    updateResonanceMeter(result.infinite_result.infinite_harmony);
+                    createInfiniteResonanceEffect();
+                } else {
+                    updateStatus(`激活無限共振失敗: ${result.message}`);
+                }
+            } catch (error) {
+                console.error('激活無限共振失敗:', error);
+                updateStatus('激活無限共振時發生錯誤');
+            }
+        }
+
+        // 開始冥想計時器
+        function startMeditationTimer(minutes) {
+            const timerElement = document.getElementById('meditationTimer');
+            timerElement.style.display = 'block';
+            
+            meditationStartTime = Date.now();
+            const duration = minutes * 60 * 1000; // 轉換為毫秒
+            
+            meditationInterval = setInterval(() => {
+                const elapsed = Date.now() - meditationStartTime;
+                const remaining = Math.max(0, duration - elapsed);
+                
+                const mins = Math.floor(remaining / 60000);
+                const secs = Math.floor((remaining % 60000) / 1000);
+                
+                timerElement.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                
+                if (remaining <= 0) {
+                    clearInterval(meditationInterval);
+                    timerElement.style.display = 'none';
+                    updateStatus('靜語冥想完成，感謝您的參與');
+                }
+            }, 1000);
+        }
+
+        // 創建無限共振效果
+        function createInfiniteResonanceEffect() {
+            const container = document.querySelector('.container');
+            
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.style.position = 'fixed';
+                    particle.style.width = '6px';
+                    particle.style.height = '6px';
+                    particle.style.background = '#ffd700';
+                    particle.style.borderRadius = '50%';
+                    particle.style.left = Math.random() * window.innerWidth + 'px';
+                    particle.style.top = window.innerHeight + 'px';
+                    particle.style.pointerEvents = 'none';
+                    particle.style.zIndex = '1000';
+                    particle.style.boxShadow = '0 0 10px #ffd700';
+                    
+                    document.body.appendChild(particle);
+                    
+                    const animation = particle.animate([
+                        { transform: 'translateY(0px)', opacity: 1 },
+                        { transform: `translateY(-${window.innerHeight + 100}px)`, opacity: 0 }
+                    ], {
+                        duration: 3000,
+                        easing: 'ease-out'
+                    });
+                    
+                    animation.onfinish = () => {
+                        document.body.removeChild(particle);
+                    };
+                }, i * 100);
+            }
+        }
+
+        // 創建浮動粒子
+        function createFloatingParticles() {
+            const container = document.querySelector('.floating-particles');
+            
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (3 + Math.random() * 3) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // 更新狀態顯示
+        function updateStatus(message) {
+            const statusContent = document.querySelector('.status-content');
+            statusContent.textContent = message;
+        }
+
+        // 更新共振儀表
+        function updateResonanceMeter(percentage) {
+            const fill = document.getElementById('resonanceFill');
+            fill.style.width = percentage + '%';
+        }
+
+        // 頁面加載完成後初始化
+        document.addEventListener('DOMContentLoaded', initializeSystem);
+    </script>
+</body>
+</html>

@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>語靈數據中心 - Spirit Data Center</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(102, 126, 234, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+            padding: 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            height: 60px;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 30px;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-status {
+            display: flex;
+            align-items: center;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: rgba(72, 187, 120, 0.2);
+            border-radius: 15px;
+            border: 1px solid rgba(72, 187, 120, 0.5);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #48bb78;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 60px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 60px);
+                background: rgba(102, 126, 234, 0.98);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                padding-top: 50px;
+                transition: left 0.3s ease;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                margin: 10px 0;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-status {
+                display: none;
+            }
+
+            .container {
+                padding-top: 70px; /* 移動端稍微減少頂部間距 */
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-top: 80px; /* 為固定導航欄預留空間 */
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .card h2 {
+            color: #4a5568;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* 返回按鈕樣式 */
+        .back-button {
+            position: fixed;
+            top: 70px;
+            left: 20px;
+            z-index: 999;
+            background: linear-gradient(135deg, rgba(100, 255, 218, 0.2), rgba(100, 255, 218, 0.1));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            border-radius: 50px;
+            padding: 12px 20px;
+            color: #64ffda;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-button:hover {
+            background: linear-gradient(135deg, rgba(100, 255, 218, 0.3), rgba(100, 255, 218, 0.2));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(100, 255, 218, 0.3);
+            color: #64ffda;
+            text-decoration: none;
+        }
+        
+        .back-button i {
+            font-size: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+             .back-button {
+                 top: 70px;
+                 left: 10px;
+                 padding: 10px 16px;
+                 font-size: 0.8rem;
+             }
+         }
+         
+         .card h2 {
+             gap: 10px;
+         }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #718096 0%, #4a5568 100%);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .stat-card .icon {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .stat-card .label {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .entries-list {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .entry-item {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .entry-item:hover {
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 10px;
+            padding: 20px 15px;
+        }
+
+        .entry-date {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .entry-content {
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        .entry-meta {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #718096;
+        }
+
+        .tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin: 2px;
+        }
+
+        .search-box {
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 25px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #718096;
+        }
+
+        .energy-slider {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .energy-value {
+            text-align: center;
+            font-weight: bold;
+            color: #667eea;
+            margin-top: 5px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #718096;
+        }
+
+        .loading i {
+            font-size: 2rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-message {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 返回按鈕 -->
+    <a href="javascript:history.back()" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+        <span>返回</span>
+    </a>
+    
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand">愿频宇宙</a>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="/" class="nav-link">🏠 主頁</a></li>
+                <li><a href="/resonance_game" class="nav-link">🎮 共振遊戲</a></li>
+                <li><a href="/ai_evolution" class="nav-link">🧬 自我演化</a></li>
+                <li><a href="/diagnose" class="nav-link">🔍 AI診化</a></li>
+                <li><a href="/quantum_cloud" class="nav-link">☁️ 量子雲</a></li>
+                <li><a href="/nano_ai" class="nav-link">⚛️ NanoVerse</a></li>
+                <li><a href="/spirit_data_center" class="nav-link active">🔮 靈性數據</a></li>
+                <li><a href="/shang" class="nav-link">🌟 商管理</a></li>
+            </ul>
+            
+            <div class="nav-status">
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span>灵性连接中</span>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                ☰
+            </button>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-brain"></i> 語靈數據中心</h1>
+            <p>與 Obsidian 同步的智慧日記系統</p>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            <i class="fas fa-check-circle"></i> <span id="successText"></span>
+        </div>
+
+        <div class="error-message" id="errorMessage">
+            <i class="fas fa-exclamation-circle"></i> <span id="errorText"></span>
+        </div>
+
+        <!-- 統計數據 -->
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="icon"><i class="fas fa-book"></i></div>
+                <div class="value" id="totalEntries">-</div>
+                <div class="label">總條目數</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon"><i class="fas fa-calendar-week"></i></div>
+                <div class="value" id="recentEntries">-</div>
+                <div class="label">近30天條目</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon"><i class="fas fa-pen"></i></div>
+                <div class="value" id="totalWords">-</div>
+                <div class="label">總字數</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon"><i class="fas fa-chart-line"></i></div>
+                <div class="value" id="avgWords">-</div>
+                <div class="label">平均字數</div>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <!-- 新增條目 -->
+            <div class="card">
+                <h2><i class="fas fa-plus-circle"></i> 新增日記條目</h2>
+                <form id="entryForm">
+                    <div class="form-group">
+                        <label for="entryDate">日期</label>
+                        <input type="date" id="entryDate" name="date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="mood">心情狀態</label>
+                        <select id="mood" name="mood">
+                            <option value="">選擇心情</option>
+                            <option value="極佳">😊 極佳</option>
+                            <option value="良好">🙂 良好</option>
+                            <option value="平靜">😐 平靜</option>
+                            <option value="低落">😔 低落</option>
+                            <option value="焦慮">😰 焦慮</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="energyLevel">能量等級</label>
+                        <input type="range" id="energyLevel" name="energy_level" min="1" max="10" value="5" class="energy-slider">
+                        <div class="energy-value" id="energyValue">5/10</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="content">主要內容</label>
+                        <textarea id="content" name="content" placeholder="記錄今天的想法、經歷和感受..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reflection">深度反思</label>
+                        <textarea id="reflection" name="reflection" placeholder="對今天的深度思考和洞察..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn">
+                        <i class="fas fa-save"></i> 保存條目
+                    </button>
+                </form>
+            </div>
+
+            <!-- 快速操作 -->
+            <div class="card">
+                <h2><i class="fas fa-tools"></i> 快速操作</h2>
+                
+                <div class="form-group">
+                    <button class="btn btn-secondary" onclick="loadRecentEntries()">
+                        <i class="fas fa-history"></i> 載入最近條目
+                    </button>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-secondary" onclick="exportToObsidian()">
+                        <i class="fas fa-download"></i> 導出到 Obsidian
+                    </button>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-secondary" onclick="showSearchModal()">
+                        <i class="fas fa-search"></i> 搜索條目
+                    </button>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-success" onclick="loadStatistics()">
+                        <i class="fas fa-chart-bar"></i> 刷新統計
+                    </button>
+                </div>
+                
+                <div class="form-group">
+                    <label for="quickGratitude">快速感恩記錄</label>
+                    <input type="text" id="quickGratitude" placeholder="今天感恩的事情...">
+                    <button class="btn" onclick="addQuickGratitude()" style="margin-top: 10px;">
+                        <i class="fas fa-heart"></i> 添加感恩
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 條目列表 -->
+        <div class="entries-list">
+            <h2><i class="fas fa-list"></i> 最近條目</h2>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 搜索條目內容..." onkeyup="searchEntries()">
+            </div>
+            <div id="entriesList">
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    <p>載入中...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 搜索模態框 -->
+    <div id="searchModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSearchModal()">&times;</span>
+            <h2><i class="fas fa-search"></i> 搜索條目</h2>
+            <div class="form-group">
+                <input type="text" id="modalSearchInput" placeholder="輸入搜索關鍵詞...">
+                <button class="btn" onclick="performSearch()" style="margin-top: 10px;">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+            <div id="searchResults"></div>
+        </div>
+    </div>
+
+    <script>
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 設置今天的日期
+            document.getElementById('entryDate').value = new Date().toISOString().split('T')[0];
+            
+            // 能量等級滑塊
+            const energySlider = document.getElementById('energyLevel');
+            const energyValue = document.getElementById('energyValue');
+            
+            energySlider.addEventListener('input', function() {
+                energyValue.textContent = this.value + '/10';
+            });
+            
+            // 載入初始數據
+            loadStatistics();
+            loadRecentEntries();
+        });
+
+        // 提交表單
+        document.getElementById('entryForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            
+            // 處理感恩事項
+            const gratitudeText = document.getElementById('quickGratitude').value;
+            if (gratitudeText) {
+                data.gratitude = [gratitudeText];
+            }
+            
+            try {
+                const response = await fetch('/api/spirit/entry', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showSuccess('條目保存成功！');
+                    this.reset();
+                    document.getElementById('entryDate').value = new Date().toISOString().split('T')[0];
+                    document.getElementById('energyValue').textContent = '5/10';
+                    loadRecentEntries();
+                    loadStatistics();
+                } else {
+                    showError('保存失敗：' + result.message);
+                }
+            } catch (error) {
+                showError('網絡錯誤：' + error.message);
+            }
+        });
+
+        // 載入統計數據
+        async function loadStatistics() {
+            try {
+                const response = await fetch('/api/spirit/statistics');
+                const result = await response.json();
+                
+                if (result.success) {
+                    const stats = result.data;
+                    document.getElementById('totalEntries').textContent = stats.total_entries || 0;
+                    document.getElementById('recentEntries').textContent = stats.recent_entries_30d || 0;
+                    document.getElementById('totalWords').textContent = stats.total_word_count || 0;
+                    document.getElementById('avgWords').textContent = stats.avg_words_per_entry || 0;
+                }
+            } catch (error) {
+                console.error('載入統計失敗:', error);
+            }
+        }
+
+        // 載入最近條目
+        async function loadRecentEntries() {
+            const entriesList = document.getElementById('entriesList');
+            entriesList.innerHTML = '<div class="loading"><i class="fas fa-spinner"></i><p>載入中...</p></div>';
+            
+            try {
+                const response = await fetch('/api/spirit/entries');
+                const result = await response.json();
+                
+                if (result.success) {
+                    displayEntries(result.data);
+                } else {
+                    entriesList.innerHTML = '<p>載入失敗</p>';
+                }
+            } catch (error) {
+                entriesList.innerHTML = '<p>網絡錯誤</p>';
+            }
+        }
+
+        // 顯示條目列表
+        function displayEntries(entries) {
+            const entriesList = document.getElementById('entriesList');
+            
+            if (entries.length === 0) {
+                entriesList.innerHTML = '<p>暫無條目</p>';
+                return;
+            }
+            
+            let html = '';
+            entries.forEach(entry => {
+                html += `
+                    <div class="entry-item">
+                        <div class="entry-date">${entry.date}</div>
+                        <div class="entry-content">
+                            ${entry.content ? entry.content.substring(0, 200) + (entry.content.length > 200 ? '...' : '') : '無內容'}
+                        </div>
+                        <div class="entry-meta">
+                            ${entry.mood ? `<span><i class="fas fa-smile"></i> ${entry.mood}</span>` : ''}
+                            ${entry.energy_level ? `<span><i class="fas fa-battery-three-quarters"></i> 能量 ${entry.energy_level}/10</span>` : ''}
+                            ${entry.gratitude && entry.gratitude.length > 0 ? `<span><i class="fas fa-heart"></i> ${entry.gratitude.length} 項感恩</span>` : ''}
+                        </div>
+                        ${entry.tags && entry.tags.length > 0 ? 
+                            '<div>' + entry.tags.map(tag => `<span class="tag">#${tag}</span>`).join('') + '</div>' : 
+                            ''
+                        }
+                    </div>
+                `;
+            });
+            
+            entriesList.innerHTML = html;
+        }
+
+        // 搜索條目
+        function searchEntries() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const entries = document.querySelectorAll('.entry-item');
+            
+            entries.forEach(entry => {
+                const content = entry.textContent.toLowerCase();
+                if (content.includes(searchTerm)) {
+                    entry.style.display = 'block';
+                } else {
+                    entry.style.display = 'none';
+                }
+            });
+        }
+
+        // 顯示搜索模態框
+        function showSearchModal() {
+            document.getElementById('searchModal').style.display = 'block';
+        }
+
+        // 關閉搜索模態框
+        function closeSearchModal() {
+            document.getElementById('searchModal').style.display = 'none';
+        }
+
+        // 執行搜索
+        async function performSearch() {
+            const keyword = document.getElementById('modalSearchInput').value;
+            if (!keyword) {
+                showError('請輸入搜索關鍵詞');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/spirit/search?q=${encodeURIComponent(keyword)}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    const searchResults = document.getElementById('searchResults');
+                    if (result.data.length === 0) {
+                        searchResults.innerHTML = '<p>未找到相關條目</p>';
+                    } else {
+                        let html = '<h3>搜索結果：</h3>';
+                        result.data.forEach(entry => {
+                            html += `
+                                <div class="entry-item">
+                                    <div class="entry-date">${entry.date}</div>
+                                    <div class="entry-content">
+                                        ${entry.content ? entry.content.substring(0, 150) + '...' : '無內容'}
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        searchResults.innerHTML = html;
+                    }
+                } else {
+                    showError('搜索失敗：' + result.message);
+                }
+            } catch (error) {
+                showError('搜索錯誤：' + error.message);
+            }
+        }
+
+        // 導出到 Obsidian
+        async function exportToObsidian() {
+            try {
+                const response = await fetch('/api/spirit/export?format=markdown');
+                const markdown = await response.text();
+                
+                // 創建下載鏈接
+                const blob = new Blob([markdown], { type: 'text/markdown' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `語靈數據導出_${new Date().toISOString().split('T')[0]}.md`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+                
+                showSuccess('Markdown 文件已下載，可導入 Obsidian！');
+            } catch (error) {
+                showError('導出失敗：' + error.message);
+            }
+        }
+
+        // 添加快速感恩
+        function addQuickGratitude() {
+            const gratitudeInput = document.getElementById('quickGratitude');
+            const gratitudeText = gratitudeInput.value.trim();
+            
+            if (!gratitudeText) {
+                showError('請輸入感恩內容');
+                return;
+            }
+            
+            // 將感恩內容添加到主表單
+            const contentTextarea = document.getElementById('content');
+            const currentContent = contentTextarea.value;
+            const newContent = currentContent + (currentContent ? '\n\n' : '') + `🙏 感恩：${gratitudeText}`;
+            contentTextarea.value = newContent;
+            
+            gratitudeInput.value = '';
+            showSuccess('感恩內容已添加到日記中！');
+        }
+
+        // 顯示成功消息
+        function showSuccess(message) {
+            const successMsg = document.getElementById('successMessage');
+            const successText = document.getElementById('successText');
+            successText.textContent = message;
+            successMsg.style.display = 'block';
+            
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 3000);
+        }
+
+        // 顯示錯誤消息
+        function showError(message) {
+            const errorMsg = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            errorText.textContent = message;
+            errorMsg.style.display = 'block';
+            
+            setTimeout(() => {
+                errorMsg.style.display = 'none';
+            }, 5000);
+        }
+
+        // 导航栏功能
+        function initNavigation() {
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const navMenu = document.getElementById('navMenu');
+            
+            if (mobileMenuToggle && navMenu) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                });
+                
+                // 点击菜单外部关闭菜单
+                document.addEventListener('click', function(event) {
+                    if (!event.target.closest('.navbar')) {
+                        navMenu.classList.remove('active');
+                    }
+                });
+            }
+            
+            // 设置当前页面活跃状态
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // 點擊模態框外部關閉
+        window.onclick = function(event) {
+            const modal = document.getElementById('searchModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // 初始化返回按鈕
+        function initBackButton() {
+            const backButton = document.querySelector('.back-button');
+            if (backButton) {
+                backButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (window.history.length > 1) {
+                        window.history.back();
+                    } else {
+                        window.location.href = '/';
+                    }
+                });
+            }
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initNavigation();
+            initBackButton();
+        });
+    </script>
+</body>
+</html>

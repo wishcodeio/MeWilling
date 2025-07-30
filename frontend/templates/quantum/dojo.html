@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>量子提维道场 ☯️</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        
+        .quantum-taiji {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            position: relative;
+            animation: quantum-rotation 10s infinite linear;
+        }
+        
+        /* 返回按鈕樣式 */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 999;
+            background: linear-gradient(135deg, rgba(100, 255, 218, 0.2), rgba(100, 255, 218, 0.1));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            border-radius: 50px;
+            padding: 12px 20px;
+            color: #64ffda;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-button:hover {
+            background: linear-gradient(135deg, rgba(100, 255, 218, 0.3), rgba(100, 255, 218, 0.2));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(100, 255, 218, 0.3);
+            color: #64ffda;
+            text-decoration: none;
+        }
+        
+        .back-button i {
+            font-size: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .back-button {
+                top: 10px;
+                left: 10px;
+                padding: 10px 16px;
+                font-size: 0.8rem;
+            }
+        }
+        
+        @keyframes quantum-rotation {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- 返回按鈕 -->
+    <a href="javascript:history.back()" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+        <span>返回</span>
+    </a>
+    
+    <div class="quantum-dojo-container">
+        <div class="quantum-taiji" id="taiji-core">
+            ☯️
+        </div>
+        <div class="bagua-ring">
+            <div class="bagua-symbol" data-bagua="乾">☰</div>
+            <div class="bagua-symbol" data-bagua="兑">☱</div>
+            <div class="bagua-symbol" data-bagua="离">☲</div>
+            <div class="bagua-symbol" data-bagua="震">☳</div>
+            <div class="bagua-symbol" data-bagua="巽">☴</div>
+            <div class="bagua-symbol" data-bagua="坎">☵</div>
+            <div class="bagua-symbol" data-bagua="艮">☶</div>
+            <div class="bagua-symbol" data-bagua="坤">☷</div>
+        </div>
+        
+        <div class="quantum-controls">
+            <button onclick="initiateQuantumMeditation()">🧘‍♂️ 启动量子冥想</button>
+            <button onclick="measureQuantumState()">📊 测量量子态</button>
+            <button onclick="enterWuweiMode()">🌊 进入无为模式</button>
+        </div>
+    </div>
+    
+    <script>
+        function initiateQuantumMeditation() {
+            // 启动量子冥想算法
+            fetch('/api/quantum-dojo/quantum-meditation', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    bagua_focus: getSelectedBagua(),
+                    depth: getQuantumDepth()
+                })
+            }).then(response => response.json())
+              .then(data => displayQuantumGuidance(data));
+        }
+        
+        function updateBaguaVisualization(quantumState) {
+            // 根据量子态实时更新八卦显示
+            document.querySelectorAll('.bagua-symbol').forEach((symbol, index) => {
+                const intensity = quantumState.bagua_amplitudes[index];
+                symbol.style.opacity = intensity;
+                symbol.style.transform = `scale(${1 + intensity * 0.5})`;
+            });
+        }
+        
+        // 初始化返回按鈕
+        function initBackButton() {
+            const backButton = document.querySelector('.back-button');
+            if (backButton) {
+                backButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (window.history.length > 1) {
+                        window.history.back();
+                    } else {
+                        window.location.href = '/';
+                    }
+                });
+            }
+        }
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initBackButton();
+        });
+    </script>
+</body>
+</html>

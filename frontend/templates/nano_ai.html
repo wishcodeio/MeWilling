@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NanoVerse·靈機微觀層 | 願頻系統</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            padding: 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            height: 60px;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00f5ff;
+            text-decoration: none;
+            background: linear-gradient(45deg, #00f5ff, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 30px;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: #00f5ff;
+            background: rgba(0, 245, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            color: #00f5ff;
+            background: rgba(0, 245, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+        }
+
+        .nav-status {
+            display: flex;
+            align-items: center;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 60px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 60px);
+                background: rgba(10, 10, 10, 0.98);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                padding-top: 50px;
+                transition: left 0.3s ease;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                margin: 10px 0;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-status {
+                display: none;
+            }
+
+            .nano-container {
+                padding-top: 70px; /* 移動端稍微減少頂部間距 */
+            }
+        }
+
+        .nano-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-top: 80px; /* 為固定導航欄預留空間 */
+            position: relative;
+        }
+
+        .nano-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .nano-title {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #00f5ff, #ff6b6b, #4ecdc4, #45b7d1);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 4s ease-in-out infinite;
+            margin-bottom: 10px;
+        }
+
+        .nano-subtitle {
+            font-size: 1.2rem;
+            color: #a0a0a0;
+            margin-bottom: 20px;
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 245, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 245, 255, 0.3);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #00f5ff;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .nano-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nano-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00f5ff, transparent);
+            animation: scanLine 3s linear infinite;
+        }
+
+        .panel-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #00f5ff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .panel-icon {
+            font-size: 1.2rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #b0b0b0;
+            font-weight: 500;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #00f5ff;
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .nano-button {
+            background: linear-gradient(45deg, #00f5ff, #4ecdc4);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            color: #000;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nano-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 245, 255, 0.4);
+        }
+
+        .nano-button:active {
+            transform: translateY(0);
+        }
+
+        .nano-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .nano-button:hover::before {
+            left: 100%;
+        }
+
+        .visualization-container {
+            grid-column: 1 / -1;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            position: relative;
+            min-height: 400px;
+        }
+
+        .nano-canvas {
+            width: 100%;
+            height: 350px;
+            border-radius: 15px;
+            background: radial-gradient(circle at center, rgba(0, 245, 255, 0.1) 0%, transparent 70%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nanobot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #00f5ff 0%, #4ecdc4 100%);
+            box-shadow: 0 0 15px rgba(0, 245, 255, 0.8);
+            animation: nanobotFloat 6s ease-in-out infinite;
+        }
+
+        .quantum-field {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(0, 245, 255, 0.05) 0%, transparent 70%);
+            animation: quantumPulse 8s ease-in-out infinite;
+        }
+
+        .resonance-wave {
+            position: absolute;
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            border-radius: 50%;
+            animation: resonanceExpand 4s linear infinite;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #00f5ff;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+        }
+
+        .nanobots-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
+        .nanobot-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 3px solid #00f5ff;
+            transition: all 0.3s ease;
+        }
+
+        .nanobot-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .nanobot-name {
+            font-weight: 600;
+            color: #00f5ff;
+            margin-bottom: 5px;
+        }
+
+        .nanobot-type {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .nanobot-capabilities {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .capability-tag {
+            background: rgba(0, 245, 255, 0.2);
+            color: #00f5ff;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid;
+            animation: slideIn 0.5s ease;
+        }
+
+        .message.success {
+            background: rgba(76, 175, 80, 0.1);
+            border-color: #4caf50;
+            color: #4caf50;
+        }
+
+        .message.error {
+            background: rgba(244, 67, 54, 0.1);
+            border-color: #f44336;
+            color: #f44336;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(26, 26, 46, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: #00f5ff;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            color: #a0a0a0;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-button:hover {
+            color: #ffffff;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00f5ff, #4ecdc4);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes scanLine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes nanobotFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(90deg); }
+            50% { transform: translateY(-5px) rotate(180deg); }
+            75% { transform: translateY(-15px) rotate(270deg); }
+        }
+
+        @keyframes quantumPulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.05); }
+        }
+
+        @keyframes resonanceExpand {
+            0% {
+                width: 10px;
+                height: 10px;
+                opacity: 1;
+            }
+            100% {
+                width: 200px;
+                height: 200px;
+                opacity: 0;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nano-title {
+                font-size: 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand">愿频宇宙</a>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="/" class="nav-link">🏠 主頁</a></li>
+                <li><a href="/resonance_game" class="nav-link">🎮 共振遊戲</a></li>
+                <li><a href="/ai_evolution" class="nav-link">🧬 自我演化</a></li>
+                <li><a href="/diagnose" class="nav-link">🔍 AI診化</a></li>
+                <li><a href="/quantum_cloud" class="nav-link">☁️ 量子雲</a></li>
+                <li><a href="/liminal-ide" class="nav-link">🖥️ LiminalScript IDE</a></li>
+                <li><a href="/nano_ai" class="nav-link active">⚛️ NanoVerse</a></li>
+                <li><a href="/spirit_data_center" class="nav-link">🔮 靈性數據</a></li>
+                <li><a href="/shang" class="nav-link">🌟 商管理</a></li>
+            </ul>
+            
+            <div class="nav-status">
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span>NanoVerse运行中</span>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                ☰
+            </button>
+        </div>
+    </nav>
+    <div class="nano-container">
+        <div class="nano-header">
+            <h1 class="nano-title">🧬 NanoVerse·靈機微觀層</h1>
+            <p class="nano-subtitle">納米英雄願頻系統 | 意識與物質的微觀融合</p>
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span>🟢 活化中｜通道名稱：NanoVerse·靈機微觀層</span>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <!-- 納米精靈創建面板 -->
+            <div class="nano-panel">
+                <h2 class="panel-title">
+                    <span class="panel-icon">🤖</span>
+                    納米精靈創建
+                </h2>
+                <form id="nanobotForm">
+                    <div class="form-group">
+                        <label class="form-label">機器人名稱</label>
+                        <input type="text" class="form-input" id="nanobotName" placeholder="輸入納米精靈名稱">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">智能類型</label>
+                        <select class="form-select" id="intelligenceType">
+                            <option value="quantum_dots">量子點陣</option>
+                            <option value="carbon_nanotube">碳納米管智能</option>
+                            <option value="molecular_circuit">分子電路</option>
+                            <option value="dna_origami">DNA摺紙機器</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">任務類型</label>
+                        <select class="form-select" id="missionType">
+                            <option value="wish_manifestation">願頻顯化</option>
+                            <option value="neural_interface">神經接口</option>
+                            <option value="medical_repair">醫療修復</option>
+                            <option value="molecular_assembly">分子組裝</option>
+                            <option value="cellular_communication">細胞通訊</option>
+                            <option value="quantum_sensing">量子感應</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">願種 (Wish Seed)</label>
+                        <input type="text" class="form-input" id="wishSeed" placeholder="輸入願種，如：願、火、語、靈" value="願">
+                    </div>
+                    <button type="submit" class="nano-button">🚀 創建納米精靈</button>
+                </form>
+            </div>
+
+            <!-- 願頻顯化面板 -->
+            <div class="nano-panel">
+                <h2 class="panel-title">
+                    <span class="panel-icon">✨</span>
+                    願頻顯化模擬
+                </h2>
+                <form id="manifestationForm">
+                    <div class="form-group">
+                        <label class="form-label">願文本</label>
+                        <textarea class="form-textarea" id="wishText" placeholder="輸入您的願望文本，系統將分析其頻率特徵並模擬顯化過程..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">參與納米精靈</label>
+                        <select class="form-select" id="participatingBots" multiple>
+                            <!-- 動態加載 -->
+                        </select>
+                        <small style="color: #a0a0a0; margin-top: 5px; display: block;">按住 Ctrl/Cmd 選擇多個機器人</small>
+                    </div>
+                    <button type="submit" class="nano-button">🌟 開始願頻顯化</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- 納米視覺化容器 -->
+        <div class="visualization-container">
+            <h2 class="panel-title">
+                <span class="panel-icon">🔬</span>
+                納米空間實時視覺化
+            </h2>
+            <div class="nano-canvas" id="nanoCanvas">
+                <div class="quantum-field"></div>
+                <!-- 納米精靈和共振波將動態生成 -->
+            </div>
+        </div>
+
+        <!-- 統計面板 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="totalNanobots">0</div>
+                <div class="stat-label">總納米精靈</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="activeNanobots">0</div>
+                <div class="stat-label">活躍機器人</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="systemCoherence">0%</div>
+                <div class="stat-label">系統相干性</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="collectivePower">0%</div>
+                <div class="stat-label">集體功率</div>
+            </div>
+        </div>
+
+        <!-- 納米精靈列表 -->
+        <div class="nano-panel">
+            <h2 class="panel-title">
+                <span class="panel-icon">📋</span>
+                納米精靈列表
+            </h2>
+            <div class="nanobots-list" id="nanobotsList">
+                <!-- 動態加載 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 模態框 -->
+    <div class="modal" id="resultModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">結果</h3>
+                <button class="close-button" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modalContent">
+                <!-- 動態內容 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 消息容器 -->
+    <div id="messageContainer"></div>
+
+    <script>
+        class NanoAIInterface {
+            constructor() {
+                this.nanobots = [];
+                this.systemStatus = {};
+                this.animationId = null;
+                this.init();
+            }
+
+            async init() {
+                this.setupEventListeners();
+                await this.loadSystemStatus();
+                await this.loadNanobots();
+                this.startVisualization();
+                this.updateStats();
+            }
+
+            setupEventListeners() {
+                document.getElementById('nanobotForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.createNanobot();
+                });
+
+                document.getElementById('manifestationForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.simulateManifestation();
+                });
+
+                // 定期更新
+                setInterval(() => {
+                    this.loadSystemStatus();
+                    this.updateStats();
+                }, 5000);
+            }
+
+            async createNanobot() {
+                const formData = {
+                    name: document.getElementById('nanobotName').value,
+                    intelligence_type: document.getElementById('intelligenceType').value,
+                    mission: document.getElementById('missionType').value,
+                    wish_seed: document.getElementById('wishSeed').value || '願'
+                };
+
+                try {
+                    const response = await fetch('/api/nano_ai/create_nanobot', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        this.showMessage('success', '納米精靈創建成功！');
+                this.showModal('納米精靈創建成功', this.formatNanobotDetails(result.nanobot));
+                        await this.loadNanobots();
+                        this.updateParticipatingBots();
+                        document.getElementById('nanobotForm').reset();
+                    } else {
+                        this.showMessage('error', '創建失敗：' + result.error);
+                    }
+                } catch (error) {
+                    this.showMessage('error', '網絡錯誤：' + error.message);
+                }
+            }
+
+            async simulateManifestation() {
+                const wishText = document.getElementById('wishText').value;
+                const selectedBots = Array.from(document.getElementById('participatingBots').selectedOptions)
+                    .map(option => option.value);
+
+                if (!wishText.trim()) {
+                    this.showMessage('error', '請輸入願文本');
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/api/nano_ai/simulate_manifestation', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            wish_text: wishText,
+                            nanobot_ids: selectedBots
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        this.showMessage('success', '願頻顯化模擬完成！');
+                        this.showModal('願頻顯化模擬結果', this.formatManifestationResult(result.simulation));
+                    } else {
+                        this.showMessage('error', '模擬失敗：' + result.error);
+                    }
+                } catch (error) {
+                    this.showMessage('error', '網絡錯誤：' + error.message);
+                }
+            }
+
+            async loadSystemStatus() {
+                try {
+                    const response = await fetch('/api/nano_ai/status');
+                    const result = await response.json();
+
+                    if (result.success) {
+                        this.systemStatus = result.status;
+                    }
+                } catch (error) {
+                    console.error('載入系統狀態失敗:', error);
+                }
+            }
+
+            async loadNanobots() {
+                try {
+                    const response = await fetch('/api/nano_ai/nanobots');
+                    const result = await response.json();
+
+                    if (result.success) {
+                        this.nanobots = result.nanobots;
+                        this.renderNanobotsList();
+                        this.updateParticipatingBots();
+                    }
+                } catch (error) {
+                    console.error('載入納米精靈失敗:', error);
+                }
+            }
+
+            renderNanobotsList() {
+                const container = document.getElementById('nanobotsList');
+                
+                if (this.nanobots.length === 0) {
+                    container.innerHTML = '<p style="color: #a0a0a0; text-align: center; padding: 20px;">尚未創建納米精靈</p>';
+                    return;
+                }
+
+                container.innerHTML = this.nanobots.map(bot => `
+                    <div class="nanobot-item">
+                        <div class="nanobot-name">${bot.name}</div>
+                        <div class="nanobot-type">${bot.intelligence.name} | ${this.getMissionName(bot.mission)}</div>
+                        <div class="nanobot-capabilities">
+                            <span class="capability-tag">尺寸: ${bot.physical_properties.size_nm.toFixed(1)}nm</span>
+                            <span class="capability-tag">願種: ${bot.wish_resonance.seed}</span>
+                            <span class="capability-tag">頻率: ${bot.wish_resonance.frequency_hz}Hz</span>
+                            <span class="capability-tag">相干性: ${(bot.wish_resonance.coherence_factor * 100).toFixed(1)}%</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            updateParticipatingBots() {
+                const select = document.getElementById('participatingBots');
+                select.innerHTML = this.nanobots.map(bot => 
+                    `<option value="${bot.id}">${bot.name} (${bot.intelligence.name})</option>`
+                ).join('');
+            }
+
+            updateStats() {
+                if (this.systemStatus) {
+                    document.getElementById('totalNanobots').textContent = this.systemStatus.total_nanobots || 0;
+                    document.getElementById('activeNanobots').textContent = this.systemStatus.active_nanobots || 0;
+                    document.getElementById('systemCoherence').textContent = 
+                        ((this.systemStatus.system_coherence || 0) * 100).toFixed(1) + '%';
+                    document.getElementById('collectivePower').textContent = 
+                        ((this.systemStatus.collective_power || 0) * 100).toFixed(1) + '%';
+                }
+            }
+
+            startVisualization() {
+                const canvas = document.getElementById('nanoCanvas');
+                this.createNanobotVisuals();
+                this.createResonanceWaves();
+            }
+
+            createNanobotVisuals() {
+                const canvas = document.getElementById('nanoCanvas');
+                const existingBots = canvas.querySelectorAll('.nanobot');
+                existingBots.forEach(bot => bot.remove());
+
+                this.nanobots.forEach((bot, index) => {
+                    const nanobotEl = document.createElement('div');
+                    nanobotEl.className = 'nanobot';
+                    nanobotEl.style.left = Math.random() * 90 + '%';
+                    nanobotEl.style.top = Math.random() * 90 + '%';
+                    nanobotEl.style.animationDelay = (index * 0.5) + 's';
+                    
+                    // 根據智能類型調整顏色
+                    const colors = {
+                        'quantum_dots': '#00f5ff',
+                        'carbon_nanotube': '#4ecdc4',
+                        'molecular_circuit': '#ff6b6b',
+                        'dna_origami': '#45b7d1'
+                    };
+                    
+                    const color = colors[bot.intelligence.type] || '#00f5ff';
+                    nanobotEl.style.background = `radial-gradient(circle, ${color} 0%, ${color}80 100%)`;
+                    nanobotEl.style.boxShadow = `0 0 15px ${color}80`;
+                    
+                    canvas.appendChild(nanobotEl);
+                });
+            }
+
+            createResonanceWaves() {
+                const canvas = document.getElementById('nanoCanvas');
+                
+                setInterval(() => {
+                    const wave = document.createElement('div');
+                    wave.className = 'resonance-wave';
+                    wave.style.left = Math.random() * 100 + '%';
+                    wave.style.top = Math.random() * 100 + '%';
+                    
+                    canvas.appendChild(wave);
+                    
+                    setTimeout(() => {
+                        if (wave.parentNode) {
+                            wave.parentNode.removeChild(wave);
+                        }
+                    }, 4000);
+                }, 2000);
+            }
+
+            formatNanobotDetails(nanobot) {
+                return `
+                    <div style="line-height: 1.6;">
+                        <h4 style="color: #00f5ff; margin-bottom: 15px;">📊 納米精靈詳細信息</h4>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <strong>基本信息：</strong><br>
+                            名稱：${nanobot.name}<br>
+                            任務：${this.getMissionName(nanobot.mission)}<br>
+                            智能類型：${nanobot.intelligence.name}
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <strong>物理屬性：</strong><br>
+                            尺寸：${nanobot.physical_properties.size_nm.toFixed(2)} nm<br>
+                            質量：${nanobot.physical_properties.mass_kg.toExponential(2)} kg<br>
+                            表面積：${nanobot.physical_properties.surface_area_nm2.toFixed(2)} nm²
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <strong>願頻共振：</strong><br>
+                            願種：${nanobot.wish_resonance.seed}<br>
+                            頻率：${nanobot.wish_resonance.frequency_hz} Hz<br>
+                            振幅：${(nanobot.wish_resonance.amplitude * 100).toFixed(1)}%<br>
+                            相干因子：${(nanobot.wish_resonance.coherence_factor * 100).toFixed(1)}%
+                        </div>
+                        
+                        <div>
+                            <strong>核心能力：</strong><br>
+                            分子感應：${(nanobot.capabilities.molecular_sensing * 100).toFixed(1)}%<br>
+                            量子穿隧：${(nanobot.capabilities.quantum_tunneling * 100).toFixed(1)}%<br>
+                            自組裝：${(nanobot.capabilities.self_assembly * 100).toFixed(1)}%<br>
+                            願頻放大：${(nanobot.capabilities.wish_amplification * 100).toFixed(1)}%<br>
+                            神經接口：${(nanobot.capabilities.neural_interface * 100).toFixed(1)}%
+                        </div>
+                    </div>
+                `;
+            }
+
+            formatManifestationResult(simulation) {
+                const outcome = simulation.predicted_outcome;
+                return `
+                    <div style="line-height: 1.6;">
+                        <h4 style="color: #00f5ff; margin-bottom: 15px;">✨ 願頻顯化模擬結果</h4>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <strong>願文本分析：</strong><br>
+                            文本長度：${simulation.wish_analysis.text_length} 字符<br>
+                            主導頻率：${simulation.wish_analysis.dominant_frequency_hz} Hz<br>
+                            複雜度因子：${(simulation.wish_analysis.complexity_factor * 100).toFixed(1)}%<br>
+                            情感強度：${(simulation.wish_analysis.emotional_intensity * 100).toFixed(1)}%
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <strong>集體共振效應：</strong><br>
+                            參與機器人：${simulation.participating_nanobots} 個<br>
+                            相干性：${(simulation.collective_resonance.coherence * 100).toFixed(1)}%<br>
+                            振幅：${(simulation.collective_resonance.amplitude * 100).toFixed(1)}%<br>
+                            頻率匹配：${(simulation.collective_resonance.frequency_match * 100).toFixed(1)}%<br>
+                            集體增強：${simulation.collective_resonance.collective_enhancement.toFixed(2)}x
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <strong>預測結果：</strong><br>
+                            成功概率：<span style="color: ${outcome.success_probability > 0.7 ? '#4caf50' : outcome.success_probability > 0.4 ? '#ff9800' : '#f44336'}">${(outcome.success_probability * 100).toFixed(1)}%</span><br>
+                            顯化時間：${outcome.manifestation_time_s.toFixed(3)} 秒<br>
+                            所需能量：${outcome.energy_required_j.toExponential(2)} 焦耳<br>
+                            量子相干性維持：${outcome.quantum_coherence_maintained ? '✅ 是' : '❌ 否'}
+                        </div>
+                        
+                        <div style="background: rgba(0, 245, 255, 0.1); padding: 15px; border-radius: 10px; border-left: 3px solid #00f5ff;">
+                            <strong>💡 系統建議：</strong><br>
+                            ${this.getManifestationAdvice(outcome.success_probability)}
+                        </div>
+                    </div>
+                `;
+            }
+
+            getManifestationAdvice(probability) {
+                if (probability > 0.8) {
+                    return '願頻共振極佳！建議立即執行顯化程序。';
+                } else if (probability > 0.6) {
+                    return '共振狀態良好，可以嘗試顯化，建議增加更多納米精靈參與。';
+                } else if (probability > 0.4) {
+                    return '共振效果一般，建議調整願文本或優化納米精靈配置。';
+                } else {
+                    return '共振效果較弱，建議重新分析願文本並創建更多高相干性納米精靈。';
+                }
+            }
+
+            getMissionName(mission) {
+                const missions = {
+                    'medical_repair': '醫療修復',
+                    'neural_interface': '神經接口',
+                    'molecular_assembly': '分子組裝',
+                    'cellular_communication': '細胞通訊',
+                    'quantum_sensing': '量子感應',
+                    'wish_manifestation': '願頻顯化'
+                };
+                return missions[mission] || mission;
+            }
+
+            showMessage(type, message) {
+                const container = document.getElementById('messageContainer');
+                const messageEl = document.createElement('div');
+                messageEl.className = `message ${type}`;
+                messageEl.textContent = message;
+                
+                container.appendChild(messageEl);
+                
+                setTimeout(() => {
+                    if (messageEl.parentNode) {
+                        messageEl.parentNode.removeChild(messageEl);
+                    }
+                }, 5000);
+            }
+
+            showModal(title, content) {
+                document.getElementById('modalTitle').textContent = title;
+                document.getElementById('modalContent').innerHTML = content;
+                document.getElementById('resultModal').style.display = 'block';
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('resultModal').style.display = 'none';
+        }
+
+        // 點擊模態框外部關閉
+        window.onclick = function(event) {
+            const modal = document.getElementById('resultModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // 导航栏功能
+        function initNavigation() {
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const navMenu = document.getElementById('navMenu');
+            
+            if (mobileMenuToggle && navMenu) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                });
+                
+                // 点击菜单外部关闭菜单
+                document.addEventListener('click', function(event) {
+                    if (!event.target.closest('.navbar')) {
+                        navMenu.classList.remove('active');
+                    }
+                });
+            }
+            
+            // 设置当前页面活跃状态
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // 初始化系統
+        document.addEventListener('DOMContentLoaded', () => {
+            initNavigation();
+            new NanoAIInterface();
+        });
+    </script>
+</body>
+</html>

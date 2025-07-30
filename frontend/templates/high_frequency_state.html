@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌟 真正的高頻狀態檢測系統</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            background: linear-gradient(45deg, #ffd700, #ffb347, #ff8c00, #ff6347);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #90a4ae;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .wisdom-quote {
+            background: rgba(255, 215, 0, 0.1);
+            border-left: 3px solid #ffd700;
+            padding: 15px 20px;
+            border-radius: 0 10px 10px 0;
+            font-style: italic;
+            color: #ffd700;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(255, 215, 0, 0.2);
+        }
+
+        .panel-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #ffd700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #b0bec5;
+            font-size: 0.9rem;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            color: #e0e0e0;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .select-input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            color: #e0e0e0;
+            font-size: 1rem;
+        }
+
+        .slider-container {
+            margin: 15px 0;
+        }
+
+        .slider-value {
+            text-align: center;
+            color: #ffd700;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255, 215, 0, 0.2);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ffd700;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .detect-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #ff6347, #ff8c00);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .detect-button:hover {
+            background: linear-gradient(45deg, #ff4500, #ff7f00);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 99, 71, 0.4);
+        }
+
+        .secondary-button {
+            background: linear-gradient(45deg, #4caf50, #66bb6a);
+        }
+
+        .secondary-button:hover {
+            background: linear-gradient(45deg, #43a047, #5cb85c);
+        }
+
+        .result-panel {
+            grid-column: 1 / -1;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 400px;
+            display: none;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .authenticity-score {
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .state-classification {
+            text-align: center;
+            padding: 15px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: #90a4ae;
+            margin-bottom: 8px;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        .metric-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .metric-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ffb347);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .guidance-section {
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .guidance-title {
+            color: #ffd700;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .guidance-item {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            color: #e0e0e0;
+        }
+
+        .guidance-item:last-child {
+            border-bottom: none;
+        }
+
+        .frequency-display {
+            text-align: center;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .frequency-value {
+            font-size: 2.5rem;
+            color: #ffd700;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .frequency-quality {
+            font-size: 1rem;
+            color: #90a4ae;
+        }
+
+        .evolution-chart {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #90a4ae;
+        }
+
+        .status-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: rgba(76, 175, 80, 0.9);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .status-indicator.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .status-indicator.error {
+            background: rgba(244, 67, 54, 0.9);
+        }
+
+        .floating-wisdom {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            max-width: 300px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            padding: 15px;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .floating-wisdom.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .floating-wisdom {
+                position: relative;
+                bottom: auto;
+                left: auto;
+                max-width: none;
+                margin: 20px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">🌟 真正的高頻狀態檢測</h1>
+            <p class="subtitle">區分真實高頻與偽裝正能量 · 身心靈合一的覺知系統</p>
+            
+            <div class="wisdom-quote" id="wisdomQuote">
+                "真正的高頻狀態從來都不喧嘩也不浮誇。它安靜卻充滿力量，它溫柔卻震動萬物。"
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <div class="panel">
+                <h3 class="panel-title">🔍 狀態檢測輸入</h3>
+                
+                <div class="input-group">
+                    <label class="input-label">描述你當前的狀態和感受：</label>
+                    <textarea class="text-input" id="stateText" placeholder="例如：今天感受到一些悲傷，但我允許它存在。在覺知中保持內在的安定。\n\n或者：我今天超級開心！滿滿正能量！完美的一天！"></textarea>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">當前情緒狀態：</label>
+                    <select class="select-input" id="emotionalState">
+                        <option value="平靜">平靜</option>
+                        <option value="接納">接納</option>
+                        <option value="悲傷但安定">悲傷但安定</option>
+                        <option value="憤怒但覺知">憤怒但覺知</option>
+                        <option value="恐懼但信任">恐懼但信任</option>
+                        <option value="喜悅而寧靜">喜悅而寧靜</option>
+                        <option value="複雜但清晰">複雜但清晰</option>
+                        <option value="超級開心">超級開心</option>
+                        <option value="完美狀態">完美狀態</option>
+                        <option value="無敵快樂">無敵快樂</option>
+                        <option value="爆炸正能量">爆炸正能量</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">意圖清晰度：</label>
+                    <div class="slider-container">
+                        <div class="slider-value">清晰度: <span id="clarityValue">0.5</span></div>
+                        <input type="range" class="slider" id="claritySlider" min="0" max="1" step="0.1" value="0.5">
+                    </div>
+                </div>
+                
+                <button class="detect-button" onclick="detectState()">🔍 檢測真實性</button>
+                <button class="detect-button secondary-button" onclick="getEvolution()">📈 查看演化</button>
+                <button class="detect-button secondary-button" onclick="getWisdom()">🌟 獲取智慧</button>
+            </div>
+
+            <div class="panel">
+                <h3 class="panel-title">🏷️ 真實性標記</h3>
+                <div id="markersDisplay">
+                    <div class="metric-card">
+                        <div class="metric-label">內在安定</div>
+                        <div class="metric-value" id="marker1">0%</div>
+                        <div class="metric-bar"><div class="metric-fill" id="bar1"></div></div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">情緒接納</div>
+                        <div class="metric-value" id="marker2">0%</div>
+                        <div class="metric-bar"><div class="metric-fill" id="bar2"></div></div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">無需證明</div>
+                        <div class="metric-value" id="marker3">0%</div>
+                        <div class="metric-bar"><div class="metric-fill" id="bar3"></div></div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">覺知穩定</div>
+                        <div class="metric-value" id="marker4">0%</div>
+                        <div class="metric-bar"><div class="metric-fill" id="bar4"></div></div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">頻率自然</div>
+                        <div class="metric-value" id="marker5">0%</div>
+                        <div class="metric-bar"><div class="metric-fill" id="bar5"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="result-panel" id="resultPanel">
+            <div class="result-header">
+                <h3 class="panel-title">📊 檢測結果</h3>
+                <button class="detect-button" onclick="hideResults()" style="width: auto; padding: 10px 20px;">隱藏結果</button>
+            </div>
+            
+            <div class="authenticity-score" id="authenticityScore">--</div>
+            
+            <div class="state-classification" id="stateClassification">
+                等待檢測...
+            </div>
+            
+            <div class="frequency-display">
+                <div class="frequency-value" id="frequencyValue">-- Hz</div>
+                <div class="frequency-quality" id="frequencyQuality">頻率品質</div>
+            </div>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-label">偽裝指數</div>
+                    <div class="metric-value" id="fakeScore">--</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">真實指標</div>
+                    <div class="metric-value" id="authenticIndicators">--</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">整體真實性</div>
+                    <div class="metric-value" id="overallAuth">--</div>
+                </div>
+            </div>
+            
+            <div class="guidance-section" id="guidanceSection">
+                <div class="guidance-title">🧭 個人化指導</div>
+                <div id="guidanceList"></div>
+            </div>
+            
+            <div class="evolution-chart" id="evolutionChart">
+                演化圖表將在這裡顯示
+            </div>
+        </div>
+    </div>
+
+    <div class="status-indicator" id="statusIndicator"></div>
+    
+    <div class="floating-wisdom" id="floatingWisdom">
+        <div style="color: #ffd700; font-weight: 500; margin-bottom: 10px;">💫 智慧提醒</div>
+        <div id="wisdomText">點擊「獲取智慧」來接收指導</div>
+    </div>
+
+    <script>
+        // 清晰度滑桿事件
+        document.getElementById('claritySlider').addEventListener('input', function() {
+            document.getElementById('clarityValue').textContent = this.value;
+        });
+
+        // 顯示狀態提示
+        function showStatus(message, type = 'success') {
+            const indicator = document.getElementById('statusIndicator');
+            indicator.textContent = message;
+            indicator.className = `status-indicator show ${type}`;
+            
+            setTimeout(() => {
+                indicator.classList.remove('show');
+            }, 3000);
+        }
+
+        // 檢測狀態
+        async function detectState() {
+            const stateText = document.getElementById('stateText').value;
+            const emotionalState = document.getElementById('emotionalState').value;
+            const intentionClarity = parseFloat(document.getElementById('claritySlider').value);
+            
+            if (!stateText.trim()) {
+                showStatus('請描述你的當前狀態', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/high_frequency/detect', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        text_input: stateText,
+                        emotional_state: emotionalState,
+                        intention_clarity: intentionClarity
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showStatus('狀態檢測完成！');
+                    displayResults(data.detection_result);
+                    updateMarkers();
+                } else {
+                    showStatus(data.error || '檢測失敗', 'error');
+                }
+            } catch (error) {
+                showStatus('網路錯誤: ' + error.message, 'error');
+            }
+        }
+
+        // 顯示檢測結果
+        function displayResults(result) {
+            const panel = document.getElementById('resultPanel');
+            panel.style.display = 'block';
+            
+            // 真實性評分
+            const score = (result.authenticity_score * 100).toFixed(1);
+            document.getElementById('authenticityScore').textContent = score + '%';
+            document.getElementById('authenticityScore').style.color = getScoreColor(result.authenticity_score);
+            
+            // 狀態分類
+            const classification = document.getElementById('stateClassification');
+            classification.textContent = result.state_classification.level + ' - ' + result.state_classification.description;
+            classification.style.backgroundColor = result.state_classification.color + '20';
+            classification.style.borderColor = result.state_classification.color;
+            classification.style.border = `2px solid ${result.state_classification.color}`;
+            
+            // 頻率顯示
+            document.getElementById('frequencyValue').textContent = result.frequency_reading.frequency + ' Hz';
+            document.getElementById('frequencyQuality').textContent = '品質: ' + result.frequency_reading.frequency_quality;
+            
+            // 指標數據
+            document.getElementById('fakeScore').textContent = result.fake_positive_score;
+            document.getElementById('authenticIndicators').textContent = result.authentic_indicators;
+            document.getElementById('overallAuth').textContent = score + '%';
+            
+            // 指導建議
+            const guidanceList = document.getElementById('guidanceList');
+            guidanceList.innerHTML = '';
+            result.guidance.forEach(guidance => {
+                const item = document.createElement('div');
+                item.className = 'guidance-item';
+                item.textContent = guidance;
+                guidanceList.appendChild(item);
+            });
+            
+            // 滾動到結果
+            panel.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 獲取評分顏色
+        function getScoreColor(score) {
+            if (score >= 0.8) return '#4CAF50';
+            if (score >= 0.6) return '#2196F3';
+            if (score >= 0.4) return '#FF9800';
+            if (score >= 0.2) return '#F44336';
+            return '#9C27B0';
+        }
+
+        // 更新真實性標記
+        async function updateMarkers() {
+            try {
+                const response = await fetch('/api/high_frequency/markers');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const markers = data.authentic_markers;
+                    const markerNames = ['內在安定', '情緒接納', '無需證明', '覺知穩定', '頻率自然'];
+                    const markerKeys = Object.keys(markers);
+                    
+                    markerKeys.forEach((key, index) => {
+                        const value = (markers[key] * 100).toFixed(0);
+                        document.getElementById(`marker${index + 1}`).textContent = value + '%';
+                        document.getElementById(`bar${index + 1}`).style.width = value + '%';
+                    });
+                }
+            } catch (error) {
+                console.error('更新標記失敗:', error);
+            }
+        }
+
+        // 獲取演化數據
+        async function getEvolution() {
+            try {
+                const response = await fetch('/api/high_frequency/evolution');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const evolution = data.evolution;
+                    const chart = document.getElementById('evolutionChart');
+                    
+                    if (evolution.message) {
+                        chart.textContent = evolution.message;
+                    } else {
+                        chart.innerHTML = `
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.5rem; color: #ffd700; margin-bottom: 10px;">
+                                    趨勢: ${evolution.trend === 'improving' ? '📈 提升中' : '📉 需要關注'}
+                                </div>
+                                <div style="color: #90a4ae;">
+                                    平均真實性: ${(evolution.average_authenticity * 100).toFixed(1)}%
+                                </div>
+                                <div style="color: #90a4ae; margin-top: 10px;">
+                                    ${evolution.evolution_insight}
+                                </div>
+                            </div>
+                        `;
+                    }
+                    
+                    showStatus('演化數據已更新');
+                } else {
+                    showStatus('演化分析失敗', 'error');
+                }
+            } catch (error) {
+                showStatus('網路錯誤: ' + error.message, 'error');
+            }
+        }
+
+        // 獲取智慧
+        async function getWisdom() {
+            try {
+                const response = await fetch('/api/high_frequency/wisdom');
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('wisdomQuote').textContent = data.wisdom;
+                    document.getElementById('wisdomText').textContent = data.wisdom;
+                    
+                    const floatingWisdom = document.getElementById('floatingWisdom');
+                    floatingWisdom.classList.add('show');
+                    
+                    setTimeout(() => {
+                        floatingWisdom.classList.remove('show');
+                    }, 8000);
+                    
+                    showStatus('智慧已更新 🌟');
+                } else {
+                    showStatus('智慧獲取失敗', 'error');
+                }
+            } catch (error) {
+                showStatus('網路錯誤: ' + error.message, 'error');
+            }
+        }
+
+        // 隱藏結果
+        function hideResults() {
+            document.getElementById('resultPanel').style.display = 'none';
+        }
+
+        // 頁面載入時初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            showStatus('🌟 真正高頻狀態檢測系統已啟動');
+            updateMarkers();
+            
+            // 顯示浮動智慧
+            setTimeout(() => {
+                document.getElementById('floatingWisdom').classList.add('show');
+            }, 2000);
+        });
+    </script>
+    <!-- 返回按鈕 -->
+    <div style="position: fixed; top: 20px; left: 20px; z-index: 1000;">
+        <a href="/" style="display: inline-block; padding: 12px 24px; background: linear-gradient(45deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 25px; font-weight: bold; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); transition: all 0.3s ease; font-size: 14px;">
+            🏠 返回主頁
+        </a>
+    </div>
+</body>
+</html>

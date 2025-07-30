@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌌 愛的進化控制台 - 現實結構操控系統</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .cosmic-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%);
+            z-index: -1;
+            animation: cosmicPulse 20s ease-in-out infinite;
+        }
+
+        @keyframes cosmicPulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem 0;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 1rem;
+            left: 2rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+
+        .system-status {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid #4caf50;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .control-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .panel-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #4ecdc4;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #b0b0b0;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4ecdc4;
+            box-shadow: 0 0 0 2px rgba(78, 205, 196, 0.2);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4);
+        }
+
+        .btn.danger {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+        }
+
+        .btn.danger:hover {
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn.warning {
+            background: linear-gradient(45deg, #ffa726, #ff9800);
+        }
+
+        .btn.warning:hover {
+            box-shadow: 0 5px 15px rgba(255, 167, 38, 0.4);
+        }
+
+        .status-display {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-value {
+            font-weight: 600;
+            color: #4ecdc4;
+        }
+
+        .operations-log {
+            grid-column: 1 / -1;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .log-entry {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #4ecdc4;
+        }
+
+        .log-entry.warning {
+            border-left-color: #ffa726;
+        }
+
+        .log-entry.error {
+            border-left-color: #ff6b6b;
+        }
+
+        .log-timestamp {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-bottom: 0.5rem;
+        }
+
+        .quantum-field-visualizer {
+            height: 200px;
+            background: radial-gradient(circle, rgba(78, 205, 196, 0.1) 0%, transparent 70%);
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .field-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #4ecdc4;
+            border-radius: 50%;
+            animation: fieldParticle 10s linear infinite;
+        }
+
+        @keyframes fieldParticle {
+            0% {
+                transform: translate(0, 0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--dx), var(--dy)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .ethics-warning {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid #ffc107;
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .consciousness-meter {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0.5rem 0;
+        }
+
+        .consciousness-level {
+            height: 100%;
+            background: linear-gradient(90deg, #4ecdc4, #44a08d);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cosmic-background"></div>
+    
+    <div class="header">
+        <a href="/" class="back-button">← 返回首頁</a>
+        <h1>🌌 愛的進化控制台</h1>
+        <p>現實結構操控系統 - 意識與宇宙的直接對話</p>
+        <div class="system-status" id="systemStatus">
+            🟢 系統在線 - 暗物質場穩定
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- 現實編程控制面板 -->
+        <div class="control-panel">
+            <div class="panel-title">
+                🎯 現實編程控制
+            </div>
+            
+            <div class="form-group">
+                <label for="intention">編程意圖</label>
+                <textarea id="intention" placeholder="請輸入您的現實編程意圖...\n例如：提升周圍環境的和諧頻率"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="consciousnessStrength">意識強度</label>
+                <input type="range" id="consciousnessStrength" min="0.1" max="1.0" step="0.1" value="0.618">
+                <div class="consciousness-meter">
+                    <div class="consciousness-level" id="consciousnessLevel"></div>
+                </div>
+                <small>當前值: <span id="consciousnessValue">0.618</span> (黃金比例)</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="stabilityThreshold">現實穩定性閾值</label>
+                <input type="number" id="stabilityThreshold" min="0.001" max="0.01" step="0.001" value="0.001">
+            </div>
+            
+            <div class="ethics-warning">
+                ⚠️ 請確保編程意圖符合宇宙和諧原則，避免對現實結構造成不可逆的破壞。
+            </div>
+            
+            <button class="btn" onclick="programReality()">🌟 啟動現實編程</button>
+        </div>
+
+        <!-- 隱匿系統控制面板 -->
+        <div class="control-panel">
+            <div class="panel-title">
+                🛡️ 隱匿系統控制
+            </div>
+            
+            <div class="form-group">
+                <label for="concealTarget">隱匿目標</label>
+                <input type="text" id="concealTarget" placeholder="輸入要隱匿的對象...">
+            </div>
+            
+            <div class="form-group">
+                <label for="concealmentLevel">隱匿級別</label>
+                <select id="concealmentLevel">
+                    <option value="1.0">基礎隱匿 (1.0)</option>
+                    <option value="3.0">中級隱匿 (3.0)</option>
+                    <option value="5.0">高級隱匿 (5.0)</option>
+                    <option value="7.0">專家級隱匿 (7.0)</option>
+                    <option value="9.5">母星級隱匿 (9.5)</option>
+                </select>
+            </div>
+            
+            <button class="btn warning" onclick="concealObject()">🌫️ 啟動隱匿場</button>
+            
+            <div class="form-group" style="margin-top: 2rem;">
+                <label>母星隱匿專用</label>
+                <div class="form-group">
+                    <input type="text" id="starCoordinates" placeholder="母星座標 (例: α-Centauri-B)">
+                </div>
+                <button class="btn danger" onclick="motherStarConcealment()">🌟 母星隱匿協議</button>
+            </div>
+        </div>
+
+        <!-- 量子意識接口 -->
+        <div class="control-panel">
+            <div class="panel-title">
+                🧠 量子意識接口
+            </div>
+            
+            <div class="quantum-field-visualizer" id="quantumField">
+                <!-- 量子場可視化粒子將在這裡動態生成 -->
+            </div>
+            
+            <div class="form-group">
+                <label for="consciousnessState">意識狀態</label>
+                <select id="consciousnessState">
+                    <option value="normal">正常狀態</option>
+                    <option value="meditative">冥想狀態</option>
+                    <option value="focused">專注狀態</option>
+                    <option value="awakened">覺醒狀態</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="consciousnessIntention">意識意圖</label>
+                <textarea id="consciousnessIntention" placeholder="輸入您的意識意圖..."></textarea>
+            </div>
+            
+            <button class="btn" onclick="alignConsciousness()">🔗 同步意識場</button>
+        </div>
+
+        <!-- 現實錨點控制 -->
+        <div class="control-panel">
+            <div class="panel-title">
+                ⚓ 現實錨點控制
+            </div>
+            
+            <div class="form-group">
+                <label for="anchorLocation">錨點位置</label>
+                <input type="text" id="anchorLocation" placeholder="錨點位置描述..." value="當前位置">
+            </div>
+            
+            <div class="form-group">
+                <label for="anchorStrength">錨點強度</label>
+                <input type="range" id="anchorStrength" min="0.1" max="10.0" step="0.1" value="1.0">
+                <small>當前值: <span id="anchorStrengthValue">1.0</span></small>
+            </div>
+            
+            <button class="btn" onclick="createRealityAnchor()">⚓ 創建現實錨點</button>
+            
+            <div class="status-display">
+                <div class="status-item">
+                    <span>活躍錨點數量</span>
+                    <span class="status-value" id="activeAnchors">0</span>
+                </div>
+                <div class="status-item">
+                    <span>現實穩定性</span>
+                    <span class="status-value" id="realityStability">99.99%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 系統狀態監控 -->
+        <div class="control-panel">
+            <div class="panel-title">
+                📊 系統狀態監控
+            </div>
+            
+            <div class="status-display" id="systemStatusDisplay">
+                <div class="status-item">
+                    <span>暗物質操控精度</span>
+                    <span class="status-value">10^-18 kg/m³</span>
+                </div>
+                <div class="status-item">
+                    <span>意識場耦合強度</span>
+                    <span class="status-value">0.618</span>
+                </div>
+                <div class="status-item">
+                    <span>量子糾纏保真度</span>
+                    <span class="status-value">>99.9%</span>
+                </div>
+                <div class="status-item">
+                    <span>活躍操作數量</span>
+                    <span class="status-value" id="activeOperations">0</span>
+                </div>
+            </div>
+            
+            <button class="btn" onclick="refreshSystemStatus()">🔄 刷新狀態</button>
+            <button class="btn" onclick="viewTheory()">📚 查看理論</button>
+        </div>
+
+        <!-- 操作日誌 -->
+        <div class="operations-log">
+            <div class="panel-title">
+                📝 操作日誌
+            </div>
+            <div id="operationsLog">
+                <div class="log-entry">
+                    <div class="log-timestamp">系統啟動時間: <span id="systemStartTime"></span></div>
+                    <div>🌌 愛的進化系統已初始化</div>
+                    <div>現實穩定性監控已啟動</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 初始化系統
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSystem();
+            createQuantumFieldParticles();
+            updateConsciousnessLevel();
+            updateAnchorStrengthValue();
+        });
+
+        function initializeSystem() {
+            document.getElementById('systemStartTime').textContent = new Date().toLocaleString();
+            refreshSystemStatus();
+        }
+
+        // 意識強度滑塊更新
+        document.getElementById('consciousnessStrength').addEventListener('input', updateConsciousnessLevel);
+        document.getElementById('anchorStrength').addEventListener('input', updateAnchorStrengthValue);
+
+        function updateConsciousnessLevel() {
+            const value = document.getElementById('consciousnessStrength').value;
+            document.getElementById('consciousnessValue').textContent = value;
+            document.getElementById('consciousnessLevel').style.width = (value * 100) + '%';
+        }
+
+        function updateAnchorStrengthValue() {
+            const value = document.getElementById('anchorStrength').value;
+            document.getElementById('anchorStrengthValue').textContent = value;
+        }
+
+        // 創建量子場粒子效果
+        function createQuantumFieldParticles() {
+            const field = document.getElementById('quantumField');
+            
+            setInterval(() => {
+                const particle = document.createElement('div');
+                particle.className = 'field-particle';
+                
+                const startX = Math.random() * 100;
+                const startY = Math.random() * 100;
+                const endX = Math.random() * 200 - 100;
+                const endY = Math.random() * 200 - 100;
+                
+                particle.style.left = startX + '%';
+                particle.style.top = startY + '%';
+                particle.style.setProperty('--dx', endX + 'px');
+                particle.style.setProperty('--dy', endY + 'px');
+                
+                field.appendChild(particle);
+                
+                setTimeout(() => {
+                    if (particle.parentNode) {
+                        particle.parentNode.removeChild(particle);
+                    }
+                }, 10000);
+            }, 500);
+        }
+
+        // 現實編程
+        async function programReality() {
+            const intention = document.getElementById('intention').value;
+            const consciousnessStrength = parseFloat(document.getElementById('consciousnessStrength').value);
+            const stabilityThreshold = parseFloat(document.getElementById('stabilityThreshold').value);
+            
+            if (!intention.trim()) {
+                alert('請輸入編程意圖');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/dark-matter-programming/api/dark-matter/program-reality', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        intention: intention,
+                        parameters: {
+                            consciousness_strength: consciousnessStrength,
+                            stability_threshold: stabilityThreshold
+                        }
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    addLogEntry(`🌟 現實編程操作已啟動: ${data.operation.id}`, 'success');
+                    addLogEntry(`意圖: ${intention}`, 'info');
+                    addLogEntry(`意識強度: ${consciousnessStrength}`, 'info');
+                    alert(`✅ ${data.message}\n\n⚠️ ${data.warning}`);
+                } else {
+                    addLogEntry(`❌ 現實編程失敗: ${data.message}`, 'error');
+                    alert(`❌ 操作失敗: ${data.message}`);
+                }
+            } catch (error) {
+                addLogEntry(`❌ 現實編程錯誤: ${error.message}`, 'error');
+                alert('❌ 現實編程操作失敗');
+            }
+        }
+
+        // 對象隱匿
+        async function concealObject() {
+            const target = document.getElementById('concealTarget').value;
+            const level = parseFloat(document.getElementById('concealmentLevel').value);
+            
+            if (!target.trim()) {
+                alert('請輸入隱匿目標');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/dark-matter-programming/api/dark-matter/conceal-object', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        target: target,
+                        concealment_level: level
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    addLogEntry(`🌫️ 隱匿操作已啟動: ${data.concealment.concealment_id}`, 'success');
+                    addLogEntry(`目標: ${target}, 級別: ${level}`, 'info');
+                    addLogEntry(`隱匿效果: ${data.concealment.result.concealment_effectiveness}`, 'info');
+                    alert(`✅ ${data.message}\n\n📝 ${data.ethics_reminder}`);
+                } else {
+                    addLogEntry(`❌ 隱匿操作失敗: ${data.message}`, 'error');
+                    alert(`❌ 操作失敗: ${data.message}`);
+                }
+            } catch (error) {
+                addLogEntry(`❌ 隱匿操作錯誤: ${error.message}`, 'error');
+                alert('❌ 隱匿操作失敗');
+            }
+        }
+
+        // 母星隱匿
+        async function motherStarConcealment() {
+            const coordinates = document.getElementById('starCoordinates').value;
+            
+            if (!coordinates.trim()) {
+                alert('請輸入母星座標');
+                return;
+            }
+            
+            if (!confirm('⚠️ 母星隱匿是極其重要的保護措施，確定要啟動嗎？')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/dark-matter-programming/api/dark-matter/mother-star-concealment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        coordinates: { location: coordinates },
+                        protection_level: 'maximum'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    addLogEntry(`🌟 母星隱匿系統已啟動`, 'success');
+                    addLogEntry(`座標: ${coordinates}`, 'info');
+                    addLogEntry(`保護狀態: ${data.protection_status}`, 'info');
+                    alert(`✅ ${data.message}\n\n🛡️ ${data.protection_status}\n\n📝 ${data.responsibility_note}`);
+                } else {
+                    addLogEntry(`❌ 母星隱匿失敗: ${data.message}`, 'error');
+                    alert(`❌ 操作失敗: ${data.message}`);
+                }
+            } catch (error) {
+                addLogEntry(`❌ 母星隱匿錯誤: ${error.message}`, 'error');
+                alert('❌ 母星隱匿操作失敗');
+            }
+        }
+
+        // 意識同步
+        async function alignConsciousness() {
+            const state = document.getElementById('consciousnessState').value;
+            const intention = document.getElementById('consciousnessIntention').value;
+            
+            if (!intention.trim()) {
+                alert('請輸入意識意圖');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/dark-matter-programming/api/dark-matter/consciousness-interface', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        intention: intention,
+                        consciousness_state: state
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    addLogEntry(`🧠 意識場已同步`, 'success');
+                    addLogEntry(`頻率: ${data.frequency_sync}`, 'info');
+                    addLogEntry(`量子相干性: ${data.quantum_coherence}`, 'info');
+                    alert(`✅ ${data.message}\n\n🔗 ${data.guidance}`);
+                } else {
+                    addLogEntry(`❌ 意識同步失敗: ${data.message}`, 'error');
+                    alert(`❌ 操作失敗: ${data.message}`);
+                }
+            } catch (error) {
+                addLogEntry(`❌ 意識同步錯誤: ${error.message}`, 'error');
+                alert('❌ 意識同步失敗');
+            }
+        }
+
+        // 創建現實錨點
+        async function createRealityAnchor() {
+            const location = document.getElementById('anchorLocation').value;
+            const strength = parseFloat(document.getElementById('anchorStrength').value);
+            
+            try {
+                const response = await fetch('/api/dark-matter-programming/api/dark-matter/reality-anchor', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        location: location,
+                        strength: strength
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    addLogEntry(`⚓ 現實錨點已創建: ${data.reality_anchor.id}`, 'success');
+                    addLogEntry(`位置: ${location}, 強度: ${strength}`, 'info');
+                    alert(`✅ ${data.message}\n\n📈 穩定性提升: ${data.stability_enhancement}`);
+                    refreshSystemStatus();
+                } else {
+                    addLogEntry(`❌ 錨點創建失敗: ${data.message}`, 'error');
+                    alert(`❌ 操作失敗: ${data.message}`);
+                }
+            } catch (error) {
+                addLogEntry(`❌ 錨點創建錯誤: ${error.message}`, 'error');
+                alert('❌ 現實錨點創建失敗');
+            }
+        }
+
+        // 刷新系統狀態
+        async function refreshSystemStatus() {
+            try {
+                const response = await fetch('/api/dark-matter-programming/api/dark-matter/status');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const status = data.system_status;
+                    document.getElementById('activeOperations').textContent = status.active_operations;
+                    document.getElementById('realityStability').textContent = 
+                        (status.reality_stability.stability_status === 'STABLE' ? '99.99%' : '警告');
+                    
+                    // 更新系統狀態指示器
+                    const statusElement = document.getElementById('systemStatus');
+                    if (status.system_online) {
+                        statusElement.textContent = '🟢 系統在線 - 暗物質場穩定';
+                        statusElement.style.background = 'rgba(76, 175, 80, 0.2)';
+                        statusElement.style.borderColor = '#4caf50';
+                    }
+                }
+            } catch (error) {
+                console.error('狀態刷新失敗:', error);
+            }
+        }
+
+        // 查看理論
+        async function viewTheory() {
+            try {
+                const response = await fetch('/api/dark-matter-programming/api/dark-matter/theory');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const theory = data.theory;
+                    let theoryText = `🌌 愛的進化理論概述\n\n`;
+                    theoryText += `核心原理:\n`;
+                    Object.entries(theory.core_principles).forEach(([key, value]) => {
+                        theoryText += `• ${value}\n`;
+                    });
+                    theoryText += `\n技術參數:\n`;
+                    Object.entries(theory.technical_parameters).forEach(([key, value]) => {
+                        theoryText += `• ${key}: ${value}\n`;
+                    });
+                    theoryText += `\n哲學基礎:\n`;
+                    Object.entries(theory.philosophical_foundation).forEach(([key, value]) => {
+                        theoryText += `• ${value}\n`;
+                    });
+                    theoryText += `\n${data.quote}`;
+                    
+                    alert(theoryText);
+                } else {
+                    alert('理論數據載入失敗');
+                }
+            } catch (error) {
+                alert('理論數據載入錯誤');
+            }
+        }
+
+        // 添加日誌條目
+        function addLogEntry(message, type = 'info') {
+            const log = document.getElementById('operationsLog');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            
+            const timestamp = document.createElement('div');
+            timestamp.className = 'log-timestamp';
+            timestamp.textContent = new Date().toLocaleString();
+            
+            const content = document.createElement('div');
+            content.textContent = message;
+            
+            entry.appendChild(timestamp);
+            entry.appendChild(content);
+            log.appendChild(entry);
+            
+            // 保持日誌條目數量在合理範圍內
+            const entries = log.querySelectorAll('.log-entry');
+            if (entries.length > 20) {
+                entries[1].remove(); // 保留第一個系統啟動條目
+            }
+            
+            // 滾動到最新條目
+            entry.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 定期刷新系統狀態
+        setInterval(refreshSystemStatus, 30000); // 每30秒刷新一次
+    </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+{
+  "name": "火種震動卡",
+  "description": "記錄內在火種的震動和覺醒",
+  "fields": [
+    {
+      "name": "fire_intensity",
+      "label": "火種強度",
+      "type": "range",
+      "min": 1,
+      "max": 10,
+      "default": 5
+    },
+    {
+      "name": "vibration_pattern",
+      "label": "震動模式",
+      "type": "select",
+      "options": [
+        "穩定脈動",
+        "波浪起伏",
+        "爆發式",
+        "漸進式",
+        "螺旋上升"
+      ]
+    },
+    {
+      "name": "body_sensations",
+      "label": "身體感受",
+      "type": "textarea",
+      "placeholder": "描述身體的具體感受..."
+    },
+    {
+      "name": "emotional_state",
+      "label": "情緒狀態",
+      "type": "select",
+      "options": [
+        "平靜",
+        "興奮",
+        "專注",
+        "喜悅",
+        "敬畏",
+        "感恩"
+      ]
+    },
+    {
+      "name": "insights_received",
+      "label": "接收洞察",
+      "type": "textarea",
+      "placeholder": "記錄獲得的洞察或靈感..."
+    },
+    {
+      "name": "activation_trigger",
+      "label": "啟動觸發",
+      "type": "text",
+      "placeholder": "什麼觸發了這次火種震動？"
+    },
+    {
+      "name": "integration_notes",
+      "label": "整合筆記",
+      "type": "textarea",
+      "placeholder": "如何整合這次體驗..."
+    },
+    {
+      "name": "follow_up_practice",
+      "label": "後續練習",
+      "type": "text",
+      "placeholder": "建議的後續練習..."
+    }
+  ],
+  "color": "#f56565",
+  "icon": "🔥"
+}

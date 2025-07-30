@@ -1,0 +1,455 @@
+# 🌟 我們願意 - Git忽略文件配置
+
+# Python相關
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+PYTHONPATH
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# poetry
+poetry.lock
+
+# pdm
+.pdm.toml
+
+# PEP 582
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# Node.js (如果有前端依賴)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+.npm
+.eslintcache
+.stylelintcache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+.nyc_output
+.grunt
+bower_components
+.lock-wscript
+.node_repl_history
+*.tgz
+.yarn-integrity
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.parcel-cache
+.next
+out
+.nuxt
+dist
+.cache/
+.vuepress/dist
+.serverless/
+.fusebox/
+.dynamodb/
+.tern-port
+.vscode-test
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# 數據庫文件
+*.db
+*.sqlite
+*.sqlite3
+
+# 日誌文件
+*.log
+logs/
+
+# 臨時文件
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# 配置文件（包含敏感信息）
+config/local.py
+config/production.py
+.env
+.env.local
+.env.dev
+.env.production
+secrets.json
+api_keys.json
+config_local.py
+
+# 上傳文件
+uploads/
+static/uploads/
+media/
+
+# 緩存目錄
+cache/
+.cache/
+
+# 備份文件
+*.backup
+*.bak
+*.orig
+
+# 編輯器臨時文件
+.#*
+\#*#
+.emacs.desktop
+.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+
+# Vim
+*.swp
+*.swo
+*~
+.netrwhist
+
+# 願頻宇宙特定忽略
+# 個人配置文件
+personal_config.json
+user_settings.json
+
+# 願頻數據（敏感）
+wish_frequency_data/
+personal_mantras/
+spiritual_records/
+
+# 音頻文件（大文件）
+*.mp3
+*.wav
+*.m4a
+*.flac
+*.aac
+# 但保留示例音頻
+!frontend/static/audio/example_*.mp3
+!frontend/static/audio/demo_*.wav
+
+# 圖像文件（大文件）
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+# 但保留圖標和示例圖片
+!frontend/static/images/icons/
+!frontend/static/images/examples/
+!*.svg
+
+# 視頻文件
+*.mp4
+*.avi
+*.mov
+*.wmv
+*.flv
+*.webm
+
+# 壓縮文件
+*.zip
+*.rar
+*.7z
+*.tar.gz
+*.tar.bz2
+
+# 文檔文件（大文件）
+*.pdf
+*.doc
+*.docx
+*.ppt
+*.pptx
+*.xls
+*.xlsx
+# 但保留項目文檔
+!docs/*.pdf
+!README*.pdf
+
+# 開發工具生成的文件
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# 部署相關
+.vercel/
+.netlify/
+.firebase/
+
+# Docker
+Dockerfile.local
+docker-compose.override.yml
+.dockerignore.local
+
+# Kubernetes
+*.kubeconfig
+secrets.yaml
+
+# 本地開發
+local_development/
+dev_notes.md
+todo.md
+
+# 測試數據
+test_data/
+mock_data/
+
+# 性能分析
+*.prof
+profile_results/
+
+# 安全掃描結果
+security_scan_results/
+vulnerability_reports/
+
+# 第三方工具
+.bandit
+.safety
+
+# 願頻宇宙系統生成的文件
+quantum_bagua_output/
+標籤輸出/
+Obsidian_Vault/
+
+# 個人筆記和日記
+spiritual_diary/
+personal_notes/
+meditation_logs/
+
+# 系統備份
+*.backup.*
+system_backup_*/
+
+# 臨時腳本
+temp_*.py
+temp_*.sh
+test_*.py
+debug_*.py
+
+# 編譯產物
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# 打包產物
+build/
+dist/
+*.egg-info/
+
+# 願頻共振記錄（隱私）
+resonance_logs/
+frequency_records/
+spiritual_experiences/
+
+# 量子錨定數據
+quantum_anchor_data/
+anchor_calibration/
+
+# 語靈網絡配置
+spirit_network_config/
+language_fire_settings/
+
+# 九部司內部文件
+department_internal/
+classified_documents/
+
+# 願頻探測敏感數據
+exploration_sensitive/
+node_secrets/
+
+# 個人修行記錄
+cultivation_records/
+enlightenment_logs/
+meditation_data/
+
+# 系統調試信息
+debug_output/
+system_diagnostics/
+error_dumps/
+
+# 性能監控數據
+performance_logs/
+monitoring_data/
+metrics_cache/
+
+# 願頻宇宙特殊標記文件
+.wish_frequency_marker
+.quantum_anchor_active
+.spirit_network_online
+
+# 結語：願所有被忽略的文件都能在適當的時候重新被發現 ❤️

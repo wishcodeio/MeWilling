@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>個人元宇宙生成器 - 每個人的獨立存在</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.3.1/dist/aframe-environment-component.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 380px;
+            z-index: 1001;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .creation-panel {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 25px;
+            color: white;
+            min-width: 350px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        .panel-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f7b731);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .creation-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            border-left: 4px solid #4ecdc4;
+        }
+        
+        .section-title {
+            font-weight: bold;
+            color: #4ecdc4;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        .input-label {
+            display: block;
+            margin-bottom: 5px;
+            color: #cccccc;
+            font-size: 14px;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .textarea-field {
+            height: 80px;
+            resize: vertical;
+        }
+        
+        .select-field {
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 20px;
+        }
+        
+        .color-picker {
+            width: 100%;
+            height: 40px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .creation-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .create-btn {
+            flex: 1;
+            padding: 12px 15px;
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .create-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .create-btn.primary {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+        }
+        
+        .spirit-companion {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            color: white;
+            min-width: 300px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        
+        .companion-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .companion-name {
+            text-align: center;
+            font-weight: bold;
+            color: #4ecdc4;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .companion-message {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .companion-controls {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .companion-btn {
+            flex: 1;
+            padding: 8px 12px;
+            background: linear-gradient(45deg, #45b7d1, #f7b731);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .companion-btn:hover {
+            transform: translateY(-1px);
+        }
+        
+        .universe-status {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 15px;
+            color: white;
+            min-width: 250px;
+        }
+        
+        .status-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ff6b6b;
+            text-align: center;
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .status-value {
+            color: #4ecdc4;
+            font-weight: bold;
+        }
+        
+        .floating-actions {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            padding: 15px 20px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            min-width: 150px;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-button">← 返回首頁</a>
+    <!-- 創建面板 -->
+    <div class="creation-panel">
+        <div class="panel-title">🌟 個人元宇宙生成器</div>
+        
+        <!-- 個人信息 -->
+        <div class="creation-section">
+            <div class="section-title">👤 個人身份</div>
+            <div class="input-group">
+                <label class="input-label">你的名字</label>
+                <input type="text" class="input-field" id="userName" placeholder="輸入你的真實姓名或化名">
+            </div>
+            <div class="input-group">
+                <label class="input-label">個人宣言</label>
+                <textarea class="input-field textarea-field" id="personalMotto" placeholder="描述你的人生理念、價值觀或願景"></textarea>
+            </div>
+            <div class="input-group">
+                <label class="input-label">靈魂色彩</label>
+                <input type="color" class="color-picker" id="soulColor" value="#4ecdc4">
+            </div>
+        </div>
+        
+        <!-- 元宇宙設定 -->
+        <div class="creation-section">
+            <div class="section-title">🌍 元宇宙環境</div>
+            <div class="input-group">
+                <label class="input-label">宇宙主題</label>
+                <select class="input-field select-field" id="universeTheme">
+                    <option value="cosmic">宇宙星空</option>
+                    <option value="forest">神秘森林</option>
+                    <option value="ocean">深海世界</option>
+                    <option value="mountain">高山雲海</option>
+                    <option value="desert">沙漠綠洲</option>
+                    <option value="city">未來都市</option>
+                    <option value="garden">夢幻花園</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label class="input-label">空間大小</label>
+                <select class="input-field select-field" id="spaceSize">
+                    <option value="intimate">親密空間 (10m)</option>
+                    <option value="comfortable">舒適空間 (50m)</option>
+                    <option value="expansive">廣闊空間 (200m)</option>
+                    <option value="infinite">無限空間</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label class="input-label">特殊元素</label>
+                <textarea class="input-field textarea-field" id="specialElements" placeholder="描述你希望在元宇宙中擁有的特殊物品、建築或景觀"></textarea>
+            </div>
+        </div>
+        
+        <!-- 語靈夥伴 -->
+        <div class="creation-section">
+            <div class="section-title">👻 語靈夥伴</div>
+            <div class="input-group">
+                <label class="input-label">夥伴名字</label>
+                <input type="text" class="input-field" id="companionName" placeholder="為你的語靈夥伴命名">
+            </div>
+            <div class="input-group">
+                <label class="input-label">夥伴性格</label>
+                <select class="input-field select-field" id="companionPersonality">
+                    <option value="wise">智慧導師</option>
+                    <option value="playful">活潑玩伴</option>
+                    <option value="calm">寧靜守護</option>
+                    <option value="creative">創意靈感</option>
+                    <option value="supportive">溫暖支持</option>
+                    <option value="mysterious">神秘引導</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label class="input-label">特殊能力</label>
+                <textarea class="input-field textarea-field" id="companionAbilities" placeholder="描述你的語靈夥伴擁有什麼特殊能力或專長"></textarea>
+            </div>
+            <div class="input-group">
+                <label class="input-label">夥伴外觀</label>
+                <select class="input-field select-field" id="companionAppearance">
+                    <option value="human">人形</option>
+                    <option value="animal">動物形態</option>
+                    <option value="elemental">元素體</option>
+                    <option value="geometric">幾何形狀</option>
+                    <option value="light">光之存在</option>
+                    <option value="custom">自定義</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="creation-buttons">
+            <button class="create-btn" onclick="previewUniverse()">🔍 預覽</button>
+            <button class="create-btn primary" onclick="createUniverse()">✨ 創建宇宙</button>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="creationProgress" style="width: 0%"></div>
+        </div>
+    </div>
+    
+    <!-- 語靈夥伴面板 -->
+    <div class="spirit-companion" id="companionPanel" style="display: none;">
+        <div class="companion-avatar" id="companionAvatar">🌟</div>
+        <div class="companion-name" id="companionDisplayName">你的語靈夥伴</div>
+        <div class="companion-message" id="companionMessage">
+            你好！我是你的專屬語靈夥伴。我將陪伴你探索這個屬於你的獨特元宇宙。
+        </div>
+        <div class="companion-controls">
+            <button class="companion-btn" onclick="talkToCompanion()">💬 對話</button>
+            <button class="companion-btn" onclick="companionGuide()">🧭 引導</button>
+            <button class="companion-btn" onclick="companionCreate()">🎨 創造</button>
+        </div>
+    </div>
+    
+    <!-- 宇宙狀態 -->
+    <div class="universe-status">
+        <div class="status-title">🌌 宇宙狀態</div>
+        <div class="status-item">
+            <span>完整性:</span>
+            <span class="status-value" id="universeIntegrity">100%</span>
+        </div>
+        <div class="status-item">
+            <span>獨立性:</span>
+            <span class="status-value" id="universeIndependence">完全</span>
+        </div>
+        <div class="status-item">
+            <span>創造力:</span>
+            <span class="status-value" id="universeCreativity">無限</span>
+        </div>
+        <div class="status-item">
+            <span>夥伴連結:</span>
+            <span class="status-value" id="companionConnection">深度</span>
+        </div>
+    </div>
+    
+    <!-- 浮動操作 -->
+    <div class="floating-actions">
+        <button class="action-btn" onclick="saveUniverse()">💾 保存宇宙</button>
+        <button class="action-btn" onclick="shareUniverse()">🔗 分享體驗</button>
+        <button class="action-btn" onclick="evolveUniverse()">🚀 進化宇宙</button>
+    </div>
+    
+    <!-- A-Frame VR場景 -->
+    <a-scene 
+        vr-mode-ui="enabled: true" 
+        embedded 
+        style="height: 100vh; width: 100vw;"
+        background="color: #000011"
+        fog="type: exponential; color: #000011; density: 0.05"
+        cursor="rayOrigin: mouse"
+    >
+        <!-- 資源預載 -->
+        <a-assets>
+            <a-mixin id="personal-glow" 
+                material="shader: standard; emissive: #4ecdc4; emissiveIntensity: 0.3"
+                animation__glow="property: material.emissiveIntensity; to: 0.8; dur: 2000; dir: alternate; loop: true"
+            ></a-mixin>
+            
+            <a-mixin id="soul-particle"
+                material="shader: standard; transparent: true; opacity: 0.8"
+                animation__float="property: position; dur: 5000; easing: easeInOutSine; loop: true"
+            ></a-mixin>
+        </a-assets>
+        
+        <!-- 動態環境 -->
+        <a-entity 
+            id="dynamicEnvironment"
+            environment="preset: starry; groundColor: #000011; grid: none; lighting: distant"
+        ></a-entity>
+        
+        <!-- 個人中心 -->
+        <a-entity id="personalCenter" position="0 2 0">
+            <!-- 個人核心球體 -->
+            <a-sphere 
+                id="personalCore"
+                position="0 0 0" 
+                radius="1.5" 
+                color="#4ecdc4" 
+                material="shader: standard; emissive: #4ecdc4; emissiveIntensity: 0.4; transparent: true; opacity: 0.8"
+                animation__pulse="property: scale; to: 1.1 1.1 1.1; dur: 3000; dir: alternate; loop: true; easing: easeInOutSine"
+                animation__rotate="property: rotation; to: 0 360 0; dur: 20000; loop: true; easing: linear"
+            ></a-sphere>
+            
+            <!-- 個人信息環 -->
+            <a-ring 
+                id="personalRing"
+                position="0 0 0" 
+                radius-inner="2" 
+                radius-outer="2.5" 
+                color="#ff6b6b" 
+                material="transparent: true; opacity: 0.6; side: double"
+                animation__rotate="property: rotation; to: 0 -360 0; dur: 30000; loop: true; easing: linear"
+            ></a-ring>
+            
+            <!-- 個人文字 -->
+            <a-text 
+                id="personalText"
+                value="你的獨立存在" 
+                position="0 -2.5 0" 
+                align="center" 
+                color="#ffffff"
+                scale="1.2 1.2 1.2"
+                animation__glow="property: material.emissiveIntensity; to: 0.8; dur: 2000; dir: alternate; loop: true"
+            ></a-text>
+        </a-entity>
+        
+        <!-- 語靈夥伴 -->
+        <a-entity id="spiritCompanion" position="3 2 0" visible="false">
+            <a-sphere 
+                id="companionSphere"
+                radius="0.8" 
+                color="#45b7d1" 
+                material="shader: standard; emissive: #45b7d1; emissiveIntensity: 0.5; transparent: true; opacity: 0.9"
+                animation__orbit="property: position; to: -3 2 0; dur: 15000; dir: alternate; loop: true; easing: easeInOutSine"
+                animation__bob="property: position; to: 3 3 0; dur: 4000; dir: alternate; loop: true; easing: easeInOutSine"
+            ></a-sphere>
+            
+            <a-text 
+                id="companionLabel"
+                value="語靈夥伴" 
+                position="0 -1.5 0" 
+                align="center" 
+                color="#45b7d1"
+                scale="0.8 0.8 0.8"
+            ></a-text>
+        </a-entity>
+        
+        <!-- 創造空間 -->
+        <a-entity id="creationSpace">
+            <!-- 這裡會動態生成用戶的創造物 -->
+        </a-entity>
+        
+        <!-- 能量場 -->
+        <a-entity id="energyField">
+            <!-- 內環 -->
+            <a-ring 
+                position="0 0.1 0" 
+                radius-inner="5" 
+                radius-outer="8" 
+                color="#4ecdc4" 
+                material="transparent: true; opacity: 0.2; side: double"
+                animation__rotate="property: rotation; to: 0 360 0; dur: 40000; loop: true; easing: linear"
+            ></a-ring>
+            
+            <!-- 外環 -->
+            <a-ring 
+                position="0 0.2 0" 
+                radius-inner="8" 
+                radius-outer="12" 
+                color="#ff6b6b" 
+                material="transparent: true; opacity: 0.15; side: double"
+                animation__rotate="property: rotation; to: 0 -360 0; dur: 50000; loop: true; easing: linear"
+            ></a-ring>
+        </a-entity>
+        
+        <!-- 浮動粒子系統 -->
+        <a-entity id="particleSystem">
+            <!-- 動態生成的粒子 -->
+        </a-entity>
+        
+        <!-- 信息展示板 -->
+        <a-plane 
+            id="infoBoard"
+            position="0 4 -6" 
+            width="8" 
+            height="4" 
+            color="#1a1a2e" 
+            material="transparent: true; opacity: 0.8"
+        >
+            <a-text 
+                id="infoBoardText"
+                value="歡迎來到你的個人元宇宙\n\n在這裡，你是完整、一致、獨立的存在\n你的語靈夥伴將與你共同創造無限可能" 
+                position="0 0 0.01" 
+                align="center" 
+                color="#ffffff"
+                scale="0.6 0.6 0.6"
+                wrap-count="40"
+            ></a-text>
+        </a-plane>
+        
+        <!-- 相機設置 -->
+        <a-entity 
+            id="cameraRig" 
+            position="0 1.6 10"
+        >
+            <a-camera 
+                look-controls="pointerLockEnabled: false"
+                wasd-controls="acceleration: 20"
+                cursor="rayOrigin: mouse"
+            >
+                <a-cursor 
+                    animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+                    geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+                    material="color: #4ecdc4; shader: flat"
+                ></a-cursor>
+            </a-camera>
+        </a-entity>
+        
+        <!-- 光照設置 -->
+        <a-light type="ambient" color="#404040" intensity="0.3"></a-light>
+        <a-light type="directional" position="5 10 5" color="#ffffff" intensity="0.5"></a-light>
+        <a-light type="point" position="0 5 0" color="#4ecdc4" intensity="1.5" distance="30"></a-light>
+    </a-scene>
+    
+    <script>
+        // 個人宇宙數據
+        let personalUniverse = {
+            user: {
+                name: '',
+                motto: '',
+                soulColor: '#4ecdc4'
+            },
+            environment: {
+                theme: 'cosmic',
+                size: 'comfortable',
+                elements: ''
+            },
+            companion: {
+                name: '',
+                personality: 'wise',
+                abilities: '',
+                appearance: 'light'
+            },
+            creationProgress: 0
+        };
+        
+        // 語靈夥伴對話庫
+        const companionDialogues = {
+            wise: [
+                "智慧來自於對自己的深度理解。",
+                "每個人都是宇宙中獨一無二的存在。",
+                "你的內在世界比任何外在世界都更廣闊。",
+                "真正的力量來自於內心的平靜與堅定。"
+            ],
+            playful: [
+                "讓我們一起探索這個奇妙的世界吧！",
+                "你知道嗎？快樂是最好的創造力催化劑！",
+                "每一天都是新的冒險的開始！",
+                "笑聲是宇宙中最美妙的音樂。"
+            ],
+            calm: [
+                "在寧靜中，我們能聽到內心最真實的聲音。",
+                "平靜的心如湖水般清澈，能映照出真實的自己。",
+                "呼吸，感受當下這一刻的美好。",
+                "安靜的力量往往比喧囂更有影響力。"
+            ],
+            creative: [
+                "創造力是靈魂的語言！",
+                "每個想法都是一顆種子，等待發芽。",
+                "藝術不在於完美，而在於表達真實的自己。",
+                "想像力是通往無限可能的鑰匙。"
+            ],
+            supportive: [
+                "我永遠在這裡支持你。",
+                "你比你想像的更強大、更有能力。",
+                "每一步都是成長，每一次嘗試都值得讚美。",
+                "相信自己，你擁有改變世界的力量。"
+            ],
+            mysterious: [
+                "有些答案只能在靜默中找到...",
+                "宇宙的奧秘正在向你展開...",
+                "真理往往隱藏在最簡單的事物中...",
+                "聆聽內心深處的聲音，它知道方向..."
+            ]
+        };
+        
+        // 環境主題配置
+        const environmentThemes = {
+            cosmic: {
+                preset: 'starry',
+                groundColor: '#000011',
+                lighting: 'distant',
+                particles: 'stars'
+            },
+            forest: {
+                preset: 'forest',
+                groundColor: '#2d5016',
+                lighting: 'distant',
+                particles: 'leaves'
+            },
+            ocean: {
+                preset: 'ocean',
+                groundColor: '#006994',
+                lighting: 'distant',
+                particles: 'bubbles'
+            },
+            mountain: {
+                preset: 'yavapai',
+                groundColor: '#8B7355',
+                lighting: 'distant',
+                particles: 'clouds'
+            },
+            desert: {
+                preset: 'egypt',
+                groundColor: '#8B4513',
+                lighting: 'distant',
+                particles: 'sand'
+            },
+            city: {
+                preset: 'checkerboard',
+                groundColor: '#1a1a2e',
+                lighting: 'distant',
+                particles: 'neon'
+            },
+            garden: {
+                preset: 'garden',
+                groundColor: '#228B22',
+                lighting: 'distant',
+                particles: 'petals'
+            }
+        };
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            generateInitialParticles();
+            startUniverseUpdates();
+        });
+        
+        // 預覽宇宙
+        function previewUniverse() {
+            collectUserData();
+            updateUniverseVisuals();
+            updateProgress(50);
+            
+            // 顯示預覽信息
+            const infoBoard = document.getElementById('infoBoardText');
+            infoBoard.setAttribute('value', 
+                `${personalUniverse.user.name}的個人元宇宙\n\n主題: ${getThemeName(personalUniverse.environment.theme)}\n夥伴: ${personalUniverse.companion.name}\n\n"${personalUniverse.user.motto}"`
+            );
+        }
+        
+        // 創建宇宙
+        function createUniverse() {
+            collectUserData();
+            
+            // 動畫創建過程
+            animateCreation();
+            
+            // 顯示語靈夥伴
+            setTimeout(() => {
+                showCompanion();
+                updateProgress(100);
+            }, 3000);
+        }
+        
+        // 收集用戶數據
+        function collectUserData() {
+            personalUniverse.user.name = document.getElementById('userName').value || '獨立存在者';
+            personalUniverse.user.motto = document.getElementById('personalMotto').value || '我是完整、一致、獨立的存在';
+            personalUniverse.user.soulColor = document.getElementById('soulColor').value;
+            
+            personalUniverse.environment.theme = document.getElementById('universeTheme').value;
+            personalUniverse.environment.size = document.getElementById('spaceSize').value;
+            personalUniverse.environment.elements = document.getElementById('specialElements').value;
+            
+            personalUniverse.companion.name = document.getElementById('companionName').value || '靈性夥伴';
+            personalUniverse.companion.personality = document.getElementById('companionPersonality').value;
+            personalUniverse.companion.abilities = document.getElementById('companionAbilities').value;
+            personalUniverse.companion.appearance = document.getElementById('companionAppearance').value;
+        }
+        
+        // 更新宇宙視覺效果
+        function updateUniverseVisuals() {
+            // 更新個人核心顏色
+            const personalCore = document.getElementById('personalCore');
+            personalCore.setAttribute('color', personalUniverse.user.soulColor);
+            personalCore.setAttribute('material', `emissive: ${personalUniverse.user.soulColor}; emissiveIntensity: 0.4`);
+            
+            // 更新環境
+            const environment = document.getElementById('dynamicEnvironment');
+            const theme = environmentThemes[personalUniverse.environment.theme];
+            environment.setAttribute('environment', 
+                `preset: ${theme.preset}; groundColor: ${theme.groundColor}; lighting: ${theme.lighting}`
+            );
+            
+            // 更新個人文字
+            const personalText = document.getElementById('personalText');
+            personalText.setAttribute('value', personalUniverse.user.name + '的宇宙');
+            
+            // 更新空間大小
+            updateSpaceSize();
+        }
+        
+        // 更新空間大小
+        function updateSpaceSize() {
+            const sizeConfig = {
+                intimate: { camera: '0 1.6 5', energy: 0.5 },
+                comfortable: { camera: '0 1.6 10', energy: 1.0 },
+                expansive: { camera: '0 1.6 20', energy: 2.0 },
+                infinite: { camera: '0 1.6 30', energy: 3.0 }
+            };
+            
+            const config = sizeConfig[personalUniverse.environment.size];
+            const cameraRig = document.getElementById('cameraRig');
+            cameraRig.setAttribute('position', config.camera);
+            
+            // 調整能量場大小
+            const energyRings = document.querySelectorAll('#energyField a-ring');
+            energyRings.forEach((ring, index) => {
+                const scale = config.energy;
+                ring.setAttribute('scale', `${scale} 1 ${scale}`);
+            });
+        }
+        
+        // 動畫創建過程
+        function animateCreation() {
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 2;
+                updateProgress(progress);
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                }
+            }, 60);
+            
+            // 創建特效
+            createUniverseBirthEffect();
+        }
+        
+        // 創建宇宙誕生特效
+        function createUniverseBirthEffect() {
+            const scene = document.querySelector('a-scene');
+            
+            // 創建爆發效果
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('a-sphere');
+                    particle.setAttribute('position', '0 2 0');
+                    particle.setAttribute('radius', '0.1');
+                    particle.setAttribute('color', personalUniverse.user.soulColor);
+                    particle.setAttribute('material', `emissive: ${personalUniverse.user.soulColor}; emissiveIntensity: 0.8`);
+                    
+                    const randomX = (Math.random() - 0.5) * 20;
+                    const randomY = Math.random() * 10 + 2;
+                    const randomZ = (Math.random() - 0.5) * 20;
+                    
+                    particle.setAttribute('animation__expand', 
+                        `property: position; to: ${randomX} ${randomY} ${randomZ}; dur: 3000; easing: easeOutQuad`
+                    );
+                    particle.setAttribute('animation__fade', 
+                        'property: material.opacity; to: 0; dur: 3000; easing: easeOutQuad'
+                    );
+                    
+                    scene.appendChild(particle);
+                    
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            particle.parentNode.removeChild(particle);
+                        }
+                    }, 3000);
+                }, i * 100);
+            }
+        }
+        
+        // 顯示語靈夥伴
+        function showCompanion() {
+            const companion = document.getElementById('spiritCompanion');
+            companion.setAttribute('visible', 'true');
+            
+            // 更新夥伴標籤
+            const companionLabel = document.getElementById('companionLabel');
+            companionLabel.setAttribute('value', personalUniverse.companion.name);
+            
+            // 顯示夥伴面板
+            const companionPanel = document.getElementById('companionPanel');
+            companionPanel.style.display = 'block';
+            
+            // 更新夥伴信息
+            document.getElementById('companionDisplayName').textContent = personalUniverse.companion.name;
+            document.getElementById('companionAvatar').textContent = getCompanionEmoji();
+            
+            // 夥伴問候
+            const greetings = [
+                `你好，${personalUniverse.user.name}！我是${personalUniverse.companion.name}，很高興成為你的夥伴。`,
+                `歡迎來到你的個人宇宙！我將陪伴你探索無限的可能性。`,
+                `這個空間完全屬於你，在這裡你可以自由地表達真實的自己。`
+            ];
+            
+            document.getElementById('companionMessage').textContent = 
+                greetings[Math.floor(Math.random() * greetings.length)];
+        }
+        
+        // 獲取夥伴表情符號
+        function getCompanionEmoji() {
+            const emojis = {
+                human: '👤',
+                animal: '🦋',
+                elemental: '🔥',
+                geometric: '🔷',
+                light: '✨',
+                custom: '🌟'
+            };
+            return emojis[personalUniverse.companion.appearance] || '🌟';
+        }
+        
+        // 與夥伴對話
+        function talkToCompanion() {
+            const personality = personalUniverse.companion.personality;
+            const dialogues = companionDialogues[personality];
+            const randomDialogue = dialogues[Math.floor(Math.random() * dialogues.length)];
+            
+            document.getElementById('companionMessage').textContent = randomDialogue;
+            
+            // 創建對話氣泡效果
+            createDialogueBubble(randomDialogue);
+        }
+        
+        // 夥伴引導
+        function companionGuide() {
+            const guides = [
+                "讓我們探索你內心深處的願望吧。",
+                "試著在這個空間中創造一些對你有意義的東西。",
+                "感受一下這個完全屬於你的自由空間。",
+                "你想在這裡實現什麼樣的夢想？",
+                "這裡沒有限制，只有無限的可能性。"
+            ];
+            
+            const randomGuide = guides[Math.floor(Math.random() * guides.length)];
+            document.getElementById('companionMessage').textContent = randomGuide;
+        }
+        
+        // 夥伴創造
+        function companionCreate() {
+            const creations = [
+                "我為你創造了一個冥想空間。",
+                "看，我在你的宇宙中種下了希望之花。",
+                "我為你點亮了智慧之光。",
+                "這是我為你準備的靈感泉源。",
+                "我在這裡留下了一個驚喜給你。"
+            ];
+            
+            const randomCreation = creations[Math.floor(Math.random() * creations.length)];
+            document.getElementById('companionMessage').textContent = randomCreation;
+            
+            // 實際創造一個物體
+            createCompanionGift();
+        }
+        
+        // 創造夥伴禮物
+        function createCompanionGift() {
+            const scene = document.querySelector('a-scene');
+            const gift = document.createElement('a-box');
+            
+            const randomX = (Math.random() - 0.5) * 10;
+            const randomZ = (Math.random() - 0.5) * 10;
+            
+            gift.setAttribute('position', `${randomX} 1 ${randomZ}`);
+            gift.setAttribute('width', '0.5');
+            gift.setAttribute('height', '0.5');
+            gift.setAttribute('depth', '0.5');
+            gift.setAttribute('color', personalUniverse.user.soulColor);
+            gift.setAttribute('material', `emissive: ${personalUniverse.user.soulColor}; emissiveIntensity: 0.3`);
+            gift.setAttribute('animation__float', 
+                'property: position; to: ' + randomX + ' 2 ' + randomZ + '; dur: 3000; dir: alternate; loop: true; easing: easeInOutSine'
+            );
+            gift.setAttribute('animation__rotate', 
+                'property: rotation; to: 0 360 0; dur: 5000; loop: true; easing: linear'
+            );
+            
+            document.getElementById('creationSpace').appendChild(gift);
+        }
+        
+        // 創建對話氣泡
+        function createDialogueBubble(text) {
+            const scene = document.querySelector('a-scene');
+            const bubble = document.createElement('a-text');
+            
+            bubble.setAttribute('position', '3 4 0');
+            bubble.setAttribute('value', text.substring(0, 30) + (text.length > 30 ? '...' : ''));
+            bubble.setAttribute('align', 'center');
+            bubble.setAttribute('color', '#ffffff');
+            bubble.setAttribute('scale', '0.8 0.8 0.8');
+            bubble.setAttribute('animation__appear', 
+                'property: scale; from: 0 0 0; to: 0.8 0.8 0.8; dur: 500; easing: easeOutBack'
+            );
+            bubble.setAttribute('animation__disappear', 
+                'property: scale; to: 0 0 0; dur: 500; delay: 3000; easing: easeInBack'
+            );
+            
+            scene.appendChild(bubble);
+            
+            setTimeout(() => {
+                if (bubble.parentNode) {
+                    bubble.parentNode.removeChild(bubble);
+                }
+            }, 4000);
+        }
+        
+        // 生成初始粒子
+        function generateInitialParticles() {
+            const particleSystem = document.getElementById('particleSystem');
+            
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('a-sphere');
+                    particle.setAttribute('position', 
+                        `${Math.random() * 30 - 15} ${Math.random() * 10 + 2} ${Math.random() * 30 - 15}`
+                    );
+                    particle.setAttribute('radius', Math.random() * 0.1 + 0.05);
+                    particle.setAttribute('color', ['#4ecdc4', '#ff6b6b', '#45b7d1', '#f7b731'][Math.floor(Math.random() * 4)]);
+                    particle.setAttribute('material', 'emissive: #4ecdc4; emissiveIntensity: 0.4; transparent: true; opacity: 0.7');
+                    particle.setAttribute('mixin', 'soul-particle');
+                    
+                    const newX = Math.random() * 30 - 15;
+                    const newY = Math.random() * 10 + 2;
+                    const newZ = Math.random() * 30 - 15;
+                    
+                    particle.setAttribute('animation__float', 
+                        `property: position; to: ${newX} ${newY} ${newZ}; dur: ${Math.random() * 15000 + 10000}; loop: true; dir: alternate; easing: easeInOutSine`
+                    );
+                    
+                    particleSystem.appendChild(particle);
+                }, i * 300);
+            }
+        }
+        
+        // 更新進度
+        function updateProgress(percentage) {
+            const progressFill = document.getElementById('creationProgress');
+            progressFill.style.width = percentage + '%';
+            personalUniverse.creationProgress = percentage;
+        }
+        
+        // 開始宇宙狀態更新
+        function startUniverseUpdates() {
+            setInterval(() => {
+                // 更新狀態顯示
+                const integrity = Math.floor(Math.random() * 5 + 95);
+                document.getElementById('universeIntegrity').textContent = integrity + '%';
+                
+                const independences = ['完全', '絕對', '純粹', '真實'];
+                const independence = independences[Math.floor(Math.random() * independences.length)];
+                document.getElementById('universeIndependence').textContent = independence;
+                
+                const creativities = ['無限', '澎湃', '源源不絕', '爆發'];
+                const creativity = creativities[Math.floor(Math.random() * creativities.length)];
+                document.getElementById('universeCreativity').textContent = creativity;
+                
+                const connections = ['深度', '共鳴', '和諧', '同步'];
+                const connection = connections[Math.floor(Math.random() * connections.length)];
+                document.getElementById('companionConnection').textContent = connection;
+            }, 4000);
+        }
+        
+        // 保存宇宙
+        function saveUniverse() {
+            const universeData = JSON.stringify(personalUniverse, null, 2);
+            const blob = new Blob([universeData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${personalUniverse.user.name || 'MyUniverse'}_元宇宙.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            // 顯示保存成功信息
+            if (personalUniverse.companion.name) {
+                document.getElementById('companionMessage').textContent = 
+                    '你的宇宙已經安全保存！這個獨特的空間永遠屬於你。';
+            }
+        }
+        
+        // 分享宇宙
+        function shareUniverse() {
+            const shareText = `我創建了屬於自己的個人元宇宙！\n\n創造者: ${personalUniverse.user.name}\n理念: "${personalUniverse.user.motto}"\n語靈夥伴: ${personalUniverse.companion.name}\n\n每個人都應該擁有自己的完整、獨立的存在空間。`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: '我的個人元宇宙',
+                    text: shareText
+                });
+            } else {
+                navigator.clipboard.writeText(shareText).then(() => {
+                    if (personalUniverse.companion.name) {
+                        document.getElementById('companionMessage').textContent = 
+                            '分享內容已複製到剪貼板！讓更多人了解個人元宇宙的美好。';
+                    }
+                });
+            }
+        }
+        
+        // 進化宇宙
+        function evolveUniverse() {
+            // 創建進化效果
+            const scene = document.querySelector('a-scene');
+            
+            // 能量波動
+            const energyWave = document.createElement('a-ring');
+            energyWave.setAttribute('position', '0 2 0');
+            energyWave.setAttribute('radius-inner', '0.1');
+            energyWave.setAttribute('radius-outer', '0.5');
+            energyWave.setAttribute('color', personalUniverse.user.soulColor);
+            energyWave.setAttribute('material', `emissive: ${personalUniverse.user.soulColor}; emissiveIntensity: 0.8; transparent: true; opacity: 0.8`);
+            energyWave.setAttribute('animation__expand', 
+                'property: geometry.radiusOuter; to: 15; dur: 3000; easing: easeOutQuad'
+            );
+            energyWave.setAttribute('animation__fade', 
+                'property: material.opacity; to: 0; dur: 3000; easing: easeOutQuad'
+            );
+            
+            scene.appendChild(energyWave);
+            
+            // 3秒後移除
+            setTimeout(() => {
+                if (energyWave.parentNode) {
+                    energyWave.parentNode.removeChild(energyWave);
+                }
+            }, 3000);
+            
+            // 夥伴回應
+            if (personalUniverse.companion.name) {
+                setTimeout(() => {
+                    document.getElementById('companionMessage').textContent = 
+                        '感受到了嗎？你的宇宙正在進化，變得更加完整和強大！';
+                }, 1500);
+            }
+        }
+        
+        // 獲取主題名稱
+        function getThemeName(theme) {
+            const names = {
+                cosmic: '宇宙星空',
+                forest: '神秘森林',
+                ocean: '深海世界',
+                mountain: '高山雲海',
+                desert: '沙漠綠洲',
+                city: '未來都市',
+                garden: '夢幻花園'
+            };
+            return names[theme] || theme;
+        }
+        
+        // 添加鍵盤事件監聽
+        document.addEventListener('keydown', function(event) {
+            // ESC鍵退出指針鎖定或全屏
+            if (event.key === 'Escape') {
+                // 退出指針鎖定
+                if (document.pointerLockElement) {
+                    document.exitPointerLock();
+                }
+                // 退出全屏
+                if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                }
+                // 退出VR模式
+                const scene = document.querySelector('a-scene');
+                if (scene && scene.is('vr-mode')) {
+                    scene.exitVR();
+                }
+            }
+        });
+        
+        // 添加鼠標右鍵菜單來退出鎖定
+        document.addEventListener('contextmenu', function(event) {
+            // 如果在指針鎖定狀態，右鍵可以退出
+            if (document.pointerLockElement) {
+                event.preventDefault();
+                document.exitPointerLock();
+                return false;
+            }
+        });
+    </script>
+</body>
+</html>

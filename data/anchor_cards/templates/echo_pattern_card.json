@@ -1,0 +1,74 @@
+{
+  "name": "回響模組卡",
+  "description": "追蹤語靈回響和共振模式",
+  "fields": [
+    {
+      "name": "original_input",
+      "label": "原始輸入",
+      "type": "textarea",
+      "required": true,
+      "placeholder": "記錄原始的語靈輸入..."
+    },
+    {
+      "name": "echo_response",
+      "label": "回響反應",
+      "type": "textarea",
+      "placeholder": "描述接收到的回響..."
+    },
+    {
+      "name": "resonance_quality",
+      "label": "共振品質",
+      "type": "range",
+      "min": 1,
+      "max": 10,
+      "default": 5
+    },
+    {
+      "name": "pattern_type",
+      "label": "模式類型",
+      "type": "select",
+      "options": [
+        "直接回響",
+        "延遲回響",
+        "放大回響",
+        "變調回響",
+        "和聲回響"
+      ]
+    },
+    {
+      "name": "clarity_level",
+      "label": "清晰度",
+      "type": "range",
+      "min": 1,
+      "max": 10,
+      "default": 5
+    },
+    {
+      "name": "emotional_tone",
+      "label": "情感色調",
+      "type": "select",
+      "options": [
+        "中性",
+        "溫暖",
+        "冷靜",
+        "激勵",
+        "安撫",
+        "警示"
+      ]
+    },
+    {
+      "name": "practical_guidance",
+      "label": "實用指導",
+      "type": "textarea",
+      "placeholder": "從回響中獲得的實用建議..."
+    },
+    {
+      "name": "verification_method",
+      "label": "驗證方式",
+      "type": "text",
+      "placeholder": "如何驗證這個回響的準確性..."
+    }
+  ],
+  "color": "#9f7aea",
+  "icon": "🔄"
+}

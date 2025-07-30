@@ -1,0 +1,389 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/blackhole-background.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- 黑洞背景容器 -->
+<div class="blackhole-container">
+    <!-- 黑洞中心 -->
+    <div class="blackhole-center"></div>
+    
+    <!-- 旋转环 -->
+    <div class="blackhole-ring"></div>
+    <div class="blackhole-ring"></div>
+    <div class="blackhole-ring"></div>
+    <div class="blackhole-ring"></div>
+    
+    <!-- 吸积盘 -->
+    <div class="accretion-disk"></div>
+    
+    <!-- 引力透镜效应 -->
+    <div class="gravitational-lensing"></div>
+    
+    <!-- 粒子效果 -->
+    <div class="blackhole-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+</div>
+<div class="container mx-auto px-4 py-8 content-overlay">
+    <div class="max-w-7xl mx-auto">
+        <!-- 页面标题 -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-white mb-4 blackhole-text">
+                <span class="text-6xl">📊</span><br>
+                商增管理系统
+            </h1>
+            <p class="text-xl text-gray-300 blackhole-text">智能商业增长管理，融合灵性智慧与商业策略</p>
+        </div>
+
+        <!-- 核心指标概览 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-gradient-to-br from-green-500/20 to-emerald-600/20 rounded-xl p-6 border border-green-500/30 blackhole-card">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="text-4xl">💰</div>
+                    <div class="text-right">
+                        <div class="text-2xl font-bold text-green-400">¥2.47M</div>
+                        <div class="text-sm text-gray-300">月收入</div>
+                    </div>
+                </div>
+                <h3 class="text-lg font-semibold text-green-400">营收增长</h3>
+                <p class="text-green-300 text-sm">较上月增长 +23.5%</p>
+            </div>
+            
+            <div class="bg-gradient-to-br from-blue-500/20 to-cyan-600/20 rounded-xl p-6 border border-blue-500/30 blackhole-card">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="text-4xl">👥</div>
+                    <div class="text-right">
+                        <div class="text-2xl font-bold text-blue-400">15,247</div>
+                        <div class="text-sm text-gray-300">活跃用户</div>
+                    </div>
+                </div>
+                <h3 class="text-lg font-semibold text-blue-400">用户增长</h3>
+                <p class="text-blue-300 text-sm">月活跃用户数量</p>
+            </div>
+            
+            <div class="bg-gradient-to-br from-purple-500/20 to-violet-600/20 rounded-xl p-6 border border-purple-500/30 blackhole-card">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="text-4xl">📈</div>
+                    <div class="text-right">
+                        <div class="text-2xl font-bold text-purple-400">87.3%</div>
+                        <div class="text-sm text-gray-300">转化率</div>
+                    </div>
+                </div>
+                <h3 class="text-lg font-semibold text-purple-400">业务转化</h3>
+                <p class="text-purple-300 text-sm">用户转化效率</p>
+            </div>
+            
+            <div class="bg-gradient-to-br from-orange-500/20 to-red-600/20 rounded-xl p-6 border border-orange-500/30 blackhole-card">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="text-4xl">⚡</div>
+                    <div class="text-right">
+                        <div class="text-2xl font-bold text-orange-400">9.2</div>
+                        <div class="text-sm text-gray-300">NPS评分</div>
+                    </div>
+                </div>
+                <h3 class="text-lg font-semibold text-orange-400">客户满意度</h3>
+                <p class="text-orange-300 text-sm">净推荐值</p>
+            </div>
+        </div>
+
+        <!-- 业务管理模块 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- 销售管理 -->
+            <div class="bg-black/40 rounded-xl p-6 border border-white/10 backdrop-blur-sm blackhole-card">
+                <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+                    <span class="text-3xl mr-3">💼</span>
+                    销售管理
+                </h2>
+                
+                <div class="space-y-4">
+                    <div class="bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-lg p-4 border border-green-500/30">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-lg font-semibold text-green-400">销售漏斗</h3>
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                                <span class="text-sm text-gray-300">活跃</span>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-300 text-sm">潜在客户</span>
+                                <span class="text-green-400 font-semibold">1,247</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-300 text-sm">意向客户</span>
+                                <span class="text-blue-400 font-semibold">456</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-300 text-sm">成交客户</span>
+                                <span class="text-purple-400 font-semibold">123</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-lg p-4 border border-blue-500/30">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-lg font-semibold text-blue-400">客户关系</h3>
+                            <span class="text-sm text-gray-300">CRM系统</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <button class="bg-blue-500/30 hover:bg-blue-500/50 text-blue-300 px-3 py-2 rounded text-sm transition-all duration-300 blackhole-button">
+                                客户档案
+                            </button>
+                            <button class="bg-cyan-500/30 hover:bg-cyan-500/50 text-cyan-300 px-3 py-2 rounded text-sm transition-all duration-300 blackhole-button">
+                                跟进记录
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-purple-500/20 to-violet-500/20 rounded-lg p-4 border border-purple-500/30">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-lg font-semibold text-purple-400">销售预测</h3>
+                            <span class="text-sm text-gray-300">AI分析</span>
+                        </div>
+                        <p class="text-gray-300 text-sm mb-3">基于历史数据和市场趋势的智能预测</p>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div class="bg-gradient-to-r from-purple-500 to-violet-500 h-2 rounded-full" style="width: 78%"></div>
+                        </div>
+                        <span class="text-purple-400 text-sm">本月目标完成度: 78%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 运营分析 -->
+            <div class="bg-black/40 rounded-xl p-6 border border-white/10 backdrop-blur-sm">
+                <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+                    <span class="text-3xl mr-3">📊</span>
+                    运营分析
+                </h2>
+                
+                <div class="space-y-4">
+                    <div class="bg-gradient-to-r from-orange-500/20 to-red-500/20 rounded-lg p-4 border border-orange-500/30">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-lg font-semibold text-orange-400">用户行为</h3>
+                            <span class="text-sm text-gray-300">实时监控</span>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-300 text-sm">页面浏览量</span>
+                                <span class="text-orange-400 font-semibold">45.2K</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-300 text-sm">平均停留时间</span>
+                                <span class="text-red-400 font-semibold">3m 42s</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-300 text-sm">跳出率</span>
+                                <span class="text-yellow-400 font-semibold">23.5%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-pink-500/20 to-rose-500/20 rounded-lg p-4 border border-pink-500/30">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-lg font-semibold text-pink-400">营销效果</h3>
+                            <span class="text-sm text-gray-300">ROI分析</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="text-center">
+                                <div class="text-xl font-bold text-pink-400">3.2x</div>
+                                <div class="text-xs text-gray-300">投资回报率</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-xl font-bold text-rose-400">¥127K</div>
+                                <div class="text-xs text-gray-300">营销成本</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-lg p-4 border border-indigo-500/30">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-lg font-semibold text-indigo-400">市场趋势</h3>
+                            <span class="text-sm text-gray-300">趋势分析</span>
+                        </div>
+                        <p class="text-gray-300 text-sm mb-3">基于大数据的市场趋势预测</p>
+                        <div class="flex gap-2">
+                            <span class="text-xs bg-green-500/20 text-green-300 px-2 py-1 rounded">上升趋势</span>
+                            <span class="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded">高增长</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 智能决策中心 -->
+        <div class="bg-black/40 rounded-xl p-8 border border-white/10 backdrop-blur-sm mb-8 blackhole-card">
+            <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+                <span class="text-3xl mr-3">🧠</span>
+                智能决策中心
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-gradient-to-br from-blue-500/20 to-cyan-600/20 rounded-lg p-6 border border-blue-500/30">
+                    <div class="text-center mb-4">
+                        <div class="text-4xl mb-2">🎯</div>
+                        <h3 class="text-lg font-semibold text-blue-400">战略规划</h3>
+                    </div>
+                    <p class="text-gray-300 text-sm mb-4">基于数据分析的战略制定</p>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-xs text-gray-400">短期目标</span>
+                            <span class="text-xs text-blue-400">进行中</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-xs text-gray-400">中期规划</span>
+                            <span class="text-xs text-green-400">已制定</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-xs text-gray-400">长期愿景</span>
+                            <span class="text-xs text-purple-400">规划中</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-br from-green-500/20 to-emerald-600/20 rounded-lg p-6 border border-green-500/30">
+                    <div class="text-center mb-4">
+                        <div class="text-4xl mb-2">🤖</div>
+                        <h3 class="text-lg font-semibold text-green-400">AI助手</h3>
+                    </div>
+                    <p class="text-gray-300 text-sm mb-4">智能商业决策建议</p>
+                    <div class="space-y-2">
+                        <div class="bg-green-500/10 rounded p-2">
+                            <span class="text-xs text-green-300">建议: 增加移动端投入</span>
+                        </div>
+                        <div class="bg-blue-500/10 rounded p-2">
+                            <span class="text-xs text-blue-300">提醒: 客户满意度调研</span>
+                        </div>
+                        <div class="bg-purple-500/10 rounded p-2">
+                            <span class="text-xs text-purple-300">预警: 库存水位偏低</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-br from-purple-500/20 to-violet-600/20 rounded-lg p-6 border border-purple-500/30">
+                    <div class="text-center mb-4">
+                        <div class="text-4xl mb-2">📈</div>
+                        <h3 class="text-lg font-semibold text-purple-400">增长引擎</h3>
+                    </div>
+                    <p class="text-gray-300 text-sm mb-4">多维度增长策略优化</p>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-xs text-gray-400">用户增长</span>
+                            <span class="text-xs text-green-400">+23%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-xs text-gray-400">收入增长</span>
+                            <span class="text-xs text-blue-400">+18%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-xs text-gray-400">利润增长</span>
+                            <span class="text-xs text-purple-400">+31%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 管理工具集 -->
+        <div class="bg-black/40 rounded-xl p-8 border border-white/10 backdrop-blur-sm mb-8">
+            <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+                <span class="text-3xl mr-3">🛠️</span>
+                管理工具集
+            </h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                <button class="bg-gradient-to-br from-blue-500/20 to-cyan-600/20 rounded-lg p-4 border border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 text-center blackhole-button">
+                    <div class="text-2xl mb-2">📊</div>
+                    <div class="text-sm text-blue-400 font-semibold">数据分析</div>
+                </button>
+                
+                <button class="bg-gradient-to-br from-green-500/20 to-emerald-600/20 rounded-lg p-4 border border-green-500/30 hover:border-green-400/50 transition-all duration-300 text-center blackhole-button">
+                    <div class="text-2xl mb-2">💰</div>
+                    <div class="text-sm text-green-400 font-semibold">财务管理</div>
+                </button>
+                
+                <button class="bg-gradient-to-br from-purple-500/20 to-violet-600/20 rounded-lg p-4 border border-purple-500/30 hover:border-purple-400/50 transition-all duration-300 text-center blackhole-button">
+                    <div class="text-2xl mb-2">👥</div>
+                    <div class="text-sm text-purple-400 font-semibold">团队管理</div>
+                </button>
+                
+                <button class="bg-gradient-to-br from-orange-500/20 to-red-600/20 rounded-lg p-4 border border-orange-500/30 hover:border-orange-400/50 transition-all duration-300 text-center blackhole-button">
+                    <div class="text-2xl mb-2">📈</div>
+                    <div class="text-sm text-orange-400 font-semibold">营销推广</div>
+                </button>
+                
+                <button class="bg-gradient-to-br from-pink-500/20 to-rose-600/20 rounded-lg p-4 border border-pink-500/30 hover:border-pink-400/50 transition-all duration-300 text-center blackhole-button">
+                    <div class="text-2xl mb-2">🎯</div>
+                    <div class="text-sm text-pink-400 font-semibold">项目管理</div>
+                </button>
+                
+                <button class="bg-gradient-to-br from-indigo-500/20 to-purple-600/20 rounded-lg p-4 border border-indigo-500/30 hover:border-indigo-400/50 transition-all duration-300 text-center blackhole-button">
+                    <div class="text-2xl mb-2">⚙️</div>
+                    <div class="text-sm text-indigo-400 font-semibold">系统设置</div>
+                </button>
+            </div>
+        </div>
+
+        <!-- 快速导航 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <a href="/unified_dashboard" class="bg-gradient-to-br from-blue-500/20 to-cyan-600/20 rounded-xl p-6 border border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 text-decoration-none transform hover:scale-105 blackhole-card">
+                <div class="text-center">
+                    <div class="text-4xl mb-3">🎛️</div>
+                    <h3 class="text-lg font-semibold text-blue-400 mb-2">统一仪表板</h3>
+                    <p class="text-gray-300 text-sm">返回主控制面板</p>
+                </div>
+            </a>
+            
+            <a href="/quantum_system" class="bg-gradient-to-br from-purple-500/20 to-violet-600/20 rounded-xl p-6 border border-purple-500/30 hover:border-purple-400/50 transition-all duration-300 text-decoration-none transform hover:scale-105 blackhole-card">
+                <div class="text-center">
+                    <div class="text-4xl mb-3">⚛️</div>
+                    <h3 class="text-lg font-semibold text-purple-400 mb-2">量子系统</h3>
+                    <p class="text-gray-300 text-sm">量子商业分析</p>
+                </div>
+            </a>
+            
+            <a href="/spiritual_practice" class="bg-gradient-to-br from-green-500/20 to-emerald-600/20 rounded-xl p-6 border border-green-500/30 hover:border-green-400/50 transition-all duration-300 text-decoration-none transform hover:scale-105 blackhole-card">
+                <div class="text-center">
+                    <div class="text-4xl mb-3">🧘‍♀️</div>
+                    <h3 class="text-lg font-semibold text-green-400 mb-2">灵性修行</h3>
+                    <p class="text-gray-300 text-sm">商业智慧修行</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .text-decoration-none {
+        text-decoration: none;
+    }
+    
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+    
+    .animate-pulse {
+        animation: pulse 2s infinite;
+    }
+    
+    /* 增强黑洞主题的视觉效果 */
+    .blackhole-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    }
+    
+    .blackhole-text {
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+    }
+</style>
+{% endblock %}

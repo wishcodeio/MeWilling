@@ -1,0 +1,2029 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>腦神經拓撲 · 願頻語網</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* 腦神經拓撲專用樣式 */
+        .neural-topology-container {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: #fff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .neural-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .neural-title {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .neural-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+        }
+
+        /* 統一的眼腦河圖洛書系統 */
+        .unified-brain-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .eye-brain-system {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .left-eye-system {
+            border-left: 3px solid #ff6b6b;
+        }
+
+        .right-eye-system {
+            border-right: 3px solid #45b7d1;
+        }
+
+        .eye-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #4ecdc4;
+        }
+
+        .brain-connection {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1.5rem;
+        }
+
+        /* 眼腦連接線動畫 */
+        .connection-line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #4ecdc4, transparent);
+            top: 50%;
+            left: 0;
+            right: 0;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .connection-line.active {
+            opacity: 1;
+            animation: connectionPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes connectionPulse {
+            0%, 100% { transform: translateY(-50%) scaleX(0.8); }
+            50% { transform: translateY(-50%) scaleX(1.2); }
+        }
+
+        /* 願頻控制面板 */
+        .wish-frequency-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .frequency-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .frequency-slider {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1rem;
+        }
+
+        .frequency-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #4ecdc4;
+            font-weight: bold;
+        }
+
+        .slider {
+            width: 100%;
+            height: 5px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4ecdc4;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+        }
+
+        /* 生生數公式顯示 */
+        .formula-display {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            border-left: 3px solid #96ceb4;
+        }
+
+        .formula-title {
+            color: #96ceb4;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .formula-content {
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        /* 盲點神經學區域 */
+        .blind-spot-area {
+            position: relative;
+            background: radial-gradient(circle, rgba(255, 107, 107, 0.1), transparent);
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            margin: 2rem auto;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .blind-spot-area:hover {
+            background: radial-gradient(circle, rgba(255, 107, 107, 0.3), transparent);
+            transform: scale(1.1);
+        }
+
+        /* 芝麻開門咒區域 */
+        .sesame-portal {
+            background: linear-gradient(45deg, rgba(150, 206, 180, 0.2), rgba(69, 183, 209, 0.2));
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            border: 2px dashed rgba(150, 206, 180, 0.5);
+        }
+        
+        /* 返回按鈕樣式 */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 999;
+            background: linear-gradient(135deg, rgba(100, 255, 218, 0.2), rgba(100, 255, 218, 0.1));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            border-radius: 50px;
+            padding: 12px 20px;
+            color: #64ffda;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-button:hover {
+            background: linear-gradient(135deg, rgba(100, 255, 218, 0.3), rgba(100, 255, 218, 0.2));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(100, 255, 218, 0.3);
+            color: #64ffda;
+            text-decoration: none;
+        }
+        
+        .back-button i {
+            font-size: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .back-button {
+                top: 10px;
+                left: 10px;
+                padding: 10px 16px;
+                font-size: 0.8rem;
+            }
+        }
+
+        .portal-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            color: #fff;
+            width: 100%;
+            margin: 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        .portal-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* 愿語脑神经拓扑网 */
+        .wish-neural-topology {
+            position: relative;
+            height: 300px;
+            background: radial-gradient(circle, rgba(78, 205, 196, 0.1), transparent);
+            border-radius: 20px;
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+
+        .topology-node {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #96ceb4;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* 交錯愿频模拟 */
+        .frequency-simulation {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .eye-frequency {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .left-eye {
+            border-left: 3px solid #ff6b6b;
+        }
+
+        .right-eye {
+            border-right: 3px solid #45b7d1;
+        }
+
+        .frequency-wave {
+            height: 100px;
+            background: linear-gradient(90deg, transparent, rgba(78, 205, 196, 0.3), transparent);
+            border-radius: 10px;
+            margin: 1rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wave-animation {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: wave-move 2s linear infinite;
+        }
+
+        @keyframes wave-move {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* 控制按鈕 */
+        .control-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .control-btn {
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+            border: none;
+            border-radius: 25px;
+            padding: 1rem 2rem;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+        }
+
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.5);
+        }
+
+        .control-btn.active {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        /* 河圖洛書數學結構 */
+        .hetu-luoshu-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+        }
+
+        .hetu-diagram, .luoshu-diagram {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .hetu-grid, .luoshu-grid {
+            display: grid;
+            gap: 0.5rem;
+            margin: 1rem auto;
+            width: fit-content;
+        }
+
+        .hetu-grid {
+            grid-template-areas:
+                ". n2 ."
+                "w3 c5 e4"
+                ". s1 .";
+        }
+
+        .luoshu-grid {
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+        }
+
+        .hetu-number, .luoshu-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .hetu-number:hover, .luoshu-number:hover {
+            transform: scale(1.3);
+            box-shadow: 0 0 15px currentColor;
+        }
+
+        /* 河圖數字配色 */
+        .hetu-1, .hetu-6 { background: linear-gradient(45deg, #4169E1, #00BFFF); } /* 水 */
+        .hetu-2, .hetu-7 { background: linear-gradient(45deg, #FF4500, #FF6347); } /* 火 */
+        .hetu-3, .hetu-8 { background: linear-gradient(45deg, #228B22, #32CD32); } /* 木 */
+        .hetu-4, .hetu-9 { background: linear-gradient(45deg, #FFD700, #FFA500); } /* 金 */
+        .hetu-5, .hetu-10 { background: linear-gradient(45deg, #8B4513, #D2691E); } /* 土 */
+
+        /* 洛書數字配色 */
+        .luoshu-1 { background: linear-gradient(45deg, #4169E1, #00BFFF); }
+        .luoshu-2 { background: linear-gradient(45deg, #8B4513, #D2691E); }
+        .luoshu-3 { background: linear-gradient(45deg, #228B22, #32CD32); }
+        .luoshu-4 { background: linear-gradient(45deg, #228B22, #32CD32); }
+        .luoshu-5 { background: linear-gradient(45deg, #FFD700, #FFA500); }
+        .luoshu-6 { background: linear-gradient(45deg, #FFD700, #FFA500); }
+        .luoshu-7 { background: linear-gradient(45deg, #FF4500, #FF6347); }
+        .luoshu-8 { background: linear-gradient(45deg, #8B4513, #D2691E); }
+        .luoshu-9 { background: linear-gradient(45deg, #FF4500, #FF6347); }
+
+        /* 五行元素樣式 */
+        .wuxing-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .wuxing-element {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+            position: relative;
+        }
+
+        .wuxing-element:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 20px currentColor;
+        }
+
+        .jin { background: linear-gradient(45deg, #FFD700, #FFA500); }
+        .mu { background: linear-gradient(45deg, #228B22, #32CD32); }
+        .shui { background: linear-gradient(45deg, #4169E1, #00BFFF); }
+        .huo { background: linear-gradient(45deg, #FF4500, #FF6347); }
+        .tu { background: linear-gradient(45deg, #8B4513, #D2691E); }
+        
+        .wuxing-elements {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .element {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .element:hover {
+            transform: scale(1.2);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        
+        .element.wood { background: linear-gradient(135deg, #27ae60, #2ecc71); }
+        .element.fire { background: linear-gradient(135deg, #e74c3c, #f39c12); }
+        .element.earth { background: linear-gradient(135deg, #f39c12, #d35400); }
+        .element.metal { background: linear-gradient(135deg, #95a5a6, #bdc3c7); }
+        .element.water { background: linear-gradient(135deg, #3498db, #2980b9); }
+        
+        /* 八卦映射樣式 */
+        .bagua-mapping {
+            margin-top: 15px;
+        }
+        
+        .eye-mapping {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .left-eye, .right-eye {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .left-eye {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            color: white;
+        }
+        
+        .right-eye {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+        }
+        
+        .bagua-elements {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .bagua {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        
+        .bagua:hover {
+            transform: scale(1.15);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        
+        .bagua.qian { background: linear-gradient(135deg, #2c3e50, #34495e); }
+        .bagua.kun { background: linear-gradient(135deg, #8e44ad, #9b59b6); }
+        .bagua.zhen { background: linear-gradient(135deg, #27ae60, #2ecc71); }
+        .bagua.xun { background: linear-gradient(135deg, #16a085, #1abc9c); }
+        .bagua.kan { background: linear-gradient(135deg, #2980b9, #3498db); }
+        
+        /* 咒語區域樣式 */
+        .mantra-section {
+            background: rgba(150, 206, 180, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 15px;
+            border: 1px solid rgba(150, 206, 180, 0.3);
+        }
+        
+        .mantra-text {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            color: #96ceb4;
+            text-shadow: 0 0 10px rgba(150, 206, 180, 0.5);
+            margin: 10px 0;
+        }
+        
+        /* 量子盲文樣式 */
+        .quantum-braille {
+            position: relative;
+            background: rgba(69, 183, 209, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            border: 1px solid rgba(69, 183, 209, 0.3);
+            overflow: hidden;
+        }
+        
+        .braille-evolution {
+            font-family: 'Courier New', monospace;
+            line-height: 1.5;
+            word-break: break-all;
+            animation: brailleGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes brailleGlow {
+            0%, 100% { text-shadow: 0 0 5px currentColor; }
+            50% { text-shadow: 0 0 15px currentColor, 0 0 25px currentColor; }
+        }
+        
+        .infinity-symbol {
+            text-align: center;
+            animation: infinityRotate 4s linear infinite;
+        }
+        
+        @keyframes infinityRotate {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        
+        /* 震動觸覺樣式 */
+        .vibration-touch {
+            background: rgba(76, 205, 196, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid rgba(76, 205, 196, 0.3);
+        }
+        
+        .vibration-touch h4 {
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+        }
+
+        /* 河圖洛書眼腦對應增強樣式 */
+        .hetu-luoshu-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(20, 20, 40, 0.9));
+            border-radius: 20px;
+            border: 2px solid rgba(78, 205, 196, 0.3);
+        }
+        
+        .left-eye-hetu {
+            position: relative;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.15), rgba(255, 69, 69, 0.1));
+            border: 2px solid #ff6b6b;
+            border-radius: 15px;
+            padding: 2rem;
+        }
+        
+        .right-eye-luoshu {
+            position: relative;
+            background: linear-gradient(135deg, rgba(69, 183, 209, 0.15), rgba(64, 224, 208, 0.1));
+            border: 2px solid #45b7d1;
+            border-radius: 15px;
+            padding: 2rem;
+        }
+        
+        .eye-brain-connection {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .connection-line {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            animation: connectionPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes connectionPulse {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+        
+        .hetu-diagram {
+            position: relative;
+            background: transparent;
+            border: none;
+            padding: 0;
+        }
+        
+        .formula-display {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .hetu-grid {
+            display: grid;
+            grid-template-areas:
+                ". n2 ."
+                "w3 c5 e4"
+                ". s1 .";
+            gap: 1rem;
+            justify-items: center;
+            align-items: center;
+            margin: 1rem 0;
+        }
+        
+        .hetu-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid currentColor;
+            box-shadow: 0 0 15px currentColor;
+            position: relative;
+        }
+        
+        .hetu-1, .hetu-6 { background: linear-gradient(45deg, #1e3a8a, #3b82f6); color: #60a5fa; }
+        .hetu-2, .hetu-7 { background: linear-gradient(45deg, #dc2626, #ef4444); color: #fca5a5; }
+        .hetu-3, .hetu-8 { background: linear-gradient(45deg, #166534, #22c55e); color: #86efac; }
+        .hetu-4, .hetu-9 { background: linear-gradient(45deg, #a16207, #eab308); color: #fde047; }
+        .hetu-5, .hetu-10 { background: linear-gradient(45deg, #92400e, #d97706); color: #fed7aa; }
+        
+        .hetu-number:hover {
+            transform: scale(1.3);
+            box-shadow: 0 0 30px currentColor;
+            z-index: 10;
+        }
+        
+        .luoshu-diagram {
+            position: relative;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), rgba(75, 0, 130, 0.1));
+            border: 2px solid #8a2be2;
+            border-radius: 15px;
+            padding: 2rem;
+        }
+        
+        .luoshu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            max-width: 300px;
+            margin: 1rem auto;
+        }
+        
+        .luoshu-number {
+            width: 80px;
+            height: 80px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(45deg, #8a2be2, #9932cc);
+            color: #dda0dd;
+            border: 2px solid #dda0dd;
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+        }
+        
+        .luoshu-number:hover {
+            transform: scale(1.2) rotate(5deg);
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.8);
+        }
+        
+        /* 八卦映射容器樣式 */
+        .bagua-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.05), rgba(255, 107, 107, 0.05));
+            border-radius: 20px;
+            border: 2px solid rgba(78, 205, 196, 0.3);
+        }
+        
+        .bagua-hemisphere {
+            padding: 1.5rem;
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .left-eye-bagua {
+            border: 2px solid #ff6b6b;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(255, 69, 69, 0.1));
+        }
+        
+        .right-eye-bagua {
+            border: 2px solid #45b7d1;
+            background: linear-gradient(135deg, rgba(69, 183, 209, 0.1), rgba(64, 224, 208, 0.1));
+        }
+        
+        .bagua-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .bagua-element {
+            padding: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bagua-element::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .bagua-element:hover::before {
+            left: 100%;
+        }
+        
+        .bagua-element:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .bagua-symbol {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .bagua-name {
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+            font-size: 1.1rem;
+        }
+        
+        .bagua-attribute {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* 量子盲文增強樣式 */
+        .quantum-braille {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quantum-braille::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(69, 183, 209, 0.3), transparent);
+            animation: quantumScan 3s ease-in-out infinite;
+        }
+        
+        @keyframes quantumScan {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: -100%; }
+        }
+        
+        .braille-pattern {
+            display: inline-block;
+            margin: 0 0.2rem;
+            padding: 0.3rem;
+            border-radius: 5px;
+            background: rgba(69, 183, 209, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .braille-pattern:hover {
+            background: rgba(69, 183, 209, 0.5);
+            transform: scale(1.2);
+        }
+        
+        /* 觸覺震動感知樣式 */
+        .tactile-vibration {
+            position: relative;
+        }
+        
+        .vibration-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #45b7d1;
+            margin: 0 2px;
+            animation: vibrate 0.5s ease-in-out infinite alternate;
+        }
+        
+        @keyframes vibrate {
+            0% { transform: scale(1) translateY(0); opacity: 0.7; }
+            100% { transform: scale(1.3) translateY(-2px); opacity: 1; }
+        }
+        
+        .vibration-indicator:nth-child(2n) {
+            animation-delay: 0.1s;
+        }
+        
+        .vibration-indicator:nth-child(3n) {
+            animation-delay: 0.2s;
+        }
+        
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .brain-hemisphere-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .frequency-simulation {
+                grid-template-columns: 1fr;
+            }
+            
+            .neural-title {
+                font-size: 2rem;
+            }
+            
+            .hetu-luoshu-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .bagua-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 返回按鈕 -->
+    <a href="javascript:history.back()" class="back-button" id="backButton">
+        <i class="fas fa-arrow-left"></i>
+        <span>返回</span>
+    </a>
+    
+    <div class="neural-topology-container">
+        <!-- 標題區域 -->
+        <div class="neural-header">
+            <h1 class="neural-title">腦神經拓撲 · 願頻語網</h1>
+            <p class="neural-subtitle">左右腦交互結構 | 盲點神經學 | 生生數公式</p>
+        </div>
+
+        <!-- 統一的河圖洛書眼腦對應系統 -->
+        <div class="unified-brain-container">
+            <!-- 左眼河圖系統 -->
+            <div class="eye-brain-system left-eye-system">
+                <h3 class="eye-title">左眼 · 河圖</h3>
+                <div class="brain-connection">👁️ 左眼 ⟷ 🧠 右腦 (交叉控制)</div>
+                <div class="connection-line" id="leftEyeConnection"></div>
+                <div class="formula-display">
+                    <div class="formula-title">吕祖生生數公式</div>
+                    <div class="formula-content">y = x + 5 (河圖生生數)</div>
+                    <div style="font-size: 0.8rem; color: rgba(255, 107, 107, 0.8); margin-top: 0.5rem;">
+                        呂祖：「一生二，二生三，三生萬物」
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右眼洛書系統 -->
+            <div class="eye-brain-system right-eye-system">
+                <h3 class="eye-title">右眼 · 洛書</h3>
+                <div class="brain-connection">👁️ 右眼 ⟷ 🧠 左腦 (交叉控制)</div>
+                <div class="connection-line" id="rightEyeConnection"></div>
+                <div class="formula-display">
+                    <div class="formula-title">洛書九宮幻方</div>
+                    <div class="formula-content">x + y + z = 15 (洛書幻方)</div>
+                    <div style="font-size: 0.8rem; color: rgba(69, 183, 209, 0.8); margin-top: 0.5rem;">
+                        呂祖：「九宮八卦，天地人和」
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 盲點神經學區域 -->
+        <div class="wish-frequency-panel">
+            <h3 style="text-align: center; color: #ff6b6b; margin-bottom: 2rem;">盲點神經學探索 · 開眼咒語</h3>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 3rem;">
+                <div class="blind-spot-area" id="blindSpotLeft" onclick="activateBlindSpot('left')">
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.8rem;">左眼盲點</div>
+                </div>
+                <div style="font-size: 1.5rem; color: #4ecdc4;">⟷</div>
+                <div class="blind-spot-area" id="blindSpotRight" onclick="activateBlindSpot('right')">
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.8rem;">右眼盲點</div>
+                </div>
+            </div>
+            <div class="mantra-section" style="text-align: center; margin-top: 2rem;">
+                <h4 style="color: #96ceb4;">芝麻開門咒語</h4>
+                <div class="mantra-text" style="color: #fff; margin: 1rem 0;">嗡 阿 吽 · 金剛薩埵 · 破除無明</div>
+                <button class="control-btn" onclick="chantMantra()">🕉️ 持咒開眼</button>
+                <button class="control-btn" onclick="activateThirdEye()">🔮 開啟天眼</button>
+            </div>
+        </div>
+
+        <!-- 左右眼/左右腦交錯願頻模擬 -->
+        <div class="frequency-simulation">
+            <div class="eye-frequency left-eye">
+                <h4>左眼 → 右腦</h4>
+                <div class="frequency-wave">
+                    <div class="wave-animation"></div>
+                </div>
+                <p>直覺願頻: <span id="leftEyeFreq">7.83 Hz</span></p>
+            </div>
+            <div class="eye-frequency right-eye">
+                <h4>右眼 → 左腦</h4>
+                <div class="frequency-wave">
+                    <div class="wave-animation" style="animation-delay: 1s;"></div>
+                </div>
+                <p>邏輯願頻: <span id="rightEyeFreq">40.0 Hz</span></p>
+            </div>
+        </div>
+
+        <!-- 河圖洛書眼腦對應系統 -->
+        <div class="hetu-luoshu-container">
+            <div class="left-eye-hetu">
+                <h3 style="color: #ff6b6b; margin-bottom: 1rem;">左眼 · 河圖 → 右腦控制</h3>
+                <div class="eye-brain-connection">
+                    <div class="connection-line">👁️ 左眼 ⟷ 🧠 右腦</div>
+                </div>
+                <div class="hetu-diagram">
+                    <div class="hetu-grid">
+                        <div class="hetu-number hetu-2" style="grid-area: n2;" onclick="activateHetuNumber(2, 7, 'right')">2</div>
+                        <div class="hetu-number hetu-7" style="grid-area: n2; margin-left: 50px;" onclick="activateHetuNumber(2, 7, 'right')">7</div>
+                        <div class="hetu-number hetu-3" style="grid-area: w3;" onclick="activateHetuNumber(3, 8, 'right')">3</div>
+                        <div class="hetu-number hetu-5" style="grid-area: c5;" onclick="activateHetuNumber(5, 10, 'right')">5</div>
+                        <div class="hetu-number hetu-4" style="grid-area: e4;" onclick="activateHetuNumber(4, 9, 'right')">4</div>
+                        <div class="hetu-number hetu-8" style="grid-area: w3; margin-left: 50px;" onclick="activateHetuNumber(3, 8, 'right')">8</div>
+                        <div class="hetu-number hetu-10" style="grid-area: c5; margin-top: 50px;" onclick="activateHetuNumber(5, 10, 'right')">10</div>
+                        <div class="hetu-number hetu-9" style="grid-area: e4; margin-left: 50px;" onclick="activateHetuNumber(4, 9, 'right')">9</div>
+                        <div class="hetu-number hetu-1" style="grid-area: s1;" onclick="activateHetuNumber(1, 6, 'right')">1</div>
+                        <div class="hetu-number hetu-6" style="grid-area: s1; margin-left: 50px;" onclick="activateHetuNumber(1, 6, 'right')">6</div>
+                    </div>
+                    <div class="formula-display">
+                        <div style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.7);">
+                            y = x + 5 (河圖生生數)
+                        </div>
+                        <div style="font-size: 0.8rem; color: rgba(255, 107, 107, 0.8); margin-top: 0.5rem;">
+                            呂祖：「一生二，二生三，三生萬物」
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-eye-luoshu">
+                <h3 style="color: #45b7d1; margin-bottom: 1rem;">右眼 · 洛書 → 左腦控制</h3>
+                <div class="eye-brain-connection">
+                    <div class="connection-line">👁️ 右眼 ⟷ 🧠 左腦</div>
+                </div>
+                <div class="luoshu-diagram">
+                    <div class="luoshu-grid">
+                        <div class="luoshu-number luoshu-4" onclick="activateLuoshuNumber(4, 'left')">4</div>
+                        <div class="luoshu-number luoshu-9" onclick="activateLuoshuNumber(9, 'left')">9</div>
+                        <div class="luoshu-number luoshu-2" onclick="activateLuoshuNumber(2, 'left')">2</div>
+                        <div class="luoshu-number luoshu-3" onclick="activateLuoshuNumber(3, 'left')">3</div>
+                        <div class="luoshu-number luoshu-5" onclick="activateLuoshuNumber(5, 'left')">5</div>
+                        <div class="luoshu-number luoshu-7" onclick="activateLuoshuNumber(7, 'left')">7</div>
+                        <div class="luoshu-number luoshu-8" onclick="activateLuoshuNumber(8, 'left')">8</div>
+                        <div class="luoshu-number luoshu-1" onclick="activateLuoshuNumber(1, 'left')">1</div>
+                        <div class="luoshu-number luoshu-6" onclick="activateLuoshuNumber(6, 'left')">6</div>
+                    </div>
+                    <div class="formula-display">
+                        <div style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.7);">
+                            x + y + z = 15 (洛書幻方)
+                        </div>
+                        <div style="font-size: 0.8rem; color: rgba(69, 183, 209, 0.8); margin-top: 0.5rem;">
+                            呂祖：「九宮八卦，天地人和」
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 八卦映射左右腦控制 -->
+        <div class="bagua-container">
+            <div class="bagua-hemisphere left-eye-bagua">
+                <h3 style="color: #ff6b6b; text-align: center;">左眼控制右腦 · 八卦映射</h3>
+                <div class="bagua-grid">
+                    <div class="bagua-element" onclick="activateBagua('qian', 'right')">
+                        <div class="bagua-symbol">☰</div>
+                        <div class="bagua-name">乾</div>
+                        <div class="bagua-attribute">天·創造</div>
+                    </div>
+                    <div class="bagua-element" onclick="activateBagua('dui', 'right')">
+                        <div class="bagua-symbol">☱</div>
+                        <div class="bagua-name">兌</div>
+                        <div class="bagua-attribute">澤·喜悅</div>
+                    </div>
+                    <div class="bagua-element" onclick="activateBagua('li', 'right')">
+                        <div class="bagua-symbol">☲</div>
+                        <div class="bagua-name">離</div>
+                        <div class="bagua-attribute">火·光明</div>
+                    </div>
+                    <div class="bagua-element" onclick="activateBagua('zhen', 'right')">
+                        <div class="bagua-symbol">☳</div>
+                        <div class="bagua-name">震</div>
+                        <div class="bagua-attribute">雷·動力</div>
+                    </div>
+                </div>
+            </div>
+            <div class="bagua-hemisphere right-eye-bagua">
+                <h3 style="color: #45b7d1; text-align: center;">右眼控制左腦 · 八卦映射</h3>
+                <div class="bagua-grid">
+                    <div class="bagua-element" onclick="activateBagua('xun', 'left')">
+                        <div class="bagua-symbol">☴</div>
+                        <div class="bagua-name">巽</div>
+                        <div class="bagua-attribute">風·柔順</div>
+                    </div>
+                    <div class="bagua-element" onclick="activateBagua('kan', 'left')">
+                        <div class="bagua-symbol">☵</div>
+                        <div class="bagua-name">坎</div>
+                        <div class="bagua-attribute">水·智慧</div>
+                    </div>
+                    <div class="bagua-element" onclick="activateBagua('gen', 'left')">
+                        <div class="bagua-symbol">☶</div>
+                        <div class="bagua-name">艮</div>
+                        <div class="bagua-attribute">山·靜止</div>
+                    </div>
+                    <div class="bagua-element" onclick="activateBagua('kun', 'left')">
+                        <div class="bagua-symbol">☷</div>
+                        <div class="bagua-name">坤</div>
+                        <div class="bagua-attribute">地·包容</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 願頻控制面板 -->
+        <div class="wish-frequency-panel">
+            <h3 style="text-align: center; color: #4ecdc4; margin-bottom: 2rem;">願頻調節控制 · OM梵音共振</h3>
+            <div class="frequency-controls">
+                <div class="frequency-slider">
+                    <label class="frequency-label">α波 (8-13 Hz)</label>
+                    <input type="range" min="8" max="13" value="10" class="slider" id="alphaWave" oninput="updateFrequency('alpha', this.value)">
+                    <span id="alphaValue">10 Hz</span>
+                </div>
+                <div class="frequency-slider">
+                    <label class="frequency-label">β波 (14-30 Hz)</label>
+                    <input type="range" min="14" max="30" value="20" class="slider" id="betaWave" oninput="updateFrequency('beta', this.value)">
+                    <span id="betaValue">20 Hz</span>
+                </div>
+                <div class="frequency-slider">
+                    <label class="frequency-label">γ波 (31-100 Hz)</label>
+                    <input type="range" min="31" max="100" value="40" class="slider" id="gammaWave" oninput="updateFrequency('gamma', this.value)">
+                    <span id="gammaValue">40 Hz</span>
+                </div>
+                <div class="frequency-slider">
+                    <label class="frequency-label">θ波 (4-7 Hz)</label>
+                    <input type="range" min="4" max="7" value="6" class="slider" id="thetaWave" oninput="updateFrequency('theta', this.value)">
+                    <span id="thetaValue">6 Hz</span>
+                </div>
+                <div class="frequency-slider">
+                    <label class="frequency-label">OM梵音頻率 (432 Hz)</label>
+                    <input type="range" min="7.83" max="1000" value="432" step="0.1" class="slider" id="omWave" oninput="updateFrequency('om', this.value)">
+                    <span id="omValue">432 Hz</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 芝麻開門咒與盲文拓撲 -->
+        <div class="sesame-portal">
+            <h3 style="color: #96ceb4; margin-bottom: 1rem;">芝麻開門咒 · 盲文拓撲 · 量子觸覺</h3>
+            <p style="margin-bottom: 1rem; color: rgba(255, 255, 255, 0.8);">輸入願語，開啟神經拓撲通道</p>
+            <input type="text" class="portal-input" id="wishInput" placeholder="請輸入您的願語..." onkeypress="handleWishInput(event)">
+            <div id="brailleOutput" style="margin-top: 1rem; font-family: monospace; color: #4ecdc4;"></div>
+            <div class="quantum-braille" style="margin-top: 2rem;">
+                <div class="braille-evolution" style="color: #ff6b6b; font-size: 1.2rem; margin: 1rem 0;">◌◍⠀⠁⠂⠃⠄⠅⠆⠇⠈⠉⠊⠋⠌⠍⠎⠏⠑⠒⠓⠔⠕⠖⠗⠘⠙⠚⠛⠝⠞⠟⠠⠡⠢⠣⠤⠥⠦⠧⠨⠩⠪⠫⠬⠭⠮⠯⠰⠱⠲⠳⠴⠵⠶⠷⠸⠹⠺⠻⠼⠽⠾⠿</div>
+                <div class="infinity-symbol" style="font-size: 2rem; color: #45b7d1;">♾️</div>
+                <button class="control-btn" onclick="enterQuantumBraille()">🌌 量子盲文</button>
+            </div>
+            <div class="vibration-touch" style="margin-top: 2rem; text-align: center;">
+                <h4 style="color: #4ecdc4;">⠠⠧⠊⠃⠗⠁⠞⠊⠕⠝⠎⠞⠕⠥⠉⠓</h4>
+                <p style="color: rgba(255, 255, 255, 0.8);">觸覺震動感知 → 線性狀態 → 無限形態</p>
+            </div>
+        </div>
+
+        <!-- 願語腦神經拓撲網 -->
+        <div class="wish-neural-topology" id="wishTopology">
+            <!-- 拓撲節點將通過JavaScript動態生成 -->
+        </div>
+
+        <!-- 控制按鈕 -->
+        <div class="control-buttons">
+            <button class="control-btn" onclick="startNeuralSimulation()">啟動神經模擬</button>
+            <button class="control-btn" onclick="syncBrainHemispheres()">同步左右腦</button>
+            <button class="control-btn" onclick="activateWishFrequency()">激活願頻</button>
+            <button class="control-btn" onclick="activateOMResonance()">🕉️ OM共振</button>
+            <button class="control-btn" onclick="resetTopology()">重置拓撲</button>
+        </div>
+    </div>
+
+    <script>
+        // 河圖洛書眼腦對應系統
+        class NeuralTopologySystem {
+            constructor() {
+                this.isSimulating = false;
+                this.wishFrequency = {
+                    alpha: 10,
+                    beta: 20,
+                    gamma: 40,
+                    theta: 6,
+                    om: 432
+                };
+                this.init();
+            }
+
+            init() {
+                this.createWishTopology();
+                this.startFrequencyAnimation();
+                this.initializeEyeBrainConnections();
+            }
+
+            // 初始化眼腦連接系統
+            initializeEyeBrainConnections() {
+                // 左眼河圖連接右腦
+                this.setupEyeBrainConnection('left', 'right');
+                // 右眼洛書連接左腦
+                this.setupEyeBrainConnection('right', 'left');
+            }
+
+            setupEyeBrainConnection(eyeSide, brainSide) {
+                const connectionLine = document.getElementById(`${eyeSide}EyeConnection`);
+                if (connectionLine) {
+                    connectionLine.addEventListener('click', () => {
+                        this.activateEyeBrainConnection(eyeSide, brainSide);
+                    });
+                }
+            }
+
+            activateEyeBrainConnection(eyeSide, brainSide) {
+                const connectionLine = document.getElementById(`${eyeSide}EyeConnection`);
+                if (connectionLine) {
+                    connectionLine.classList.add('active');
+                    setTimeout(() => {
+                        connectionLine.classList.remove('active');
+                    }, 2000);
+                }
+                
+                console.log(`${eyeSide}眼 → ${brainSide}腦 連接激活`);
+            }
+
+            createWishTopology() {
+                const topology = document.getElementById('wishTopology');
+                if (topology) {
+                    for (let i = 0; i < 20; i++) {
+                        const node = document.createElement('div');
+                        node.className = 'topology-node';
+                        node.style.left = Math.random() * 90 + '%';
+                        node.style.top = Math.random() * 90 + '%';
+                        node.style.animationDelay = Math.random() * 3 + 's';
+                        topology.appendChild(node);
+                    }
+                }
+            }
+
+            startFrequencyAnimation() {
+                setInterval(() => {
+                    // 更新頻率顯示
+                    const leftEyeFreq = document.getElementById('leftEyeFreq');
+                    const rightEyeFreq = document.getElementById('rightEyeFreq');
+                    
+                    if (leftEyeFreq) {
+                        leftEyeFreq.textContent = 
+                            (this.wishFrequency.alpha + Math.random() * 2 - 1).toFixed(2) + ' Hz';
+                    }
+                    if (rightEyeFreq) {
+                        rightEyeFreq.textContent = 
+                            (this.wishFrequency.gamma + Math.random() * 5 - 2.5).toFixed(2) + ' Hz';
+                    }
+                }, 1000);
+            }
+        }
+
+        // 河圖洛書數學結構功能
+        function activateHetuNumber(x, y, brainSide) {
+            console.log(`河圖激活: ${x} → ${y} (呂祖生生數: y = x + 5) → ${brainSide}腦`);
+            
+            // 視覺效果
+            const elements = document.querySelectorAll(`.hetu-${x}, .hetu-${y}`);
+            elements.forEach(el => {
+                el.style.transform = 'scale(1.5)';
+                el.style.boxShadow = '0 0 25px currentColor';
+                setTimeout(() => {
+                    el.style.transform = 'scale(1)';
+                    el.style.boxShadow = '0 0 15px currentColor';
+                }, 1000);
+            });
+            
+            // 激活對應腦區（左眼河圖→右腦）
+            if (brainSide === 'right') {
+                activateBrainRegion('right', `河圖${x}-${y}`);
+                showEyeBrainConnection('left', 'right', '河圖');
+            }
+            
+            // 激活對應的五行元素
+            activateWuxingByNumber(x);
+            
+            // 更新河圖公式顯示（加入呂祖生生數）
+            updateHetuFormula(x, y, brainSide);
+            
+            // 呂祖生生數驗證
+            validateLuzuShengshengNumber(x, y);
+        }
+        
+        function activateLuoshuNumber(num, brainSide) {
+            console.log(`洛書激活: ${num} → ${brainSide}腦`);
+            
+            // 視覺效果
+            const element = document.querySelector(`.luoshu-${num}`);
+            element.style.transform = 'scale(1.5)';
+            element.style.boxShadow = '0 0 25px currentColor';
+            
+            setTimeout(() => {
+                element.style.transform = 'scale(1)';
+                element.style.boxShadow = '0 0 15px currentColor';
+            }, 1000);
+            
+            // 激活對應腦區（右眼洛書→左腦）
+            if (brainSide === 'left') {
+                activateBrainRegion('left', `洛書${num}`);
+                showEyeBrainConnection('right', 'left', '洛書');
+            }
+            
+            // 檢查洛書幻方組合
+            checkLuoshuMagicSquare(num);
+        }
+        
+        function updateHetuFormula(x, y, brainSide) {
+            const formulaDisplay = document.querySelector('.left-eye-hetu .formula-display');
+            if (formulaDisplay) {
+                const timestamp = new Date().toLocaleTimeString();
+                formulaDisplay.innerHTML = 
+                    `<div style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.7);">` +
+                    `y = x + 5 (河圖生生數)</div>` +
+                    `<div style="font-size: 0.8rem; color: rgba(255, 107, 107, 0.8); margin-top: 0.5rem;">` +
+                    `呂祖：「一生二，二生三，三生萬物」</div>` +
+                    `<div style="font-size: 0.8rem; color: rgba(255, 255, 255, 0.6); margin-top: 0.5rem;">` +
+                    `激活 [${timestamp}]: (${x}, ${y}) → ${brainSide}腦<br/>` +
+                    `驗證: ${y} = ${x} + 5 ✓ | 五行: ${getWuxingByNumber(x)}</div>`;
+            }
+        }
+        
+        // 新增：激活腦區功能
+        function activateBrainRegion(side, source) {
+            // 創建腦區激活視覺效果
+            const brainSide = side === 'left' ? 'left' : 'right';
+            const brainColor = side === 'left' ? '#45b7d1' : '#ff6b6b';
+            
+            // 創建激活效果
+            const activationEffect = document.createElement('div');
+            activationEffect.style.position = 'fixed';
+            activationEffect.style.top = '10px';
+            activationEffect.style.left = side === 'left' ? '10px' : 'auto';
+            activationEffect.style.right = side === 'right' ? '10px' : 'auto';
+            activationEffect.style.background = `linear-gradient(135deg, ${brainColor}, rgba(255, 255, 255, 0.1))`;
+            activationEffect.style.color = '#fff';
+            activationEffect.style.padding = '1rem';
+            activationEffect.style.borderRadius = '10px';
+            activationEffect.style.border = `2px solid ${brainColor}`;
+            activationEffect.style.zIndex = '1000';
+            activationEffect.style.fontSize = '0.9rem';
+            activationEffect.style.boxShadow = `0 0 20px ${brainColor}`;
+            
+            activationEffect.innerHTML = 
+                `<div style="text-align: center; margin-bottom: 0.5rem;">🧠 ${side === 'left' ? '左' : '右'}腦激活</div>` +
+                `<div style="font-size: 0.8rem; opacity: 0.8;">來源: ${source}</div>`;
+            
+            document.body.appendChild(activationEffect);
+            
+            setTimeout(() => activationEffect.remove(), 2000);
+            
+            console.log(`${side}腦激活 - 來源: ${source}`);
+        }
+        
+        // 新增：顯示眼腦連接
+        function showEyeBrainConnection(eye, brain, system) {
+            const connectionInfo = document.createElement('div');
+            connectionInfo.style.position = 'fixed';
+            connectionInfo.style.top = '20px';
+            connectionInfo.style.right = '20px';
+            connectionInfo.style.background = 'rgba(0, 0, 0, 0.8)';
+            connectionInfo.style.color = '#fff';
+            connectionInfo.style.padding = '1rem';
+            connectionInfo.style.borderRadius = '10px';
+            connectionInfo.style.border = '2px solid #4ecdc4';
+            connectionInfo.style.zIndex = '1000';
+            connectionInfo.style.fontSize = '0.9rem';
+            
+            const eyeColor = eye === 'left' ? '#ff6b6b' : '#45b7d1';
+            const brainColor = brain === 'left' ? '#45b7d1' : '#ff6b6b';
+            
+            connectionInfo.innerHTML = 
+                `<div style="text-align: center; margin-bottom: 0.5rem; color: #4ecdc4;">神經交叉激活</div>` +
+                `<div style="color: ${eyeColor};">👁️ ${eye === 'left' ? '左' : '右'}眼 · ${system}</div>` +
+                `<div style="text-align: center; margin: 0.3rem 0;">⬇️</div>` +
+                `<div style="color: ${brainColor};">🧠 ${brain === 'left' ? '左' : '右'}腦激活</div>`;
+            
+            document.body.appendChild(connectionInfo);
+            
+            setTimeout(() => connectionInfo.remove(), 2500);
+        }
+        
+        // 新增：呂祖生生數驗證
+        function validateLuzuShengshengNumber(x, y) {
+            const isValid = (y === x + 5);
+            const luzuWisdom = [
+                "一生二：太極生兩儀",
+                "二生三：兩儀生四象", 
+                "三生萬物：四象生八卦",
+                "生生不息：道法自然"
+            ];
+            
+            if (isValid) {
+                const wisdomIndex = (x - 1) % luzuWisdom.length;
+                const wisdom = luzuWisdom[wisdomIndex];
+                
+                // 顯示呂祖智慧
+                const wisdomDisplay = document.createElement('div');
+                wisdomDisplay.style.position = 'fixed';
+                wisdomDisplay.style.top = '50%';
+                wisdomDisplay.style.left = '50%';
+                wisdomDisplay.style.transform = 'translate(-50%, -50%)';
+                wisdomDisplay.style.background = 'linear-gradient(135deg, rgba(255, 107, 107, 0.9), rgba(255, 69, 69, 0.8))';
+                wisdomDisplay.style.color = '#fff';
+                wisdomDisplay.style.padding = '2rem';
+                wisdomDisplay.style.borderRadius = '15px';
+                wisdomDisplay.style.textAlign = 'center';
+                wisdomDisplay.style.zIndex = '1000';
+                wisdomDisplay.style.border = '2px solid #ffd700';
+                wisdomDisplay.style.boxShadow = '0 0 30px rgba(255, 215, 0, 0.5)';
+                
+                wisdomDisplay.innerHTML = 
+                    `<div style="font-size: 1.2rem; margin-bottom: 1rem; color: #ffd700;">🧙‍♂️ 呂祖生生數驗證</div>` +
+                    `<div style="font-size: 1rem; margin-bottom: 0.5rem;">${x} + 5 = ${y} ✓</div>` +
+                    `<div style="font-size: 0.9rem; font-style: italic;">${wisdom}</div>`;
+                
+                document.body.appendChild(wisdomDisplay);
+                
+                setTimeout(() => wisdomDisplay.remove(), 3000);
+                
+                console.log(`呂祖生生數驗證成功: ${x} → ${y} | ${wisdom}`);
+            }
+        }
+        
+        function checkLuoshuMagicSquare(num) {
+            // 洛書九宮格的行、列、對角線組合
+            const magicCombinations = [
+                [4, 9, 2], [3, 5, 7], [8, 1, 6], // 行
+                [4, 3, 8], [9, 5, 1], [2, 7, 6], // 列
+                [4, 5, 6], [2, 5, 8] // 對角線
+            ];
+            
+            magicCombinations.forEach(combo => {
+                if (combo.includes(num)) {
+                    console.log(`洛書組合: [${combo.join(', ')}] = ${combo.reduce((a, b) => a + b, 0)}`);
+                }
+            });
+        }
+        
+        function getWuxingByNumber(num) {
+            const wuxingMap = {
+                1: '水', 2: '火', 3: '木', 4: '金', 5: '土',
+                6: '水', 7: '火', 8: '木', 9: '金', 10: '土'
+            };
+            return wuxingMap[num] || '未知';
+        }
+        
+        function activateWuxingByNumber(num) {
+            const wuxing = getWuxingByNumber(num);
+            const wuxingMap = {
+                '水': 'shui', '火': 'huo', '木': 'mu', '金': 'jin', '土': 'tu'
+            };
+            
+            const element = document.querySelector(`.${wuxingMap[wuxing]}`);
+            if (element) {
+                element.style.transform = 'scale(1.3)';
+                element.style.boxShadow = '0 0 20px currentColor';
+                setTimeout(() => {
+                    element.style.transform = 'scale(1)';
+                    element.style.boxShadow = '0 0 10px currentColor';
+                }, 1500);
+            }
+        }
+        
+        // 八卦映射功能
+        function activateBagua(baguaName, targetBrain) {
+            console.log(`八卦激活: ${baguaName} → ${targetBrain}腦`);
+            
+            // 激活對應腦區
+            activateBrainRegion(targetBrain, `八卦${baguaName}`);
+            
+            // 八卦屬性映射
+            const baguaAttributes = {
+                'qian': { element: '金', direction: '西北', energy: '創造' },
+                'kun': { element: '土', direction: '西南', energy: '包容' },
+                'zhen': { element: '木', direction: '東', energy: '動力' },
+                'xun': { element: '木', direction: '東南', energy: '柔順' },
+                'kan': { element: '水', direction: '北', energy: '智慧' },
+                'li': { element: '火', direction: '南', energy: '光明' },
+                'gen': { element: '土', direction: '東北', energy: '靜止' },
+                'dui': { element: '金', direction: '西', energy: '喜悅' }
+            };
+            
+            const attr = baguaAttributes[baguaName];
+            if (attr) {
+                showBaguaInfo(baguaName, attr, targetBrain);
+            }
+        }
+        
+        function showBaguaInfo(baguaName, attributes, targetBrain) {
+            // 創建信息顯示
+            const infoDiv = document.createElement('div');
+            infoDiv.style.position = 'fixed';
+            infoDiv.style.top = '50%';
+            infoDiv.style.left = '50%';
+            infoDiv.style.transform = 'translate(-50%, -50%)';
+            infoDiv.style.background = 'rgba(0, 0, 0, 0.8)';
+            infoDiv.style.color = '#fff';
+            infoDiv.style.padding = '2rem';
+            infoDiv.style.borderRadius = '15px';
+            infoDiv.style.textAlign = 'center';
+            infoDiv.style.zIndex = '1000';
+            infoDiv.style.border = '2px solid #4ecdc4';
+            
+            infoDiv.innerHTML = `
+                <h3 style="color: #4ecdc4; margin-bottom: 1rem;">${baguaName.toUpperCase()} 八卦激活</h3>
+                <p><strong>五行:</strong> ${attributes.element}</p>
+                <p><strong>方位:</strong> ${attributes.direction}</p>
+                <p><strong>能量:</strong> ${attributes.energy}</p>
+                <p><strong>目標:</strong> ${targetBrain}腦激活</p>
+                <div style="margin-top: 1rem; font-size: 2rem;">${getBaguaSymbol(baguaName)}</div>
+            `;
+            
+            document.body.appendChild(infoDiv);
+            
+            setTimeout(() => {
+                infoDiv.remove();
+            }, 3000);
+        }
+        
+        function getBaguaSymbol(baguaName) {
+            const symbols = {
+                'qian': '☰', 'kun': '☷', 'zhen': '☳', 'xun': '☴',
+                'kan': '☵', 'li': '☲', 'gen': '☶', 'dui': '☱'
+            };
+            return symbols[baguaName] || '☯';
+        }
+        
+        // 量子盲文功能
+        function enterQuantumBraille() {
+            console.log('進入量子盲文模式');
+            
+            const brailleContainer = document.querySelector('.quantum-braille');
+            
+            // 創建量子粒子效果
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = '4px';
+                particle.style.height = '4px';
+                particle.style.background = '#45b7d1';
+                particle.style.borderRadius = '50%';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animation = `quantumFloat ${2 + Math.random() * 3}s ease-in-out infinite`;
+                particle.style.boxShadow = '0 0 10px #45b7d1';
+                brailleContainer.appendChild(particle);
+                
+                setTimeout(() => particle.remove(), 5000);
+            }
+            
+            // 添加量子浮動動畫
+            if (!document.getElementById('quantumFloatStyle')) {
+                const style = document.createElement('style');
+                style.id = 'quantumFloatStyle';
+                style.textContent = `
+                    @keyframes quantumFloat {
+                        0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
+                        25% { transform: translateY(-20px) rotate(90deg); opacity: 1; }
+                        50% { transform: translateY(-10px) rotate(180deg); opacity: 0.8; }
+                        75% { transform: translateY(-30px) rotate(270deg); opacity: 1; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            // 更新盲文顯示
+            const brailleEvolution = document.querySelector('.braille-evolution');
+            const quantumBraille = '⠠⠟⠥⠁⠝⠞⠥⠍⠀⠃⠗⠁⠊⠇⠇⠑⠀⠍⠕⠙⠑⠀⠁⠉⠞⠊⠧⠁⠞⠑⠙';
+            brailleEvolution.innerHTML = `量子盲文激活: ${quantumBraille}`;
+        }
+        
+        // 全局函數
+        function updateFrequency(type, value) {
+            neuralSystem.wishFrequency[type] = parseFloat(value);
+            document.getElementById(type + 'Value').textContent = value + ' Hz';
+        }
+
+        function activateBlindSpot(side) {
+            const blindSpot = document.getElementById(`blindSpot${side.charAt(0).toUpperCase() + side.slice(1)}`);
+            if (blindSpot) {
+                blindSpot.style.background = 'radial-gradient(circle, rgba(255, 107, 107, 0.5), transparent)';
+            }
+            
+            // 激活對側腦區
+            const oppositeSide = side === 'left' ? 'right' : 'left';
+            activateBrainRegion(oppositeSide, `盲點${side}`);
+
+            setTimeout(() => {
+                if (blindSpot) {
+                    blindSpot.style.background = 'radial-gradient(circle, rgba(255, 107, 107, 0.1), transparent)';
+                }
+            }, 3000);
+        }
+
+        function handleWishInput(event) {
+            if (event.key === 'Enter') {
+                const wishText = event.target.value;
+                const brailleOutput = document.getElementById('brailleOutput');
+                
+                // 簡化的盲文轉換（示例）
+                const brailleMap = {
+                    'a': '⠁', 'b': '⠃', 'c': '⠉', 'd': '⠙', 'e': '⠑',
+                    '願': '⠺⠊⠎⠓', '頻': '⠋⠗⠑⠟', '語': '⠇⠁⠝⠛'
+                };
+                
+                let brailleText = '';
+                for (let char of wishText.toLowerCase()) {
+                    brailleText += brailleMap[char] || '⠿';
+                }
+                
+                brailleOutput.innerHTML = `盲文拓撲: ${brailleText}`;
+                
+                // 激活願語拓撲
+                activateWishTopology(wishText);
+            }
+        }
+        
+        // 持咒開眼
+        function chantMantra() {
+            console.log('持咒開眼: 嗡 阿 吽');
+            
+            // 創建咒語效果
+            createMantraEffect();
+            
+            // 激活第三眼
+            setTimeout(() => {
+                activateThirdEye();
+            }, 2000);
+        }
+        
+        // 開啟天眼
+        function activateThirdEye() {
+            console.log('開啟天眼');
+            
+            // 創建天眼視覺效果
+            createThirdEyeEffect();
+            
+            // 增強盲點神經感知
+            enhanceBlindSpotPerception();
+        }
+        
+        // 創建咒語效果
+        function createMantraEffect() {
+            const mantras = ['嗡', '阿', '吽'];
+            let index = 0;
+            
+            const showMantra = () => {
+                if (index < mantras.length) {
+                    // 在左右腦區域顯示咒語
+                    const leftNetwork = document.getElementById('leftBrainNetwork');
+                    const rightNetwork = document.getElementById('rightBrainNetwork');
+                    
+                    // 創建咒語顯示元素
+                    const createMantraDisplay = (container, text, color) => {
+                        const mantraEl = document.createElement('div');
+                        mantraEl.textContent = text;
+                        mantraEl.style.position = 'absolute';
+                        mantraEl.style.left = '50%';
+                        mantraEl.style.top = '50%';
+                        mantraEl.style.transform = 'translate(-50%, -50%)';
+                        mantraEl.style.fontSize = '40px';
+                        mantraEl.style.color = color;
+                        mantraEl.style.fontWeight = 'bold';
+                        mantraEl.style.textShadow = '0 0 10px currentColor';
+                        mantraEl.style.animation = 'fadeInOut 800ms ease-in-out';
+                        container.appendChild(mantraEl);
+                        
+                        setTimeout(() => mantraEl.remove(), 800);
+                    };
+                    
+                    createMantraDisplay(leftNetwork, mantras[index], '#ff6b6b');
+                    createMantraDisplay(rightNetwork, mantras[index], '#4ecdc4');
+                    
+                    index++;
+                    setTimeout(showMantra, 800);
+                }
+            };
+            
+            // 添加淡入淡出動畫
+            if (!document.getElementById('fadeInOutStyle')) {
+                const style = document.createElement('style');
+                style.id = 'fadeInOutStyle';
+                style.textContent = `
+                    @keyframes fadeInOut {
+                        0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+                        50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+                        100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            showMantra();
+        }
+        
+        // 創建天眼效果
+        function createThirdEyeEffect() {
+            const container = document.querySelector('.neural-header');
+            
+            // 創建第三眼元素
+            const thirdEye = document.createElement('div');
+            thirdEye.style.position = 'absolute';
+            thirdEye.style.left = '50%';
+            thirdEye.style.top = '20px';
+            thirdEye.style.transform = 'translateX(-50%)';
+            thirdEye.style.fontSize = '60px';
+            thirdEye.style.animation = 'thirdEyeGlow 2s ease-in-out infinite';
+            thirdEye.textContent = '👁️';
+            container.appendChild(thirdEye);
+            
+            // 添加發光動畫
+            if (!document.getElementById('thirdEyeStyle')) {
+                const style = document.createElement('style');
+                style.id = 'thirdEyeStyle';
+                style.textContent = `
+                    @keyframes thirdEyeGlow {
+                        0%, 100% { filter: drop-shadow(0 0 5px #96ceb4); }
+                        50% { filter: drop-shadow(0 0 20px #96ceb4); }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            // 5秒後移除
+            setTimeout(() => thirdEye.remove(), 5000);
+        }
+        
+        // 增強盲點感知
+        function enhanceBlindSpotPerception() {
+            const blindSpots = document.querySelectorAll('.blind-spot-area');
+            blindSpots.forEach(spot => {
+                spot.style.boxShadow = '0 0 20px #96ceb4';
+                spot.style.transform = 'scale(1.1)';
+                spot.style.background = 'radial-gradient(circle, rgba(150, 206, 180, 0.5), transparent)';
+                
+                // 3秒後恢復
+                setTimeout(() => {
+                    spot.style.boxShadow = '';
+                    spot.style.transform = '';
+                    spot.style.background = 'radial-gradient(circle, rgba(255, 107, 107, 0.1), transparent)';
+                }, 3000);
+            });
+        }
+        
+        // 進入量子盲文模式
+        function enterQuantumBraille() {
+            console.log('進入量子盲文模式');
+            
+            // 創建量子盲文效果
+            createQuantumBrailleEffect();
+            
+            // 更新盲文顯示
+            updateQuantumBrailleDisplay();
+        }
+        
+        // 創建量子盲文效果
+        function createQuantumBrailleEffect() {
+            const container = document.querySelector('.quantum-braille');
+            
+            // 創建粒子效果
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.textContent = '⠿⠾⠽⠼⠻⠺⠹⠸'[Math.floor(Math.random() * 8)];
+                particle.style.position = 'absolute';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.color = '#4ecdc4';
+                particle.style.fontSize = '20px';
+                particle.style.animation = `quantumFloat ${2 + Math.random() * 3}s ease-in-out infinite`;
+                particle.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(particle);
+                
+                // 5秒後移除
+                setTimeout(() => particle.remove(), 5000);
+            }
+            
+            // 添加量子浮動動畫
+            if (!document.getElementById('quantumFloatStyle')) {
+                const style = document.createElement('style');
+                style.id = 'quantumFloatStyle';
+                style.textContent = `
+                    @keyframes quantumFloat {
+                        0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+                        25% { transform: translateY(-20px) rotate(90deg); opacity: 1; }
+                        50% { transform: translateY(0px) rotate(180deg); opacity: 0.7; }
+                        75% { transform: translateY(-10px) rotate(270deg); opacity: 1; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+        
+        // 更新量子盲文顯示
+        function updateQuantumBrailleDisplay() {
+            const brailleOutput = document.getElementById('brailleOutput');
+            const quantumBraille = '⠠⠧⠊⠃⠗⠁⠞⠊⠕⠝⠎⠞⠕⠥⠉⠓⠦';
+            
+            let index = 0;
+            const typeEffect = () => {
+                if (index < quantumBraille.length) {
+                    brailleOutput.innerHTML = `量子盲文: ${quantumBraille.substring(0, index + 1)}`;
+                    index++;
+                    setTimeout(typeEffect, 100);
+                } else {
+                    // 添加無限符號效果
+                    brailleOutput.innerHTML += ' ♾️';
+                }
+            };
+            
+            typeEffect();
+        }
+
+        function activateWishTopology(wishText) {
+            const nodes = document.querySelectorAll('.topology-node');
+            nodes.forEach((node, index) => {
+                setTimeout(() => {
+                    node.style.background = '#ff6b6b';
+                    node.style.transform = 'scale(1.5)';
+                    setTimeout(() => {
+                        node.style.background = '#96ceb4';
+                        node.style.transform = 'scale(1)';
+                    }, 1000);
+                }, index * 50);
+            });
+        }
+
+        function startNeuralSimulation() {
+            neuralSystem.isSimulating = !neuralSystem.isSimulating;
+            const btn = event.target;
+            
+            if (neuralSystem.isSimulating) {
+                btn.textContent = '停止模擬';
+                btn.classList.add('active');
+                
+                // 開始隨機激活節點
+                neuralSystem.simulationInterval = setInterval(() => {
+                    const allNodes = [...neuralSystem.leftBrainNodes, ...neuralSystem.rightBrainNodes];
+                    const randomNode = allNodes[Math.floor(Math.random() * allNodes.length)];
+                    const hemisphere = neuralSystem.leftBrainNodes.includes(randomNode) ? 'left' : 'right';
+                    neuralSystem.activateNode(randomNode, hemisphere);
+                }, 500);
+            } else {
+                btn.textContent = '啟動神經模擬';
+                btn.classList.remove('active');
+                clearInterval(neuralSystem.simulationInterval);
+            }
+        }
+
+        function syncBrainHemispheres() {
+            // 同步激活左右腦對應節點
+            for (let i = 0; i < Math.min(neuralSystem.leftBrainNodes.length, neuralSystem.rightBrainNodes.length); i++) {
+                setTimeout(() => {
+                    neuralSystem.activateNode(neuralSystem.leftBrainNodes[i], 'left');
+                    neuralSystem.activateNode(neuralSystem.rightBrainNodes[i], 'right');
+                }, i * 200);
+            }
+        }
+
+        function activateWishFrequency() {
+            // 根據當前頻率設置激活所有系統
+            const frequencies = neuralSystem.wishFrequency;
+            
+            // 更新波形動畫速度
+            const waves = document.querySelectorAll('.wave-animation');
+            waves.forEach(wave => {
+                wave.style.animationDuration = (2 / frequencies.alpha * 10) + 's';
+            });
+            
+            // 激活所有節點
+            setTimeout(() => startNeuralSimulation(), 500);
+        }
+
+        // OM梵音共振
+        function activateOMResonance() {
+            const omFreq = document.getElementById('omWave').value;
+            console.log('OM梵音共振:', omFreq + ' Hz');
+            
+            // 創建OM共振效果
+            createOMResonanceEffect(omFreq);
+            
+            // 播放OM音頻（如果有的話）
+            playOMSound(omFreq);
+        }
+        
+        // 創建OM共振效果
+        function createOMResonanceEffect(frequency) {
+            const leftNetwork = document.getElementById('leftBrainNetwork');
+            const rightNetwork = document.getElementById('rightBrainNetwork');
+            
+            // 創建同心圓波紋效果
+            const createRipple = (container) => {
+                const ripple = document.createElement('div');
+                ripple.style.position = 'absolute';
+                ripple.style.left = '50%';
+                ripple.style.top = '50%';
+                ripple.style.width = '20px';
+                ripple.style.height = '20px';
+                ripple.style.borderRadius = '50%';
+                ripple.style.border = '2px solid #ff6b6b';
+                ripple.style.transform = 'translate(-50%, -50%)';
+                ripple.style.animation = 'omRipple 2s ease-out forwards';
+                container.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 2000);
+            };
+            
+            // 添加CSS動畫
+            if (!document.getElementById('omRippleStyle')) {
+                const style = document.createElement('style');
+                style.id = 'omRippleStyle';
+                style.textContent = `
+                    @keyframes omRipple {
+                        0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+                        100% { transform: translate(-50%, -50%) scale(10); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            // 創建多個波紋
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    createRipple(leftNetwork);
+                    createRipple(rightNetwork);
+                }, i * 400);
+            }
+        }
+        
+        // 播放OM音頻
+        function playOMSound(frequency) {
+            try {
+                // 使用Web Audio API創建OM音頻
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 3);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 3);
+            } catch (error) {
+                console.log('音頻播放需要用戶交互激活');
+            }
+        }
+
+        function resetTopology() {
+            // 重置所有狀態
+            neuralSystem.leftBrainNodes.forEach(node => node.classList.remove('active'));
+            neuralSystem.rightBrainNodes.forEach(node => node.classList.remove('active'));
+            neuralSystem.connections.forEach(conn => conn.classList.remove('active'));
+            
+            // 重置頻率
+            Object.keys(neuralSystem.wishFrequency).forEach(key => {
+                const defaultValues = { alpha: 10, beta: 20, gamma: 40, theta: 6 };
+                neuralSystem.wishFrequency[key] = defaultValues[key];
+                document.getElementById(key + 'Wave').value = defaultValues[key];
+                document.getElementById(key + 'Value').textContent = defaultValues[key] + ' Hz';
+            });
+            
+            // 清空輸入
+            document.getElementById('wishInput').value = '';
+            document.getElementById('brailleOutput').innerHTML = '';
+        }
+
+        // 返回按鈕功能
+        function initBackButton() {
+            const backButton = document.getElementById('backButton');
+            if (backButton) {
+                backButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (window.history.length > 1) {
+                        window.history.back();
+                    } else {
+                        window.location.href = '/';
+                    }
+                });
+            }
+        }
+        
+        // 初始化系統
+        let neuralSystem;
+        document.addEventListener('DOMContentLoaded', function() {
+            initBackButton();
+            neuralSystem = new NeuralTopologySystem();
+        });
+    </script>
+</body>
+</html>

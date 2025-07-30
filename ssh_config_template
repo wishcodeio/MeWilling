@@ -1,0 +1,47 @@
+# SSH 配置文件模板
+# 請將此文件內容複製到 ~/.ssh/config
+
+# 針對局域網的特殊設置（覆蓋全局默認值）
+Host 192.168.0.*
+    StrictHostKeyChecking no    # 局域網內放寬密鑰檢查
+    UserKnownHostsFile ~/.ssh/known_hosts.local  # 單獨存儲局域網主機密鑰
+    ConnectTimeout 10           # 縮短超時時間（局域網響應快）
+    GSSAPIAuthentication no     # 禁用GSSAPI（加速連接）
+
+# 樹莓派連接配置
+Host raspberrypi
+    HostName 10.0.1.6
+    User qd                     # 使用者名稱
+    Port 22
+    StrictHostKeyChecking no
+    UserKnownHostsFile ~/.ssh/known_hosts.local
+    ConnectTimeout 10
+    GSSAPIAuthentication no
+
+# 全局默認設置
+Host *
+    ServerAliveInterval 60      # 每60秒發送心跳包
+    ServerAliveCountMax 3       # 最多3次心跳失敗後斷開
+    TCPKeepAlive yes           # 啟用TCP保活
+    Compression yes            # 啟用壓縮
+    ForwardAgent no            # 安全起見，默認不轉發SSH代理
+    ForwardX11 no              # 默認不轉發X11
+    HashKnownHosts yes         # 對known_hosts進行哈希處理
+    VisualHostKey yes          # 顯示主機密鑰的視覺指紋
+
+# 使用說明：
+# 1. 複製此文件內容到 ~/.ssh/config
+# 2. 確保 ~/.ssh 目錄權限為 700: chmod 700 ~/.ssh
+# 3. 確保配置文件權限為 600: chmod 600 ~/.ssh/config
+# 4. 測試連接: ssh raspberrypi
+
+# 連接樹莓派的步驟：
+# 1. 確保樹莓派 SSH 服務已啟用
+# 2. 確認樹莓派 IP 地址 (10.0.1.6)
+# 3. 使用命令: ssh raspberrypi
+# 4. 或直接使用: ssh qd@10.0.1.6
+
+# 如果需要密鑰認證：
+# 1. 生成密鑰對: ssh-keygen -t rsa -b 4096
+# 2. 複製公鑰到樹莓派: ssh-copy-id raspberrypi
+# 3. 在配置中添加: IdentityFile ~/.ssh/id_rsa

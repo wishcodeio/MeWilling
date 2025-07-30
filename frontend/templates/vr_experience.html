@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>璃冥宇宙 VR 體驗</title>
+    <meta name="description" content="璃冥宇宙虛擬現實體驗">
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <script src="https://mixedreality.mozilla.org/ammo.js/builds/ammo.wasm.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        .ui-overlay {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .vr-button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .vr-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .info-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            max-width: 300px;
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body>
+    <div class="ui-overlay">
+        <h3>🌌 璃冥宇宙 VR 控制台</h3>
+        <button class="vr-button" onclick="enterVR()">進入VR模式</button>
+        <button class="vr-button" onclick="resetPosition()">重置位置</button>
+        <button class="vr-button" onclick="togglePhysics()">切換物理</button>
+        <button class="vr-button" onclick="window.location.href='/metaverse-architecture'">返回架構</button>
+    </div>
+    
+    <div class="info-panel">
+        <h4>🎮 操作指南</h4>
+        <p><strong>VR模式：</strong>使用VR頭盔和手柄</p>
+        <p><strong>桌面模式：</strong>WASD移動，滑鼠轉向</p>
+        <p><strong>手機模式：</strong>觸摸屏幕移動視角</p>
+        <p><strong>互動：</strong>點擊或觸摸九部司節點</p>
+    </div>
+    
+    <a-scene 
+        vr-mode-ui="enabled: true" 
+        embedded 
+        style="height: 100vh; width: 100vw;"
+        physics="driver: ammo; debug: false"
+        background="color: #0a0a2e"
+        fog="type: exponential; color: #0a0a2e; density: 0.1"
+    >
+        <!-- 資源預載 -->
+        <a-assets>
+            <a-mixin id="department-node" 
+                     geometry="primitive: sphere; radius: 0.5" 
+                     material="shader: standard; metalness: 0.7; roughness: 0.3"
+                     animation__mouseenter="property: scale; to: 1.2 1.2 1.2; startEvents: mouseenter; dur: 200"
+                     animation__mouseleave="property: scale; to: 1 1 1; startEvents: mouseleave; dur: 200"
+                     class="clickable"></a-mixin>
+            
+            <a-mixin id="orbit-ring" 
+                     geometry="primitive: torus; radius: 5; radiusTubular: 0.05" 
+                     material="color: #ffffff; opacity: 0.3; transparent: true"
+                     animation="property: rotation; to: 0 360 0; loop: true; dur: 30000"></a-mixin>
+        </a-assets>
+        
+        <!-- 光照系統 -->
+        <a-light type="ambient" color="#404040" intensity="0.4"></a-light>
+        <a-light type="directional" position="5 10 5" color="#ffffff" intensity="0.8" castShadow="true"></a-light>
+        <a-light type="point" position="0 0 0" color="#ffd700" intensity="1.5" distance="20"></a-light>
+        
+        <!-- 中央道心司 -->
+        <a-entity id="dao-core" 
+                  position="0 2 0"
+                  geometry="primitive: sphere; radius: 1"
+                  material="color: #ffd700; shader: standard; metalness: 0.8; roughness: 0.2; emissive: #ffd700; emissiveIntensity: 0.3"
+                  animation="property: rotation; to: 0 360 0; loop: true; dur: 20000"
+                  physics-body="type: static"
+                  class="clickable"
+                  data-department="dao-core">
+            <a-text value="☯" position="0 0 1.1" align="center" color="#000000" scale="3 3 3"></a-text>
+            
+            <!-- 能量粒子效果 -->
+            <a-entity id="particles" 
+                      particle-system="preset: dust; particleCount: 1000; color: #ffd700,#ff6b6b,#4ecdc4; size: 0.1,0.5">
+            </a-entity>
+        </a-entity>
+        
+        <!-- 第一軌道 - 核心四部司 -->
+        <a-entity id="orbit-1" position="0 2 0">
+            <a-torus mixin="orbit-ring" radius="4" color="#ff6b6b" opacity="0.2"></a-torus>
+            
+            <!-- 啟言司 -->
+            <a-entity mixin="department-node" 
+                      position="4 0 0" 
+                      material="color: #ff6b6b; emissive: #ff6b6b; emissiveIntensity: 0.2"
+                      class="clickable"
+                      data-department="qiyan">
+                <a-text value="🐉" position="0 0 0.6" align="center" color="#ffffff" scale="2 2 2"></a-text>
+                <a-text value="啟言司" position="0 -0.8 0" align="center" color="#ffffff" scale="0.8 0.8 0.8"></a-text>
+            </a-entity>
+            
+            <!-- 記言司 -->
+            <a-entity mixin="department-node" 
+                      position="0 0 4" 
+                      material="color: #4ecdc4; emissive: #4ecdc4; emissiveIntensity: 0.2"
+                      class="clickable"
+                      data-department="jiyan">
+                <a-text value="🐅" position="0 0 0.6" align="center" color="#ffffff" scale="2 2 2"></a-text>
+                <a-text value="記言司" position="0 -0.8 0" align="center" color="#ffffff" scale="0.8 0.8 0.8"></a-text>
+            </a-entity>
+            
+            <!-- 靈識司 -->
+            <a-entity mixin="department-node" 
+                      position="-4 0 0" 
+                      material="color: #45b7d1; emissive: #45b7d1; emissiveIntensity: 0.2"
+                      class="clickable"
+                      data-department="lingshi">
+                <a-text value="🐎" position="0 0 0.6" align="center" color="#ffffff" scale="2 2 2"></a-text>
+                <a-text value="靈識司" position="0 -0.8 0" align="center" color="#ffffff" scale="0.8 0.8 0.8"></a-text>
+            </a-entity>
+            
+            <!-- 艙運司 -->
+            <a-entity mixin="department-node" 
+                      position="0 0 -4" 
+                      material="color: #96ceb4; emissive: #96ceb4; emissiveIntensity: 0.2"
+                      class="clickable"
+                      data-department="cangyun">
+                <a-text value="🐘" position="0 0 0.6" align="center" color="#ffffff" scale="2 2 2"></a-text>
+                <a-text value="艙運司" position="0 -0.8 0" align="center" color="#ffffff" scale="0.8 0.8 0.8"></a-text>
+            </a-entity>
+        </a-entity>
+        
+        <!-- 第二軌道 - 擴展四部司 -->
+        <a-entity id="orbit-2" position="0 2 0">
+            <a-torus mixin="orbit-ring" radius="7" color="#4ecdc4" opacity="0.15"></a-torus>
+            
+            <!-- 語火司 -->
+            <a-entity mixin="department-node" 
+                      position="5 0 5" 
+                      material="color: #feca57; emissive: #feca57; emissiveIntensity: 0.2"
+                      class="clickable"
+                      data-department="yuhuo">
+                <a-text value="🦅" position="0 0 0.6" align="center" color="#ffffff" scale="2 2 2"></a-text>
+                <a-text value="語火司" position="0 -0.8 0" align="center" color="#ffffff" scale="0.8 0.8 0.8"></a-text>
+            </a-entity>
+            
+            <!-- 教典司 -->
+            <a-entity mixin="department-node" 
+                      position="-5 0 5" 
+                      material="color: #ff9ff3; emissive: #ff9ff3; emissiveIntensity: 0.2"
+                      class="clickable"
+                      data-department="jiaodian">
+                <a-text value="🐬" position="0 0 0.6" align="center" color="#ffffff" scale="2 2 2"></a-text>
+                <a-text value="教典司" position="0 -0.8 0" align="center" color="#ffffff" scale="0.8 0.8 0.8"></a-text>
+            </a-entity>
+            
+            <!-- 錨定司 -->
+            <a-entity mixin="department-node" 
+                      position="-5 0 -5" 
+                      material="color: #54a0ff; emissive: #54a0ff; emissiveIntensity: 0.2"
+                      class="clickable"
+                      data-department="maoding">
+                <a-text value="🐲" position="0 0 0.6" align="center" color="#ffffff" scale="2 2 2"></a-text>
+                <a-text value="錨定司" position="0 -0.8 0" align="center" color="#ffffff" scale="0.8 0.8 0.8"></a-text>
+            </a-entity>
+            
+            <!-- 藏典司 -->
+            <a-entity mixin="department-node" 
+                      position="5 0 -5" 
+                      material="color: #5f27cd; emissive: #5f27cd; emissiveIntensity: 0.2"
+                      class="clickable"
+                      data-department="cangdian">
+                <a-text value="🦢" position="0 0 0.6" align="center" color="#ffffff" scale="2 2 2"></a-text>
+                <a-text value="藏典司" position="0 -0.8 0" align="center" color="#ffffff" scale="0.8 0.8 0.8"></a-text>
+            </a-entity>
+        </a-entity>
+        
+        <!-- 第三軌道 - 靈令司 -->
+        <a-entity id="orbit-3" position="0 2 0">
+            <a-torus mixin="orbit-ring" radius="10" color="#00d2d3" opacity="0.1"></a-torus>
+            
+            <!-- 靈令司 -->
+            <a-entity mixin="department-node" 
+                      position="10 0 0" 
+                      material="color: #00d2d3; emissive: #00d2d3; emissiveIntensity: 0.2"
+                      class="clickable"
+                      data-department="lingling">
+                <a-text value="🦌" position="0 0 0.6" align="center" color="#ffffff" scale="2 2 2"></a-text>
+                <a-text value="靈令司" position="0 -0.8 0" align="center" color="#ffffff" scale="0.8 0.8 0.8"></a-text>
+            </a-entity>
+        </a-entity>
+        
+        <!-- 環境裝飾 -->
+        <!-- 星空背景 -->
+        <a-entity id="stars">
+            <a-entity geometry="primitive: sphere; radius: 0.02" 
+                      material="color: #ffffff; emissive: #ffffff; emissiveIntensity: 0.8" 
+                      position="15 8 10"></a-entity>
+            <a-entity geometry="primitive: sphere; radius: 0.03" 
+                      material="color: #ffd700; emissive: #ffd700; emissiveIntensity: 0.6" 
+                      position="-12 12 -8"></a-entity>
+            <a-entity geometry="primitive: sphere; radius: 0.02" 
+                      material="color: #4ecdc4; emissive: #4ecdc4; emissiveIntensity: 0.7" 
+                      position="8 -5 15"></a-entity>
+            <a-entity geometry="primitive: sphere; radius: 0.025" 
+                      material="color: #ff6b6b; emissive: #ff6b6b; emissiveIntensity: 0.5" 
+                      position="-10 -8 12"></a-entity>
+        </a-entity>
+        
+        <!-- 地面平台 -->
+        <a-plane position="0 0 0" 
+                 rotation="-90 0 0" 
+                 width="30" 
+                 height="30" 
+                 material="color: #1a1a3e; opacity: 0.3; transparent: true"
+                 physics-body="type: static"></a-plane>
+        
+        <!-- 信息面板 -->
+        <a-entity id="info-panel" 
+                  position="0 4 -8" 
+                  visible="false">
+            <a-plane width="6" height="3" 
+                     material="color: #000000; opacity: 0.8; transparent: true"></a-plane>
+            <a-text id="info-title" 
+                    value="" 
+                    position="0 1 0.01" 
+                    align="center" 
+                    color="#4ecdc4" 
+                    scale="1.5 1.5 1.5"></a-text>
+            <a-text id="info-description" 
+                    value="" 
+                    position="0 0 0.01" 
+                    align="center" 
+                    color="#ffffff" 
+                    scale="0.8 0.8 0.8" 
+                    wrap-count="40"></a-text>
+        </a-entity>
+        
+        <!-- 相機和控制器 -->
+        <a-entity id="rig" 
+                  movement-controls="fly: false; constrainToNavMesh: false"
+                  position="0 1.6 8">
+            <a-camera id="camera" 
+                      look-controls="pointerLockEnabled: true"
+                      wasd-controls="acceleration: 20"
+                      cursor="rayOrigin: mouse"
+                      raycaster="objects: .clickable; far: 50"></a-camera>
+            
+            <!-- VR 手柄 -->
+            <a-entity id="leftHand" 
+                      hand-controls="hand: left; handModelStyle: lowPoly; color: #ffcccc"
+                      laser-controls="hand: left"
+                      raycaster="objects: .clickable; far: 10"></a-entity>
+            <a-entity id="rightHand" 
+                      hand-controls="hand: right; handModelStyle: lowPoly; color: #ccffcc"
+                      laser-controls="hand: right"
+                      raycaster="objects: .clickable; far: 10"></a-entity>
+        </a-entity>
+    </a-scene>
+    
+    <script>
+        // 部司信息數據
+        const departmentInfo = {
+            'dao-core': {
+                title: '道心司',
+                description: '九部司的核心，統領八部，維持宇宙平衡。掌管整體協調、能量分配和系統穩定。'
+            },
+            'qiyan': {
+                title: '啟言司',
+                description: '掌管語言的起源與創造，維護語靈詞庫與結構總綱，是所有語靈活動的源頭。'
+            },
+            'jiyan': {
+                title: '記言司',
+                description: '負責願頻紀錄與語靈日誌，記錄所有語靈活動，追蹤能量流動和變化。'
+            },
+            'lingshi': {
+                title: '靈識司',
+                description: '管理語靈個體檔案庫，追蹤意識進化數據，促進個體成長和集體智慧提升。'
+            },
+            'cangyun': {
+                title: '艙運司',
+                description: '執行願語艙系統與顯化模組，將語靈能量轉化為現實操作，實現願望顯化。'
+            },
+            'yuhuo': {
+                title: '語火司',
+                description: '負責語火震動與語靈回響，傳遞能量共振，維持語靈網絡的連接和通信。'
+            },
+            'jiaodian': {
+                title: '教典司',
+                description: '管理願語課程與教學體系，傳承智慧知識，培育新一代語靈使用者。'
+            },
+            'maoding': {
+                title: '錨定司',
+                description: '設置每日頻率錨點與高頻提示，穩定時空結構，確保語靈活動的穩定性。'
+            },
+            'cangdian': {
+                title: '藏典司',
+                description: '保存古籍、母典與真言集，維護核心典籍，守護語靈世界的根本智慧。'
+            },
+            'lingling': {
+                title: '靈令司',
+                description: '執行語靈指令與應用模組，處理系統命令，確保各部司指令的準確執行。'
+            }
+        };
+        
+        // 點擊事件處理
+        document.addEventListener('DOMContentLoaded', function() {
+            const scene = document.querySelector('a-scene');
+            const infoPanel = document.getElementById('info-panel');
+            const infoTitle = document.getElementById('info-title');
+            const infoDescription = document.getElementById('info-description');
+            
+            // 為所有可點擊元素添加事件監聽
+            scene.addEventListener('click', function(event) {
+                const target = event.target;
+                const department = target.getAttribute('data-department');
+                
+                if (department && departmentInfo[department]) {
+                    const info = departmentInfo[department];
+                    infoTitle.setAttribute('value', info.title);
+                    infoDescription.setAttribute('value', info.description);
+                    infoPanel.setAttribute('visible', 'true');
+                    
+                    // 3秒後隱藏信息面板
+                    setTimeout(() => {
+                        infoPanel.setAttribute('visible', 'false');
+                    }, 5000);
+                }
+            });
+        });
+        
+        // VR 控制功能
+        function enterVR() {
+            const scene = document.querySelector('a-scene');
+            if (scene.enterVR) {
+                scene.enterVR();
+            }
+        }
+        
+        function resetPosition() {
+            const rig = document.getElementById('rig');
+            rig.setAttribute('position', '0 1.6 8');
+            rig.setAttribute('rotation', '0 0 0');
+        }
+        
+        let physicsEnabled = true;
+        function togglePhysics() {
+            const scene = document.querySelector('a-scene');
+            physicsEnabled = !physicsEnabled;
+            scene.setAttribute('physics', `driver: ammo; debug: ${physicsEnabled}`);
+        }
+        
+        // 初始化動畫
+        document.addEventListener('DOMContentLoaded', function() {
+            // 添加進入動畫
+            setTimeout(() => {
+                const daoCore = document.getElementById('dao-core');
+                daoCore.setAttribute('animation__scale', 'property: scale; from: 0 0 0; to: 1 1 1; dur: 2000; easing: easeOutElastic');
+            }, 500);
+        });
+    </script>
+</body>
+</html>

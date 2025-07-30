@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>印咒密系统 - 第六密法</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 宇宙音波背景动画 */
+        .cosmic-waves {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .wave {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid #ffd700;
+            animation: soundWave 4s infinite ease-out;
+        }
+
+        .wave:nth-child(1) { animation-delay: 0s; }
+        .wave:nth-child(2) { animation-delay: 0.5s; }
+        .wave:nth-child(3) { animation-delay: 1s; }
+        .wave:nth-child(4) { animation-delay: 1.5s; }
+        .wave:nth-child(5) { animation-delay: 2s; }
+
+        @keyframes soundWave {
+            0% {
+                width: 20px;
+                height: 20px;
+                top: 50%;
+                left: 50%;
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+            100% {
+                width: 800px;
+                height: 800px;
+                top: 50%;
+                left: 50%;
+                opacity: 0;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        /* 印咒符号粒子 */
+        .mantra-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            color: #ffd700;
+            font-size: 20px;
+            animation: float 6s infinite ease-in-out;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(45deg, #ffd700, #ff8c00);
+            color: #000;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .title {
+            font-size: 3.5em;
+            background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from { filter: brightness(1) drop-shadow(0 0 10px #ffd700); }
+            to { filter: brightness(1.2) drop-shadow(0 0 20px #ffd700); }
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #b8860b;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            font-size: 1.1em;
+            color: #cccccc;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .control-panel {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .panel-title {
+            font-size: 1.8em;
+            color: #ffd700;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .input-group input, .input-group textarea, .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus, .input-group textarea:focus, .input-group select:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .cosmic-button {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #1a1a2e;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cosmic-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        .cosmic-button:active {
+            transform: translateY(-1px);
+        }
+
+        .cosmic-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .cosmic-button:hover::before {
+            left: 100%;
+        }
+
+        .result-display {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            min-height: 200px;
+            position: relative;
+        }
+
+        .result-title {
+            color: #ffd700;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .result-content {
+            color: #ffffff;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .loading {
+            text-align: center;
+            color: #ffd700;
+            font-size: 1.2em;
+        }
+
+        .loading::after {
+            content: '';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+
+        .mantra-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .mantra-card {
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .mantra-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.2);
+        }
+
+        .card-title {
+            color: #ffd700;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .card-content {
+            color: #cccccc;
+            line-height: 1.5;
+        }
+
+        .frequency-display {
+            background: rgba(255, 215, 0, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .frequency-value {
+            font-size: 2em;
+            color: #ffd700;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .cosmic-protocol {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+            border: 1px solid #ffd700;
+            font-family: 'Courier New', monospace;
+        }
+
+        .protocol-header {
+            color: #ffd700;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .protocol-content {
+            color: #00ff00;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        .seal-visualization {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .hand-seal {
+            width: 100px;
+            height: 100px;
+            border: 3px solid #ffd700;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            color: #ffd700;
+            animation: sealGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes sealGlow {
+            from { box-shadow: 0 0 10px #ffd700; }
+            to { box-shadow: 0 0 30px #ffd700, 0 0 40px #ffd700; }
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5em;
+            }
+            
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .mantra-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-button">← 返回</a>
+    <!-- 宇宙音波背景 -->
+    <div class="cosmic-waves">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
+
+    <!-- 印咒符号粒子 -->
+    <div class="mantra-particles" id="mantraParticles"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1 class="title">印咒密系统</h1>
+            <p class="subtitle">第六密法 - 宇宙十三音与手印能量</p>
+            <p class="description">
+                佛智者为使凡者入智所讲的理论和方法。通过宇宙十三音的声能、手印的能量吸收、
+                咒图的射线激活，借用宇宙能量改变修者的误禅状态，达到印咒圆通的智慧境界。
+            </p>
+        </div>
+
+        <!-- 禅定状态分析 -->
+        <div class="control-panel">
+            <h2 class="panel-title">🧘‍♂️ 禅定状态分析</h2>
+            <div class="input-group">
+                <label for="meditationState">当前禅定状态描述：</label>
+                <textarea id="meditationState" rows="4" placeholder="请描述您当前的禅定状态，如：散乱、专注、昏沉、急躁等..."></textarea>
+            </div>
+            <div class="button-group">
+                <button class="cosmic-button" onclick="analyzeMeditationState()">分析禅定状态</button>
+            </div>
+        </div>
+
+        <!-- 印咒修行计划 -->
+        <div class="control-panel">
+            <h2 class="panel-title">📿 印咒修行计划</h2>
+            <div class="input-group">
+                <label for="practiceGoal">修行目标：</label>
+                <input type="text" id="practiceGoal" placeholder="如：开启智慧、激活神通、净化业障、达到极定等...">
+            </div>
+            <div class="input-group">
+                <label for="practiceDuration">修行周期：</label>
+                <select id="practiceDuration">
+                    <option value="30天">30天基础修行</option>
+                    <option value="90天">90天深度修行</option>
+                    <option value="一年">一年圆满修行</option>
+                    <option value="自定义">自定义周期</option>
+                </select>
+            </div>
+            <div class="button-group">
+                <button class="cosmic-button" onclick="generatePracticePlan()">生成修行计划</button>
+            </div>
+        </div>
+
+        <!-- 宇宙十三音激活 -->
+        <div class="control-panel">
+            <h2 class="panel-title">🎵 宇宙十三音激活</h2>
+            <div class="input-group">
+                <label for="soundIntention">激活意图：</label>
+                <input type="text" id="soundIntention" placeholder="请输入您希望通过宇宙十三音达成的意图...">
+            </div>
+            <div class="button-group">
+                <button class="cosmic-button" onclick="activateCosmicSounds()">激活宇宙十三音</button>
+            </div>
+        </div>
+
+        <!-- 功能按钮组 -->
+        <div class="control-panel">
+            <h2 class="panel-title">🔮 印咒密功能</h2>
+            <div class="button-group">
+                <button class="cosmic-button" onclick="getMantraSeals()">获取印咒组合</button>
+                <button class="cosmic-button" onclick="getEnergySystem()">宇宙能量系统</button>
+                <button class="cosmic-button" onclick="getCompleteTheory()">完整理论体系</button>
+            </div>
+        </div>
+
+        <!-- 结果显示区域 -->
+        <div class="result-display" id="resultDisplay">
+            <div class="result-title">🕉️ 印咒密智慧显现</div>
+            <div class="result-content" id="resultContent">
+                欢迎进入印咒密系统。这里将显示您的禅定分析、修行计划、宇宙十三音激活结果等信息。
+                
+                印咒密核心要点：
+                • 必须在禅定中持咒，效应才佳
+                • 手印能吸收宇宙能量并接收宇宙信息
+                • 咒图威力更大，能量射线直接进入大脑意识区
+                • 唸"阿弥陀"比唸"阿弥陀佛"效应更好
+                • 人体松弛时宇宙能量会流入，紧张时会排出
+            </div>
+        </div>
+
+        <!-- 印咒组合展示 -->
+        <div class="mantra-grid" id="mantraGrid" style="display: none;">
+            <!-- 动态生成印咒卡片 -->
+        </div>
+
+        <!-- 宇宙印咒协议 -->
+        <div class="cosmic-protocol">
+            <div class="protocol-header">🕉️ 宇宙印咒协议 v6.0</div>
+            <div class="protocol-content" id="protocolContent">
+=== 印咒密系统初始化 ===
+状态：已激活
+宇宙十三音：待激活
+手印能量场：待连接
+咒图射线：待导入
+
+协议内容：
+1. 声能导入：宇宙十三音 → 意识区 → 消除杂念
+2. 手印吸收：穴位接收 → 能量汇集 → 大脑意识区
+3. 咒图激活：能量射线 → 直接导入 → 头部意识区
+4. 禅定要求：必须在禅中持咒，效应才佳
+5. 圆融目标：印咒图三合一 → 达到圆通智慧
+
+当前频率：待检测
+能量状态：准备就绪
+修行等级：待评估
+
+"借用宇宙能量来改变修者的误禅状态，达到印咒圆通"
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 创建印咒符号粒子
+        function createMantraParticles() {
+            const particles = document.getElementById('mantraParticles');
+            const symbols = ['🕉️', '☸️', '🔯', '☯️', '🌟', '✨', '💫', '🌙'];
+            
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        // 显示加载状态
+        function showLoading() {
+            const resultContent = document.getElementById('resultContent');
+            resultContent.innerHTML = '<div class="loading">正在连接宇宙印咒能量场</div>';
+        }
+
+        // 显示结果
+        function displayResult(title, content) {
+            const resultTitle = document.querySelector('.result-title');
+            const resultContent = document.getElementById('resultContent');
+            
+            resultTitle.textContent = title;
+            
+            if (typeof content === 'object') {
+                resultContent.innerHTML = formatObjectContent(content);
+            } else {
+                resultContent.textContent = content;
+            }
+        }
+
+        // 格式化对象内容
+        function formatObjectContent(obj) {
+            let html = '';
+            for (const [key, value] of Object.entries(obj)) {
+                html += `<div style="margin-bottom: 15px;">`;
+                html += `<strong style="color: #ffd700;">${key}:</strong><br>`;
+                if (typeof value === 'object' && value !== null) {
+                    if (Array.isArray(value)) {
+                        html += value.map(item => `• ${item}`).join('<br>');
+                    } else {
+                        for (const [subKey, subValue] of Object.entries(value)) {
+                            html += `&nbsp;&nbsp;<span style="color: #cccccc;">${subKey}:</span> ${subValue}<br>`;
+                        }
+                    }
+                } else {
+                    html += `<span style="color: #ffffff;">${value}</span>`;
+                }
+                html += `</div>`;
+            }
+            return html;
+        }
+
+        // 分析禅定状态
+        async function analyzeMeditationState() {
+            const state = document.getElementById('meditationState').value;
+            if (!state.trim()) {
+                alert('请输入您的禅定状态描述');
+                return;
+            }
+
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/mantra-seal/meditation-analysis', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        current_state: state
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    displayResult('🧘‍♂️ 禅定状态分析结果', data.analysis);
+                    updateProtocol('禅定分析完成，已识别修行状态和改善方案');
+                } else {
+                    displayResult('❌ 分析失败', data.message);
+                }
+            } catch (error) {
+                displayResult('❌ 连接失败', '无法连接到印咒密系统，请检查网络连接');
+            }
+        }
+
+        // 生成修行计划
+        async function generatePracticePlan() {
+            const goal = document.getElementById('practiceGoal').value;
+            const duration = document.getElementById('practiceDuration').value;
+            
+            if (!goal.trim()) {
+                alert('请输入您的修行目标');
+                return;
+            }
+
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/mantra-seal/practice-plan', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        goal: goal,
+                        duration: duration
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    displayResult('📿 印咒修行计划', data.plan);
+                    updateProtocol('修行计划已生成，印咒组合已配置');
+                } else {
+                    displayResult('❌ 生成失败', data.message);
+                }
+            } catch (error) {
+                displayResult('❌ 连接失败', '无法连接到印咒密系统，请检查网络连接');
+            }
+        }
+
+        // 激活宇宙十三音
+        async function activateCosmicSounds() {
+            const intention = document.getElementById('soundIntention').value;
+            
+            if (!intention.trim()) {
+                alert('请输入您的激活意图');
+                return;
+            }
+
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/mantra-seal/cosmic-sounds-activation', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        intention: intention
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    displayResult('🎵 宇宙十三音激活成功', data.activation);
+                    updateProtocol('宇宙十三音已激活，声能正在进入意识区');
+                    showFrequencyDisplay(data.activation.能量频率);
+                } else {
+                    displayResult('❌ 激活失败', data.message);
+                }
+            } catch (error) {
+                displayResult('❌ 连接失败', '无法连接到宇宙十三音系统，请检查网络连接');
+            }
+        }
+
+        // 获取印咒组合
+        async function getMantraSeals() {
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/mantra-seal/mantra-seals');
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    displayMantraGrid(data);
+                    updateProtocol('印咒组合数据已加载，手印和咒语系统已就绪');
+                } else {
+                    displayResult('❌ 获取失败', data.message);
+                }
+            } catch (error) {
+                displayResult('❌ 连接失败', '无法连接到印咒密系统，请检查网络连接');
+            }
+        }
+
+        // 获取能量系统
+        async function getEnergySystem() {
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/mantra-seal/energy-system');
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    displayResult('⚡ 宇宙能量系统', data);
+                    updateProtocol('宇宙能量系统已连接，禅定等级系统已激活');
+                } else {
+                    displayResult('❌ 获取失败', data.message);
+                }
+            } catch (error) {
+                displayResult('❌ 连接失败', '无法连接到能量系统，请检查网络连接');
+            }
+        }
+
+        // 获取完整理论
+        async function getCompleteTheory() {
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/mantra-seal/complete-theory');
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    displayResult('📚 印咒密完整理论体系', data.theory);
+                    updateProtocol('完整理论体系已加载，印咒密智慧已开启');
+                } else {
+                    displayResult('❌ 获取失败', data.message);
+                }
+            } catch (error) {
+                displayResult('❌ 连接失败', '无法连接到理论系统，请检查网络连接');
+            }
+        }
+
+        // 显示印咒网格
+        function displayMantraGrid(data) {
+            const grid = document.getElementById('mantraGrid');
+            grid.style.display = 'grid';
+            grid.innerHTML = '';
+            
+            // 显示咒语
+            if (data.mantras) {
+                for (const [name, info] of Object.entries(data.mantras)) {
+                    const card = createMantraCard(`🔮 ${name}`, info);
+                    grid.appendChild(card);
+                }
+            }
+            
+            // 显示手印
+            if (data.hand_seals) {
+                for (const [name, info] of Object.entries(data.hand_seals)) {
+                    const card = createMantraCard(`🤲 ${name}`, info);
+                    grid.appendChild(card);
+                }
+            }
+            
+            displayResult('🔮 印咒组合系统', '印咒组合已在下方网格中显示，包含咒语、手印、咒图和宇宙十三音的详细信息。');
+        }
+
+        // 创建印咒卡片
+        function createMantraCard(title, info) {
+            const card = document.createElement('div');
+            card.className = 'mantra-card';
+            
+            let content = `<div class="card-title">${title}</div><div class="card-content">`;
+            for (const [key, value] of Object.entries(info)) {
+                content += `<strong>${key}:</strong> ${value}<br>`;
+            }
+            content += '</div>';
+            
+            card.innerHTML = content;
+            return card;
+        }
+
+        // 显示频率
+        function showFrequencyDisplay(frequencies) {
+            if (!frequencies) return;
+            
+            const resultContent = document.getElementById('resultContent');
+            let frequencyHtml = '<div class="frequency-display">';
+            
+            for (const [name, freq] of Object.entries(frequencies)) {
+                frequencyHtml += `
+                    <div style="margin: 10px 0;">
+                        <div style="color: #ffd700; font-weight: bold;">${name}</div>
+                        <div class="frequency-value">${freq}</div>
+                    </div>
+                `;
+            }
+            
+            frequencyHtml += '</div>';
+            resultContent.innerHTML += frequencyHtml;
+        }
+
+        // 更新协议状态
+        function updateProtocol(message) {
+            const protocol = document.getElementById('protocolContent');
+            const timestamp = new Date().toLocaleTimeString();
+            protocol.innerHTML += `\n[${timestamp}] ${message}`;
+            protocol.scrollTop = protocol.scrollHeight;
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            createMantraParticles();
+            updateProtocol('印咒密系统已初始化，等待用户指令');
+        });
+    </script>
+</body>
+</html>

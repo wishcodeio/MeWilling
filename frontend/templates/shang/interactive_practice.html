@@ -1,0 +1,20 @@
+<!-- 商增定律互動練習界面 -->
+<div class="shang-practice-container">
+    <div class="inner-cultivation-tracker">
+        <h3>內在修養（分母）追蹤</h3>
+        <div class="meditation-counter">今日冥想：{{ meditation_minutes }}分鐘</div>
+        <div class="mindfulness-score">正念指數：{{ mindfulness_score }}/100</div>
+        <div class="moral-practice">道德實踐：{{ moral_actions }}次</div>
+    </div>
+    
+    <div class="outer-achievement-display">
+        <h3>外在表現（分子）展示</h3>
+        <div class="achievement-list">{{ achievements }}</div>
+        <div class="impact-measurement">影響力指標：{{ impact_score }}</div>
+    </div>
+    
+    <div class="balance-visualization">
+        <h3>平衡狀態可視化</h3>
+        <canvas id="shangBalanceChart"></canvas>
+    </div>
+</div>

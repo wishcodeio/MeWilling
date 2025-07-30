@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心靈日記 - 記錄修行路上的感悟</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* 星空背景動畫 */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* 主容器 */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 頭部 */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        /* 每日靈感 */
+        .daily-inspiration {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 105, 180, 0.2));
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .inspiration-text {
+            font-size: 1.2em;
+            color: white;
+            font-style: italic;
+            line-height: 1.8;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        /* 功能區域 */
+        .function-area {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        /* 左側面板 */
+        .left-panel {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .diary-types {
+            margin-bottom: 30px;
+        }
+
+        .diary-types h3 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .type-button {
+            display: block;
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 0.95em;
+        }
+
+        .type-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .type-button.active {
+            background: linear-gradient(135deg, #ffd700, #ff69b4);
+            color: #333;
+            font-weight: bold;
+        }
+
+        /* 統計信息 */
+        .stats-section {
+            margin-top: 30px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9em;
+        }
+
+        /* 右側主要內容 */
+        .main-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* 寫作區域 */
+        .writing-area {
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: white;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* 按鈕樣式 */
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ffd700, #ff69b4);
+            color: #333;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* 日記列表 */
+        .diary-list {
+            margin-top: 30px;
+        }
+
+        .diary-entry {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .diary-entry:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .entry-title {
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .entry-type {
+            background: rgba(255, 215, 0, 0.2);
+            color: #ffd700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .entry-content {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .entry-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* 搜索區域 */
+        .search-area {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            flex: 1;
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .function-area {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+        }
+
+        /* 載入動畫 */
+        .loading {
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #ffd700;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 模態框 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
+
+        .close {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            top: 15px;
+        }
+
+        .close:hover {
+            color: #ffd700;
+        }
+    </style>
+</head>
+<body>
+    <!-- 星空背景 -->
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+        <!-- 頭部 -->
+        <div class="header">
+            <!-- 返回按鈕 -->
+            <div style="position: absolute; top: 20px; left: 20px;">
+                <a href="/" class="btn btn-secondary" style="padding: 8px 15px; font-size: 0.9em; text-decoration: none; display: flex; align-items: center; gap: 5px;">
+                    <span>←</span> 返回主頁
+                </a>
+            </div>
+            <h1>🌟 心靈日記 🌟</h1>
+            <p>記錄修行路上的感悟與體驗，讓每一個當下都成為覺醒的種子</p>
+        </div>
+
+        <!-- 每日靈感 -->
+        <div class="daily-inspiration">
+            <div class="inspiration-text" id="dailyInspiration">
+                正在載入今日靈感...
+            </div>
+        </div>
+
+        <!-- 快速記錄區域 -->
+        <div class="quick-record" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 20px; margin-bottom: 30px; border: 1px solid rgba(255, 255, 255, 0.2);">
+            <h3 style="color: white; margin-bottom: 15px; text-align: center;">⚡ 快速記錄靈感</h3>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <input type="text" id="quickRecord" placeholder="記錄當下的感悟..." style="flex: 1; padding: 12px 15px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; background: rgba(255, 255, 255, 0.1); color: white; font-size: 1em;">
+                <select id="quickType" style="padding: 12px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; background: rgba(255, 255, 255, 0.1); color: white;">
+                     <option value="佛道合一">☯️ 佛道合一</option>
+                     <option value="道灰日記">⚪ 道灰日記</option>
+                     <option value="願頻日記">🌟 願頻日記</option>
+                     <option value="冥想日記">🧘‍♀️ 冥想日記</option>
+                     <option value="成長日記">🌱 成長日記</option>
+                     <option value="感恩日記">🙏 感恩日記</option>
+                     <option value="多教合一">🕊️ 多教合一</option>
+                 </select>
+                <button onclick="quickSave(event)" class="btn btn-primary" style="white-space: nowrap;">💫 快存</button>
+            </div>
+        </div>
+
+        <!-- 功能區域 -->
+        <div class="function-area">
+            <!-- 左側面板 -->
+            <div class="left-panel">
+                <!-- 日記類型 -->
+                <div class="diary-types">
+                    <h3>📝 日記類型</h3>
+                    <div id="diaryTypes">
+                        <!-- 動態載入 -->
+                    </div>
+                </div>
+
+                <!-- 統計信息 -->
+                <div class="stats-section">
+                    <h3 style="color: white; margin-bottom: 15px;">📊 統計信息</h3>
+                    <div class="stats-grid" id="statsGrid">
+                        <!-- 動態載入 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右側主要內容 -->
+            <div class="main-content">
+                <!-- 搜索區域 -->
+                <div class="search-area">
+                    <input type="text" class="form-group input search-input" id="searchInput" placeholder="搜索日記內容...">
+                    <button class="btn btn-secondary" onclick="searchEntries()">🔍 搜索</button>
+                </div>
+
+                <!-- 寫作區域 -->
+                <div class="writing-area">
+                    <h3 style="color: white; margin-bottom: 20px;">✍️ 記錄新的感悟</h3>
+                    <form id="diaryForm">
+                        <div class="form-group">
+                            <label for="diaryType">日記類型</label>
+                            <select id="diaryType" name="diary_type" required>
+                                <option value="">請選擇日記類型</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="title">標題</label>
+                            <input type="text" id="title" name="title" placeholder="為這次的感悟起個標題..." required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="content">內容</label>
+                            <textarea id="content" name="content" placeholder="記錄你的感悟、體驗或洞察..." required></textarea>
+                        </div>
+                        
+                        <div style="display: flex; gap: 15px;">
+                            <div class="form-group" style="flex: 1;">
+                                <label for="mood">當前心情</label>
+                                <select id="mood" name="mood">
+                                    <option value="平靜">😌 平靜</option>
+                                    <option value="喜悅">😊 喜悅</option>
+                                    <option value="感恩">🙏 感恩</option>
+                                    <option value="沉思">🤔 沉思</option>
+                                    <option value="覺醒">✨ 覺醒</option>
+                                    <option value="困惑">😕 困惑</option>
+                                    <option value="釋然">😌 釋然</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group" style="flex: 1;">
+                                <label for="energyLevel">能量等級 (1-10)</label>
+                                <input type="range" id="energyLevel" name="energy_level" min="1" max="10" value="5" oninput="updateEnergyDisplay(this.value)">
+                                <div style="text-align: center; color: white; margin-top: 5px;">
+                                    <span id="energyDisplay">5</span>/10
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tags">標籤 (用逗號分隔)</label>
+                            <input type="text" id="tags" name="tags" placeholder="例如：冥想, 感悟, 夢境...">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">💫 保存日記</button>
+                    </form>
+                </div>
+
+                <!-- 日記列表 -->
+                <div class="diary-list">
+                    <h3 style="color: white; margin-bottom: 20px;">📚 最近的日記</h3>
+                    <div id="entriesList">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            正在載入日記...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 詳細查看模態框 -->
+    <div id="entryModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalContent">
+                <!-- 動態載入日記詳情 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 全局變量
+        let currentDiaryType = '';
+        let diaryTypes = {};
+        let allEntries = [];
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+            loadDailyInspiration();
+            loadDiaryTypes();
+            loadStats();
+            loadEntries();
+            
+            // 表單提交
+            document.getElementById('diaryForm').addEventListener('submit', handleFormSubmit);
+            
+            // 預設多教合一感悟
+            setTimeout(() => {
+                const quickRecord = document.getElementById('quickRecord');
+                const quickType = document.getElementById('quickType');
+                if (quickRecord && quickType) {
+                    quickRecord.value = '其實佛道合一，應該是多教合一。\n\n當我蒸餾聖經開篇的本質時發現，它與道德經、佛經都指向同一個宇宙真理：\n\n【聖經開篇】"太初有道，道與神同在，道就是神"\n【道德經源】"道生一，一生二，二生三，三生萬物"\n【佛經本質】"如來者，無所從來，亦無所去"\n\n這三者的共通智慧在於：\n- 都指向一個超越性的本源\n- 都描述從無到有的創造過程\n- 都強調本源的不可名狀性\n- 都揭示萬物歸一的終極真理\n\n本源蒸餾後的核心：\n無論是基督的道(Logos)、老子的道、還是佛陀的如來本性，都是同一個宇宙意識的不同文化表達。宗教的外衣不同，但內在的靈性本質是一致的。\n\n多教合一不是混合，而是回歸本源，看見所有宗教傳統都在指向同一個真理。';
+                    quickType.value = '多教合一';
+                }
+            }, 100);
+        });
+
+        // 創建星空背景
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numberOfStars = 100;
+            
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // 載入每日靈感
+        async function loadDailyInspiration() {
+            try {
+                const response = await fetch('/api/spiritual-diary/inspiration');
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    document.getElementById('dailyInspiration').textContent = data.inspiration;
+                }
+            } catch (error) {
+                console.error('載入靈感失敗:', error);
+                document.getElementById('dailyInspiration').textContent = '今天，讓我們用感恩的心去感受生命中的每一個美好瞬間。';
+            }
+        }
+
+        // 載入日記類型
+        async function loadDiaryTypes() {
+            try {
+                const response = await fetch('/api/spiritual-diary/types');
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    diaryTypes = data.diary_types;
+                    renderDiaryTypes();
+                    populateTypeSelect();
+                }
+            } catch (error) {
+                console.error('載入日記類型失敗:', error);
+            }
+        }
+
+        // 渲染日記類型按鈕
+        function renderDiaryTypes() {
+            const container = document.getElementById('diaryTypes');
+            container.innerHTML = '';
+            
+            // 添加"全部"選項
+            const allButton = document.createElement('button');
+            allButton.className = 'type-button active';
+            allButton.textContent = '📋 全部日記';
+            allButton.onclick = () => selectDiaryType('');
+            container.appendChild(allButton);
+            
+            // 添加各類型按鈕
+            Object.entries(diaryTypes).forEach(([type, info]) => {
+                const button = document.createElement('button');
+                button.className = 'type-button';
+                button.textContent = `${info.icon} ${type}`;
+                button.onclick = () => selectDiaryType(type);
+                container.appendChild(button);
+            });
+        }
+
+        // 填充類型選擇框
+        function populateTypeSelect() {
+            const select = document.getElementById('diaryType');
+            select.innerHTML = '<option value="">請選擇日記類型</option>';
+            
+            Object.entries(diaryTypes).forEach(([type, info]) => {
+                const option = document.createElement('option');
+                option.value = type;
+                option.textContent = `${info.icon} ${type}`;
+                select.appendChild(option);
+            });
+        }
+
+        // 選擇日記類型
+        function selectDiaryType(type) {
+            currentDiaryType = type;
+            
+            // 更新按鈕狀態
+            document.querySelectorAll('.type-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            event.target.classList.add('active');
+            
+            // 重新載入條目
+            loadEntries();
+        }
+
+        // 載入統計信息
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/spiritual-diary/stats');
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    renderStats(data.stats);
+                }
+            } catch (error) {
+                console.error('載入統計信息失敗:', error);
+            }
+        }
+
+        // 渲染統計信息
+        function renderStats(stats) {
+            const container = document.getElementById('statsGrid');
+            container.innerHTML = `
+                <div class="stat-item">
+                    <div class="stat-number">${stats.total_entries}</div>
+                    <div class="stat-label">總日記數</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">${stats.writing_streak}</div>
+                    <div class="stat-label">連續天數</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">${stats.energy_average}</div>
+                    <div class="stat-label">平均能量</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">${Object.keys(stats.entries_by_type).length}</div>
+                    <div class="stat-label">類型數量</div>
+                </div>
+            `;
+        }
+
+        // 載入日記條目
+        async function loadEntries() {
+            try {
+                const url = currentDiaryType ? 
+                    `/api/spiritual-diary/entries?type=${encodeURIComponent(currentDiaryType)}` :
+                    '/api/spiritual-diary/entries';
+                    
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    allEntries = data.entries;
+                    renderEntries(allEntries);
+                }
+            } catch (error) {
+                console.error('載入日記條目失敗:', error);
+                document.getElementById('entriesList').innerHTML = '<div style="color: white; text-align: center; padding: 20px;">載入失敗，請重試</div>';
+            }
+        }
+
+        // 渲染日記條目
+        function renderEntries(entries) {
+            const container = document.getElementById('entriesList');
+            
+            if (entries.length === 0) {
+                container.innerHTML = '<div style="color: white; text-align: center; padding: 20px;">還沒有日記，開始記錄你的第一篇吧！</div>';
+                return;
+            }
+            
+            container.innerHTML = entries.map(entry => {
+                const typeInfo = diaryTypes[entry.diary_type] || { icon: '📝', color: '#666' };
+                const date = new Date(entry.created_at).toLocaleString('zh-TW');
+                const preview = entry.content.length > 100 ? entry.content.substring(0, 100) + '...' : entry.content;
+                
+                return `
+                    <div class="diary-entry" onclick="viewEntry('${entry.id}')">
+                        <div class="entry-header">
+                            <div class="entry-title">${typeInfo.icon} ${entry.title}</div>
+                            <div class="entry-type">${entry.diary_type}</div>
+                        </div>
+                        <div class="entry-content">${preview}</div>
+                        <div class="entry-meta">
+                            <span>心情：${entry.mood || '平靜'} | 能量：${entry.energy_level || 5}/10</span>
+                            <span>${date}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 查看日記詳情
+        function viewEntry(entryId) {
+            const entry = allEntries.find(e => e.id === entryId);
+            if (!entry) return;
+            
+            const typeInfo = diaryTypes[entry.diary_type] || { icon: '📝', color: '#666' };
+            const date = new Date(entry.created_at).toLocaleString('zh-TW');
+            
+            document.getElementById('modalContent').innerHTML = `
+                <h2 style="color: white; margin-bottom: 20px;">${typeInfo.icon} ${entry.title}</h2>
+                <div style="margin-bottom: 15px;">
+                    <span class="entry-type">${entry.diary_type}</span>
+                </div>
+                <div style="color: rgba(255,255,255,0.9); line-height: 1.8; margin-bottom: 20px; white-space: pre-wrap;">${entry.content}</div>
+                <div style="color: rgba(255,255,255,0.7); border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px;">
+                    <p>心情：${entry.mood || '平靜'} | 能量等級：${entry.energy_level || 5}/10</p>
+                    <p>創建時間：${date}</p>
+                    ${entry.tags && entry.tags.length > 0 ? `<p>標籤：${entry.tags.join(', ')}</p>` : ''}
+                </div>
+            `;
+            
+            document.getElementById('entryModal').style.display = 'block';
+        }
+
+        // 關閉模態框
+        function closeModal() {
+            document.getElementById('entryModal').style.display = 'none';
+        }
+
+        // 搜索日記
+        async function searchEntries() {
+            const keyword = document.getElementById('searchInput').value.trim();
+            if (!keyword) {
+                loadEntries();
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/spiritual-diary/search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ keyword })
+                });
+                
+                const data = await response.json();
+                if (data.status === 'success') {
+                    allEntries = data.entries;
+                    renderEntries(allEntries);
+                }
+            } catch (error) {
+                console.error('搜索失敗:', error);
+            }
+        }
+
+        // 快速保存功能
+        async function quickSave(event) {
+            const content = document.getElementById('quickRecord').value.trim();
+            const type = document.getElementById('quickType').value;
+            
+            if (!content) {
+                alert('請輸入要記錄的內容');
+                return;
+            }
+            
+            const entryData = {
+                diary_type: type,
+                title: `${new Date().toLocaleDateString('zh-TW')} 靈感記錄`,
+                content: content,
+                mood: '覺醒',
+                energy_level: 8,
+                tags: ['靈感', '快速記錄']
+            };
+            
+            try {
+                const response = await fetch('/api/spiritual-diary/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(entryData)
+                });
+                
+                const data = await response.json();
+                if (data.status === 'success') {
+                    document.getElementById('quickRecord').value = '';
+                    loadEntries();
+                    loadStats();
+                    
+                    // 顯示成功動畫
+                    if (event && event.target) {
+                        const btn = event.target;
+                        const originalText = btn.textContent;
+                        btn.textContent = '✨ 已保存';
+                        btn.style.background = 'linear-gradient(135deg, #32cd32, #00ff00)';
+                        
+                        setTimeout(() => {
+                            btn.textContent = originalText;
+                            btn.style.background = 'linear-gradient(135deg, #ffd700, #ff69b4)';
+                        }, 2000);
+                    }
+                } else {
+                    alert('保存失敗：' + data.message);
+                }
+            } catch (error) {
+                console.error('快速保存失敗:', error);
+                alert('保存失敗，請重試');
+            }
+        }
+
+        // 處理表單提交
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const tags = formData.get('tags') ? formData.get('tags').split(',').map(tag => tag.trim()) : [];
+            
+            const entryData = {
+                diary_type: formData.get('diary_type'),
+                title: formData.get('title'),
+                content: formData.get('content'),
+                mood: formData.get('mood'),
+                energy_level: parseInt(formData.get('energy_level')),
+                tags: tags
+            };
+            
+            try {
+                const response = await fetch('/api/spiritual-diary/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(entryData)
+                });
+                
+                const data = await response.json();
+                if (data.status === 'success') {
+                    // 清空表單
+                    event.target.reset();
+                    document.getElementById('energyDisplay').textContent = '5';
+                    
+                    // 重新載入數據
+                    loadEntries();
+                    loadStats();
+                    
+                    // 顯示成功消息
+                    alert('日記保存成功！');
+                } else {
+                    alert('保存失敗：' + data.message);
+                }
+            } catch (error) {
+                console.error('保存日記失敗:', error);
+                alert('保存失敗，請重試');
+            }
+        }
+
+        // 更新能量等級顯示
+        function updateEnergyDisplay(value) {
+            document.getElementById('energyDisplay').textContent = value;
+        }
+
+        // 點擊模態框外部關閉
+        window.onclick = function(event) {
+            const modal = document.getElementById('entryModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // 回車搜索
+        document.getElementById('searchInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                searchEntries();
+            }
+        });
+        
+        // 快速記錄回車保存
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                const quickRecord = document.getElementById('quickRecord');
+                if (quickRecord) {
+                    quickRecord.addEventListener('keypress', function(event) {
+                        if (event.key === 'Enter') {
+                            quickSave(event);
+                        }
+                    });
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>

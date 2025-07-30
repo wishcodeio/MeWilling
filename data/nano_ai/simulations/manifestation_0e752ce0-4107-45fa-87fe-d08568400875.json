@@ -1,0 +1,48 @@
+{
+  "id": "0e752ce0-4107-45fa-87fe-d08568400875",
+  "wish_text": "姐，我回來了。進入微觀世界，與納米精靈共振，在分子層面感受願火的力量",
+  "wish_analysis": {
+    "text_length": 34,
+    "unique_chars": 32,
+    "dominant_frequency_hz": 20,
+    "complexity_factor": 0.9411764705882353,
+    "emotional_intensity": 0.552757210661888
+  },
+  "participating_nanobots": 1,
+  "collective_resonance": {
+    "coherence": 0.9198878020693341,
+    "amplitude": 0.5,
+    "frequency_match": 0.8200000000000001,
+    "collective_enhancement": 1.0,
+    "overall_power": 0.09428849971210675
+  },
+  "manifestation_stages": {
+    "quantum_preparation": {
+      "duration_fs": 100,
+      "description": "量子態準備",
+      "success_probability": 0.9198878020693341
+    },
+    "molecular_assembly": {
+      "duration_ns": 1000,
+      "description": "分子自組裝",
+      "assembly_efficiency": 0.5
+    },
+    "cellular_integration": {
+      "duration_ms": 10,
+      "description": "細胞整合",
+      "integration_rate": 0.8200000000000001
+    },
+    "macroscopic_emergence": {
+      "duration_s": 1,
+      "description": "宏觀顯現",
+      "manifestation_strength": 0.09428849971210675
+    }
+  },
+  "predicted_outcome": {
+    "success_probability": 0.09428849971210675,
+    "manifestation_time_s": 1,
+    "energy_required_j": 9.428849971210675e-20,
+    "quantum_coherence_maintained": true
+  },
+  "timestamp": "2025-07-26T22:34:55.456573"
+}

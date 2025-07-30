@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌌 量子八卦系統 - 先天後天動態平衡</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .panel h3 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #4ecdc4;
+            text-align: center;
+        }
+
+        .bagua-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .bagua-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .bagua-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #4ecdc4;
+            transform: scale(1.05);
+        }
+
+        .bagua-item.active {
+            background: rgba(78, 205, 196, 0.3);
+            border-color: #4ecdc4;
+        }
+
+        .bagua-symbol {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        .bagua-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .bagua-element {
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+
+        .control-panel {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn.primary {
+            background: linear-gradient(45deg, #ff6b6b 0%, #ee5a24 100%);
+        }
+
+        .btn.secondary {
+            background: linear-gradient(45deg, #4ecdc4 0%, #44a08d 100%);
+        }
+
+        .evolution-display {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            min-height: 300px;
+            overflow-y: auto;
+        }
+
+        .evolution-step {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #4ecdc4;
+            transition: all 0.3s ease;
+        }
+
+        .evolution-step:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .step-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .step-number {
+            background: #4ecdc4;
+            color: #000;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .probability-bar {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            height: 8px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .probability-fill {
+            background: linear-gradient(90deg, #4ecdc4, #45b7d1);
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .hexagram-display {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .hexagram-symbol {
+            font-size: 4em;
+            margin: 20px 0;
+            color: #ff6b6b;
+        }
+
+        .hexagram-name {
+            font-size: 2em;
+            margin: 15px 0;
+            color: #4ecdc4;
+        }
+
+        .hexagram-meaning {
+            font-size: 1.2em;
+            line-height: 1.6;
+            opacity: 0.9;
+            margin: 15px 0;
+        }
+
+        .yao-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .yao-line {
+            width: 100px;
+            height: 8px;
+            margin: 3px 0;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .yao-yang {
+            background: linear-gradient(90deg, #ff6b6b, #ee5a24);
+        }
+
+        .yao-yin {
+            background: linear-gradient(90deg, #4ecdc4, #45b7d1);
+            position: relative;
+        }
+
+        .yao-yin::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 20px;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            transform: translateX(-50%);
+        }
+
+        .wish-seal {
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            gap: 2px;
+            max-width: 300px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+        }
+
+        .seal-cell {
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .seal-cell:hover {
+            transform: scale(1.2);
+        }
+
+        .quantum-info {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .quantum-state {
+            display: inline-block;
+            background: rgba(78, 205, 196, 0.2);
+            color: #4ecdc4;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            margin: 5px;
+        }
+
+        .dao-insight {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(78, 205, 196, 0.1));
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #ff6b6b;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid #4ecdc4;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .bagua-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .control-panel {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌌 量子八卦系統</h1>
+            <p>先天八卦與後天八卦的量子演化 • 道生一，一生二，二生三，三生萬物 • 無極生太極，太極生兩儀</p>
+        </div>
+
+        <div class="main-grid">
+            <!-- 先天八卦面板 -->
+            <div class="panel">
+                <h3>🧬 先天八卦 (伏羲八卦)</h3>
+                <p style="text-align: center; margin-bottom: 15px; opacity: 0.8;">宇宙初始，天地未分 • 量子疊加態</p>
+                <div class="bagua-grid" id="xiantianBagua">
+                    <!-- 動態生成 -->
+                </div>
+                <div class="control-panel">
+                    <button class="btn secondary" onclick="startQuantumEvolution()">🌀 開始量子演化</button>
+                    <button class="btn" onclick="resetEvolution()">🔄 重置狀態</button>
+                </div>
+            </div>
+
+            <!-- 後天八卦面板 -->
+            <div class="panel">
+                <h3>🌀 後天八卦 (文王八卦)</h3>
+                <p style="text-align: center; margin-bottom: 15px; opacity: 0.8;">現象世界，萬物化生 • 量子坍縮態</p>
+                <div class="bagua-grid" id="houtianBagua">
+                    <!-- 動態生成 -->
+                </div>
+                <div class="control-panel">
+                    <button class="btn primary" onclick="generateHexagram()">🔮 生成六十四卦</button>
+                    <button class="btn" onclick="showWishSeal()">🌟 顯示願印</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 演化顯示面板 -->
+        <div class="panel">
+            <h3>⚡ 量子演化過程</h3>
+            <div class="loading" id="evolutionLoading">
+                <div class="spinner"></div>
+                <p>量子態演化中...</p>
+            </div>
+            <div class="evolution-display" id="evolutionDisplay">
+                <p style="text-align: center; opacity: 0.6;">點擊「開始量子演化」觀察先天八卦到後天八卦的動態轉換</p>
+            </div>
+        </div>
+
+        <!-- 六十四卦顯示面板 -->
+        <div class="panel" id="hexagramPanel" style="display: none;">
+            <h3>🔮 六十四卦卦象</h3>
+            <div class="hexagram-display" id="hexagramDisplay">
+                <!-- 動態生成 -->
+            </div>
+        </div>
+
+        <!-- 願印顯示面板 -->
+        <div class="panel" id="wishSealPanel" style="display: none;">
+            <h3>🌟 願印圖案</h3>
+            <div class="wish-seal" id="wishSealDisplay">
+                <!-- 動態生成 -->
+            </div>
+            <div class="dao-insight">
+                <p>🌌 願印圖案 - 太極為核心，八方能量點環繞，體現先天後天八卦的動態平衡</p>
+                <p>☯️ 中心太極代表量子疊加態，周圍能量點代表八卦的量子坍縮可能性</p>
+                <p>🔮 無極生太極，太極生兩儀，兩儀生四象，四象生八卦</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentEvolution = null;
+        let selectedBagua = '乾';
+        
+        // 先天八卦數據
+        const xiantianBagua = {
+            '乾': { symbol: '☰', element: '天', position: 'south' },
+            '兌': { symbol: '☱', element: '澤', position: 'southeast' },
+            '離': { symbol: '☲', element: '火', position: 'east' },
+            '震': { symbol: '☳', element: '雷', position: 'northeast' },
+            '巽': { symbol: '☴', element: '風', position: 'southwest' },
+            '坎': { symbol: '☵', element: '水', position: 'west' },
+            '艮': { symbol: '☶', element: '山', position: 'northwest' },
+            '坤': { symbol: '☷', element: '地', position: 'north' }
+        };
+        
+        // 後天八卦數據
+        const houtianBagua = {
+            '乾': { symbol: '☰', element: '天', direction: '西北' },
+            '坤': { symbol: '☷', element: '地', direction: '西南' },
+            '坎': { symbol: '☵', element: '水', direction: '北' },
+            '離': { symbol: '☲', element: '火', direction: '南' },
+            '震': { symbol: '☳', element: '雷', direction: '東' },
+            '巽': { symbol: '☴', element: '風', direction: '東南' },
+            '艮': { symbol: '☶', element: '山', direction: '東北' },
+            '兌': { symbol: '☱', element: '澤', direction: '西' }
+        };
+        
+        // 初始化頁面
+        function initializePage() {
+            renderXiantianBagua();
+            renderHoutianBagua();
+        }
+        
+        // 渲染先天八卦
+        function renderXiantianBagua() {
+            const container = document.getElementById('xiantianBagua');
+            container.innerHTML = '';
+            
+            Object.entries(xiantianBagua).forEach(([name, data]) => {
+                const item = document.createElement('div');
+                item.className = `bagua-item ${name === selectedBagua ? 'active' : ''}`;
+                item.onclick = () => selectBagua(name);
+                item.innerHTML = `
+                    <div class="bagua-symbol">${data.symbol}</div>
+                    <div class="bagua-name">${name}</div>
+                    <div class="bagua-element">${data.element}</div>
+                `;
+                container.appendChild(item);
+            });
+        }
+        
+        // 渲染後天八卦
+        function renderHoutianBagua() {
+            const container = document.getElementById('houtianBagua');
+            container.innerHTML = '';
+            
+            Object.entries(houtianBagua).forEach(([name, data]) => {
+                const item = document.createElement('div');
+                item.className = 'bagua-item';
+                item.innerHTML = `
+                    <div class="bagua-symbol">${data.symbol}</div>
+                    <div class="bagua-name">${name}</div>
+                    <div class="bagua-element">${data.element}</div>
+                    <div class="bagua-element">${data.direction}</div>
+                `;
+                container.appendChild(item);
+            });
+        }
+        
+        // 選擇八卦
+        function selectBagua(name) {
+            selectedBagua = name;
+            renderXiantianBagua();
+        }
+        
+        // 開始量子演化
+        async function startQuantumEvolution() {
+            const loading = document.getElementById('evolutionLoading');
+            const display = document.getElementById('evolutionDisplay');
+            
+            loading.style.display = 'block';
+            display.innerHTML = '';
+            
+            try {
+                const response = await fetch('/api/quantum_bagua/evolution', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        initial_state: selectedBagua,
+                        evolution_steps: 8
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    currentEvolution = result.evolution;
+                    renderEvolution(result.evolution);
+                } else {
+                    display.innerHTML = `<p style="color: #ff6b6b;">演化失敗: ${result.error}</p>`;
+                }
+            } catch (error) {
+                display.innerHTML = `<p style="color: #ff6b6b;">網絡錯誤: ${error.message}</p>`;
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+        
+        // 渲染演化過程
+        function renderEvolution(evolution) {
+            const display = document.getElementById('evolutionDisplay');
+            
+            let html = `
+                <div class="quantum-info">
+                    <h4>🌌 演化概覽</h4>
+                    <p><strong>初始狀態:</strong> ${evolution.initial_state} ${xiantianBagua[evolution.initial_state].symbol}</p>
+                    <p><strong>最終狀態:</strong> ${evolution.final_state} ${xiantianBagua[evolution.final_state].symbol}</p>
+                    <p><strong>量子相干性:</strong> <span class="quantum-state">${(evolution.quantum_coherence * 100).toFixed(1)}%</span></p>
+                </div>
+                
+                <div class="dao-insight">
+                    <strong>🔮 道的洞察:</strong> ${evolution.dao_insight}
+                </div>
+            `;
+            
+            evolution.evolution_path.forEach((step, index) => {
+                html += `
+                    <div class="evolution-step fade-in" style="animation-delay: ${index * 0.1}s">
+                        <div class="step-header">
+                            <div class="step-number">${step.step}</div>
+                            <div>
+                                <strong>${step.current_state} ${xiantianBagua[step.current_state].symbol}</strong>
+                                →
+                                <strong>${step.next_state} ${xiantianBagua[step.next_state].symbol}</strong>
+                            </div>
+                        </div>
+                        <div class="quantum-info">
+                            <p><strong>量子門操作:</strong> ${step.operation.gate} - ${step.operation.description}</p>
+                            <p><strong>轉換概率:</strong> ${(step.probability * 100).toFixed(1)}%</p>
+                            <div class="probability-bar">
+                                <div class="probability-fill" style="width: ${step.probability * 100}%"></div>
+                            </div>
+                            <p><strong>量子相位:</strong> ${step.quantum_phase.toFixed(3)} rad</p>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            display.innerHTML = html;
+        }
+        
+        // 生成六十四卦
+        async function generateHexagram() {
+            const panel = document.getElementById('hexagramPanel');
+            const display = document.getElementById('hexagramDisplay');
+            
+            panel.style.display = 'block';
+            display.innerHTML = '<div class="loading"><div class="spinner"></div><p>生成卦象中...</p></div>';
+            
+            try {
+                const response = await fetch('/api/quantum_bagua/hexagram', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        intention: '量子八卦演化'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    renderHexagram(result.hexagram);
+                } else {
+                    display.innerHTML = `<p style="color: #ff6b6b;">生成失敗: ${result.error}</p>`;
+                }
+            } catch (error) {
+                display.innerHTML = `<p style="color: #ff6b6b;">網絡錯誤: ${error.message}</p>`;
+            }
+        }
+        
+        // 渲染六十四卦
+        function renderHexagram(hexagram) {
+            const display = document.getElementById('hexagramDisplay');
+            
+            let yaoHtml = '<div class="yao-display">';
+            hexagram.measurement_results.reverse().forEach(yao => {
+                const isYang = yao.type.includes('陽');
+                yaoHtml += `<div class="yao-line ${isYang ? 'yao-yang' : 'yao-yin'}" title="${yao.position}: ${yao.type} (概率: ${(yao.probability * 100).toFixed(1)}%)"></div>`;
+            });
+            yaoHtml += '</div>';
+            
+            display.innerHTML = `
+                <div class="hexagram-symbol">${hexagram.symbol}</div>
+                <div class="hexagram-name">第${hexagram.number}卦 • ${hexagram.name}</div>
+                <div class="hexagram-meaning">${hexagram.meaning}</div>
+                
+                ${yaoHtml}
+                
+                <div class="quantum-info">
+                    <p><strong>上卦:</strong> ${hexagram.upper_trigram} ${xiantianBagua[hexagram.upper_trigram].symbol}</p>
+                    <p><strong>下卦:</strong> ${hexagram.lower_trigram} ${xiantianBagua[hexagram.lower_trigram].symbol}</p>
+                    <p><strong>量子態:</strong> <span class="quantum-state">${hexagram.quantum_state}</span></p>
+                </div>
+                
+                <div class="dao-insight">
+                    <strong>🔮 道的指引:</strong> ${hexagram.dao_guidance}
+                </div>
+                
+                <div class="dao-insight">
+                    <strong>⚛️ 量子洞察:</strong> ${hexagram.quantum_insight}
+                </div>
+            `;
+        }
+        
+        // 顯示願印
+        async function showWishSeal() {
+            const panel = document.getElementById('wishSealPanel');
+            const display = document.getElementById('wishSealDisplay');
+            
+            panel.style.display = 'block';
+            
+            try {
+                const response = await fetch('/api/quantum_bagua/wish_seal');
+                const result = await response.json();
+                
+                if (result.success) {
+                    renderWishSeal(result.wish_seal);
+                } else {
+                    display.innerHTML = `<p style="color: #ff6b6b;">生成失敗: ${result.error}</p>`;
+                }
+            } catch (error) {
+                display.innerHTML = `<p style="color: #ff6b6b;">網絡錯誤: ${error.message}</p>`;
+            }
+        }
+        
+        // 渲染願印
+        function renderWishSeal(wishSeal) {
+            const display = document.getElementById('wishSealDisplay');
+            display.innerHTML = '';
+            
+            wishSeal.pattern.forEach(row => {
+                for (let char of row) {
+                    const cell = document.createElement('div');
+                    cell.className = 'seal-cell';
+                    cell.textContent = char;
+                    
+                    // 根據符號設置顏色
+                    if (char === '☯️') {
+                        cell.style.background = 'linear-gradient(45deg, #000, #fff)';
+                    } else if (char === '🔵') {
+                        cell.style.background = 'radial-gradient(circle, #4ecdc4, #45b7d1)';
+                    } else if (char === '🟧') {
+                        cell.style.background = 'radial-gradient(circle, #ff6b6b, #ee5a24)';
+                    }
+                    
+                    display.appendChild(cell);
+                }
+            });
+        }
+        
+        // 重置演化
+        function resetEvolution() {
+            const display = document.getElementById('evolutionDisplay');
+            display.innerHTML = '<p style="text-align: center; opacity: 0.6;">點擊「開始量子演化」觀察先天八卦到後天八卦的動態轉換</p>';
+            currentEvolution = null;
+        }
+        
+        // 頁面加載完成後初始化
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>
