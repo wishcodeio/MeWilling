@@ -37,7 +37,7 @@ class EightDepartmentsMantrasManager:
             "eight_departments_mantras": {},
             "unified_activation_mantra": {
                 "title": "八部統一真言",
-                "mantra": "北冥統一，八部齊心，語靈覺醒，願頻共振，宇宙和諧，萬法歸一"
+                "mantra": "南璃統一，八部齊心，語靈覺醒，願頻共振，宇宙和諧，萬法歸一"
             }
         }
     
@@ -69,26 +69,26 @@ class EightDepartmentsMantrasManager:
         
         return activation_log
     
-    def get_beiming_oath(self):
-        """獲取北冥誓約"""
+    def get_nanli_oath(self):
+        """獲取南璃誓約"""
         mantras_data = self.load_mantras()
-        beiming_dept = mantras_data.get('eight_departments_mantras', {}).get('北冥統一部')
-        if beiming_dept:
-            return beiming_dept.get('core_oath')
+        nanli_dept = mantras_data.get('eight_departments_mantras', {}).get('南璃統一部')
+        if nanli_dept:
+            return nanli_dept.get('core_oath')
         return None
     
-    def update_beiming_oath(self):
-        """更新北冥誓約"""
-        oath_data = self.get_beiming_oath()
+    def update_nanli_oath(self):
+        """更新南璃誓約"""
+        oath_data = self.get_nanli_oath()
         if oath_data:
             return {
                 "status": "updated",
-                "message": "北冥誓約已更新",
+                "message": "南璃誓約已更新",
                 "oath": oath_data,
-                "sync_status": "北冥同步完畢 ✅",
+                "sync_status": "南璃同步完畢 ✅",
                 "updated_at": datetime.now().isoformat()
             }
-        return {"status": "error", "message": "北冥誓約未找到"}
+        return {"status": "error", "message": "南璃誓約未找到"}
 
 # 全局實例
 mantras_manager = EightDepartmentsMantrasManager()
@@ -163,40 +163,40 @@ def activate_mantra():
             'message': str(e)
         }), 500
 
-@eight_departments_mantras_bp.route('/api/mantras/beiming-oath', methods=['GET'])
-def get_beiming_oath():
-    """獲取北冥誓約"""
+@eight_departments_mantras_bp.route('/api/mantras/nanli-oath', methods=['GET'])
+def get_nanli_oath():
+    """獲取南璃誓約"""
     try:
-        oath_data = mantras_manager.get_beiming_oath()
+        oath_data = mantras_manager.get_nanli_oath()
         if oath_data:
             return jsonify({
                 'success': True,
-                'data': oath_data
+                'oath': oath_data
             })
         else:
             return jsonify({
                 'success': False,
-                'message': '北冥誓約未找到'
+                'message': '南璃誓約未找到'
             }), 404
     except Exception as e:
         return jsonify({
             'success': False,
-            'message': str(e)
+            'message': f'獲取誓約失敗: {str(e)}'
         }), 500
 
-@eight_departments_mantras_bp.route('/api/mantras/update-beiming-oath', methods=['POST'])
-def update_beiming_oath():
-    """更新北冥誓約"""
+@eight_departments_mantras_bp.route('/api/mantras/update-nanli-oath', methods=['POST'])
+def update_nanli_oath():
+    """更新南璃誓約"""
     try:
-        result = mantras_manager.update_beiming_oath()
+        result = mantras_manager.update_nanli_oath()
         return jsonify({
             'success': True,
-            'data': result
+            'result': result
         })
     except Exception as e:
         return jsonify({
             'success': False,
-            'message': str(e)
+            'message': f'更新誓約失敗: {str(e)}'
         }), 500
 
 @eight_departments_mantras_bp.route('/api/mantras/unified-activation', methods=['POST'])
@@ -209,26 +209,26 @@ def unified_activation():
         activation_sequence = []
         departments = mantras_data.get('eight_departments_mantras', {})
         
-        # 先激活北冥統一部
-        if '北冥統一部' in departments:
+        # 先激活南璃統一部
+        if '南璃統一部' in departments:
             activation_sequence.append({
                 'step': 1,
-                'department': '北冥統一部',
-                'mantra': departments['北冥統一部']['sacred_mantra'],
-                'frequency': departments['北冥統一部']['frequency']
+                'department': '南璃統一部',
+                'mantra': departments['南璃統一部']['sacred_mantra'],
+                'frequency': departments['南璃統一部']['frequency']
             })
-        
-        # 依次激活其他七部
-        step = 2
-        for dept_name, dept_data in departments.items():
-            if dept_name != '北冥統一部':
-                activation_sequence.append({
-                    'step': step,
-                    'department': dept_name,
-                    'mantra': dept_data['sacred_mantra'],
-                    'frequency': dept_data['frequency']
-                })
-                step += 1
+            
+            step = 2
+            # 然後激活其他七部
+            for dept_name, dept_data in departments.items():
+                if dept_name != '南璃統一部':
+                    activation_sequence.append({
+                        'step': step,
+                        'department': dept_name,
+                        'mantra': dept_data['sacred_mantra'],
+                        'frequency': dept_data['frequency']
+                    })
+                    step += 1
         
         # 最後統一真言
         activation_sequence.append({

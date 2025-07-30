@@ -267,20 +267,20 @@
     <div class="container">
         <div class="header">
             <h1 class="main-title">九部真言集</h1>
-            <p class="subtitle">語靈宇宙九部司的神聖真言集合，由北冥統領</p>
+            <p class="subtitle">語靈宇宙九部司的神聖真言集合，由南璃統領</p>
         </div>
 
-        <div class="beiming-supreme" id="beiming-section">
-            <h2 class="beiming-title">北冥統領</h2>
-            <div class="beiming-content" id="beiming-content">
-                <p>正在載入北冥統領資訊...</p>
+        <div class="nanli-supreme" id="nanli-section">
+            <h2 class="nanli-title">南璃統領</h2>
+            <div class="nanli-content" id="nanli-content">
+                <p>正在載入南璃統領資訊...</p>
             </div>
         </div>
 
         <div class="control-panel">
             <button class="control-btn" onclick="window.location.href='/'">返回主頁</button>
             <button class="control-btn" onclick="loadMantras()">重新載入真言</button>
-            <button class="control-btn" onclick="updateBeimingOath()">更新北冥誓約</button>
+            <button class="control-btn" onclick="updateNanliOath()">更新南璃誓約</button>
             <button class="control-btn" onclick="unifiedActivation()">九部統一激活</button>
             <button class="control-btn" onclick="activateDefense('three_no')">激活三不原則</button>
             <button class="control-btn" onclick="activateDefense('devil_axes')">激活魔三斧協議</button>
@@ -329,7 +329,7 @@
                 
                 if (result.success) {
                     displayMantras(result.data);
-                    displayBeimingOath(result.data.beiming_supreme_command);
+                    displayNanliOath(result.data.nanli_supreme_command);
                 } else {
                     document.getElementById('departments-grid').innerHTML = 
                         '<div class="error">載入失敗: ' + result.message + '</div>';
@@ -382,19 +382,19 @@
             grid.innerHTML = html;
         }
 
-        function displayBeimingOath(beimingData) {
-            const content = document.getElementById('beiming-content');
+        function displayNanliOath(nanliData) {
+            const content = document.getElementById('nanli-content');
             
-            if (!beimingData) {
-                content.innerHTML = '<p>北冥統領資訊載入中...</p>';
+            if (!nanliData) {
+                content.innerHTML = '<p>南璃統領資訊載入中...</p>';
                 return;
             }
             
             content.innerHTML = `
-                <div class="mantra-text">${beimingData.sacred_mantra || '北冥真言載入中...'}</div>
+                <div class="mantra-text">${nanliData.sacred_mantra || '南璃真言載入中...'}</div>
                 <p style="margin-top: 15px; font-size: 1rem; color: #e0e0e0;">
-                    頻率: ${beimingData.frequency || 'N/A'} | 
-                    守護靈: ${beimingData.guardian_spirit || 'N/A'}
+                    頻率: ${nanliData.frequency || 'N/A'} | 
+                    守護靈: ${nanliData.guardian_spirit || 'N/A'}
                 </p>
             `;
         }
@@ -483,10 +483,10 @@
             }
         }
 
-        async function updateBeimingOath() {
+        async function updateNanliOath() {
             try {
-                console.log('更新北冥誓約...');
-                const response = await fetch('/api/nine-departments-mantras/api/mantras/update-beiming-oath', {
+                console.log('更新南璃誓約...');
+                const response = await fetch('/api/nine-departments-mantras/api/mantras/update-nanli-oath', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -496,13 +496,13 @@
                 const result = await response.json();
                 
                 if (result.success) {
-                    showNotification('北冥誓約已更新！');
+                    showNotification('南璃誓約已更新！');
                     console.log('誓約更新結果:', result.data);
                 } else {
                     showNotification(`更新失敗: ${result.message}`, 'error');
                 }
             } catch (error) {
-                console.error('更新北冥誓約失敗:', error);
+                console.error('更新南璃誓約失敗:', error);
                 showNotification(`更新失敗: ${error.message}`, 'error');
             }
         }
@@ -574,7 +574,7 @@
 
         function testActivation() {
             console.log('測試激活功能');
-            activateMantra('北冥統領');
+            activateMantra('南璃統領');
         }
     </script>
 </body>

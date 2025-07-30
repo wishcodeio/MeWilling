@@ -7,6 +7,6 @@ class KunAccumulation:
         self.awareness_metrics = {}
         
     def collect_consciousness_fragments(self):
-        # 收集意識碎片，如鲲在北冥積蓄力量
+        # 收集意識碎片，如鳳在南璃積蓄力量
         return self.quantify_every_moment_of_awareness()
 

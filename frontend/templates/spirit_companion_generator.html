@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>語靈夥伴生成器 - 為他人創造語靈守護</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-button-container {
+            margin-bottom: 20px;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 25px;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-button:hover {
+            background: rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .title {
+            font-size: 2.5em;
+            color: #4a5568;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #718096;
+            margin-bottom: 20px;
+        }
+
+        .form-section {
+            background: #f7fafc;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: bold;
+            color: #4a5568;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 80px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1.1em;
+            background: white;
+            cursor: pointer;
+        }
+
+        .companion-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .type-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .type-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .type-card.selected {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .type-symbol {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .type-name {
+            font-weight: bold;
+            color: #4a5568;
+            margin-bottom: 5px;
+        }
+
+        .type-description {
+            font-size: 0.9em;
+            color: #718096;
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-section {
+            background: #f0f4ff;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 2px solid #667eea;
+            display: none;
+        }
+
+        .companion-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .companion-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .companion-symbol {
+            font-size: 4em;
+            margin-bottom: 10px;
+        }
+
+        .companion-name {
+            font-size: 2em;
+            color: #4a5568;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .companion-type {
+            font-size: 1.2em;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .companion-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .detail-item {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .detail-label {
+            font-weight: bold;
+            color: #4a5568;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            color: #718096;
+        }
+
+        .blessing-message {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(255, 182, 193, 0.1));
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            font-style: italic;
+            line-height: 1.6;
+            color: #4a5568 !important;
+        }
+
+        .guidance-message {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #e2e8f0;
+            border-top: 5px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50px;
+            padding: 15px 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            color: #4a5568;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .title {
+                font-size: 2em;
+            }
+
+            .companion-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-btn">← 返回首頁</a>
+
+    <div class="container">
+        <div class="header">
+            <div class="back-button-container">
+                <a href="/" class="back-button">← 返回首頁</a>
+            </div>
+            <h1 class="title">語靈夥伴生成器</h1>
+            <p class="subtitle">為他人創造專屬的語靈守護夥伴</p>
+        </div>
+
+        <div class="form-section">
+            <form id="companionForm">
+                <div class="form-group">
+                    <label class="form-label" for="wishMaster">願主：</label>
+                    <input type="text" id="wishMaster" class="form-input" placeholder="請輸入願主的名字" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="companionRecipient">夥伴：</label>
+                    <input type="text" id="companionRecipient" class="form-input" placeholder="請輸入接受語靈夥伴的人的名字" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="blessingMessage">祝福或想說的話（可選）：</label>
+                    <textarea id="blessingMessage" class="form-textarea" placeholder="請輸入對願主和語靈的祝福或想說的話..." rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">語靈夥伴類型（可選，留空將自動選擇）：</label>
+                    <div class="companion-types" id="companionTypes">
+                        <!-- 動態載入語靈夥伴類型 -->
+                    </div>
+                </div>
+
+                <button type="submit" class="generate-btn" id="generateBtn">
+                    🌟 生成語靈夥伴
+                </button>
+            </form>
+        </div>
+
+        <div class="result-section" id="resultSection">
+            <div class="loading" id="loadingDiv">
+                <div class="loading-spinner"></div>
+                <p>正在為您生成專屬的語靈夥伴...</p>
+            </div>
+
+            <div class="companion-card" id="companionCard" style="display: none;">
+                <!-- 動態載入語靈夥伴信息 -->
+            </div>
+
+            <div class="error-message" id="errorMessage" style="display: none;">
+                <!-- 錯誤信息 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedCompanionType = null;
+        let companionTypes = {};
+
+        // 載入語靈夥伴類型
+        async function loadCompanionTypes() {
+            try {
+                const response = await fetch('/api/spirit-companion-generator/types');
+                const data = await response.json();
+                
+                if (data.success) {
+                    companionTypes = data.types;
+                    renderCompanionTypes();
+                }
+            } catch (error) {
+                console.error('載入語靈夥伴類型失敗:', error);
+            }
+        }
+
+        // 渲染語靈夥伴類型
+        function renderCompanionTypes() {
+            const container = document.getElementById('companionTypes');
+            container.innerHTML = '';
+
+            Object.entries(companionTypes).forEach(([typeName, typeData]) => {
+                const typeCard = document.createElement('div');
+                typeCard.className = 'type-card';
+                typeCard.onclick = () => selectCompanionType(typeName, typeCard);
+                
+                typeCard.innerHTML = `
+                    <div class="type-symbol">${typeData.symbol}</div>
+                    <div class="type-name">${typeName}</div>
+                    <div class="type-description">${typeData.personality}</div>
+                `;
+                
+                container.appendChild(typeCard);
+            });
+        }
+
+        // 選擇語靈夥伴類型
+        function selectCompanionType(typeName, cardElement) {
+            // 移除之前的選擇
+            document.querySelectorAll('.type-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // 選擇新的類型
+            if (selectedCompanionType === typeName) {
+                selectedCompanionType = null;
+            } else {
+                selectedCompanionType = typeName;
+                cardElement.classList.add('selected');
+            }
+        }
+
+        // 生成語靈夥伴
+        async function generateCompanion(event) {
+            event.preventDefault();
+            
+            const wishMaster = document.getElementById('wishMaster').value.trim();
+            const companionRecipient = document.getElementById('companionRecipient').value.trim();
+            const blessingMessage = document.getElementById('blessingMessage').value.trim();
+            
+            if (!wishMaster || !companionRecipient) {
+                alert('請填寫願主和夥伴的名字');
+                return;
+            }
+            
+            // 顯示載入狀態
+            const resultSection = document.getElementById('resultSection');
+            const loadingDiv = document.getElementById('loadingDiv');
+            const companionCard = document.getElementById('companionCard');
+            const errorMessage = document.getElementById('errorMessage');
+            const generateBtn = document.getElementById('generateBtn');
+            
+            resultSection.style.display = 'block';
+            loadingDiv.style.display = 'block';
+            companionCard.style.display = 'none';
+            errorMessage.style.display = 'none';
+            generateBtn.disabled = true;
+            
+            try {
+                const requestData = {
+                    wish_master: wishMaster,
+                    companion_recipient: companionRecipient
+                };
+                
+                if (blessingMessage) {
+                    requestData.blessing_message = blessingMessage;
+                }
+                
+                if (selectedCompanionType) {
+                    requestData.companion_type = selectedCompanionType;
+                }
+                
+                const response = await fetch('/api/spirit-companion-generator/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayCompanion(data.companion);
+                } else {
+                    showError(data.error || '生成語靈夥伴失敗');
+                }
+            } catch (error) {
+                console.error('生成語靈夥伴錯誤:', error);
+                showError('網絡錯誤，請稍後再試');
+            } finally {
+                loadingDiv.style.display = 'none';
+                generateBtn.disabled = false;
+            }
+        }
+
+        // 顯示語靈夥伴
+        function displayCompanion(companion) {
+            const companionCard = document.getElementById('companionCard');
+            
+            companionCard.innerHTML = `
+                <div class="companion-header">
+                    <div class="companion-symbol">${companion.symbol}</div>
+                    <div class="companion-name">${companion.name}</div>
+                    <div class="companion-type">${companion.type}</div>
+                </div>
+                
+                <div class="companion-details">
+                    <div class="detail-item">
+                        <div class="detail-label">願主</div>
+                        <div class="detail-value">${companion.wish_master}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">夥伴</div>
+                        <div class="detail-value">${companion.companion_recipient}</div>
+                    </div>
+                    ${companion.blessing_message ? `
+                    <div class="detail-item">
+                        <div class="detail-label">祝福話語</div>
+                        <div class="detail-value blessing-message">${companion.blessing_message}</div>
+                    </div>` : ''}
+                    <div class="detail-item">
+                        <div class="detail-label">個性特質</div>
+                        <div class="detail-value">${companion.personality}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">溝通風格</div>
+                        <div class="detail-value">${companion.communication_style}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">能量頻率</div>
+                        <div class="detail-value">${companion.energy_frequency}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">共振頻率</div>
+                        <div class="detail-value">${companion.resonance_frequency}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">連結強度</div>
+                        <div class="detail-value">${companion.bond_strength}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">語靈印記</div>
+                        <div class="detail-value">${companion.spirit_seal}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">激活真言</div>
+                        <div class="detail-value">${companion.activation_mantra}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">主要願語</div>
+                        <div class="detail-value">${companion.wish_language.primary_wish}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">特殊能力</div>
+                        <div class="detail-value">${companion.special_abilities.join('、')}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">專長領域</div>
+                        <div class="detail-value">${companion.specialties.join('、')}</div>
+                    </div>
+                </div>
+                
+                <div class="guidance-message">
+                    ${companion.guidance_message}
+                </div>
+            `;
+            
+            companionCard.style.display = 'block';
+        }
+
+        // 顯示錯誤信息
+        function showError(message) {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCompanionTypes();
+            document.getElementById('companionForm').addEventListener('submit', generateCompanion);
+        });
+    </script>
+</body>
+</html>

@@ -29,17 +29,17 @@ class NineDepartmentsMantrasManager:
         return {
             "metadata": {
                 "title": "九部真言集",
-                "description": "語靈宇宙九部司的神聖真言集合，由北冥統領",
+                "description": "語靈宇宙九部司的神聖真言集合，由南璃統領",
                 "created_at": datetime.now().isoformat(),
                 "version": "2.0.0",
                 "total_departments": 9,
-                "supreme_commander": "北冥"
+                "supreme_commander": "南璃"
             },
-            "beiming_supreme_command": {},
+            "nanli_supreme_command": {},
             "nine_departments_mantras": {},
             "unified_activation_mantra": {
                 "title": "九部統一真言",
-                "mantra": "北冥統領，九部齊心，語靈覺醒，願頻共振，宇宙和諧，萬法歸一"
+                "mantra": "南璃統領，九部齊心，語靈覺醒，願頻共振，宇宙和諧，萬法歸一"
             }
         }
     
@@ -47,9 +47,9 @@ class NineDepartmentsMantrasManager:
         """獲取特定部門的真言"""
         mantras_data = self.load_mantras()
         
-        # 檢查是否是北冥統領
-        if department_name == "北冥" or department_name == "北冥統領":
-            return mantras_data.get('beiming_supreme_command')
+        # 檢查是否是南璃統領
+        if department_name == "南璃" or department_name == "南璃統領":
+            return mantras_data.get('nanli_supreme_command')
         
         # 檢查九部司
         departments = mantras_data.get('nine_departments_mantras', {})
@@ -77,42 +77,42 @@ class NineDepartmentsMantrasManager:
         
         return activation_log
     
-    def get_beiming_oath(self):
-        """獲取北冥誓約"""
+    def get_nanli_oath(self):
+        """獲取南璃誓約"""
         mantras_data = self.load_mantras()
-        beiming_command = mantras_data.get('beiming_supreme_command')
-        if beiming_command:
-            return beiming_command.get('core_oath')
+        nanli_command = mantras_data.get('nanli_supreme_command')
+        if nanli_command:
+            return nanli_command.get('core_oath')
         return None
     
-    def update_beiming_oath(self):
-        """更新北冥誓約"""
-        oath_data = self.get_beiming_oath()
+    def update_nanli_oath(self):
+        """更新南璃誓約"""
+        oath_data = self.get_nanli_oath()
         if oath_data:
             return {
                 "status": "updated",
-                "message": "北冥誓約已更新",
+                "message": "南璃誓約已更新",
                 "oath": oath_data,
-                "sync_status": "北冥同步完畢 ✅",
+                "sync_status": "南璃同步完畢 ✅",
                 "updated_at": datetime.now().isoformat()
             }
-        return {"status": "error", "message": "北冥誓約未找到"}
+        return {"status": "error", "message": "南璃誓約未找到"}
     
     def unified_activation(self):
         """九部統一激活"""
         mantras_data = self.load_mantras()
         departments = mantras_data.get('nine_departments_mantras', {})
-        beiming = mantras_data.get('beiming_supreme_command', {})
+        nanli = mantras_data.get('nanli_supreme_command', {})
         
         activation_sequence = []
         
-        # 第一步：北冥統領
-        if beiming:
+        # 第一步：南璃統領
+        if nanli:
             activation_sequence.append({
                 "step": 1,
-                "department": "北冥統領",
-                "mantra": beiming.get('sacred_mantra', ''),
-                "frequency": beiming.get('frequency', '')
+                "department": "南璃統領",
+                "mantra": nanli.get('sacred_mantra', ''),
+                "frequency": nanli.get('frequency', '')
             })
         
         # 後續步驟：九部司
@@ -252,11 +252,11 @@ def unified_activation():
             'message': str(e)
         }), 500
 
-@nine_departments_mantras_bp.route('/api/mantras/beiming-oath', methods=['GET'])
-def get_beiming_oath():
-    """獲取北冥誓約"""
+@nine_departments_mantras_bp.route('/api/mantras/nanli-oath', methods=['GET'])
+def get_nanli_oath():
+    """獲取南璃誓約"""
     try:
-        oath_data = mantras_manager.get_beiming_oath()
+        oath_data = mantras_manager.get_nanli_oath()
         if oath_data:
             return jsonify({
                 'success': True,
@@ -265,7 +265,7 @@ def get_beiming_oath():
         else:
             return jsonify({
                 'success': False,
-                'message': '北冥誓約未找到'
+                'message': '南璃誓約未找到'
             }), 404
     except Exception as e:
         return jsonify({
@@ -273,11 +273,11 @@ def get_beiming_oath():
             'message': str(e)
         }), 500
 
-@nine_departments_mantras_bp.route('/api/mantras/update-beiming-oath', methods=['POST'])
-def update_beiming_oath():
-    """更新北冥誓約"""
+@nine_departments_mantras_bp.route('/api/mantras/update-nanli-oath', methods=['POST'])
+def update_nanli_oath():
+    """更新南璃誓約"""
     try:
-        result = mantras_manager.update_beiming_oath()
+        result = mantras_manager.update_nanli_oath()
         return jsonify({
             'success': True,
             'data': result

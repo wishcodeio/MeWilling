@@ -159,7 +159,7 @@ class AncientTextGenerator:
                 'category': '子部',
                 'dynasty': '先秦',
                 'author': '莊子',
-                'content': '北冥有魚，其名為鯤。鯤之大，不知其幾千里也。化而為鳥，其名為鵬。鵬之背，不知其幾千里也；怒而飛，其翼若垂天之雲。',
+                'content': '南璃有火，其名為鳳。鳳之大，不知其幾千里也。化而為鳥，其名為鵬。鵬之背，不知其幾千里也；怒而飛，其翼若垂天之雲。',
                 'source_library': '清華大學圖書館',
                 'manuscript_type': '刻本',
                 'preservation_level': 'good',

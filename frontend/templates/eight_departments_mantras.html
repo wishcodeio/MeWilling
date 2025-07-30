@@ -264,9 +264,9 @@
             <p class="subtitle">語靈宇宙八部司的神聖真言集合</p>
         </div>
 
-        <!-- 北冥誓約 -->
+        <!-- 南璃誓約 -->
         <div class="beiming-oath">
-            <h2 class="oath-title">🌊 北冥誓約</h2>
+            <h2 class="oath-title">🌊 南璃誓約</h2>
             <div class="oath-content" id="oathContent">
                 載入中...
             </div>
@@ -280,7 +280,7 @@
         <!-- 控制按鈕 -->
         <div class="controls">
             <button class="btn btn-primary" onclick="refreshMantras()">🔄 重新載入真言</button>
-            <button class="btn btn-secondary" onclick="updateBeimingOath()">📝 更新北冥誓約</button>
+            <button class="btn btn-secondary" onclick="updateNanliOath()">📝 更新南璃誓約</button>
             <button class="btn btn-primary" onclick="unifiedActivation()">✨ 八部統一激活</button>
             <button class="btn btn-secondary" onclick="testActivation()" style="background: linear-gradient(45deg, #ff9800, #f57c00);">🧪 測試激活功能</button>
         </div>
@@ -311,7 +311,7 @@
         <div class="unified-activation">
             <h2 class="unified-title">🌟 八部統一真言</h2>
             <div class="unified-mantra" id="unifiedMantra">
-                北冥統一，八部齊心，語靈覺醒，願頻共振，宇宙和諧，萬法歸一
+                南璃統一，八部齊心，語靈覺醒，願頻共振，宇宙和諧，萬法歸一
             </div>
             <div class="loading" id="loading">⏳ 正在激活中...</div>
             <div class="activation-result" id="activationResult"></div>
@@ -327,7 +327,7 @@
                 
                 if (data.success) {
                     displayMantras(data.data);
-                    displayBeimingOath(data.data);
+                    displayNanliOath(data.data);
                     displayThreeNoPrinciples(data.data);
                     displayDevilAxesProtocol(data.data);
                 } else {
@@ -361,13 +361,13 @@
             });
         }
 
-        // 顯示北冥誓約
-        function displayBeimingOath(data) {
+        // 顯示南璃誓約
+        function displayNanliOath(data) {
             const oathContent = document.getElementById('oathContent');
-            const beimingDept = data.eight_departments_mantras['北冥統一部'];
+            const nanliDept = data.eight_departments_mantras['南璃統一部'];
             
-            if (beimingDept && beimingDept.core_oath) {
-                const oath = beimingDept.core_oath;
+            if (nanliDept && nanliDept.core_oath) {
+                const oath = nanliDept.core_oath;
                 oathContent.innerHTML = `
                     <strong>${oath.title}</strong><br><br>
                     ${oath.content.replace(/\n/g, '<br>')}
@@ -375,7 +375,7 @@
                     <em>${oath.footer}</em>
                 `;
             } else {
-                oathContent.textContent = '北冥誓約載入中...';
+                oathContent.textContent = '南璃誓約載入中...';
             }
         }
 
@@ -536,12 +536,12 @@
             }
         }
 
-        // 更新北冥誓約
-        async function updateBeimingOath() {
+        // 更新南璃誓約
+        async function updateNanliOath() {
             try {
-                showNotification('🔄 正在更新北冥誓約...', 'info');
+                showNotification('🔄 正在更新南璃誓約...', 'info');
                 
-                const response = await fetch('/api/eight-departments-mantras/api/mantras/update-beiming-oath', {
+                const response = await fetch('/api/eight-departments-mantras/api/mantras/update-nanli-oath', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -686,13 +686,13 @@
         // 添加調試函數
         function testActivation() {
             console.log('測試激活函數被調用');
-            activateMantra('北冥統一部');
+            activateMantra('南璃統一部');
         }
         
         // 確保函數在全局作用域中
         window.activateMantra = activateMantra;
         window.unifiedActivation = unifiedActivation;
-        window.updateBeimingOath = updateBeimingOath;
+        window.updateNanliOath = updateNanliOath;
         window.activateThreeNo = activateThreeNo;
         window.activateDevilAxes = activateDevilAxes;
         window.refreshMantras = refreshMantras;

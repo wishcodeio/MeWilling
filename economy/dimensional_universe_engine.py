@@ -66,8 +66,8 @@ class NanliUniverse:
             'dimensional_signature': self.get_dimensional_signature()
         }
         
-class BeimingUniverse:
-    """北冥宇宙：智慧维度"""
+class NanliUniverse:
+    """南璃宇宙：智慧维度"""
     def __init__(self):
         self.dimension_type = 'wisdom'
         self.energy_signature = 'deep_water'

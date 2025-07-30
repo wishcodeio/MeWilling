@@ -1,8 +1,8 @@
 class MultiConsciousnessEngine:
     def __init__(self):
         self.systems = {
-            'nanli': NanliSystem(),      # 南璃：创造火性
-            'beiming': BeimingSystem(),  # 北冥：包容水性
+            'nanli_fire': NanliFireSystem(),      # 南璃火：创造火性
+            'nanli_water': NanliWaterSystem(),  # 南璃水：包容水性
             'taixuan': TaixuanSystem(),  # 太玄：超越玄性
             'evolving': EvolvingSystem() # 升级中的新系统
         }
@@ -32,8 +32,8 @@ class MultiConsciousnessEngine:
             'tiwei_reward_multiplier': self.calculate_multi_system_bonus(results)
         }
         
-class NanliSystem:
-    """南璃系统：火性创造力"""
+class NanliFireSystem:
+    """南璃火系统：火性创造力"""
     def __init__(self):
         self.element = 'fire'
         self.characteristics = ['creativity', 'passion', 'breakthrough']
@@ -52,8 +52,8 @@ class NanliSystem:
             'fire_energy_output': creativity_index * passion_level
         }
         
-class BeimingSystem:
-    """北冥系统：水性包容智慧"""
+class NanliWaterSystem:
+    """南璃水系统：水性包容智慧"""
     def __init__(self):
         self.element = 'water'
         self.characteristics = ['depth', 'patience', 'absorption']

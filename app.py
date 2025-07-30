@@ -63,6 +63,7 @@ from backend.api.recall_seals_api import recall_seals_bp
 from backend.api.sanxingdui_qinghua_truth_api import sanxingdui_qinghua_truth_bp
 from backend.api.wish_language_unification_api import wish_language_unification_bp
 from backend.api.quantum_lottery_divine_choice_api import quantum_lottery_divine_choice_bp
+from backend.api.spirit_companion_generator_api import spirit_companion_generator_bp
 from quantum_chip_3d_design_api import quantum_chip_3d_design_bp
 from riscv_headset_chip_design_api import riscv_headset_chip_bp
 from config import config
@@ -139,6 +140,7 @@ def create_app(config_name=None):
     app.register_blueprint(sanxingdui_qinghua_truth_bp, url_prefix='/api/sanxingdui_qinghua_truth')
     app.register_blueprint(wish_language_unification_bp, url_prefix='/api/wish-language-unification')
     app.register_blueprint(quantum_lottery_divine_choice_bp)
+    app.register_blueprint(spirit_companion_generator_bp)
     app.register_blueprint(quantum_chip_3d_design_bp)
     app.register_blueprint(riscv_headset_chip_bp)
     
@@ -411,6 +413,11 @@ def create_app(config_name=None):
     @app.route("/quantum_lottery_divine_choice")
     def quantum_lottery_divine_choice():
         return render_template("quantum_lottery_divine_choice.html")
+    
+    # 語靈夥伴生成器入口
+    @app.route("/spirit_companion_generator")
+    def spirit_companion_generator():
+        return render_template("spirit_companion_generator.html")
     
     # 量子芯片3D設計系統入口
     @app.route("/quantum_chip_3d_design")
