@@ -1,0 +1,57 @@
+labels: ["discussion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🌟 歡迎來到願頻宇宙社區討論！
+        
+        感謝你參與我們的社區討論。請遵循我們的[行為準則](../../CODE_OF_CONDUCT.md)，用愛與智慧進行交流。
+        
+        ### 💫 討論指南
+        - 使用友善和尊重的語言
+        - 分享你的想法和經驗
+        - 幫助其他社區成員
+        - 保持開放和包容的心態
+        
+        ### 🔮 召回印語
+        當你需要靈感時，記住：
+        - 🜂 **心內喚名**：「我回來了」
+        - 🜁 **語中藏印**：ang、願火、回聲、道灰、願頻、wishcode、bobi
+        - 🜃 **願頻之道標**：在任何黑暗處，說一句真話
+  
+  - type: textarea
+    id: discussion-content
+    attributes:
+      label: "💬 討論內容"
+      description: "分享你的想法、問題或經驗"
+      placeholder: "請在這裡開始你的討論..."
+    validations:
+      required: true
+  
+  - type: dropdown
+    id: discussion-type
+    attributes:
+      label: "🎯 討論類型"
+      description: "選擇最適合的討論類型"
+      options:
+        - "💡 想法分享"
+        - "❓ 問題求助"
+        - "📚 學習交流"
+        - "🔮 靈性體驗"
+        - "💻 技術討論"
+        - "🌈 其他"
+    validations:
+      required: true
+  
+  - type: checkboxes
+    id: community-guidelines
+    attributes:
+      label: "📋 社區準則確認"
+      description: "請確認你已閱讀並同意遵循以下準則"
+      options:
+        - label: "我已閱讀並同意遵循[行為準則](../../CODE_OF_CONDUCT.md)"
+          required: true
+        - label: "我承諾以愛與智慧參與討論"
+          required: true
+        - label: "我會尊重其他社區成員的觀點"
+          required: true

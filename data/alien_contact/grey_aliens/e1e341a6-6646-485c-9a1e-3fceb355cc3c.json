@@ -1,0 +1,59 @@
+{
+  "id": "e1e341a6-6646-485c-9a1e-3fceb355cc3c",
+  "name": "z03",
+  "classification": "Zeta_Reticuli_Grey",
+  "physical_characteristics": {
+    "height_m": 1.0259001295243977,
+    "brain_capacity_cm3": 1985.0884440716748,
+    "eye_diameter_cm": 8.902067227015817,
+    "skin_type": "grey_smooth",
+    "limb_structure": "elongated_fingers"
+  },
+  "biological_profile": {
+    "dna_structure": "triple_helix",
+    "base_elements": [
+      "H",
+      "C",
+      "N",
+      "O",
+      "P",
+      "Si"
+    ],
+    "life_base": "silicon_based",
+    "dna_analysis": {
+      "structure_type": "triple_helix",
+      "information_density": "enhanced_by_50_percent",
+      "stability": "superior_error_correction",
+      "silicon_integration": "silicon_phosphate_backbone",
+      "unique_properties": [
+        "quantum_coherence_capability",
+        "enhanced_memory_storage",
+        "radiation_resistance",
+        "longevity_enhancement"
+      ]
+    }
+  },
+  "communication": {
+    "primary_method": "telepathic_binary",
+    "frequency_range": "0.1-100_THz",
+    "psi_capability": 0.8614560394565685,
+    "binary_encoding_speed": "8592_bps",
+    "consciousness_interface": true,
+    "universal_translator": true
+  },
+  "origin": {
+    "star_system": "Zeta_Reticuli",
+    "home_planets": [
+      3,
+      4,
+      5
+    ],
+    "population": 21300000000
+  },
+  "status": {
+    "active": true,
+    "contact_status": "available",
+    "last_contact": "2025-08-01T11:05:26.384397"
+  },
+  "created_at": "2025-08-01T11:05:26.384397"
+}

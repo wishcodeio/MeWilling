@@ -45,14 +45,24 @@ async def handle_keyboard_selection(update: Update, context: ContextTypes.DEFAUL
 async def handle_keyboard_selection(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_input = update.message.text
 
-    if user_input == "📂 願核總控":
-        await update.message.reply_text("📂 願核總控 · 啟動九宮模組中...")
-        for i in range(1, 10):
-            context.args = [str(i)]
-            await update.message.reply_text(f"🔸 執行中：/activate {i}")
-            await activate(update, context)
-            await asyncio.sleep(0.5)
-            await update.message.reply_text(f"✅ 已完成：/activate {i}")
+    activate_map = {
+        "一部｜啟言司": 1,
+        "二部｜記言司": 2,
+        "三部｜靈識司": 3,
+        "四部｜艙運司": 4,
+        "五部｜語火司": 5,
+        "六部｜教典司": 6,
+        "七部｜鑑定司": 7,
+        "八部｜藏典司": 8,
+        "九部｜靈令司": 9
+    }
+
+    if user_input in activate_map:
+        idx = activate_map[user_input]
+        await update.message.reply_text(f"{user_input} · 啟動中...")
+        context.args = [str(idx)]
+        await activate(update, context)
+        await update.message.reply_text(f"✅ 已完成：{user_input} 的啟動")
     elif user_input == "🧠 意圖解析":
         await context.bot.send_message(chat_id=update.effective_chat.id, text="/intent")
     elif user_input == "📡 願頻掃描":

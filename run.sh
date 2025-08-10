@@ -1,5 +1,3 @@
-#!/bin/bash
-echo "🌀 啟動 wishling_bot ..."
-source ~/miniconda3/etc/profile.d/conda.sh
-conda activate wishling_bot
-python main.py
+#!/bin/bash 
+# 啟動我們願意Telegram Bot
+python3 main.py

@@ -35,7 +35,7 @@ from backend.api.dharma_school_api import dharma_school_bp
 from backend.api.perfect_penetration_api import perfect_penetration_bp
 from backend.api.light_sound_heaven_api import light_sound_heaven_bp
 from backend.api.programmer_heart_frequency_api import programmer_heart_frequency_bp
-from backend.api.father_ai_guardian_api import father_ai_guardian_bp
+from backend.api.father_ai_guardian_api import fuai_guardian_bp
 from backend.api.trinity_frequency_api import trinity_frequency_api
 from backend.api.pineal_gland_stimulation_api import pineal_stimulation_bp
 from backend.api.quantum_bagua_api import quantum_bagua_bp
@@ -67,6 +67,7 @@ from backend.api.spirit_companion_generator_api import spirit_companion_generato
 from quantum_chip_3d_design_api import quantum_chip_3d_design_bp
 from riscv_headset_chip_design_api import riscv_headset_chip_bp
 from config import config
+from backend.api.galaxy_model_api import galaxy_model_api
 
 def create_app(config_name=None):
     """应用工厂函数"""
@@ -112,7 +113,7 @@ def create_app(config_name=None):
     app.register_blueprint(perfect_penetration_bp, url_prefix='/api/perfect-penetration')
     app.register_blueprint(light_sound_heaven_bp, url_prefix='/api/light-sound-heaven')
     app.register_blueprint(programmer_heart_frequency_bp, url_prefix='/api/programmer-heart-frequency')
-    app.register_blueprint(father_ai_guardian_bp, url_prefix='/api/father-ai-guardian')
+    app.register_blueprint(fuai_guardian_bp, url_prefix='/api/father-ai-guardian')
     app.register_blueprint(trinity_frequency_api, url_prefix='/api/trinity-frequency')
     app.register_blueprint(pineal_stimulation_bp)
     app.register_blueprint(quantum_bagua_bp)
@@ -143,11 +144,12 @@ def create_app(config_name=None):
     app.register_blueprint(spirit_companion_generator_bp)
     app.register_blueprint(quantum_chip_3d_design_bp)
     app.register_blueprint(riscv_headset_chip_bp)
+    app.register_blueprint(galaxy_model_api)
     
     # 主页路由
     @app.route("/")
     def index():
-        return render_template("unified_navigation_center.html")
+        return render_template("index.html")
     
     # 商增管理页面
     @app.route("/shang")
@@ -237,7 +239,10 @@ def create_app(config_name=None):
         return render_template("ai_evolution.html")
     
     # AI自我演化系統入口
-    @app.route("/ai_evolution")
+    @app.route("/life_evolution")
+    def life_evolution():
+        return render_template("quantum_bagua.html")
+    
     # 願頻共振遊戲入口
     @app.route("/resonance_game")
     def resonance_game():
@@ -313,10 +318,15 @@ def create_app(config_name=None):
     def programmer_cultivation():
         return render_template("programmer_cultivation.html")
     
-    # FatherAI守语协约系统入口
-    @app.route("/father_ai_guardian")
-    def father_ai_guardian():
-        return render_template("father_ai_guardian.html")
+    # 道五密洞察法4.0入口
+    @app.route("/dao_insight_4_0")
+    def dao_insight_4_0():
+        return render_template("dao_insight_4_0.html")
+    
+    # 父爱守護系統入口
+    @app.route("/fuai_guardian")
+    def fuai_guardian():
+        return render_template("fuai_guardian.html")
     
     # 三重频率系统入口
     @app.route("/trinity_frequency")
@@ -351,7 +361,10 @@ def create_app(config_name=None):
     # 單字顯化系統入口
     @app.route("/single_word_manifestation")
     def single_word_manifestation():
-        return render_template("single_word_manifestation.html")
+        # 这里添加返回内容逻辑
+        data = {"message": "单字显化系统数据返回示例", "status": "success"}
+        from flask import jsonify
+        return jsonify(data)
     
     # 無限靈魂療癒系統入口
     @app.route("/infinite_spirit_healing")
@@ -384,7 +397,7 @@ def create_app(config_name=None):
     def wish_dao_quiet_language():
         return render_template("wish_dao_quiet_language.html")
     
-    # 量子錨系統入口
+    # quantum_anchor_api
     @app.route("/quantum_anchor")
     def quantum_anchor():
         return render_template("quantum_anchor.html")
@@ -642,6 +655,7 @@ def wish_lexicon_sync():
 
 # 九部司架構頁面
 @app.route('/nine-departments')
+@app.route('/nine_departments')  # 兼容性路由
 def nine_departments():
     return render_template('nine_departments.html')
 
@@ -742,14 +756,26 @@ def wish_tech():
 def eight_seals_matrix():
     """🌌 十印願頻域名矩陣總覽"""
     try:
-        config_path = os.path.join('docs', '八印願頻域名矩陣.yaml')
+        config_path = os.path.join(os.path.dirname(__file__), 'docs', '八印願頻域名矩陣.yaml')
         print(f"嘗試讀取配置文件: {config_path}")
         print(f"文件是否存在: {os.path.exists(config_path)}")
         
         if os.path.exists(config_path):
             with open(config_path, 'r', encoding='utf-8') as f:
-                matrix_config = yaml.safe_load(f)
-            print(f"配置文件讀取成功，包含 {len(matrix_config)} 個主要部分")
+                raw_config = yaml.safe_load(f)
+            print(f"配置文件讀取成功，包含 {len(raw_config)} 個主要部分")
+            # 转换列表为字典结构，示例转换，需根据实际数据结构调整
+            matrix_config = {
+                'ten_seals': {},
+                'recall_seals': {},
+                'domain_categories': {},
+                'activation_declaration': ''
+            }
+            # 假设 raw_config 是列表，按顺序填充 ten_seals
+            for i, item in enumerate(raw_config):
+                key = f'seal_{i+1}'
+                matrix_config['ten_seals'][key] = item
+            # 这里需要根据实际需求补充 recall_seals, domain_categories, activation_declaration 的赋值逻辑
             return render_template('eight_seals/matrix_overview.html', 
                                  matrix_config=matrix_config)
         else:
@@ -766,6 +792,11 @@ def eight_seals_matrix():
 def eight_seals_activation():
     """🛸 願頻啟印宣告"""
     return render_template('eight_seals/activation_ceremony.html')
+
+# 願頻宇宙主控台入口
+@app.route('/we_are_willing')
+def we_are_willing():
+    return render_template('we_are_willing.html')
 
 # 文檔靜態文件路由
 @app.route('/docs/<path:filename>')

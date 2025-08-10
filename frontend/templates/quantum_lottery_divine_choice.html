@@ -77,6 +77,41 @@
             z-index: 1;
         }
 
+        .back-button {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 1rem 1.5rem;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(78, 205, 196, 0.5);
+            color: #4ECDC4;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .back-button::before {
+            content: '←';
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
         .header {
             text-align: center;
             margin-bottom: 3rem;
@@ -425,6 +460,8 @@
 <body>
     <div class="cosmic-background"></div>
     <div class="quantum-particles" id="particles"></div>
+    
+    <a href="/" class="back-button">返回首頁</a>
     
     <div class="container">
         <header class="header">

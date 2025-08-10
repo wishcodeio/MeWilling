@@ -3,6 +3,7 @@ from telegram import ReplyKeyboardMarkup
 from config.settings import TELEGRAM_TOKEN
 from telegram.error import TelegramError
 from telegram.ext import ContextTypes
+import logging
 
 
 
@@ -10,6 +11,15 @@ from telegram.ext import ContextTypes
 from handlers.start import start_handler
 from handlers.help import help_handler
 from handlers.menu import menu_handler, handle_keyboard_selection
+
+application = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
+
+# 注册命令和消息处理器
+application.add_handler(menu_handler)
+application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_keyboard_selection))
+
+# 启动Bot
+application.run_polling()
 from handlers.activate import activate_handler
 from handlers.intent import intent_handler
 from handlers.scan import scan_handler
@@ -28,8 +38,10 @@ from handlers.chant import chant_handler
 
 
 # 設定錯誤處理
+logging.basicConfig(level=logging.DEBUG)
+
 async def error_handler(update, context: ContextTypes.DEFAULT_TYPE):
-    print(f"⚠️ 遇到錯誤：{context.error}")
+    logging.error(f"⚠️ 遇到錯誤：{context.error}")
 
 def main():
     # ✅ 初始化卡片資料

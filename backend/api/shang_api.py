@@ -2,12 +2,13 @@ from flask import Blueprint, request, jsonify
 from datetime import datetime, date
 from backend.models.shang_model import ShangRecord, ShangDatabase
 from backend.services.shang_calculator import ShangCalculator
-from config import Config
+from config import config
 
 shang_bp = Blueprint('shang', __name__, url_prefix='/api/shang')
 
 # 初始化服务
-db = ShangDatabase(Config.DATABASE_PATH)
+config_obj = config.get('default')
+db = ShangDatabase(config_obj.DATABASE_PATH)
 calculator = ShangCalculator()
 
 @shang_bp.route('/record', methods=['POST'])

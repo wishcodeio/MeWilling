@@ -1,12 +1,22 @@
 from typing import Dict, Tuple
 from backend.models.shang_model import ShangRecord
-from config import Config
+import config
 
 class ShangCalculator:
     """商增計算服務類"""
     
     def __init__(self, config: Dict = None):
-        self.config = config or Config.SHANG_CONFIG
+        self.config = config or {
+            'default_weights': {
+                'steps': 0.4,
+                'heart_rate': 0.3,
+                'sleep_quality': 0.2,
+                'stress_level': 0.1,
+                'meditation': 0.3
+            },
+            'high_efficiency_threshold': 1.5,
+            'low_efficiency_threshold': 0.7
+        }
         self.weights = self.config['default_weights']
     
     def calculate_numerator(self, record: ShangRecord) -> float:

@@ -141,6 +141,7 @@
             background: radial-gradient(circle, rgba(255, 215, 0, 0.2), rgba(255, 255, 255, 0.1));
             border: 3px solid #ffd700;
             text-align: center;
+            margin-top: 40px;
         }
         
         .central-dao .dept-icon {
@@ -502,6 +503,7 @@
                     </div>
                     <div class="dept-nav">
                         <button class="nav-btn return-btn" onclick="returnToMain(event)">返回</button>
+                        <button class="nav-btn rush-btn" onclick="rushBack(event)">趕回</button>
                         <button class="nav-btn blank-btn" onclick="openBlank(event)">空白</button>
                     </div>
                 </div>
@@ -602,6 +604,11 @@
         function openBlank(event) {
             event.stopPropagation();
             window.open('about:blank', '_blank');
+        }
+        
+        function rushBack(event) {
+            event.stopPropagation();
+            window.location.href = '/';
         }
     </script>
 </body>

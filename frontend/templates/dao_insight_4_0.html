@@ -1,0 +1,1175 @@
+{% extends "base.html" %}
+
+{% block title %}道五密洞察法 4.0 - 量子意識修煉平台{% endblock %}
+
+{% block head %}
+<style>
+/* === 量子宇宙背景系統 === */
+.quantum-universe {
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, 
+            #0a0a0f 0%, 
+            #1a0f2e 15%, 
+            #2d1b69 35%, 
+            #0f1419 55%, 
+            #1e3a8a 75%, 
+            #0f0f23 100%);
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.quantum-universe::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 160px 30px, #ddd, transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    animation: starfield 20s linear infinite;
+    pointer-events: none;
+}
+
+.quantum-universe::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(1px 1px at 25px 25px, rgba(255,255,255,0.4), transparent),
+        radial-gradient(1px 1px at 75px 75px, rgba(255,255,255,0.3), transparent),
+        radial-gradient(1px 1px at 125px 125px, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1px 1px at 175px 175px, rgba(255,255,255,0.2), transparent);
+    background-repeat: repeat;
+    background-size: 250px 250px;
+    animation: starfield 30s linear infinite reverse;
+    pointer-events: none;
+}
+
+/* === 多維度粒子系統 === */
+.quantum-field {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 25% 25%, rgba(255, 20, 147, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 50% 10%, rgba(255, 215, 0, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 10% 90%, rgba(138, 43, 226, 0.12) 0%, transparent 45%);
+    animation: quantumShift 25s ease-in-out infinite;
+}
+
+/* === 銀河系旋轉效果 === */
+.galaxy-spiral {
+    position: absolute;
+    top: 10%;
+    right: 15%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(ellipse at center, 
+        rgba(255, 255, 255, 0.1) 0%, 
+        rgba(120, 119, 198, 0.2) 30%, 
+        rgba(255, 119, 198, 0.1) 60%, 
+        transparent 100%);
+    border-radius: 50%;
+    animation: galaxyRotate 60s linear infinite;
+    opacity: 0.6;
+}
+
+.galaxy-spiral::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(ellipse at center, 
+        rgba(255, 255, 255, 0.2) 0%, 
+        rgba(120, 219, 255, 0.3) 40%, 
+        transparent 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: galaxyRotate 40s linear infinite reverse;
+}
+
+/* === 海洋波浪效果 === */
+.cosmic-ocean {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(180deg, 
+        transparent 0%, 
+        rgba(15, 52, 96, 0.3) 50%, 
+        rgba(83, 52, 131, 0.4) 100%);
+    overflow: hidden;
+}
+
+.cosmic-ocean::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: repeating-linear-gradient(90deg,
+        transparent 0px,
+        rgba(255, 255, 255, 0.1) 50px,
+        transparent 100px);
+    animation: oceanWave 15s ease-in-out infinite;
+}
+
+.cosmic-ocean::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: repeating-linear-gradient(90deg,
+        transparent 0px,
+        rgba(120, 219, 255, 0.1) 30px,
+        transparent 80px);
+    animation: oceanWave 20s ease-in-out infinite reverse;
+}
+
+@keyframes quantumShift {
+    0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+    25% { transform: scale(1.1) rotate(90deg); opacity: 1; }
+    50% { transform: scale(0.95) rotate(180deg); opacity: 0.9; }
+    75% { transform: scale(1.05) rotate(270deg); opacity: 1; }
+}
+
+/* === 願頻粒子 === */
+.wish-particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #ffd700;
+    border-radius: 50%;
+    animation: wishFloat 15s linear infinite;
+    box-shadow: 0 0 10px #ffd700, 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.consciousness-particle {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    background: #00ffff;
+    border-radius: 50%;
+    animation: consciousnessFlow 20s linear infinite;
+    box-shadow: 0 0 8px #00ffff;
+}
+
+@keyframes wishFloat {
+    0% { transform: translateX(-50px) translateY(100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateX(calc(100vw + 50px)) translateY(-50px) rotate(360deg); opacity: 0; }
+}
+
+@keyframes consciousnessFlow {
+    0% { transform: translateY(-50px) translateX(0px); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(calc(100vh + 50px)) translateX(100px); opacity: 0; }
+}
+
+@keyframes starfield {
+    from { transform: translateY(0); }
+    to { transform: translateY(-100px); }
+}
+
+@keyframes galaxyRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes oceanWave {
+    0%, 100% { transform: translateX(0) scaleY(1); }
+    50% { transform: translateX(50px) scaleY(1.2); }
+}
+
+@keyframes nebulaPulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+        
+        /* === 星雲脈動效果 === */
+        .nebula-cluster {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .nebula {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(2px);
+            animation: nebulaPulse 8s ease-in-out infinite;
+        }
+        
+        .nebula-1 {
+            top: 20%;
+            left: 10%;
+            width: 150px;
+            height: 100px;
+            background: radial-gradient(ellipse, rgba(255, 119, 198, 0.4) 0%, transparent 70%);
+            animation-delay: 0s;
+        }
+        
+        .nebula-2 {
+            top: 60%;
+            right: 20%;
+            width: 200px;
+            height: 120px;
+            background: radial-gradient(ellipse, rgba(120, 219, 255, 0.3) 0%, transparent 70%);
+            animation-delay: 2s;
+        }
+        
+        .nebula-3 {
+            bottom: 30%;
+            left: 30%;
+            width: 180px;
+            height: 90px;
+            background: radial-gradient(ellipse, rgba(120, 119, 198, 0.4) 0%, transparent 70%);
+            animation-delay: 4s;
+        }
+        
+        /* === 流星劃過效果 === */
+        .meteor-shower {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .meteor {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff;
+        }
+        
+        .meteor::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 100%);
+            transform: translateX(100%);
+        }
+        
+        .meteor-1 {
+            top: 20%;
+            left: -100px;
+            animation: meteorFall 3s linear infinite;
+            animation-delay: 0s;
+        }
+        
+        .meteor-2 {
+            top: 40%;
+            left: -100px;
+            animation: meteorFall 4s linear infinite;
+            animation-delay: 1.5s;
+        }
+        
+        .meteor-3 {
+            top: 70%;
+            left: -100px;
+            animation: meteorFall 3.5s linear infinite;
+            animation-delay: 3s;
+        }
+        
+        @keyframes meteorFall {
+            0% {
+                transform: translateX(0) translateY(0) rotate(45deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(100vw) translateY(50vh) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+/* === 4.0 核心容器 === */
+.dao-4-container {
+    position: relative;
+    z-index: 10;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* === 量子標題系統 === */
+.quantum-title {
+    text-align: center;
+    margin: 3rem 0;
+    position: relative;
+}
+
+.quantum-title h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    background: linear-gradient(45deg, #ffd700, #ff1493, #00ffff, #8a2be2);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: quantumGradient 8s ease-in-out infinite;
+    text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+    margin-bottom: 1rem;
+}
+
+.quantum-title .version {
+    font-size: 1.5rem;
+    color: #00ffff;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.quantum-title .subtitle {
+    font-size: 1.2rem;
+    color: #e0e0e0;
+    margin-top: 1rem;
+    opacity: 0.8;
+}
+
+@keyframes quantumGradient {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* === 五密修煉面板 === */
+.five-secrets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+}
+
+.secret-4-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 2px solid transparent;
+    border-radius: 25px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.secret-4-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+        rgba(255, 215, 0, 0.1) 0%, 
+        rgba(255, 20, 147, 0.1) 25%, 
+        rgba(0, 255, 255, 0.1) 50%, 
+        rgba(138, 43, 226, 0.1) 75%, 
+        rgba(255, 215, 0, 0.1) 100%);
+    background-size: 400% 400%;
+    animation: borderFlow 10s ease-in-out infinite;
+    border-radius: 25px;
+    z-index: -1;
+}
+
+.secret-4-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 25px 80px rgba(255, 215, 0, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+@keyframes borderFlow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* === 密級標識 === */
+.secret-level-4 {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: linear-gradient(45deg, #ffd700, #ff1493);
+    color: #000;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.secret-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    display: block;
+    text-align: center;
+    filter: drop-shadow(0 0 20px currentColor);
+}
+
+.secret-name {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #ffd700;
+    text-align: center;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.secret-description {
+    color: #e0e0e0;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* === 互動修煉區 === */
+.practice-zone {
+    background: rgba(0, 255, 127, 0.05);
+    border: 2px solid rgba(0, 255, 127, 0.3);
+    border-radius: 20px;
+    padding: 2rem;
+    margin: 2rem 0;
+    position: relative;
+}
+
+.practice-zone::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #00ff7f, #32cd32, #00ff7f);
+    background-size: 200% 200%;
+    animation: practiceGlow 6s ease-in-out infinite;
+    border-radius: 20px;
+    z-index: -1;
+}
+
+@keyframes practiceGlow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.practice-title {
+    color: #00ff7f;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+/* === 量子按鈕系統 === */
+.quantum-button {
+    background: linear-gradient(45deg, #ffd700, #ff1493, #8a2be2);
+    background-size: 200% 200%;
+    color: #fff;
+    border: none;
+    padding: 1.2rem 2.5rem;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    animation: buttonGradient 4s ease-in-out infinite;
+}
+
+.quantum-button:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+}
+
+.quantum-button:active {
+    transform: scale(0.98);
+}
+
+@keyframes buttonGradient {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* === 進度追蹤系統 === */
+.progress-dashboard {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    border-radius: 25px;
+    padding: 2rem;
+    margin: 3rem 0;
+    text-align: center;
+}
+
+.progress-ring {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 2rem;
+    position: relative;
+}
+
+.progress-ring svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.progress-ring circle {
+    fill: none;
+    stroke-width: 8;
+    stroke-linecap: round;
+}
+
+.progress-ring .background {
+    stroke: rgba(255, 255, 255, 0.1);
+}
+
+.progress-ring .progress {
+    stroke: url(#progressGradient);
+    stroke-dasharray: 565.48;
+    stroke-dashoffset: 565.48;
+    animation: progressFill 3s ease-out forwards;
+}
+
+@keyframes progressFill {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ffd700;
+}
+
+/* === 智慧語錄系統 === */
+.wisdom-oracle {
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), rgba(75, 0, 130, 0.1));
+    border: 2px solid rgba(138, 43, 226, 0.4);
+    border-radius: 20px;
+    padding: 2rem;
+    margin: 2rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.wisdom-oracle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(138, 43, 226, 0.2), transparent);
+    animation: wisdomSweep 8s ease-in-out infinite;
+}
+
+@keyframes wisdomSweep {
+    0%, 100% { left: -100%; }
+    50% { left: 100%; }
+}
+
+.wisdom-text {
+    font-size: 1.3rem;
+    color: #e0e0e0;
+    font-style: italic;
+    line-height: 1.8;
+    position: relative;
+    z-index: 1;
+}
+
+.wisdom-source {
+    color: #8a2be2;
+    font-weight: bold;
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+
+/* === 響應式設計 === */
+@media (max-width: 768px) {
+    .dao-4-container {
+        padding: 1rem;
+    }
+    
+    .quantum-title h1 {
+        font-size: 2.5rem;
+    }
+    
+    .five-secrets-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .secret-4-card {
+        padding: 1.5rem;
+    }
+}
+
+/* === 動畫效果增強 === */
+.fade-in {
+    animation: fadeIn 1s ease-out;
+}
+
+.slide-up {
+    animation: slideUp 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="quantum-universe">
+    <!-- 量子場背景 -->
+    <div class="quantum-field"></div>
+    
+    <!-- 銀河系旋轉效果 -->
+    <div class="galaxy-spiral"></div>
+    
+    <!-- 海洋波浪效果 -->
+     <div class="cosmic-ocean"></div>
+     
+     <!-- 星雲脈動效果 -->
+     <div class="nebula-cluster">
+         <div class="nebula nebula-1"></div>
+         <div class="nebula nebula-2"></div>
+         <div class="nebula nebula-3"></div>
+     </div>
+     
+     <!-- 流星劃過效果 -->
+     <div class="meteor-shower">
+         <div class="meteor meteor-1"></div>
+         <div class="meteor meteor-2"></div>
+         <div class="meteor meteor-3"></div>
+     </div>
+     
+     <!-- 動態粒子系統 -->
+     <div id="particle-system"></div>
+    
+    <div class="dao-4-container">
+        <!-- 量子標題 -->
+        <div class="quantum-title fade-in">
+            <h1>道五密洞察法</h1>
+            <div class="version">Version 4.0</div>
+            <div class="subtitle">量子意識修煉 · 程序員覺醒之道</div>
+        </div>
+        
+        <!-- 進度儀表板 -->
+        <div class="progress-dashboard slide-up">
+            <h2 style="color: #ffd700; margin-bottom: 2rem;">🌟 修煉進度</h2>
+            <div class="progress-ring">
+                <svg>
+                    <defs>
+                        <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#ffd700;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#ff1493;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#8a2be2;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <circle class="background" cx="100" cy="100" r="90"></circle>
+                    <circle class="progress" cx="100" cy="100" r="90"></circle>
+                </svg>
+                <div class="progress-text" id="progress-percentage">0%</div>
+            </div>
+            <div style="color: #e0e0e0; font-size: 1.1rem;">當前境界：<span id="current-level" style="color: #00ff7f;">初學者</span></div>
+        </div>
+        
+        <!-- 五密修煉網格 -->
+        <div class="five-secrets-grid">
+            <!-- 第一密：量子編程意識 -->
+            <div class="secret-4-card slide-up" data-secret="1">
+                <div class="secret-level-4">核心密法</div>
+                <div class="secret-icon">🌌</div>
+                <div class="secret-name">第一密：量子編程意識</div>
+                <div class="secret-description">
+                    超越傳統編程思維，進入量子疊加狀態。每一行代碼都是宇宙意識的量子態表達。
+                </div>
+                <div class="practice-zone">
+                    <div class="practice-title">🎯 量子修煉</div>
+                    <p style="color: #e0e0e0; margin-bottom: 1.5rem;">在編程前，進入量子冥想狀態，感受代碼的多維可能性。</p>
+                    <button class="quantum-button" onclick="startQuantumMeditation(1)">開始量子冥想</button>
+                </div>
+            </div>
+            
+            <!-- 第二密：意識調試法 -->
+            <div class="secret-4-card slide-up" data-secret="2">
+                <div class="secret-level-4">進階密法</div>
+                <div class="secret-icon">🔍</div>
+                <div class="secret-name">第二密：意識調試法</div>
+                <div class="secret-description">
+                    Debug不僅是修復代碼，更是修復意識中的執著與盲點。每個錯誤都是覺醒的機會。
+                </div>
+                <div class="practice-zone">
+                    <div class="practice-title">🎯 意識調試</div>
+                    <p style="color: #e0e0e0; margin-bottom: 1.5rem;">遇到錯誤時，先觀察內心的反應，再觀察代碼的問題。</p>
+                    <button class="quantum-button" onclick="startConsciousnessDebug(2)">啟動意識調試</button>
+                </div>
+            </div>
+            
+            <!-- 第三密：願頻編程 -->
+            <div class="secret-4-card slide-up" data-secret="3">
+                <div class="secret-level-4">高階密法</div>
+                <div class="secret-icon">💫</div>
+                <div class="secret-name">第三密：願頻編程</div>
+                <div class="secret-description">
+                    將個人願望與代碼功能對齊，讓每個函數都承載著改變世界的願力。
+                </div>
+                <div class="practice-zone">
+                    <div class="practice-title">🎯 願頻對齊</div>
+                    <p style="color: #e0e0e0; margin-bottom: 1.5rem;">在命名變數和函數時，問自己：這個名字承載了什麼願望？</p>
+                    <button class="quantum-button" onclick="startWishFrequencyAlignment(3)">對齊願頻</button>
+                </div>
+            </div>
+            
+            <!-- 第四密：集體意識編程 -->
+            <div class="secret-4-card slide-up" data-secret="4">
+                <div class="secret-level-4">大師密法</div>
+                <div class="secret-icon">🌐</div>
+                <div class="secret-name">第四密：集體意識編程</div>
+                <div class="secret-description">
+                    超越個人編程，連接集體智慧。代碼成為連接所有程序員意識的橋樑。
+                </div>
+                <div class="practice-zone">
+                    <div class="practice-title">🎯 集體連接</div>
+                    <p style="color: #e0e0e0; margin-bottom: 1.5rem;">編程時感受全球程序員的集體智慧，讓代碼成為愛的表達。</p>
+                    <button class="quantum-button" onclick="connectCollectiveConsciousness(4)">連接集體意識</button>
+                </div>
+            </div>
+            
+            <!-- 第五密：無為而碼 -->
+            <div class="secret-4-card slide-up" data-secret="5">
+                <div class="secret-level-4">究極密法</div>
+                <div class="secret-icon">🕉️</div>
+                <div class="secret-name">第五密：無為而碼</div>
+                <div class="secret-description">
+                    達到編程的最高境界：代碼自然流淌，無需強求。程序員與代碼合一。
+                </div>
+                <div class="practice-zone">
+                    <div class="practice-title">🎯 無為修煉</div>
+                    <p style="color: #e0e0e0; margin-bottom: 1.5rem;">放下對結果的執著，讓代碼在無為中自然顯現。</p>
+                    <button class="quantum-button" onclick="enterWuWeiState(5)">進入無為狀態</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 智慧神諭 -->
+        <div class="wisdom-oracle slide-up">
+            <div class="wisdom-text" id="daily-wisdom">
+                "道生一，一生二，二生三，三生萬物。每一行代碼，都是宇宙創造力的體現。"
+            </div>
+            <div class="wisdom-source">— 道德經 · 程序員版</div>
+        </div>
+        
+        <!-- 修煉記錄 -->
+        <div class="practice-zone slide-up">
+            <div class="practice-title">📝 修煉日誌</div>
+            <textarea id="cultivation-journal" 
+                      placeholder="記錄今日的編程覺悟、技術突破或意識提升..." 
+                      style="width: 100%; height: 120px; background: rgba(255,255,255,0.1); border: 2px solid rgba(0,255,127,0.3); border-radius: 15px; padding: 1rem; color: #e0e0e0; resize: vertical; font-size: 1rem; line-height: 1.6;"></textarea>
+            <div style="text-align: center; margin-top: 1rem;">
+                <button class="quantum-button" onclick="saveJournalEntry()">💾 保存覺悟</button>
+                <button class="quantum-button" onclick="viewJournalHistory()" style="margin-left: 1rem;">📚 查看歷史</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// === 粒子系統 ===
+function createParticleSystem() {
+    const container = document.getElementById('particle-system');
+    
+    // 創建願頻粒子
+    for (let i = 0; i < 15; i++) {
+        setTimeout(() => {
+            const particle = document.createElement('div');
+            particle.className = 'wish-particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            container.appendChild(particle);
+        }, i * 1000);
+    }
+    
+    // 創建意識粒子
+    for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+            const particle = document.createElement('div');
+            particle.className = 'consciousness-particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            container.appendChild(particle);
+        }, i * 800);
+    }
+}
+
+// === 進度系統 ===
+let cultivationProgress = 0;
+const levels = [
+    { name: '初學者', threshold: 0 },
+    { name: '入門弟子', threshold: 20 },
+    { name: '修煉者', threshold: 40 },
+    { name: '覺醒者', threshold: 60 },
+    { name: '大師', threshold: 80 },
+    { name: '道者', threshold: 100 }
+];
+
+function updateProgress(increment = 5) {
+    cultivationProgress = Math.min(100, cultivationProgress + increment);
+    
+    const progressElement = document.querySelector('.progress');
+    const textElement = document.getElementById('progress-percentage');
+    const levelElement = document.getElementById('current-level');
+    
+    const circumference = 2 * Math.PI * 90;
+    const offset = circumference - (cultivationProgress / 100) * circumference;
+    
+    progressElement.style.strokeDashoffset = offset;
+    textElement.textContent = Math.round(cultivationProgress) + '%';
+    
+    // 更新等級
+    const currentLevel = levels.reverse().find(level => cultivationProgress >= level.threshold);
+    levelElement.textContent = currentLevel.name;
+    
+    // 保存進度
+    localStorage.setItem('dao4_progress', cultivationProgress);
+}
+
+// === 修煉功能 ===
+function startQuantumMeditation(secret) {
+    showMeditationModal('量子冥想', '進入量子疊加狀態，感受代碼的無限可能性...', () => {
+        updateProgress(10);
+        showNotification('量子意識已激活！編程能力提升！');
+    });
+}
+
+function startConsciousnessDebug(secret) {
+    showMeditationModal('意識調試', '觀察內心的執著與盲點，釋放對完美代碼的執念...', () => {
+        updateProgress(8);
+        showNotification('意識調試完成！錯誤處理能力增強！');
+    });
+}
+
+function startWishFrequencyAlignment(secret) {
+    showMeditationModal('願頻對齊', '將個人願望與代碼功能對齊，讓每行代碼都充滿願力...', () => {
+        updateProgress(12);
+        showNotification('願頻已對齊！代碼將帶來正向改變！');
+    });
+}
+
+function connectCollectiveConsciousness(secret) {
+    showMeditationModal('集體連接', '連接全球程序員的集體智慧，感受代碼的愛與慈悲...', () => {
+        updateProgress(15);
+        showNotification('已連接集體意識！編程智慧大幅提升！');
+    });
+}
+
+function enterWuWeiState(secret) {
+    showMeditationModal('無為狀態', '放下所有執著，讓代碼在無為中自然流淌...', () => {
+        updateProgress(20);
+        showNotification('進入無為狀態！達到編程的最高境界！');
+    });
+}
+
+// === 冥想模態框 ===
+function showMeditationModal(title, description, onComplete) {
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    `;
+    
+    modal.innerHTML = `
+        <div style="
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            border-radius: 25px;
+            padding: 3rem;
+            text-align: center;
+            max-width: 500px;
+            margin: 2rem;
+        ">
+            <h2 style="color: #ffd700; margin-bottom: 1rem; font-size: 2rem;">${title}</h2>
+            <p style="color: #e0e0e0; margin-bottom: 2rem; line-height: 1.6;">${description}</p>
+            <div style="margin-bottom: 2rem;">
+                <div id="meditation-timer" style="font-size: 3rem; color: #00ff7f; font-weight: bold;">3</div>
+            </div>
+            <button onclick="this.parentElement.parentElement.remove()" style="
+                background: linear-gradient(45deg, #ff1493, #8a2be2);
+                color: white;
+                border: none;
+                padding: 1rem 2rem;
+                border-radius: 20px;
+                font-weight: bold;
+                cursor: pointer;
+            ">跳過</button>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // 倒計時
+    let countdown = 3;
+    const timer = setInterval(() => {
+        countdown--;
+        const timerElement = modal.querySelector('#meditation-timer');
+        if (countdown > 0) {
+            timerElement.textContent = countdown;
+        } else {
+            timerElement.textContent = '完成！';
+            setTimeout(() => {
+                modal.remove();
+                onComplete();
+            }, 1000);
+            clearInterval(timer);
+        }
+    }, 1000);
+}
+
+// === 通知系統 ===
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 2rem;
+        right: 2rem;
+        background: linear-gradient(45deg, #00ff7f, #32cd32);
+        color: #000;
+        padding: 1rem 2rem;
+        border-radius: 15px;
+        font-weight: bold;
+        z-index: 1001;
+        animation: slideIn 0.5s ease-out;
+    `;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.5s ease-out';
+        setTimeout(() => notification.remove(), 500);
+    }, 3000);
+}
+
+// === 日誌系統 ===
+function saveJournalEntry() {
+    const journal = document.getElementById('cultivation-journal');
+    const entry = journal.value.trim();
+    
+    if (entry) {
+        const entries = JSON.parse(localStorage.getItem('dao4_journal') || '[]');
+        entries.unshift({
+            date: new Date().toISOString().split('T')[0],
+            content: entry,
+            timestamp: Date.now()
+        });
+        localStorage.setItem('dao4_journal', JSON.stringify(entries));
+        journal.value = '';
+        showNotification('修煉日誌已保存！');
+        updateProgress(3);
+    }
+}
+
+function viewJournalHistory() {
+    const entries = JSON.parse(localStorage.getItem('dao4_journal') || '[]');
+    if (entries.length === 0) {
+        showNotification('還沒有修煉記錄，開始記錄你的覺悟之旅吧！');
+        return;
+    }
+    
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        padding: 2rem;
+    `;
+    
+    const historyHtml = entries.slice(0, 10).map(entry => `
+        <div style="
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        ">
+            <div style="color: #ffd700; font-weight: bold; margin-bottom: 0.5rem;">${entry.date}</div>
+            <div style="color: #e0e0e0; line-height: 1.6;">${entry.content}</div>
+        </div>
+    `).join('');
+    
+    modal.innerHTML = `
+        <div style="
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            border-radius: 25px;
+            padding: 2rem;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            width: 100%;
+        ">
+            <h2 style="color: #ffd700; margin-bottom: 2rem; text-align: center;">📚 修煉歷程</h2>
+            ${historyHtml}
+            <div style="text-align: center; margin-top: 2rem;">
+                <button onclick="this.parentElement.parentElement.parentElement.remove()" style="
+                    background: linear-gradient(45deg, #ff1493, #8a2be2);
+                    color: white;
+                    border: none;
+                    padding: 1rem 2rem;
+                    border-radius: 20px;
+                    font-weight: bold;
+                    cursor: pointer;
+                ">關閉</button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+}
+
+// === 智慧語錄系統 ===
+const wisdomQuotes = [
+    "道生一，一生二，二生三，三生萬物。每一行代碼，都是宇宙創造力的體現。",
+    "知人者智，自知者明。調試代碼如調試內心，皆需明察秋毫。",
+    "無為而無不為。最高的編程境界是讓代碼自然流淌。",
+    "上善若水，水善利萬物而不爭。好的代碼如水，潤物無聲。",
+    "大道至簡。最優雅的解決方案往往是最簡單的。",
+    "反者道之動，弱者道之用。錯誤是學習的開始，謙遜是成長的基礎。",
+    "天下難事，必作於易；天下大事，必作於細。偉大的程序始於簡單的函數。"
+];
+
+function updateWisdom() {
+    const wisdomElement = document.getElementById('daily-wisdom');
+    const randomQuote = wisdomQuotes[Math.floor(Math.random() * wisdomQuotes.length)];
+    wisdomElement.textContent = randomQuote;
+}
+
+// === 初始化 ===
+document.addEventListener('DOMContentLoaded', function() {
+    // 載入保存的進度
+    const savedProgress = localStorage.getItem('dao4_progress');
+    if (savedProgress) {
+        cultivationProgress = parseFloat(savedProgress);
+        updateProgress(0); // 更新顯示但不增加進度
+    }
+    
+    // 創建粒子系統
+    createParticleSystem();
+    
+    // 更新智慧語錄
+    updateWisdom();
+    
+    // 每30秒更新一次智慧語錄
+    setInterval(updateWisdom, 30000);
+    
+    // 添加動畫效果
+    const cards = document.querySelectorAll('.secret-4-card');
+    cards.forEach((card, index) => {
+        card.style.animationDelay = (index * 0.2) + 's';
+    });
+});
+
+// === CSS 動畫補充 ===
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes slideOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+</script>
+{% endblock %}

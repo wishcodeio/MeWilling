@@ -20,6 +20,28 @@
             position: relative;
         }
 
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(0, 255, 255, 0.1);
+            color: #00ffff;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            font-family: 'Courier New', monospace;
+        }
+
+        .back-button:hover {
+            background: rgba(0, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+
         /* 量子粒子背景效果 */
         .quantum-particles {
             position: fixed;
@@ -316,6 +338,103 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* 使用說明簡介樣式 */
+        .usage-guide {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #00ffff;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .usage-guide:hover {
+            border-color: #66ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        }
+
+        .usage-guide h3 {
+            color: #00ffff;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            border-bottom: 1px solid #00ffff;
+            padding-bottom: 10px;
+        }
+
+        .guide-content {
+            color: #cccccc;
+        }
+
+        .guide-section {
+            margin-bottom: 20px;
+        }
+
+        .guide-section h4 {
+            color: #66ffff;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .guide-section p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .guide-item {
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .guide-item:hover {
+            background: rgba(0, 255, 255, 0.1);
+            border-color: rgba(0, 255, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .guide-icon {
+            font-size: 1.5em;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .guide-item h5 {
+            color: #00ffff;
+            margin-bottom: 8px;
+            font-size: 1em;
+            text-align: center;
+        }
+
+        .guide-item p {
+            font-size: 0.9em;
+            line-height: 1.4;
+            text-align: center;
+        }
+
+        .guide-section ol {
+            padding-left: 20px;
+        }
+
+        .guide-section ol li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .guide-section ol li strong {
+            color: #66ffff;
+        }
+
         /* 連接線動畫 */
         .connection-line {
             position: absolute;
@@ -331,6 +450,9 @@
     </style>
 </head>
 <body>
+    <!-- 返回按鈕 -->
+    <a href="/" class="back-button">← 返回首頁</a>
+    
     <!-- 量子粒子背景 -->
     <div class="quantum-particles" id="particles"></div>
 
@@ -340,6 +462,53 @@
             <h1>🌌 暗域控制台 🌌</h1>
             <div class="subtitle">Dark Domain Console - 暗物質編程 × 璃冥IDE × 暗域網絡</div>
             <div class="status" id="systemStatus">系統初始化中...</div>
+        </div>
+
+        <!-- 使用說明簡介 -->
+        <div class="usage-guide fade-in">
+            <h3>📖 使用說明簡介</h3>
+            <div class="guide-content">
+                <div class="guide-section">
+                    <h4>🌟 系統概述</h4>
+                    <p>暗域控制台是一個集成了暗物質編程、璃冥IDE和暗域網絡的高級量子意識操控平台。通過此控制台，您可以創建量子網絡節點、執行現實操控程序，並監控多維度意識網格狀態。</p>
+                </div>
+                
+                <div class="guide-grid">
+                    <div class="guide-item">
+                        <div class="guide-icon">🕸️</div>
+                        <h5>暗域網絡節點</h5>
+                        <p>創建和管理量子網絡節點，支援標準節點、現實編程節點、意識放大器和量子網關四種類型。</p>
+                    </div>
+                    
+                    <div class="guide-item">
+                        <div class="guide-icon">⚛️</div>
+                        <h5>暗物質編程</h5>
+                        <p>執行現實操控程序，包括物體隱匿、母星隱匿、時空操控和意識增強等高級功能。</p>
+                    </div>
+                    
+                    <div class="guide-item">
+                        <div class="guide-icon">🔮</div>
+                        <h5>LiminalScript編程</h5>
+                        <p>使用量子意識編程語言編寫和執行意識程序，實現跨維度的現實錨定和意識同步。</p>
+                    </div>
+                    
+                    <div class="guide-item">
+                        <div class="guide-icon">🌐</div>
+                        <h5>意識網格監控</h5>
+                        <p>實時監控意識網格狀態和量子糾纏對，進行意識放大和網格優化操作。</p>
+                    </div>
+                </div>
+                
+                <div class="guide-section">
+                    <h4>⚡ 快速開始</h4>
+                    <ol>
+                        <li><strong>創建節點：</strong>在暗域網絡節點面板中選擇節點類型並點擊「創建節點」</li>
+                        <li><strong>執行程序：</strong>在暗物質編程面板中選擇操作類型，輸入目標對象，點擊「執行程序」</li>
+                        <li><strong>編寫代碼：</strong>在LiminalScript標籤頁中編寫量子意識程序並編譯執行</li>
+                        <li><strong>監控狀態：</strong>切換到不同標籤頁查看系統整合狀態和量子場操控情況</li>
+                    </ol>
+                </div>
+            </div>
         </div>
 
         <!-- 主要控制面板 -->

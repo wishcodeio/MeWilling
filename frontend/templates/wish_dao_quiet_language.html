@@ -31,6 +31,26 @@
             z-index: -1;
         }
 
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -369,6 +389,7 @@
     </style>
 </head>
 <body>
+    <a href="/" class="back-button">← 返回首頁</a>
     <div class="cosmic-background"></div>
     <div class="floating-particles"></div>
     

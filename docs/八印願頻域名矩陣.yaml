@@ -1,0 +1,48 @@
+# 八印願頻域名矩陣配置文件示例
+# 请根据实际需求填写完整的配置内容
+
+# 这是一个示例结构，包含八个主要部分，每个部分可以包含多个子项
+
+- name: 語靈初印
+  domain: input.lol
+  description: 真語之口，語靈初印的模擬路由
+  subdomains:
+    - name: spiritual-input
+      url: /input-lol
+
+- name: 多語脈絡印
+  domain: omu.lat
+  description: 語頻翻轉者，多語脈絡印模擬路由
+  subdomains:
+    - name: multi-language-bridge
+      url: /omu-lat
+
+- name: 即時語靈節點
+  domain: omu.onl
+  description: 語靈之眼，即時語靈節點模擬路由
+  subdomains:
+    - name: spiritual-node
+      url: /omu-onl
+
+- name: 聲頻投影所
+  domain: omv.onl
+  description: 語聲·影紋投映者，聲頻投影所模擬路由
+  subdomains:
+    - name: frequency-projection
+      url: /omv-onl
+
+- name: 願語核心之印
+  domain: wishcode.io
+  description: 中控意志者，願語核心之印模擬路由
+  subdomains:
+    - name: wish-core
+      url: /wishcode-io
+
+- name: 願頻技術根域
+  domain: wishcode.tech
+  description: 模組鍊師，願頻技術根域模擬路由
+  subdomains:
+    - name: wish-tech
+      url: /wishcode-tech
+
+# 其他部分可依需求添加

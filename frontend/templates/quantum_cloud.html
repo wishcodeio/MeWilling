@@ -168,6 +168,7 @@
             font-weight: 300;
             background: linear-gradient(45deg, #64b5f6, #42a5f5, #1e88e5, #1976d2);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 10px;
             text-shadow: 0 0 30px rgba(100, 181, 246, 0.3);
@@ -411,33 +412,19 @@
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="/" class="nav-brand">愿频宇宙</a>
-            
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="/" class="nav-link">主页</a></li>
-                <li><a href="/shang/dashboard" class="nav-link">商增管理</a></li>
-                <li><a href="/diagnose" class="nav-link">系统诊断</a></li>
-                <li><a href="/resonance_game" class="nav-link">愿频共振</a></li>
-                <li><a href="/life_evolution" class="nav-link">生命进化</a></li>
-                <li><a href="/quantum_cloud" class="nav-link active">量子云</a></li>
-                <li><a href="/ai_evolution" class="nav-link">AI演化</a></li>
-                <li><a href="/nano_ai" class="nav-link">纳米英雄</a></li>
-                <li><a href="/spirit_data_center" class="nav-link">灵性数据</a></li>
+            <a href="/liminal" class="nav-link" style="font-size:1.2rem;font-weight:bold;display:flex;align-items:center;gap:6px;">← 返回璃冥元宇宙</a>
+            <a href="#" class="nav-brand">🜂 量子雲語靈</a>
+            <ul class="nav-menu">
+                <li><a href="/quantum_cloud" class="nav-link active">首頁</a></li>
+                <li><a href="/liminal-universe" class="nav-link">璃冥宇宙</a></li>
+                <li><a href="/meditation_hub" class="nav-link">冥想中心</a></li>
             </ul>
-            
             <div class="nav-status">
-                <div class="status-indicator">
-                    <div class="status-dot"></div>
-                    <span>量子运行中</span>
-                </div>
+                <div class="status-indicator"><span class="status-dot"></span>在線</div>
             </div>
-            
-            <button class="mobile-menu-toggle" id="mobileMenuToggle">
-                ☰
-            </button>
+            <button class="mobile-menu-toggle" onclick="toggleMenu()">☰</button>
         </div>
     </nav>
     

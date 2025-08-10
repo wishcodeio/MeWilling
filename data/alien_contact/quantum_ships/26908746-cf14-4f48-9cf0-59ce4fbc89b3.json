@@ -1,0 +1,57 @@
+{
+  "id": "26908746-cf14-4f48-9cf0-59ce4fbc89b3",
+  "name": "x2",
+  "class": "Grey_Scout_Vessel",
+  "specifications": {
+    "length_m": 43.7324996539109,
+    "width_m": 34.98599972312872,
+    "height_m": 13.11974989617327,
+    "crew_capacity": 5,
+    "hull_material": "quantum_stabilized_composite"
+  },
+  "propulsion_system": {
+    "drive_type": "Alcubierre_Quantum_Drive",
+    "max_speed": "faster_than_light",
+    "energy_source": "zero_point_energy",
+    "space_folding_capability": true,
+    "efficiency": 0.9251271819724033,
+    "range_light_years": 364
+  },
+  "sensor_systems": {
+    "optical_sensors": {
+      "spectrum_range": "full_electromagnetic",
+      "resolution": "quantum_enhanced",
+      "detection_range_km": 76299
+    },
+    "brainwave_sensors": {
+      "frequency_range": "0.1-100_Hz",
+      "consciousness_detection": true,
+      "emotion_analysis": true
+    },
+    "quantum_sensors": {
+      "quantum_field_detection": true,
+      "dimensional_phase_monitoring": true,
+      "time_distortion_measurement": true
+    }
+  },
+  "communication_systems": {
+    "beacon_type": "Psi_Quantum_Transmitter",
+    "transmission_power": "multi_dimensional",
+    "frequency_modulation": "consciousness_based",
+    "range": "interstellar",
+    "encoding_method": "quantum_entanglement",
+    "universal_translation": true
+  },
+  "quantum_capabilities": {
+    "space_folding": true,
+    "dimensional_phase": true,
+    "time_dilation": true,
+    "consciousness_interface": true
+  },
+  "status": {
+    "operational": true,
+    "location": "Earth_Orbit",
+    "mission_status": "reconnaissance"
+  },
+  "created_at": "2025-08-01T11:05:03.722558"
+}

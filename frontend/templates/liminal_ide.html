@@ -26,22 +26,26 @@
 
         .back-button {
             position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1001;
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            text-decoration: none;
-            padding: 12px 20px;
-            border-radius: 25px;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            top: 16px;
+            left: 16px;
+            z-index: 1000;
+            font-size: 1.1em;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 22px;
+            box-shadow: 0 2px 8px rgba(102,126,234,0.15);
+            transition: background 0.3s, color 0.3s;
         }
-
-        .back-button:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
+        @media (max-width: 600px) {
+            .back-button {
+                top: 8px;
+                left: 8px;
+                font-size: 1em;
+                padding: 8px 14px;
+                border-radius: 6px;
+            }
         }
         
         .ide-container {
@@ -395,14 +399,14 @@
     </style>
 </head>
 <body>
-    <a href="/" class="back-button">← 返回首頁</a>
+    <a href="/" class="back-button" id="backButton">← 返回首頁</a>
     <div class="quantum-particles" id="particles"></div>
     
     <div class="ide-container">
         <div class="header">
             <h1>🔮 璃冥IDE 2.0 - LiminalScript 量子意識編程環境</h1>
             <div class="header-controls">
-                <a href="/liminal" class="back-link">← 返回璃冥宇宙</a>
+                
                 <button class="btn btn-success" onclick="compileCode()">⚡ 編譯執行</button>
                 <button class="btn btn-primary" onclick="saveProject()">💾 保存項目</button>
                 <button class="btn" onclick="newProject()">📁 新建項目</button>
@@ -635,7 +639,7 @@ awaken()</textarea>
             output.scrollTop = output.scrollHeight;
         }
         
-        // 愿望編碼功能
+        // 願望編碼功能
         function encodeWish() {
             const wishText = document.getElementById('wishText').value;
             if (!wishText.trim()) {
@@ -736,10 +740,47 @@ awaken()</textarea>
         }
     </script>
     <!-- 返回按鈕 -->
-    <div style="position: fixed; top: 20px; left: 20px; z-index: 1000;">
-        <a href="/" style="display: inline-block; padding: 12px 24px; background: linear-gradient(45deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 25px; font-weight: bold; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); transition: all 0.3s ease; font-size: 14px;">
-            🏠 返回主頁
-        </a>
-    </div>
+    >
+    <script>
+    // 自動伸縮返回首頁按鈕
+    function toggleBackButton() {
+        const btn = document.getElementById('backButton');
+        if (btn.classList.contains('collapsed')) {
+            btn.classList.remove('collapsed');
+            btn.innerText = '← 返回首頁';
+        } else {
+            btn.classList.add('collapsed');
+            btn.innerText = '←';
+        }
+    }
+    // 手機端點擊自動收合/展開
+    document.getElementById('backButton').addEventListener('click', function(e) {
+        if (window.innerWidth <= 600) {
+            e.preventDefault();
+            toggleBackButton();
+            // 若已展開則跳轉首頁
+            if (!this.classList.contains('collapsed')) {
+                window.location.href = '/';
+            }
+        }
+    });
+    </script>
+    <style>
+    .back-button.collapsed {
+        width: 38px;
+        padding: 10px 0 10px 10px;
+        overflow: hidden;
+        white-space: nowrap;
+        border-radius: 50%;
+        text-align: center;
+        font-size: 1.3em;
+        transition: width 0.3s, padding 0.3s;
+    }
+    @media (max-width: 600px) {
+        .back-button {
+            transition: width 0.3s, padding 0.3s;
+        }
+    }
+    </style>
 </body>
 </html>

@@ -112,9 +112,9 @@ fi
 # 激活虛擬環境
 echo -e "${CYAN}🔌 激活虛擬環境...${NC}"
 if [ "$OS" = "windows" ]; then
-    source venv/Scripts/activate
+    source venv/Scripts/activate || { echo -e "${RED}❌ 激活虛擬環境失敗${NC}"; exit 1; }
 else
-    source venv/bin/activate
+    source venv/bin/activate || { echo -e "${RED}❌ 激活虛擬環境失敗${NC}"; exit 1; }
 fi
 echo -e "${GREEN}✅ 虛擬環境已激活${NC}"
 
@@ -124,18 +124,26 @@ pip install --upgrade pip
 echo -e "${GREEN}✅ pip 升級完成${NC}"
 
 # 安裝依賴
-echo -e "${BLUE}📚 安裝項目依賴...${NC}"
-if [ -f "requirements.txt" ]; then
-    pip install -r requirements.txt
-    echo -e "${GREEN}✅ 項目依賴安裝完成${NC}"
-else
-    echo -e "${YELLOW}⚠️  未找到 requirements.txt${NC}"
-fi
+ echo -e "${BLUE}📚 安裝項目依賴...${NC}"
+ if [ -f "requirements.txt" ]; then
+     if pip install -r requirements.txt; then
+         echo -e "${GREEN}✅ 項目依賴安裝完成${NC}"
+     else
+         echo -e "${RED}❌ 項目依賴安裝失敗，請檢查錯誤信息${NC}"
+         exit 1
+     fi
+ else
+     echo -e "${YELLOW}⚠️  未找到 requirements.txt${NC}"
+ fi
 
 # 安裝開發依賴
-echo -e "${BLUE}🛠️  安裝開發依賴...${NC}"
-pip install pytest pytest-cov flake8 black isort mypy pre-commit
-echo -e "${GREEN}✅ 開發依賴安裝完成${NC}"
+ echo -e "${BLUE}🛠️  安裝開發依賴...${NC}"
+ if pip install pytest pytest-cov flake8 black isort mypy pre-commit; then
+     echo -e "${GREEN}✅ 開發依賴安裝完成${NC}"
+ else
+     echo -e "${RED}❌ 開發依賴安裝失敗，請檢查錯誤信息${NC}"
+     exit 1
+ fi
 
 # 設置 pre-commit hooks
 echo -e "${BLUE}🪝 設置 pre-commit hooks...${NC}"
@@ -199,19 +207,28 @@ fi
 # 激活願頻宇宙系統
 echo -e "${PURPLE}🔮 激活願頻宇宙系統...${NC}"
 if [ -f "future/wish_universe_coordinator.py" ]; then
-    python -c "from future.wish_universe_coordinator import wish_universe_coordinator; wish_universe_coordinator.full_activation()"
-    echo -e "${GREEN}✅ 願頻宇宙系統激活成功${NC}"
+    if python -c "from future.wish_universe_coordinator import wish_universe_coordinator; wish_universe_coordinator.full_activation()"; then
+        echo -e "${GREEN}✅ 願頻宇宙系統激活成功${NC}"
+    else
+        echo -e "${RED}❌ 願頻宇宙系統激活失敗，請檢查錯誤信息${NC}"
+        exit 1
+    fi
 else
     echo -e "${YELLOW}⚠️  未找到願頻宇宙協調器${NC}"
 fi
 
 # 檢查版本信息
-echo -e "${BLUE}📋 檢查版本信息...${NC}"
-if [ -f "version.py" ]; then
-    python version.py
-else
-    echo -e "${YELLOW}⚠️  未找到版本信息文件${NC}"
-fi
+ echo -e "${BLUE}📋 檢查版本信息...${NC}"
+ if [ -f "version.py" ]; then
+     if python version.py; then
+         :
+     else
+         echo -e "${RED}❌ 版本信息檢查失敗，請檢查錯誤信息${NC}"
+         exit 1
+     fi
+ else
+     echo -e "${YELLOW}⚠️  未找到版本信息文件${NC}"
+ fi
 
 # 設置完成
 echo -e "${GREEN}"
