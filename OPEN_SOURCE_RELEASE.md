@@ -31,7 +31,7 @@
 ### 1. 創建GitHub倉庫
 ```bash
 # 在GitHub上創建新倉庫後，添加遠程源
-git remote add origin https://github.com/your-username/wish-frequency-universe.git
+git remote add origin https://github.com/wishcodeio/MeWilling.git
 git branch -M main
 git push -u origin main
 ```
